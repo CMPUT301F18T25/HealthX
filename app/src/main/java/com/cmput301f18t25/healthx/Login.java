@@ -1,7 +1,9 @@
 package com.cmput301f18t25.healthx;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class Login extends AppCompatActivity {
 
@@ -11,5 +13,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+    }
+
+    public void toSignUp(View view) {
+        Intent intent = new Intent(this, Signup.class);
+        startActivity(intent);
     }
 }

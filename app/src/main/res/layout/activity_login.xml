@@ -12,7 +12,7 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="135dp"
+        android:paddingTop="112dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
@@ -65,9 +65,10 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:text="No account yet? Create one"
+            android:text="New to HealthX? Sign Up Now"
             android:gravity="center"
-            android:textSize="16dip"/>
+            android:textSize="16dip"
+            android:onClick="toSignUp"/>
 
     </LinearLayout>
 </ScrollView>
