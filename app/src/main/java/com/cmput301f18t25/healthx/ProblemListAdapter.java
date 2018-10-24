@@ -37,7 +37,8 @@ public class ProblemListAdapter extends ArrayAdapter<Problem> {
         // CREATE VIEW FROM INFLATER
         convertView = inflater.inflate(rsrc, parent, false);
 
-        TextView
+        TextView problemTitle = convertView.findViewById(R.id.problemTitle);
+        TextView problemDescription
 
         return convertView;
 
