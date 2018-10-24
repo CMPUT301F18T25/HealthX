@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -29,6 +31,7 @@ public class ProblemListAdapter extends ArrayAdapter<Problem> {
 
         String problemTitle = getItem(position).getTitle();
         String problemDescription = getItem(position).getDescription();
+        // Integer problemCount = getItem(position).getCount();
         Date problemDate = getItem(position).getDate();
 
         // CREATE INFLATOR FOR LAYOUT
@@ -39,10 +42,12 @@ public class ProblemListAdapter extends ArrayAdapter<Problem> {
 
         TextView pTitle = convertView.findViewById(R.id.problemTitle);
         TextView pDescription = convertView.findViewById(R.id.problemDescription);
+        // TextView pCount = convertView.findViewById(R.id.problemCount);
         TextView pDate = convertView.findViewById(R.id.problemDate);
 
         pTitle.setText(problemTitle);
         pDescription.setText(problemDescription);
+        // pCount.setText(Integer.toString(problemCount));
         // DATE NEEDS TO BE STRING
         // pDate.setText(problemDate);
 
