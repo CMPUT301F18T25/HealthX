@@ -37,8 +37,14 @@ public class ProblemListAdapter extends ArrayAdapter<Problem> {
         // CREATE VIEW FROM INFLATER
         convertView = inflater.inflate(rsrc, parent, false);
 
-        TextView problemTitle = convertView.findViewById(R.id.problemTitle);
-        TextView problemDescription
+        TextView pTitle = convertView.findViewById(R.id.problemTitle);
+        TextView pDescription = convertView.findViewById(R.id.problemDescription);
+        TextView pDate = convertView.findViewById(R.id.problemDate);
+
+        pTitle.setText(problemTitle);
+        pDescription.setText(problemDescription);
+        // DATE NEEDS TO BE STRING
+        // pDate.setText(problemDate);
 
         return convertView;
 
