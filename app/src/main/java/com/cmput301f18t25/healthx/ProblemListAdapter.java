@@ -7,12 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class ProblemListAdapter extends ArrayAdapter<Problem> {
-
+    // private ProblemList mProblemList = ProblemList.getInstance();
     private Context ctx;
     int rsrc;
 
@@ -30,10 +31,15 @@ public class ProblemListAdapter extends ArrayAdapter<Problem> {
         String problemDescription = getItem(position).getDescription();
         Date problemDate = getItem(position).getDate();
 
+        // CREATE INFLATOR FOR LAYOUT
         LayoutInflater inflater = LayoutInflater.from(ctx);
 
+        // CREATE VIEW FROM INFLATER
         convertView = inflater.inflate(rsrc, parent, false);
 
+        TextView
+
+        return convertView;
 
 
     }
