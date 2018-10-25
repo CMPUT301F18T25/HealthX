@@ -18,7 +18,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Signup"></activity>
+        <activity android:name=".Signup" />
+        <activity
+            android:name=".ViewProblem"
+            android:label="@string/title_activity_view_problem"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
