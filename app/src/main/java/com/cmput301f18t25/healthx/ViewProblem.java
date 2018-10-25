@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class ViewProblem extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -103,5 +104,9 @@ public class ViewProblem extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void searchBy(View view) {
+        Toast.makeText(this, "search button clicked!", Toast.LENGTH_SHORT).show();
     }
 }
