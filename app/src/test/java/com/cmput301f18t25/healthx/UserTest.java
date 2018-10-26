@@ -57,7 +57,7 @@ public class UserTest {
     public void testSetPhoneNumber(){
         User user = new User(test_name,test_id,test_phone_number,test_email,test_status);
         String new_number = "new_number";
-        user.setUserId(new_number);
+        user.setPhoneNumber(new_number);
         assertEquals(user.getPhoneNumber(),new_number);
     }
 
@@ -72,7 +72,7 @@ public class UserTest {
     public void testSetEmail(){
         User user = new User(test_name,test_id,test_phone_number,test_email,test_status);
         String new_email = "new_email";
-        user.setUserId(new_email);
+        user.setEmail(new_email);
         assertEquals(user.getEmail(),new_email);
     }
 
@@ -87,7 +87,7 @@ public class UserTest {
     public void testSetReminderFrequency(){
         User user = new User(test_name,test_id,test_phone_number,test_email,test_status);
         String new_freq = "new_freq";
-        user.setUserId(new_freq);
+        user.setReminderFrequency(new_freq);
         assertEquals(user.getReminderFrequency(),new_freq);
     }
 
