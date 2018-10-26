@@ -13,8 +13,6 @@ public class Problem {
     protected String description;
     protected Date date;
     protected ArrayList<Record> recordArray = new ArrayList<Record>();
-
-//    Was in the story board
     protected Integer count;
 
     public Problem(String problemTitle, String problemDescription, Date problemDate){
@@ -55,4 +53,16 @@ public class Problem {
         recordArray.add(item);
     }
 
+    public void deleteRecord(Record item){
+        for (int i=0; i<recordArray.size();i++){
+            Record object = recordArray.get(i);
+            if (object.getDate().equals(item.getDate())){
+                recordArray.remove(i);
+            }
+        }
+    }
+
+    public Integer getCount() {
+        return this.count = recordArray.size();
+    }
 }

@@ -1,0 +1,14 @@
+<!--
+  ~  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+  ~
+  -->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="135"
+        android:centerColor="#8CA6DB"
+        android:endColor="#B2EBF2"
+        android:startColor="#B993D6"
+        android:type="linear" />
+</shape>
