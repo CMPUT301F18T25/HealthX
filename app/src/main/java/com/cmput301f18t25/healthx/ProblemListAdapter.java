@@ -3,6 +3,7 @@ package com.cmput301f18t25.healthx;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +21,20 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     public Context ctx;
     private List<Problem> problems;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
     public ProblemListAdapter(List<Problem> problems){
 
         this.problems = problems;
 
     }
+
+    @NonNull
     @Override
-    public ProblemListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ProblemListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         // CHANGE LAYOUT
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_view_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.problemlist_cardview, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
 
@@ -38,9 +42,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     @Override
     public void onBindViewHolder(ProblemListAdapter.ViewHolder holder, final int position) {
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-
+        
         holder.pTitle.setText(problems.get(position).getTitle());
         holder.pDescription.setText(problems.get(position).getDescription());
         holder.pCount.setText(problems.get(position).getCount());
