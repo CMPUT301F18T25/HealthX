@@ -23,6 +23,7 @@
             android:name=".ViewProblem"
             android:label="@string/title_activity_view_problem"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".EditUserProfile" />
     </application>
 
 </manifest>
