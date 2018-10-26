@@ -43,8 +43,8 @@ public class RecordListAdapter extends RecyclerView.Adapter<ProblemListAdapter.V
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         final String timestamp = dateFormat.format(date);
-        holder.rTitle.setText(problems.get(position).getTitle());
-        holder.rComment.setText(problems.get(position).getDescription());
+        holder.rTitle.setText(records.get(position).getTitle());
+        holder.rComment.setText(records.get(position).getComment());
         holder.rTimestamp.setText(dateFormat.format(timestamp));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +57,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<ProblemListAdapter.V
                 bundle.putString("Date", timestamp);
 
                 // CHANGE ACTIVITY CLASS
-                Intent intent = new Intent(v.getContext(), ViewRecordActivity.class);
+                Intent intent = new Intent(v.getContext(), ViewRecord.class);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
