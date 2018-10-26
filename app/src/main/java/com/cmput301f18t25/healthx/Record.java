@@ -7,12 +7,15 @@ package com.cmput301f18t25.healthx;
 
 import android.graphics.Bitmap;
 
+import java.util.Date;
+
 public class Record {
     protected String title;
     protected String comment;
     protected Double longitude;
     protected Double latitude;
     protected Bitmap image;
+    protected Date date;
 
 
     public Record(String record_title,String record_comment,Double latitude, Double longitude){
@@ -36,6 +39,14 @@ public class Record {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setDate(Date newDate){
+        this.date = newDate;
+    }
+
+    public Date getDate(){
+        return this.date;
     }
 
     public Double getLatitude() {
