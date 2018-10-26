@@ -43,7 +43,7 @@ public class Problem {
         this.date = newDate;
     }
 
-    public Date getDate(){
+    public String getDate(){
         return this.date;
     }
 
