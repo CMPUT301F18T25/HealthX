@@ -9,25 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.ViewHolder> {
+public class RecordListAdapter extends RecyclerView.Adapter<ProblemListAdapter.ViewHolder> {
 
     // private ProblemList mProblemList = ProblemList.getInstance();
 
     public Context ctx;
-    private List<Problem> problems;
+    private List<Record> records;
 
-    public ProblemListAdapter(List<Problem> problems){
+    public RecordListAdapter(List<Record> records){
 
-        this.problems = problems;
+        this.records = records;
 
     }
     @Override
-    public ProblemListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecordListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // CHANGE LAYOUT
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_view_layout, parent, false);
@@ -39,22 +40,21 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
     @Override
     public void onBindViewHolder(ProblemListAdapter.ViewHolder holder, final int position) {
 
+        Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-
-        holder.pTitle.setText(problems.get(position).getTitle());
-        holder.pDescription.setText(problems.get(position).getDescription());
-        holder.pCount.setText(problems.get(position).getCount());
-        holder.pDate.setText(dateFormat.format(problems.get(position).getDate()));
+        final String timestamp = dateFormat.format(date);
+        holder.rTitle.setText(problems.get(position).getTitle());
+        holder.rComment.setText(problems.get(position).getDescription());
+        holder.rTimestamp.setText(dateFormat.format(timestamp));
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Problem toView = problems.get(position);
+                Record toView = records.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("Title",toView.getTitle());
-                bundle.putString("Description",toView.getDescription());
-                bundle.putString("Count",toView.getCount());
-                bundle.putString("Date",toView.getDate());
+                bundle.putString("Comment",toView.getComment());
+                bundle.putString("Date", timestamp);
 
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewRecordActivity.class);
@@ -70,25 +70,23 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     @Override
     public int getItemCount() {
-        return problems.size();
+        return records.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView pTitle;
-        public TextView pDescription;
-        public TextView pCount;
-        public TextView pDate;
+        public TextView rTitle;
+        public TextView rComment;
+        public TextView rTimestamp;
         public Context context;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             this.context = ctx;
 
-            pTitle = itemView.findViewById(R.id.problemTitle);
-            pDescription = itemView.findViewById(R.id.problemDescription);
-            pCount = itemView.findViewById(R.id.problemCount);
-            pDate = itemView.findViewById(R.id.problemDate);
+            rTitle = itemView.findViewById(R.id.recordTitle);
+            rComment = itemView.findViewById(R.id.recordComment);
+            rTimestamp = itemView.findViewById(R.id.recordTimestamp);
             itemView.setClickable(true);
 
         }
