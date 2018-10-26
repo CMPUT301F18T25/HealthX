@@ -78,6 +78,7 @@
         </android.support.design.widget.TextInputLayout>
 
             <RadioGroup
+                android:id = "@+id/status_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -105,6 +106,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
+            android:onClick="addUser"
             android:text="Sign Up"/>
 
     </LinearLayout>
