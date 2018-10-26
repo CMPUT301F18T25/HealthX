@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -12,7 +11,7 @@
     android:background="?android:attr/selectableItemBackground">
 
     <LinearLayout
-        android:id="@+id/OneProblem"
+        android:id="@+id/OneRecord"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/card_bg"
@@ -25,7 +24,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/problemTitle"
+                android:id="@+id/recordTitle"
                 android:layout_width="wrap_content"
                 android:gravity="center_vertical"
                 android:layout_height="30dp"
@@ -42,7 +41,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/problemDescription"
+                android:id="@+id/recordComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:fontFamily="sans-serif" />
@@ -55,7 +54,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/problemCount"
+                android:id="@+id/recordTimestamp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
@@ -63,19 +62,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/problemDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                app:fontFamily="casual" />
-
-        </LinearLayout>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
+
