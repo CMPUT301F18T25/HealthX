@@ -12,4 +12,9 @@
         <item>Every week</item>
         <item>Every month</item>
     </string-array>
+    <string-array name="searchOptions">
+        <item>Keyword</item>
+        <item>Body Location</item>
+        <item>Geo-location</item>
+    </string-array>
 </resources>
