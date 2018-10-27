@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class RecordListAdapter extends RecyclerView.Adapter<ProblemListAdapter.ViewHolder> {
+public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> {
 
     // private ProblemList mProblemList = ProblemList.getInstance();
 
@@ -31,14 +31,14 @@ public class RecordListAdapter extends RecyclerView.Adapter<ProblemListAdapter.V
     public RecordListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         // CHANGE LAYOUT
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_view_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recordlist_cardview, parent, false);
         ViewHolder vh = new ViewHolder(v);
         return vh;
 
     }
 
     @Override
-    public void onBindViewHolder(ProblemListAdapter.ViewHolder holder, final int position) {
+    public void onBindViewHolder(RecordListAdapter.ViewHolder holder, final int position) {
 
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");

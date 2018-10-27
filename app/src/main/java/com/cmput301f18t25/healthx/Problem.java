@@ -41,7 +41,7 @@ public class Problem {
         this.date = newDate;
     }
 
-    public String getDate(){
+    public Date getDate(){
         return this.date;
     }
 

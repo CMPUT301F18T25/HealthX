@@ -25,6 +25,6 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_view_problem"
-        app:menu="@menu/activity_view_problem_drawer" />
+        app:menu="@menu/menu_side_bar" />
 
 </android.support.v4.widget.DrawerLayout>

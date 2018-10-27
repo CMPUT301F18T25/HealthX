@@ -38,7 +38,7 @@ public class Signup extends AppCompatActivity {
         EditText id_textView = findViewById(R.id.input_id);
         EditText name_textView = findViewById(R.id.input_name);
         EditText email_textView = findViewById(R.id.input_email);
-        EditText phone_textView = findViewById(R.id.input_hone);
+        EditText phone_textView = findViewById(R.id.input_phone);
 
         RadioGroup statusGroup = findViewById(R.id.status_group);
         int checkedId = statusGroup.getCheckedRadioButtonId();

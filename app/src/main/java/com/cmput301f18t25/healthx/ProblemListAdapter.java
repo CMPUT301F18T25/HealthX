@@ -56,7 +56,11 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
                 bundle.putString("Title",toView.getTitle());
                 bundle.putString("Description",toView.getDescription());
                 bundle.putString("Count",Integer.toString(toView.getCount()));
-                bundle.putString("Date",toView.getDate());
+                ///////////////////////////////
+                /// Date OR STRING
+                ///////////////////////////////////
+
+                bundle.putString("Date",toView.getDate().toString());
 
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewProblem.class);

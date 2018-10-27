@@ -24,8 +24,8 @@ public class ProblemList {
     }
 
     public  void addToProblemList(Problem problem) {
-        Problem  newProblem = new Problem(problem.getTitle(), problem.getDescription(), problem.getDate());
-        problemArray.add(newProblem);
+        //Problem  newProblem = new Problem(problem.getTitle(), problem.getDescription(), problem.getDate());
+        problemArray.add(problem);
         sortArray();
     }
 
