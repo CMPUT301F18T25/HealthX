@@ -63,7 +63,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
                 bundle.putString("Date",toView.getDate().toString());
 
                 // CHANGE ACTIVITY CLASS
-                Intent intent = new Intent(v.getContext(), ViewProblem.class);
+                Intent intent = new Intent(v.getContext(), ViewProblemList.class);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();

@@ -5,7 +5,7 @@
     android:fitsSystemWindows="true"
     android:background="@drawable/bg_login"
     >
-<!-- bg image: <a href="https://www.123freevectors.com/">Free Vector</a>
+<!-- bg_view image: <a href="https://www.123freevectors.com/">Free Vector</a>
 https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/
 -->
     <LinearLayout

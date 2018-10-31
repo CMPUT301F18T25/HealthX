@@ -1,10 +1,21 @@
+/*
+ *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ *
+ */
+
 package com.cmput301f18t25.healthx;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.View;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,10 +23,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class ViewRecord extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.ArrayList;
+
+public class ViewProblemList extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +51,8 @@ public class ViewRecord extends AppCompatActivity  implements NavigationView.OnN
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(ViewProblemList.this,ActivityAddProblem.class);
+                startActivity(intent);
             }
         });
 
@@ -41,6 +64,7 @@ public class ViewRecord extends AppCompatActivity  implements NavigationView.OnN
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
     }
 
@@ -67,9 +91,10 @@ public class ViewRecord extends AppCompatActivity  implements NavigationView.OnN
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-
+        if (id == R.id.action_search){
+            Intent intent = new Intent(this, ActivitySearch.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -97,7 +122,6 @@ public class ViewRecord extends AppCompatActivity  implements NavigationView.OnN
         return true;
     }
 
-    public void searchBy(View view) {
-        Toast.makeText(this, "search button clicked!", Toast.LENGTH_SHORT).show();
-    }
+
+
 }

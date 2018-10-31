@@ -57,7 +57,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
                 bundle.putString("Date", timestamp);
 
                 // CHANGE ACTIVITY CLASS
-                Intent intent = new Intent(v.getContext(), ViewRecord.class);
+                Intent intent = new Intent(v.getContext(), ViewRecordList.class);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();

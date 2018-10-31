@@ -20,11 +20,12 @@
         </activity>
         <activity android:name=".Signup" />
         <activity
-            android:name=".ViewProblem"
+            android:name=".ViewProblemList"
             android:label="@string/title_activity_view_problem"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
+        <activity android:name=".ActivityAddProblem"></activity>
     </application>
 
 </manifest>

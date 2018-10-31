@@ -14,9 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class ActivitySearch extends AppCompatActivity {
@@ -50,7 +48,7 @@ public class ActivitySearch extends AppCompatActivity {
 
 
     public void toViewProblem(View view) {
-        Intent intent = new Intent(this, ViewProblem.class);
+        Intent intent = new Intent(this, ViewProblemList.class);
         startActivity(intent);
     }
 }
