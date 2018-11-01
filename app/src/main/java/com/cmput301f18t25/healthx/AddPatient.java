@@ -36,4 +36,5 @@ public class AddPatient extends AppCompatActivity {
     public void searchUser(View view) {
         userID = mUserText.getText().toString();
     }
+
 }

@@ -8,9 +8,10 @@
         android:id="@+id/btnAddPatient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:onClick="searchUser"
-        />
+        android:text="Add" />
 
     <TextView
         android:id="@+id/textView"
@@ -18,9 +19,9 @@
         android:layout_height="23dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="102dp"
-        android:layout_centerInParent="true"
-        android:text="TextView" />
+        android:text="Enter User id" />
 
     <EditText
         android:id="@+id/userIdText"
@@ -31,15 +32,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="164dp"
         android:layout_marginEnd="88dp"
         android:layout_marginRight="88dp"
         android:layout_marginBottom="-85dp"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Name" />
+        android:inputType="textPersonName" />
 
 
 </RelativeLayout>
