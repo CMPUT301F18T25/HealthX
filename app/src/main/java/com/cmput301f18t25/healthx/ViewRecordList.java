@@ -20,7 +20,7 @@ public class ViewRecordList extends AppCompatActivity  implements NavigationView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_problem);
+        setContentView(R.layout.activity_view_recycler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,7 +97,5 @@ public class ViewRecordList extends AppCompatActivity  implements NavigationView
         return true;
     }
 
-    public void searchBy(View view) {
-        Toast.makeText(this, "search button clicked!", Toast.LENGTH_SHORT).show();
-    }
+
 }
