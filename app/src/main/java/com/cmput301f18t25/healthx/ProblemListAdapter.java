@@ -21,7 +21,6 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     public Context ctx;
     private List<Problem> problems;
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
     public ProblemListAdapter(List<Problem> problems){
 
@@ -45,8 +44,8 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
         
         holder.pTitle.setText(problems.get(position).getTitle());
         holder.pDescription.setText(problems.get(position).getDescription());
-        holder.pCount.setText(problems.get(position).getCount());
-        holder.pDate.setText(dateFormat.format(problems.get(position).getDate()));
+        //holder.pCount.setText(problems.get(position).getCount());
+        holder.pDate.setText(problems.get(position).getDate());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +59,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
                 /// Date OR STRING
                 ///////////////////////////////////
 
-                bundle.putString("Date",toView.getDate().toString());
+                bundle.putString("Date",toView.getDate());
 
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewProblemList.class);

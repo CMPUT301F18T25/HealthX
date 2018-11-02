@@ -15,7 +15,7 @@ public class Record {
     protected Double longitude;
     protected Double latitude;
     protected Bitmap image;
-    protected Date date;
+    protected String date;
 
 
     public Record(String record_title,String record_comment,Double latitude, Double longitude){
@@ -41,11 +41,11 @@ public class Record {
         return title;
     }
 
-    public void setDate(Date newDate){
+    public void setDate(String newDate){
         this.date = newDate;
     }
 
-    public Date getDate(){
+    public String getDate(){
         return this.date;
     }
 
