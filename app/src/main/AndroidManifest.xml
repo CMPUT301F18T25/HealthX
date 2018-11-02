@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmput301f18t25.healthx">
-
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,7 +26,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
-        <activity android:name=".ActivityAddProblem"></activity>
+        <activity android:name=".ActivityAddProblem" />
+        <activity android:name=".ActivityAddPhoto"></activity>
     </application>
 
 </manifest>
