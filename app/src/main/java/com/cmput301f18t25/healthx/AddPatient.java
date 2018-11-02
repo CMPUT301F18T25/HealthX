@@ -25,8 +25,8 @@ public class AddPatient extends AppCompatActivity {
     EditText mUserText;
 
     @Override
-    public void onCreate(@androidx.annotation.Nullable @Nullable Bundle savedInstanceState, @androidx.annotation.Nullable @Nullable PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
         mAddButton = (Button) findViewById(R.id.btnAddPatient); // R.id.idofButton once created
         mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview

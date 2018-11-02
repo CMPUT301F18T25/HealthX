@@ -17,12 +17,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class ViewPatient extends AppCompatActivity {
+public class ViewPatient extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_problem);
+        setContentView(R.layout.activity_view_recycler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -56,10 +57,11 @@ public class ViewPatient extends AppCompatActivity {
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_problem, menu);
+        getMenuInflater().inflate(R.menu.menu_search, menu);
         return true;
     }
 
@@ -69,17 +71,14 @@ public class ViewPatient extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.action_search){
+            Intent intent = new Intent(this, ActivitySearch.class);
+            startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
-    @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -102,8 +101,6 @@ public class ViewPatient extends AppCompatActivity {
         return true;
     }
 
-    public void searchBy(View view) {
-        Toast.makeText(this, "search button clicked!", Toast.LENGTH_SHORT).show();
-    }
-}
 
+
+}

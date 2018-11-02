@@ -11,11 +11,11 @@ import java.util.Date;
 public class Problem {
     protected String title;
     protected String description;
-    protected Date date;
+    protected String date;
     protected ArrayList<Record> recordArray = new ArrayList<Record>();
     protected Integer count;
 
-    public Problem(String problemTitle, String problemDescription, Date problemDate){
+    public Problem(String problemTitle, String problemDescription, String problemDate){
         this.title = problemTitle;
         this.description = problemDescription;
         this.date = problemDate;
@@ -37,11 +37,11 @@ public class Problem {
         return  this.description;
     }
 
-    public void setDate(Date newDate){
+    public void setDate(String newDate){
         this.date = newDate;
     }
 
-    public Date getDate(){
+    public String getDate(){
         return this.date;
     }
 

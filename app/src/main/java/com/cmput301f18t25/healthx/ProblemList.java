@@ -14,7 +14,6 @@ public class ProblemList {
             instance = new ProblemList();
         }
 
-
         return instance;
     }
 
