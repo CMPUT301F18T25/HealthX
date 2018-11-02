@@ -63,7 +63,7 @@ public class ProblemTest {
     @Test
     public void testSetDate(){
         Problem problem = new Problem(test_title,test_description,test_date);
-        Date new_date = new Date(1);
+        String new_date = "2018-09-31";
         problem.setDate(new_date);
         assertEquals(problem.getDate(),new_date);
     }
