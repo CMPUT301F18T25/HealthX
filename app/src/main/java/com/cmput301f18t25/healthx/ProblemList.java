@@ -31,6 +31,7 @@ public class ProblemList {
     // Edits a specific problem -- Note the function takes the index of the old problem and a new problem object
     public void EditProblem(int index, Problem e) {
         problemArray.set(index, e);
+        sortArray();
     }
 
     // self -explanatory

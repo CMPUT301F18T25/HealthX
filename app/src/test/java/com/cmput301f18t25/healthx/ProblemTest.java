@@ -20,7 +20,7 @@ public class ProblemTest {
 
     public String test_title = "title";
     public String test_description = "description";
-    public Date test_date = new Date();
+    public String test_date = "2018-10-1";
 
     public ProblemTest(){}
 
