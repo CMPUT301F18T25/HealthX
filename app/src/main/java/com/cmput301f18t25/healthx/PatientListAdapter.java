@@ -37,34 +37,26 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
         return vh;
 
     }
-    // STOPPED HERE NEED TO DO CARDVIEW 
+
     @Override
     public void onBindViewHolder(PatientListAdapter.ViewHolder holder, final int position) {
 
-        holder.pTitle.setText(problems.get(position).getTitle());
-        holder.pDescription.setText(problems.get(position).getDescription());
-        //holder.pCount.setText(problems.get(position).getCount());
-        holder.pDate.setText(problems.get(position).getDate());
+        holder.pName.setText(users.get(position).getName());
+        holder.pUserId.setText(users.get(position).getUserId());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Problem toView = problems.get(position);
+                User toView = users.get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("Title",toView.getTitle());
-                bundle.putString("Description",toView.getDescription());
-                bundle.putString("Count",Integer.toString(toView.getCount()));
-                ///////////////////////////////
-                /// Date OR STRING
-                ///////////////////////////////////
-
-                bundle.putString("Date",toView.getDate());
+                bundle.putString("Name",toView.getName());
+                bundle.putString("UserId",toView.getUserId());
 
                 // CHANGE ACTIVITY CLASS
-                Intent intent = new Intent(v.getContext(), ViewProblemList.class);
+                Intent intent = new Intent(v.getContext(), ViewPatient.class);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
-                Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(v.getContext(), "View " + toView.getName(), Toast.LENGTH_SHORT).show();
 
             }
 
@@ -74,25 +66,21 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
     @Override
     public int getItemCount() {
-        return problems.size();
+        return users.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView pTitle;
-        public TextView pDescription;
-        public TextView pCount;
-        public TextView pDate;
+        public TextView pName;
+        public TextView pUserId;
         public Context context;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             this.context = ctx;
 
-            pTitle = itemView.findViewById(R.id.problemTitle);
-            pDescription = itemView.findViewById(R.id.problemDescription);
-            pCount = itemView.findViewById(R.id.problemCount);
-            pDate = itemView.findViewById(R.id.problemDate);
+            pName = itemView.findViewById(R.id.patientName);
+            pUserId = itemView.findViewById(R.id.patientUserId);
             itemView.setClickable(true);
 
         }
