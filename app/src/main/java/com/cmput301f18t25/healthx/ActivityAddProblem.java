@@ -1,5 +1,6 @@
 package com.cmput301f18t25.healthx;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -52,6 +53,8 @@ public class ActivityAddProblem extends AppCompatActivity {
         if (id == R.id.save_button) {
             Problem newProblem = new Problem(problemTitle,problemDes,selectedDate);
             Toast.makeText(this,selectedDate,Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(this, ActivityAddPhoto.class);
+            startActivity(intent);
 
         }
         return super.onOptionsItemSelected(item);
