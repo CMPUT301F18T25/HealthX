@@ -25,7 +25,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
-        <activity android:name=".ActivityAddProblem"></activity>
+        <activity android:name=".ActivityAddProblem" />
+        <activity android:name=".ActivityAddPhoto" />
+        <activity android:name=".ActivityAddRecord"></activity>
     </application>
 
 </manifest>
