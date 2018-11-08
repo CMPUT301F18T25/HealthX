@@ -24,8 +24,8 @@ public class ActivityAddPhoto extends AppCompatActivity {
         btnSave = findViewById(R.id.savePicture);
         imageView = findViewById(R.id.imageView);
 
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,0);
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent,0);
 
     }
 
@@ -38,12 +38,14 @@ public class ActivityAddPhoto extends AppCompatActivity {
 
     public void savePicture(View view){
 
-        Intent pictureIntent = new Intent(this, ActivityAddRecord.class);
+        Intent returnPhotoIntent = new Intent();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
-        pictureIntent.putExtra("image", byteArray);
-        startActivity(pictureIntent);
+        returnPhotoIntent.putExtra("image", byteArray);
+        setResult(1, returnPhotoIntent);
+        finish();
 
     }
+
 }
