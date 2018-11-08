@@ -50,7 +50,7 @@
                         android:maxLength="30"
                         android:padding="10dp"
                         android:ems="10"
-                        android:hint="Upto 30 charcters" />
+                        android:hint="Up to 30 characters" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -93,7 +93,7 @@
                         android:maxLength="300"
                         android:padding="10dp"
                         android:ems="10"
-                        android:hint="Upto 300 characters"
+                        android:hint="Up to 300 characters"
                         android:inputType="textMultiLine" />
 
                 </android.support.design.widget.TextInputLayout>
