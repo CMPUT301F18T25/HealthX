@@ -65,6 +65,13 @@ public class Record {
         this.longitude = longitude;
     }
 
+    public void setImage(Bitmap image){
+        this.image = image;
+    }
+
+    public Bitmap getImage(){
+        return this.image;
+    }
 
 }
 

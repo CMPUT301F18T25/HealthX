@@ -26,7 +26,8 @@
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
-        <activity android:name=".ActivityAddPhoto"></activity>
+        <activity android:name=".ActivityAddPhoto" />
+        <activity android:name=".ActivityAddRecord"></activity>
     </application>
 
 </manifest>
