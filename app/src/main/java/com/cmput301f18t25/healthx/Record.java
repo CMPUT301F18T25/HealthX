@@ -18,11 +18,12 @@ public class Record {
     protected String date;
 
 
-    public Record(String record_title,String record_comment,Double latitude, Double longitude){
+    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image){
         this.title = record_title;
         this.comment = record_comment;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.image = image;
     }
 
     public void setComment(String comment) {
