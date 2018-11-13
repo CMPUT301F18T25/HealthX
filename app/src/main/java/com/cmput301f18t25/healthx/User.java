@@ -11,11 +11,15 @@ public class User {
     protected String userId;
     protected String phoneNumber;
     protected String email;
-
+    protected String ID;
     //    status meaning if the user is a patient or a care provider.
     protected String status;
 
     protected String reminderFrequency;
+
+    public User() {
+
+    }
 
     public User(String user_name, String id, String user_phoneNumber, String user_email, String user_status){
         this.name = user_name;
@@ -36,6 +40,10 @@ public class User {
     public void setUserId(String text){
         this.userId = text;
     }
+
+    public void  setID(String text) { this.ID = text;}
+
+    public String getID(){return this.ID;}
 
     public String getUserId(){
         return this.userId;

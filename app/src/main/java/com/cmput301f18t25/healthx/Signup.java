@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.cmput301f18t25.healthx.Model.ElasticSearchAuthentication;
+
 public class Signup extends AppCompatActivity {
 
     @Override
@@ -33,7 +35,7 @@ public class Signup extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public boolean signupInfo(){
+    public void signupInfo(){
         boolean result_ok = true;
         EditText id_textView = findViewById(R.id.input_id);
         EditText name_textView = findViewById(R.id.input_name);
@@ -50,16 +52,27 @@ public class Signup extends AppCompatActivity {
         String email = email_textView.getText().toString();
         String phone = phone_textView.getText().toString();
 
+        User user = new User(name,id,phone,email,status);
+        ElasticSearchAuthentication.signUpUserTask signup = new ElasticSearchAuthentication.signUpUserTask();
+        signup.execute(user);
+
         // TODO: check if this user already has an account
 
-        User user = new User(name,id,phone,email,status);
 
-        return result_ok;
+
+//        return result_ok;
     }
 
-    public void addUser(View view, boolean result_ok){
-        if (result_ok){
-            // TODO: add user to database
-        }
+
+
+//    public void addUser(View view, boolean result_ok){
+//        if (result_ok){
+//            // TODO: add user to database
+//        }
+//    }
+
+    public void addUser(View view) {
+        signupInfo();
+        finish();
     }
 }
