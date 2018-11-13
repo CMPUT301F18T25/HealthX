@@ -3,8 +3,10 @@ package com.cmput301f18t25.healthx;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -13,11 +15,30 @@ import com.cmput301f18t25.healthx.Model.ElasticSearchAuthentication;
 
 public class Signup extends AppCompatActivity {
 
+    EditText id_textView, name_textView, email_textView, phone_textView;
+    RadioButton radioButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Button addbutton = (Button) findViewById(R.id.btn_signup);
+        id_textView = findViewById(R.id.input_id);
+        name_textView = findViewById(R.id.input_name);
+        email_textView = findViewById(R.id.input_email);
+        phone_textView = findViewById(R.id.input_phone);
+        RadioGroup statusGroup = findViewById(R.id.status_group);
+        int checkedId = statusGroup.getCheckedRadioButtonId();
+        radioButton = findViewById(checkedId);
+
+        addbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signupInfo();
+//                finish();
+            }
+        });
+
     }
 
     @Override
@@ -37,14 +58,7 @@ public class Signup extends AppCompatActivity {
 
     public void signupInfo(){
         boolean result_ok = true;
-        EditText id_textView = findViewById(R.id.input_id);
-        EditText name_textView = findViewById(R.id.input_name);
-        EditText email_textView = findViewById(R.id.input_email);
-        EditText phone_textView = findViewById(R.id.input_phone);
 
-        RadioGroup statusGroup = findViewById(R.id.status_group);
-        int checkedId = statusGroup.getCheckedRadioButtonId();
-        RadioButton radioButton = findViewById(checkedId);
         String status = radioButton.getText().toString();
 
         String name = name_textView.getText().toString();
@@ -52,9 +66,9 @@ public class Signup extends AppCompatActivity {
         String email = email_textView.getText().toString();
         String phone = phone_textView.getText().toString();
 
-        User user = new User(name,id,phone,email,status);
-        ElasticSearchAuthentication.signUpUserTask signup = new ElasticSearchAuthentication.signUpUserTask();
-        signup.execute(user);
+        User u = new User(name,id,phone,email,status);
+        new ElasticSearchAuthentication.signUpUserTask().execute(u);
+        Log.d("WTFWTF", "signupInfo:");
 
         // TODO: check if this user already has an account
 
@@ -70,9 +84,10 @@ public class Signup extends AppCompatActivity {
 //            // TODO: add user to database
 //        }
 //    }
-
-    public void addUser(View view) {
-        signupInfo();
-        finish();
-    }
+//
+//    public void addUser(View view) {
+//        signupInfo();
+//
+//
+//    }
 }

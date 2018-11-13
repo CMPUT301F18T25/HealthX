@@ -17,9 +17,7 @@ public class User {
 
     protected String reminderFrequency;
 
-    public User() {
 
-    }
 
     public User(String user_name, String id, String user_phoneNumber, String user_email, String user_status){
         this.name = user_name;
