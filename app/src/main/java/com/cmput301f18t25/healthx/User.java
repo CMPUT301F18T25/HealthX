@@ -69,4 +69,8 @@ public class User {
     public String getReminderFrequency(){
         return this.reminderFrequency;
     }
+
+    public String getStatus() {
+        return this.status;
+    }
 }
