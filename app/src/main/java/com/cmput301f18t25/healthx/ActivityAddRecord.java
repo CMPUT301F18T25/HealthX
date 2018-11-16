@@ -37,8 +37,8 @@ public class ActivityAddRecord extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        EditText title = (EditText) findViewById(R.id.record_title);
-        EditText comment = (EditText) findViewById(R.id.record_comment);
+        EditText title = findViewById(R.id.record_title);
+        EditText comment = findViewById(R.id.record_comment);
 
         String recordTitle = title.getText().toString();
         String recordComment = comment.getText().toString();
@@ -59,15 +59,28 @@ public class ActivityAddRecord extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        ImageView imageView = findViewById(R.id.view_photo);
-        byte[] byteArray = data.getByteArrayExtra("image");
-        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        // Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-        // Drawable drawable = new BitmapDrawable(bitmapScaled);
-        // imageView.setImageDrawable(drawable);
-        imageView.setImageBitmap(bitmap);
-        recordPhoto = bitmap;
+        if(requestCode == 1) {
 
+            // ImageView imageView = findViewById(R.id.view_photo);
+            byte[] byteArray = data.getByteArrayExtra("image");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+
+            // Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+            // Drawable drawable = new BitmapDrawable(bitmapScaled);
+            // imageView.setImageDrawable(drawable);
+
+            // imageView.setImageBitmap(bitmap);
+
+            // <ImageView
+            // android:id="@+id/view_photo"
+            // android:layout_width="match_parent"
+            // android:layout_height="match_parent" />
+
+            recordPhoto = bitmap;
+
+        }else{
+            Toast.makeText(ActivityAddRecord.this,"Unable To Set Photo To Record",Toast.LENGTH_LONG).show();
+        }
     }
 
     public void addPhoto(View view){

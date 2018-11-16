@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 
 public class ActivityAddPhoto extends AppCompatActivity {
+
     ImageView imageView;
     Button btnSave;
     Bitmap bitmap;
@@ -32,8 +34,13 @@ public class ActivityAddPhoto extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        bitmap = (Bitmap) data.getExtras().get("data");
-        imageView.setImageBitmap(bitmap);
+        if(requestCode == 0) {
+            bitmap = (Bitmap) data.getExtras().get("data");
+            imageView.setImageBitmap(bitmap);
+        }else{
+            Toast.makeText(ActivityAddPhoto.this,"Unable To Get Photo From Camera",Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void savePicture(View view){
