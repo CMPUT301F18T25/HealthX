@@ -106,7 +106,6 @@
             android:layout_marginTop="25dp"
             android:layout_marginBottom="24dp"
             android:padding="12dp"
-            android:onClick="addUser"
             android:text="Sign Up"/>
 
     </LinearLayout>
