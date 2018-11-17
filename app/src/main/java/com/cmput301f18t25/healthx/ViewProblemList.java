@@ -27,6 +27,8 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private ArrayList<Problem> problemList = new ArrayList<Problem>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,16 +54,24 @@ public class ViewProblemList extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        Problem Problem1 = new Problem("ABC","SICK","2018-11-20");
-//        ArrayList<Problem> problems = new ArrayList<Problem>();
-//        problems.add(Problem1);
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_list);
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        try {
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute("").get();
+        }catch (Exception e){
+
+        }
+        mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        //mAdapter = new ProblemListAdapter(problems);
+        mAdapter = new ProblemListAdapter(problemList);
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
     @Override

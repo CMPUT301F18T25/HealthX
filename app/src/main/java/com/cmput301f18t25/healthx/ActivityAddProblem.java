@@ -1,12 +1,19 @@
 package com.cmput301f18t25.healthx;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +27,7 @@ public class ActivityAddProblem extends AppCompatActivity {
         setContentView(R.layout.activity_add_problem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -34,24 +42,44 @@ public class ActivityAddProblem extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
-        EditText title = (EditText) findViewById(R.id.title_input);
-        DatePicker date = findViewById(R.id.dateStarted_input);
-        EditText description = (EditText) findViewById(R.id.description_input);
 
-
-        String problemTitle = title.getText().toString();
-        Date selected = new Date(date.getYear() - 1900, date.getMonth(), date.getDayOfMonth());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        String selectedDate = format.format(selected);
-        String problemDes = description.getText().toString();
         // if clicked the save button,
         if (id == android.R.id.home) {
             Intent intent = new Intent(this, ViewProblemList.class);
             startActivity(intent);
         }
         if (id == R.id.save_button) {
-            Problem newProblem = new Problem(problemTitle,problemDes,selectedDate);
-            Toast.makeText(this,selectedDate,Toast.LENGTH_LONG).show();
+
+            EditText title_textView = (EditText) findViewById(R.id.title_input);
+            DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
+            EditText description_textView = (EditText) findViewById(R.id.description_input);
+
+
+            String problemTitle = title_textView.getText().toString();
+            Date selected = new Date(dateStarted_textView.getYear() - 1900,
+                    dateStarted_textView.getMonth(), dateStarted_textView.getDayOfMonth());
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String problemDate = format.format(selected);
+            String problemDescription = description_textView.getText().toString();
+
+            // Check if app is connected to a network.
+            ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            if (null == activeNetwork) {
+                Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+            } else {
+                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate);
+                Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
+                ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
+                addProblemTask.execute(newProblem);
+                // ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                // deleteProblemTask.execute();
+                Intent intent = new Intent(ActivityAddProblem.this, ViewProblemList.class);
+                startActivity(intent);
+            }
+
+
 
         }
         return super.onOptionsItemSelected(item);
