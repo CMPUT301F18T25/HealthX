@@ -48,6 +48,45 @@ public class ElasticSearchUserController {
         }
     }
 
+    public static class GetUserTask extends AsyncTask<String, Void, Void> {
+        @Override
+        protected Void doInBackground(String... users) {
+//            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
+            verifySettings();
+            String query =  "{\n" +
+                    "    \"query\": {\n" +
+                    "                \"term\" : { \"userId\" : \"hai\" }\n" +
+                    "            }\n" +
+                    "        }";
+
+
+            // Build the query
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("user")
+                    .build();
+
+            try {
+                // gets result
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    String user = result.getJsonString();
+                    Log.d("IVANLIM", user);
+
+                } else {
+                    Log.i("IVANLIM", "The search query failed to find any user that matched.");
+                }
+            } catch (Exception e) {
+                Log.i("IVANLIM", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return null;
+        }
+    }
+
+
+
+
+
     public static void verifySettings() {
         if (client == null) {
 
