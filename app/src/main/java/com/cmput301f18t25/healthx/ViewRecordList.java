@@ -9,13 +9,23 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-public class ViewRecordList extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.ArrayList;
+
+public class ViewRecordList extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
+
+    private RecyclerView rRecyclerView;
+    private RecyclerView.Adapter rAdapter;
+    private RecyclerView.LayoutManager rLayoutManager;
+    private ArrayList<Record> recordList = new ArrayList<Record>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +51,24 @@ public class ViewRecordList extends AppCompatActivity  implements NavigationView
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+    }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        try {
+            recordList = new ElasticSearchRecordController.GetRecordsTask().execute("").get();
+        }catch (Exception e){
+
+        }
+        rRecyclerView = findViewById(R.id.recycler_list);
+        rRecyclerView.setHasFixedSize(true);
+
+        rLayoutManager = new LinearLayoutManager(this);
+        rRecyclerView.setLayoutManager(rLayoutManager);
+        rAdapter = new RecordListAdapter(recordList);
+        rRecyclerView.setAdapter(rAdapter);
 
     }
 

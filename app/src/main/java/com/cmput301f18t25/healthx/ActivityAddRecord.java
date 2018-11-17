@@ -1,10 +1,13 @@
 package com.cmput301f18t25.healthx;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,11 +40,6 @@ public class ActivityAddRecord extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        EditText title = findViewById(R.id.record_title);
-        EditText comment = findViewById(R.id.record_comment);
-
-        String recordTitle = title.getText().toString();
-        String recordComment = comment.getText().toString();
 
         // if clicked the save button,
         if (id == android.R.id.home) {
@@ -49,7 +47,27 @@ public class ActivityAddRecord extends AppCompatActivity {
             startActivity(intent);
         }
         if (id == R.id.save_button) {
-            Record newRecord = new Record(recordTitle, recordComment, 0.00, 0.00, recordPhoto);
+
+            EditText title_textView = findViewById(R.id.record_title);
+            EditText comment_textView = findViewById(R.id.record_comment);
+
+
+            String recordTitle = title_textView.getText().toString();
+            String recordComment = comment_textView.getText().toString();
+
+            // Check if app is connected to a network.
+            ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            if (null == activeNetwork) {
+                Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+            } else {
+                Record newRecord = new Record(recordTitle, recordComment, 0.00, 0.00, recordPhoto);
+                ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
+                addRecordTask.execute(newRecord);
+
+                Intent intent = new Intent(ActivityAddRecord.this, ViewProblemList.class);
+                startActivity(intent);
+            }
 
         }
         return super.onOptionsItemSelected(item);
