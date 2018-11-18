@@ -24,32 +24,52 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
             android:src="@drawable/logo" />
 
         <!-- Password Label -->
-        <android.support.design.widget.TextInputLayout
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginBottom="8dp"
+            android:id="@+id/loginUserID"
+            android:hint="User ID"
+            android:inputType="text" />
 
-            <EditText
-                android:id="@+id/input_uid"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="User ID"
-                android:inputType="text" />
-        </android.support.design.widget.TextInputLayout>
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginBottom="8dp">-->
+
+            <!--<android.support.design.widget.TextInputEditText-->
+        <!--android:id="@+id/loginUserID"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:hint="User ID"-->
+        <!--android:inputType="text" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
         <!-- Email Label -->
-        <android.support.design.widget.TextInputLayout
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email" />
-        </android.support.design.widget.TextInputLayout>
+            android:layout_marginBottom="8dp"
+            android:id="@+id/loginEmail"
+            android:inputType="textEmailAddress"
+            android:hint="Email" />
+
+        <!--<android.support.design.widget.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="8dp"-->
+            <!--android:layout_marginBottom="8dp">-->
+
+            <!--<android.support.design.widget.TextInputEditText-->
+                <!--android:id="@+id/loginEmail"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:inputType="textEmailAddress"-->
+                <!--android:hint="Email" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
 
 
         <android.support.v7.widget.AppCompatButton

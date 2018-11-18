@@ -25,6 +25,14 @@ public class User {
         this.status = user_status;
     }
 
+    public void cloneUser(User user) {
+        this.name = user.getName();
+        this.userId = user.getUserId();
+        this.phoneNumber = user.getPhoneNumber();
+        this.email = user.getEmail();
+        this.status = user.getStatus();
+    }
+
     public void setName(String text){
         this.name = text;
     }
@@ -58,6 +66,10 @@ public class User {
 
     public void setReminderFrequency(String text){
         this.reminderFrequency = text;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getReminderFrequency(){
