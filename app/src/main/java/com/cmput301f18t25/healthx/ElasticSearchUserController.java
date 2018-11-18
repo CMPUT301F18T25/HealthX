@@ -3,9 +3,13 @@ package com.cmput301f18t25.healthx;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.searchly.jestdroid.DroidClientConfig;
 import com.searchly.jestdroid.JestClientFactory;
 import com.searchly.jestdroid.JestDroidClient;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,19 +52,19 @@ public class ElasticSearchUserController {
         }
     }
 
-    public static class GetUserTask extends AsyncTask<String, Void, Void> {
+    public static class GetUserTask extends AsyncTask<String, Void, User> {
         @Override
-        protected Void doInBackground(String... users) {
+        protected User doInBackground(String... users) {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
-            String query =  "{\n" +
+            User theUser = new User("", "", "", "", "");
+            String query = "{\n" +
                     "    \"query\": {\n" +
-                    "                \"term\" : { \"userId\" : \"hai\" }\n" +
-                    "            }\n" +
-                    "        }";
-
+                    "                \"bool\" : {\n" +
+                    "\"should\" : [\n"+ "{\"match\" : {\"userId\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
 
             // Build the query
+            ArrayList<User> userArray = new ArrayList<User>();
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
                     .addType("user")
@@ -70,16 +74,22 @@ public class ElasticSearchUserController {
                 // gets result
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
-                    String user = result.getJsonString();
-                    Log.d("IVANLIM", user);
+//                    String user = result.getJsonString();
+//                    Log.d("IVANLIM", user);
+//                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
+                    List<User> userList;
+                    userList = result.getSourceAsObjectList(User.class);
+                    userArray.addAll(userList);
+                    theUser.cloneUser(userArray.get(0));
 
+//                    }
                 } else {
                     Log.i("IVANLIM", "The search query failed to find any user that matched.");
                 }
             } catch (Exception e) {
                 Log.i("IVANLIM", "Something went wrong when we tried to communicate with the elasticsearch server!");
             }
-            return null;
+            return theUser;
         }
     }
 
