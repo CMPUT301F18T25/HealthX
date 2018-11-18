@@ -74,8 +74,8 @@ public class ElasticSearchUserController {
                 // gets result
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
-//                    String user = result.getJsonString();
-//                    Log.d("IVANLIM", user);
+                    String user = result.getJsonString();
+                    Log.d("IVANLIM", user);
 //                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);

@@ -55,6 +55,10 @@ public class Login extends AppCompatActivity {
                     Intent intent = new Intent(this, ViewProblemList.class);
                     startActivity(intent);
                 }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credientials!" , Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
