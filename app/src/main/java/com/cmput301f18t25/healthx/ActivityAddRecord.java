@@ -42,7 +42,6 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setGeoLocation();
     }
 
     @Override
