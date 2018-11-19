@@ -33,11 +33,11 @@
             android:layout_marginBottom="8dp">
 
             <TextView
-                android:id="@+id/id_text_view"
+                android:id="@+id/edit_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:hint="User ID" />
+                android:hint="User ID"
+                android:textSize="20sp" />
         </android.support.design.widget.TextInputLayout>
 
         <!--  Name Label -->
@@ -61,11 +61,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp">
-            <EditText android:id="@+id/input_email"
+
+            <EditText
+                android:id="@+id/edit_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email" />
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
         </android.support.design.widget.TextInputLayout>
 
         <!-- Phone Label -->

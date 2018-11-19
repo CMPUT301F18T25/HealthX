@@ -19,8 +19,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ViewProblemList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,6 +37,8 @@ public class ViewProblemList extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recycler);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -40,7 +46,7 @@ public class ViewProblemList extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewProblemList.this,ActivityAddProblem.class);
+                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
                 startActivity(intent);
             }
         });
@@ -54,8 +60,33 @@ public class ViewProblemList extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-    }
+        View header = navigationView.getHeaderView(0);
 
+        Bundle bundle = null;
+        bundle = this.getIntent().getExtras();
+        String id = bundle.getString("id");
+        String email = bundle.getString("email");
+        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        User user = null;
+        try {
+            user = getUserTask.execute(id,email).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        TextView Uid = (TextView) header.findViewById(R.id.user_id);
+        Uid.setText(id);
+        TextView Uname = (TextView)header.findViewById(R.id.user_name);
+        Uname.setText(user.getName());
+        TextView Uemail = (TextView)header.findViewById(R.id.user_email);
+        Uemail.setText(user.getEmail());
+        TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
+        Uphone.setText(user.getPhoneNumber());
+
+
+    }
     @Override
     protected void onStart(){
         super.onStart();
@@ -71,8 +102,34 @@ public class ViewProblemList extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new ProblemListAdapter(problemList);
         mRecyclerView.setAdapter(mAdapter);
+        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
+                public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                    underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+                            new UnderlayButtonClickListener() {
 
-    }
+                                public void onClick(int position) {
+                                    // if clicked the delete button, delete the current record
+
+                                }
+                            }
+                    ));
+
+                    underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
+                            new UnderlayButtonClickListener() {
+                                @Override
+                                public void onClick(int pos) {
+                                    // if clicked the edit button, allow user to eit the current record
+
+
+                                }
+                            }
+                    ));
+                }
+        };
+
+
+        }
+
 
     @Override
     public void onBackPressed() {
@@ -117,7 +174,16 @@ public class ViewProblemList extends AppCompatActivity
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_edit) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+            String Oid = obundle.getString("id");
+            String Oemail = obundle.getString("email");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("id",Oid);
+            bundle.putString("email",Oemail);
             Intent intent = new Intent(this, EditUserProfile.class);
+            intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
 
