@@ -68,7 +68,10 @@ public class EditUserProfile extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
+            Bundle bundle = null;
+            bundle = this.getIntent().getExtras();
             Intent intent = new Intent(this, ViewProblemList.class);
+            intent.putExtras(bundle);
             startActivity(intent);
         }
         if (id == R.id.save_button) {

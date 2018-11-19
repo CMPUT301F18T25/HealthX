@@ -38,18 +38,9 @@ public class ViewProblemList extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recycler);
 
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
-                startActivity(intent);
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -85,6 +76,17 @@ public class ViewProblemList extends AppCompatActivity
         TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = null;
+                bundle = ViewProblemList.this.getIntent().getExtras();
+                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        });
 
     }
     @Override
