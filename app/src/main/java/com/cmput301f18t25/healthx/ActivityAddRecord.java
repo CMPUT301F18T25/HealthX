@@ -1,15 +1,22 @@
 package com.cmput301f18t25.healthx;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +31,18 @@ import java.util.Date;
 
 public class ActivityAddRecord extends AppCompatActivity {
     Bitmap recordPhoto;
+    private LocationManager locationManager;
+    Location location;
+    double longitude;
+    double latitude;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setGeoLocation();
     }
 
     @Override
@@ -54,6 +68,7 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
+            setGeoLocation();
 
             // Check if app is connected to a network.
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -61,7 +76,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
-                Record newRecord = new Record(recordTitle, recordComment, 0.00, 0.00, recordPhoto);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
@@ -105,6 +120,39 @@ public class ActivityAddRecord extends AppCompatActivity {
 
         Intent photoIntent = new Intent(this, ActivityAddPhoto.class);
         startActivityForResult(photoIntent, 1);
+
+    }
+
+    public void setGeoLocation() {
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},1);
+        }else{
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (location != null){
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+                Log.d("SANDY 301", String.valueOf(longitude));
+                Log.d("SANDY 301", String.valueOf(latitude));
+            }
+            else{
+                Log.d("SANDY 301","NO LOCATION");
+            }
+
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                setGeoLocation();
+                break;
+        }
 
     }
 
