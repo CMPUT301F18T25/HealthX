@@ -79,10 +79,12 @@ public class ElasticSearchProblemController {
         @Override
         protected Void doInBackground(Problem... problems) {
             setClient();
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "                \"bool\" : {\n" +
+                    "\"should\" : [\n"+ "{\"match\" : {\"_id\" : \""+ problems[0]+ "\"}},\n" +"\"}}\n]\n}\n}\n}\n";
 
-            // NEED TO SPECIFY ID OF PROBLEM TO DELETE
-            // SO PROBABLY PASS IT TO DELETEPROBLEMTASK
-            Delete delete = new Delete.Builder("AWcfH5fZzhqIc6W6Iiff").index("cmput301f18t25test").type("problem").build();
+            Delete delete = new Delete.Builder(query).index("cmput301f18t25test").type("problem").build();
 
             try {
                 DocumentResult result1 = client.execute(delete);

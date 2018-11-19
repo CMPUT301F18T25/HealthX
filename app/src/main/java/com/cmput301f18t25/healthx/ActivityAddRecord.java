@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 
 public class ActivityAddRecord extends AppCompatActivity {
@@ -79,7 +80,7 @@ public class ActivityAddRecord extends AppCompatActivity {
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
-                Intent intent = new Intent(ActivityAddRecord.this, ViewProblemList.class);
+                Intent intent = new Intent(ActivityAddRecord.this, ViewRecordList.class);
                 startActivity(intent);
             }
 
