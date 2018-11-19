@@ -78,9 +78,13 @@ public class ElasticSearchRecordController {
         @Override
         protected Void doInBackground(Record... records) {
             clientSet();
-            // NEED TO SPECIFY ID OF RECORD TO DELETE
-            // SO PROBABLY PASS IT TO DELETERECORDTASK
-            Delete delete = new Delete.Builder("AWcfH5fZzhqIc6W6Iiff").index("cmput301f18t25test").type("record").build();
+
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "                \"bool\" : {\n" +
+                    "\"should\" : [\n"+ "{\"match\" : {\"_id\" : \""+ records[0]+ "\"}},\n" +"\"}}\n]\n}\n}\n}\n";
+
+            Delete delete = new Delete.Builder(query).index("cmput301f18t25test").type("record").build();
 
             try {
                 DocumentResult result1 = client.execute(delete);
