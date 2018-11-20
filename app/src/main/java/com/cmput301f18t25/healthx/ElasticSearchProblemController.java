@@ -14,6 +14,7 @@ import java.util.List;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -27,26 +28,36 @@ public class ElasticSearchProblemController {
         @Override
         protected Void doInBackground(Problem... problems) {
             setClient();
-            for (Problem problem : problems) {
-                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problem").build();
+            String problemID;
+            for (Problem problem : problems){
+                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problems").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
                     if (!result1.isSucceeded()) {
-                        Log.d("ElasticProblem", "Elastic search was not able to add problem.");
-                    }else {
-                        Log.d("ElasticProblem", "Elastic search added problem");
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    } else {
+                        problemID = result1.getId();
+                        problem.setId(problemID);
+                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
                     }
-
                 }
-                catch (Exception e) {
-                    Log.d("ElasticProblem", "The application failed to build and send the problem");
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
                 }
-
             }
-
             return null;
+
         }
+
     }
 
     public static class GetProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
@@ -56,7 +67,7 @@ public class ElasticSearchProblemController {
             ArrayList<Problem> problems = new ArrayList<Problem>();
             Search search = new Search.Builder(params[0])
                     .addIndex("cmput301f18t25test")
-                    .addType("problem")
+                    .addType("newProblem")
                     .build();
             try {
                 JestResult result = client.execute(search);
@@ -80,18 +91,10 @@ public class ElasticSearchProblemController {
         @Override
         protected Void doInBackground(Problem... problems) {
             setClient();
-
-            String query = "{\"query\" : { \"bool\" : { \"must\" : { \"match\" : { \"title\" : \"" + "Sup" + "\"}}}}}";
-
-            Delete delete = new Delete.Builder(problems[0].getTitle()).index("cmput301f18t25test").type("problem").build();
-
+            String query = "{\"query\" : { \"match\" : { \"id\" : \"" + problems[0].getId() + "\"}}}";
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newProblem").build();
             try {
-                DocumentResult result1 = client.execute(delete);
-                if (!result1.isSucceeded()) {
-                    Log.d("ElasticProblem", "Elastic search was not able to delete problem.");
-                }else {
-                    Log.d("ElasticProblem", "Elastic search deleted problem");
-                }
+                client.execute(delete);
             } catch (Exception e) {
                 Log.d("ElasticProblem", "The application failed to build and send the problem");
             }

@@ -16,6 +16,7 @@ public class Record {
     protected Double latitude;
     protected Bitmap image;
     protected String date;
+    protected String id;
 
 
     public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date){
@@ -25,6 +26,7 @@ public class Record {
         this.longitude = longitude;
         this.image = image;
         this.date = date;
+        this.id = "";
     }
 
     public void setComment(String comment) {
@@ -74,6 +76,14 @@ public class Record {
     public Bitmap getImage(){
         return this.image;
     }
+
+    public String getId(){
+        return this.id;
+    }
+    public void setId(String id){
+        this.id = id;
+    }
+
 
 }
 
