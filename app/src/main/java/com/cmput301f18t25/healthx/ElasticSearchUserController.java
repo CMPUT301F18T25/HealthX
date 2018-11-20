@@ -22,7 +22,7 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * Handling elasticsearch user related queries
+ * Handling elasticsearch user related queries - UTILIZED THESE RESOURCES TO HELP ME
  */
 
 public class ElasticSearchUserController {
@@ -34,8 +34,9 @@ public class ElasticSearchUserController {
         @Override
         protected Void doInBackground(User... users) {
             verifySettings();
+            String userid = null;
             for (User user : users) {
-                Index index = new Index.Builder(user).index("cmput301f18t25test").type("user").build();
+                Index index = new Index.Builder(user).index("cmput301f18t25test").type("usernew").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -43,6 +44,20 @@ public class ElasticSearchUserController {
                         Log.i("Error", "Elasticsearch was not able to add user.");
                     }
                     // where is the client?
+                    else  {
+                        userid = result1.getId();
+                        Log.d("IVANLIM", userid);
+                        user.setId(userid);
+                        Index index1 = new Index.Builder(user).index("cmput301f18t25test").type("usernew").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
+                    }
                 }
                 catch (Exception e) {
                     Log.i("Error", "The application failed to build and send the tweets");
@@ -62,29 +77,33 @@ public class ElasticSearchUserController {
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +
-                    "\"must\" : [\n"+ "{\"match\" : {\"userId\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
+                    "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
 
             // Build the query
+            String userId = null;
             ArrayList<User> userArray = new ArrayList<User>();
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("user")
+                    .addType("usernew")
                     .build();
 
             try {
                 // gets result
                 SearchResult result = client.execute(search);
+//                DocumentResult docres = client.execute(search);
 //                SearchRes
                 if (result.isSucceeded()) {
 //                    Map user = result.getJsonMap();
-                    String user = result.getJsonString();
-                    Log.d("IVANLIM", user);
+//                    String user = result.getJsonString();
+//                    Log.d("IVANLIM", user);
 
-                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
+//                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
+
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);
                     userArray.addAll(userList);
-                    theUser.cloneUser(userArray.get(0));
+                    theUser.cloneUser(userArray.get(1));
+                    Log.d("IVANLIM", theUser.getId() );
 
 
 //                    }

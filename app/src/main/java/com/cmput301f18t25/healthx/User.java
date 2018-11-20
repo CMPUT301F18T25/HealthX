@@ -32,7 +32,7 @@ public class User {
         this.phoneNumber = user.getPhoneNumber();
         this.email = user.getEmail();
         this.status = user.getStatus();
-        this.id = "";
+        this.id = user.getId();
     }
 
     public void setName(String text){
@@ -78,5 +78,17 @@ public class User {
 
     public String getReminderFrequency(){
         return this.reminderFrequency;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
