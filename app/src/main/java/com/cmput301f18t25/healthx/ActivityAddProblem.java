@@ -71,6 +71,7 @@ public class ActivityAddProblem extends AppCompatActivity {
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
+                Bundle bundle = getIntent().getExtras();
                 Problem newProblem = new Problem(problemTitle, problemDescription, problemDate);
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
@@ -78,6 +79,7 @@ public class ActivityAddProblem extends AppCompatActivity {
                 // ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 // deleteProblemTask.execute();
                 Intent intent = new Intent(ActivityAddProblem.this, ViewProblemList.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
 
