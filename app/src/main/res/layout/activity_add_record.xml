@@ -53,6 +53,10 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <DatePicker
+                    android:id="@+id/recordDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"></DatePicker>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -86,6 +90,19 @@
                     android:text="Add Photo"
                     android:onClick="addPhoto"
                     />
+                <ImageView
+                    android:id="@+id/view_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/record_geolocation"
+                    android:text="Add Geolocation"
+                    />
+
 
             </LinearLayout>
         </ScrollView>

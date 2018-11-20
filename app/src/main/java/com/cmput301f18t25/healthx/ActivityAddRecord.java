@@ -65,6 +65,16 @@ public class ActivityAddRecord extends AppCompatActivity {
             EditText title_textView = findViewById(R.id.record_title);
             EditText comment_textView = findViewById(R.id.record_comment);
 
+            DatePicker recordDate_T = findViewById(R.id.recordDate);
+
+            Date selected = new Date(recordDate_T.getYear() - 1900,
+                    recordDate_T.getMonth(), recordDate_T.getDayOfMonth());
+
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String recordDate = format.format(selected);
+
+            Toast.makeText(getApplicationContext(), recordDate, Toast.LENGTH_SHORT).show();
+
 
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
@@ -76,7 +86,8 @@ public class ActivityAddRecord extends AppCompatActivity {
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate);
+
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
@@ -94,20 +105,16 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
 
-            // ImageView imageView = findViewById(R.id.view_photo);
+             ImageView imageView = findViewById(R.id.view_photo);
             byte[] byteArray = data.getByteArrayExtra("image");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-            // Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-            // Drawable drawable = new BitmapDrawable(bitmapScaled);
-            // imageView.setImageDrawable(drawable);
+             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+             Drawable drawable = new BitmapDrawable(bitmapScaled);
+             imageView.setImageDrawable(drawable);
 
-            // imageView.setImageBitmap(bitmap);
+             imageView.setImageBitmap(bitmap);
 
-            // <ImageView
-            // android:id="@+id/view_photo"
-            // android:layout_width="match_parent"
-            // android:layout_height="match_parent" />
 
             recordPhoto = bitmap;
 

@@ -53,7 +53,12 @@ public class ElasticSearchRecordController {
 
             clientSet();
             ArrayList<Record> records = new ArrayList<Record>();
-            Search search = new Search.Builder(params[0])
+            String query = "{\n" + "\"from\" : 0, \"size\": 100,\n" +
+                    "    \"query\": {\n" +
+                    "                \"match_all\" : {}\n"  +  " }\n}\n";
+
+
+            Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
                     .addType("record")
                     .build();

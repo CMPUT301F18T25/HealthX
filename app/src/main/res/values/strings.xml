@@ -19,4 +19,5 @@
         <item>Body Location</item>
         <item>Geo-location</item>
     </string-array>
+    <string name="title_activity_view_current_record">ViewCurrentRecord</string>
 </resources>
