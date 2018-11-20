@@ -13,6 +13,7 @@ import java.util.List;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -26,25 +27,34 @@ public class ElasticSearchRecordController {
         @Override
         protected Void doInBackground(Record... records) {
             clientSet();
-            for (Record record : records) {
-                Index index = new Index.Builder(record).index("cmput301f18t25test").type("record").build();
+            String recordID;
+            for (Record record : records){
+                Index index = new Index.Builder(record).index("cmput301f18t25test").type("records").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
                     if (!result1.isSucceeded()) {
-                        Log.d("ElasticRecord", "Elastic search was not able to add record.");
-                    }else {
-                        Log.d("ElasticRecord", "Elastic search added record");
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    } else {
+                        recordID = result1.getId();
+                        record.setId(recordID);
+                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
                     }
-
                 }
-                catch (Exception e) {
-                    Log.d("ElasticRecord", "The application failed to build and send the record");
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
                 }
-
             }
-
             return null;
+
         }
     }
     public static class GetRecordsTask extends AsyncTask<String, Void, ArrayList<Record>> {
@@ -83,25 +93,12 @@ public class ElasticSearchRecordController {
         @Override
         protected Void doInBackground(Record... records) {
             clientSet();
-
-            String query = "{\n" +
-                    "    \"query\": {\n" +
-                    "                \"bool\" : {\n" +
-                    "\"should\" : [\n"+ "{\"match\" : {\"_id\" : \""+ records[0]+ "\"}},\n" +"\"}}\n]\n}\n}\n}\n";
-
-            Delete delete = new Delete.Builder(query).index("cmput301f18t25test").type("record").build();
-
+            String query = "{\"query\" : { \"match\" : { \"id\" : \"" + records[0].getId() + "\"}}}";
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord").build();
             try {
-                DocumentResult result1 = client.execute(delete);
-                if (!result1.isSucceeded()) {
-                    Log.d("ElasticRecord", "Elastic search was not able to delete record.");
-                }else {
-                    Log.d("ElasticRecord", "Elastic search deleted record");
-                }
-
-            }
-            catch (Exception e) {
-                Log.d("ElasticProblem", "The application failed to build and send the record");
+                client.execute(delete);
+            } catch (Exception e) {
+                Log.d("ElasticProblem", "The application failed to build and send the problem");
             }
 
             return null;

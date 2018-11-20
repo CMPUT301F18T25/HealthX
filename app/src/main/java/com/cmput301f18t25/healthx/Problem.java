@@ -14,11 +14,13 @@ public class Problem {
     protected String date;
     protected ArrayList<Record> recordArray = new ArrayList<Record>();
     protected Integer count;
+    protected String id;
 
     public Problem(String problemTitle, String problemDescription, String problemDate){
         this.title = problemTitle;
         this.description = problemDescription;
         this.date = problemDate;
+        this.id = "";
     }
 
     public void setTitle(String text){
@@ -64,5 +66,11 @@ public class Problem {
 
     public Integer getCount() {
         return this.count = recordArray.size();
+    }
+    public String getId(){
+        return this.id;
+    }
+    public void setId(String id){
+        this.id = id;
     }
 }
