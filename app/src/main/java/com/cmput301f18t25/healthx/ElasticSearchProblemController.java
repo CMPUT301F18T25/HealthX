@@ -27,25 +27,35 @@ public class ElasticSearchProblemController {
         @Override
         protected Void doInBackground(Problem... problems) {
             setClient();
-            for (Problem problem : problems) {
-                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problem").build();
+            String problemID;
+            for (Problem problem : problems){
+                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problemnew").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
                     if (!result1.isSucceeded()) {
-                        Log.d("ElasticProblem", "Elastic search was not able to add problem.");
-                    }else {
-                        Log.d("ElasticProblem", "Elastic search added problem");
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    } else {
+
+                        problemID = result1.getId();
+                        problem.setId(problemID);
+                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("problemnew").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
                     }
-
                 }
-                catch (Exception e) {
-                    Log.d("ElasticProblem", "The application failed to build and send the problem");
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
                 }
-
             }
-
             return null;
+
         }
     }
 
@@ -80,21 +90,33 @@ public class ElasticSearchProblemController {
         protected Void doInBackground(Problem... problems) {
             setClient();
 
-            // NEED TO SPECIFY ID OF PROBLEM TO DELETE
-            // SO PROBABLY PASS IT TO DELETEPROBLEMTASK
-            Delete delete = new Delete.Builder("AWcfH5fZzhqIc6W6Iiff").index("cmput301f18t25test").type("problem").build();
+            String problemID = null;
+            for (Problem problem : problems){
+                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problemnew").build();
 
-            try {
-                DocumentResult result1 = client.execute(delete);
-                if (!result1.isSucceeded()) {
-                    Log.d("ElasticProblem", "Elastic search was not able to delete problem.");
-                }else {
-                    Log.d("ElasticProblem", "Elastic search deleted problem");
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    } else {
+                        problemID = result1.getId();
+
+                        problem.setId(problemID);
+                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("problemnew").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
+                    }
                 }
-            } catch (Exception e) {
-                Log.d("ElasticProblem", "The application failed to build and send the problem");
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
             }
-
             return null;
         }
 
