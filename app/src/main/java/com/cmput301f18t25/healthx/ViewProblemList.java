@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import io.searchbox.core.Delete;
+
 public class ViewProblemList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;
@@ -110,7 +112,8 @@ public class ViewProblemList extends AppCompatActivity
                             new UnderlayButtonClickListener() {
 
                                 public void onClick(int position) {
-                                    // if clicked the delete button, delete the current record
+                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                    deleteProblemTask.execute(problemList.get(position));
 
                                 }
                             }

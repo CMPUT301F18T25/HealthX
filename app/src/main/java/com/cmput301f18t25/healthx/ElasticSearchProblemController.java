@@ -76,15 +76,14 @@ public class ElasticSearchProblemController {
     }
 
     public static class DeleteProblemTask extends AsyncTask<Problem, Void, Void> {
+
         @Override
         protected Void doInBackground(Problem... problems) {
             setClient();
-            String query = "{\n" +
-                    "    \"query\": {\n" +
-                    "                \"bool\" : {\n" +
-                    "\"should\" : [\n"+ "{\"match\" : {\"_id\" : \""+ problems[0]+ "\"}},\n" +"\"}}\n]\n}\n}\n}\n";
 
-            Delete delete = new Delete.Builder(query).index("cmput301f18t25test").type("problem").build();
+            String query = "{\"query\" : { \"bool\" : { \"must\" : { \"match\" : { \"title\" : \"" + "Sup" + "\"}}}}}";
+
+            Delete delete = new Delete.Builder(problems[0].getTitle()).index("cmput301f18t25test").type("problem").build();
 
             try {
                 DocumentResult result1 = client.execute(delete);
