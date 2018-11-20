@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.searchbox.core.DocumentResult;
@@ -61,7 +62,7 @@ public class ElasticSearchUserController {
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +
-                    "\"should\" : [\n"+ "{\"match\" : {\"userId\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
+                    "\"must\" : [\n"+ "{\"match\" : {\"userId\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
 
             // Build the query
             ArrayList<User> userArray = new ArrayList<User>();
@@ -73,14 +74,18 @@ public class ElasticSearchUserController {
             try {
                 // gets result
                 SearchResult result = client.execute(search);
+//                SearchRes
                 if (result.isSucceeded()) {
+//                    Map user = result.getJsonMap();
                     String user = result.getJsonString();
                     Log.d("IVANLIM", user);
-//                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
+
+                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);
                     userArray.addAll(userList);
                     theUser.cloneUser(userArray.get(0));
+
 
 //                    }
                 } else {
