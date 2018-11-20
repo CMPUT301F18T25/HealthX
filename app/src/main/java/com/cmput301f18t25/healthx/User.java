@@ -34,7 +34,9 @@ public class User {
         this.status = user_status;
         this.id = "";
     }
-
+    /**
+     * Clones user, is required for elastic search
+     * */
     public void cloneUser(User user) {
         this.name = user.getName();
         this.username = user.getUsername();
