@@ -36,7 +36,7 @@ public class ElasticSearchUserController {
             verifySettings();
             String userid = null;
             for (User user : users) {
-                Index index = new Index.Builder(user).index("cmput301f18t25test").type("usernew").build();
+                Index index = new Index.Builder(user).index("cmput301f18t25test").type("usernew1").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -48,7 +48,7 @@ public class ElasticSearchUserController {
                         userid = result1.getId();
                         Log.d("IVANLIM", userid);
                         user.setId(userid);
-                        Index index1 = new Index.Builder(user).index("cmput301f18t25test").type("usernew").build();
+                        Index index1 = new Index.Builder(user).index("cmput301f18t25test").type("usernew2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -84,7 +84,7 @@ public class ElasticSearchUserController {
             ArrayList<User> userArray = new ArrayList<User>();
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("usernew")
+                    .addType("usernew2")
                     .build();
 
             try {
@@ -102,7 +102,7 @@ public class ElasticSearchUserController {
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);
                     userArray.addAll(userList);
-                    theUser.cloneUser(userArray.get(1));
+                    theUser.cloneUser(userArray.get(0));
                     Log.d("IVANLIM", theUser.getId() );
 
 
