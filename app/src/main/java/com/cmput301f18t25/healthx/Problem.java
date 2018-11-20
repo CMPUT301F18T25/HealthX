@@ -16,6 +16,14 @@ public class Problem {
     protected Integer count;
     protected String id;
 
+    /**
+     * Creates an instance of Problem with getter and setters for the parameters
+     *
+     * @param problemTitle the title the user entered for the problem
+     * @param problemDescription the description user entered for the problem
+     * @param problemDate the date created that the user selected for the problem
+     *
+     */
     public Problem(String problemTitle, String problemDescription, String problemDate){
         this.title = problemTitle;
         this.description = problemDescription;
@@ -51,10 +59,17 @@ public class Problem {
         return this.recordArray;
     }
 
+    /**
+     * adds Record
+     * @param item Record to be added
+     * */
     public void addRecord(Record item){
         recordArray.add(item);
     }
-
+    /**
+     * deletes Record given
+     * @param item Record to be deleted
+     * */
     public void deleteRecord(Record item){
         for (int i=0; i<recordArray.size();i++){
             Record object = recordArray.get(i);
