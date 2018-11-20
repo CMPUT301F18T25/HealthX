@@ -41,6 +41,7 @@ public class ProblemList {
 
     public Problem getElementByIndex(int index) {
         return problemArray.get(index);
+
     }
 
     public void removeProblemFromList(int index) {

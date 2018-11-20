@@ -27,6 +27,7 @@ public class Record {
         this.image = image;
         this.date = date;
         this.id = "";
+
     }
 
     public void setComment(String comment) {

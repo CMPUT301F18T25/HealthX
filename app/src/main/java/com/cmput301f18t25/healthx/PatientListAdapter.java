@@ -42,7 +42,7 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
     public void onBindViewHolder(PatientListAdapter.ViewHolder holder, final int position) {
 
         holder.pName.setText(users.get(position).getName());
-        holder.pUserId.setText(users.get(position).getUserId());
+        holder.pUserId.setText(users.get(position).getUsername());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +50,7 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
                 User toView = users.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putString("Name",toView.getName());
-                bundle.putString("UserId",toView.getUserId());
+                bundle.putString("UserId",toView.getUsername());
 
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewPatient.class);
