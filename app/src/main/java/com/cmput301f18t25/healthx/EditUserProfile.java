@@ -42,7 +42,7 @@ public class EditUserProfile extends AppCompatActivity {
             e.printStackTrace();
         }
         TextView Eid = (TextView)findViewById(R.id.edit_id);
-        Eid.setText(user.getUserId());
+        Eid.setText(user.getUsername());
         TextView Ename = (TextView)findViewById(R.id.edit_name);
         Ename.setText(user.getName());
         TextView Ephone = (TextView)findViewById(R.id.edit_phone);
@@ -107,7 +107,7 @@ public class EditUserProfile extends AppCompatActivity {
             updateUserTask.execute(user);
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
             bundle = null;
-            bundle.putString("id",user.getUserId());
+            bundle.putString("id",user.getUsername());
             bundle.putString("email",user.getEmail());
             Intent intent = new Intent(this, ViewProblemList.class);
             intent.putExtras(bundle);

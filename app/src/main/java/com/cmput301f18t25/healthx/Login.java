@@ -54,7 +54,7 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 if (!user.getStatus().equals("")) {
                     Bundle bundle = new Bundle();
-                    bundle.putString("id",user.getUserId());
+                    bundle.putString("id",user.getUsername());
                     bundle.putString("email",user.getEmail());
                     Intent intent = new Intent(this, ViewProblemList.class);
                     intent.putExtras(bundle);

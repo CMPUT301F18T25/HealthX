@@ -124,7 +124,7 @@ public class ElasticSearchUserController {
             verifySettings();
 
             User user = search_parameters[0];
-            String userId = user.getUserId();
+            String userId = user.getUsername();
 
             Index index = new Index.Builder(user).index("cmput301f18t25test").type("user").id(userId).build();
 
