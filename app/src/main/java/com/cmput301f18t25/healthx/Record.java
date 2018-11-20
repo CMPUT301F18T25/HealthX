@@ -39,58 +39,92 @@ public class Record {
         this.id = "";
 
     }
-
+    /**
+     * sets Comment
+     * @param comment comment to be added*/
     public void setComment(String comment) {
         this.comment = comment;
     }
-
+    /**
+     * sets Title
+     * @param title title to be added*/
     public void setTitle(String title){
         this.title = title;
     }
-
+    /**
+     * returns Comment
+     * */
     public String getComment() {
         return comment;
     }
-
+    /**
+     * returns Title
+     * */
     public String getTitle() {
         return title;
     }
-
+    /**
+     * sets Date
+     * @param setDate date to set
+     * */
     public void setDate(String newDate){
         this.date = newDate;
     }
-
+    /**
+     * returns date
+     * */
     public String getDate(){
         return this.date;
     }
-
+    /**
+     * returns Latitude
+     * */
     public Double getLatitude() {
         return latitude;
     }
-
+    /**
+     * returns Longitude
+     * */
     public Double getLongitude() {
         return longitude;
     }
-
+    /**
+     * sets Latitude
+     * @param latitude latitude you want to set
+     * */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
-
+    /**
+     * sets Longitude
+     * @param longitude longitude you want to set
+     * */
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
-
+    /**
+     * sets image
+     * @param image image you want to set
+     * */
     public void setImage(Bitmap image){
         this.image = image;
     }
-
+    /**
+     * returns image
+     * */
     public Bitmap getImage(){
         return this.image;
     }
-
+    /**
+     * gets Id
+     * */
     public String getId(){
         return this.id;
     }
+    /**
+     * sets Id
+     * @param Id Id you want to set
+     * */
     public void setId(String id){
         this.id = id;
     }

@@ -36,6 +36,7 @@ public class User {
     }
     /**
      * Clones user, is required for elastic search
+     * @param user user to be cloned
      * */
     public void cloneUser(User user) {
         this.name = user.getName();

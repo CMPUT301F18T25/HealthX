@@ -59,10 +59,17 @@ public class Problem {
         return this.recordArray;
     }
 
+    /**
+     * adds Record
+     * @param item Record to be added
+     * */
     public void addRecord(Record item){
         recordArray.add(item);
     }
-
+    /**
+     * deletes Record given
+     * @param item Record to be deleted
+     * */
     public void deleteRecord(Record item){
         for (int i=0; i<recordArray.size();i++){
             Record object = recordArray.get(i);
