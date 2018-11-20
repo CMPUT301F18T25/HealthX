@@ -39,6 +39,7 @@ public class ElasticSearchProblemController {
 
                         problemID = result1.getId();
                         problem.setId(problemID);
+                        Log.d("UWU", problem.getId());
                         Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("problemnew").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
