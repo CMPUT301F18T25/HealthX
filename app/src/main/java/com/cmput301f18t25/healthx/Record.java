@@ -18,7 +18,15 @@ public class Record {
     protected String date;
     protected String id;
 
-
+    /**
+     *
+     * @param record_title
+     * @param record_comment
+     * @param latitude
+     * @param longitude
+     * @param image
+     * @param date
+     */
     public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date){
         this.title = record_title;
         this.comment = record_comment;
