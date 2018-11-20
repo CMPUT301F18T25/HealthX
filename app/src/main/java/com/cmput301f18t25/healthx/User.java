@@ -17,9 +17,18 @@ public class User {
 
     protected String reminderFrequency;
 
-    public User(String user_name, String id, String user_phoneNumber, String user_email, String user_status){
-        this.name = user_name;
-        this.username = id;
+    /**
+     * Creates an instance of User with getter and setters for the parameters
+     *
+     * @param name the name of the user
+     * @param user_name the username the user inputted in signUp
+     * @param user_phoneNumber the phone number of the user
+     * @param user_email the email address of the user
+     * @param user_status the status of the user is either a patient or care provider
+     */
+    public User(String name, String user_name, String user_phoneNumber, String user_email, String user_status){
+        this.name = name;
+        this.username = user_name;
         this.phoneNumber = user_phoneNumber;
         this.email = user_email;
         this.status = user_status;

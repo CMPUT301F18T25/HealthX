@@ -19,13 +19,15 @@ public class Record {
     protected String id;
 
     /**
+     * Creates an instance of Record with getter and setters for the parameters
      *
-     * @param record_title
-     * @param record_comment
-     * @param latitude
-     * @param longitude
-     * @param image
-     * @param date
+     * @param record_title the title the user entered for the record
+     * @param record_comment the comment the user entered for the record
+     * @param latitude the latitude from geolocation of user
+     * @param longitude the longitude from geolocation of user
+     * @param image the bitmap of the photo taken by the user for a record
+     * @param date the date created the user selected for the record
+     *
      */
     public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date){
         this.title = record_title;
