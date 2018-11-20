@@ -63,6 +63,6 @@ public class Problem {
     }
 
     public Integer getCount() {
-        return this.count = recordArray.size();
+        return recordArray.size();
     }
 }

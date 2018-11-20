@@ -75,7 +75,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,new Date().toString());
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 

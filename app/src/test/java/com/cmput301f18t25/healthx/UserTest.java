@@ -17,11 +17,33 @@ public class UserTest {
 
     public String test_name = "name";
     public String test_id = "id";
-    public String test_phone_number = "phone";
-    public String test_email = "email";
-    public String test_status = "status";
+    public String test_phone_number = "1234567890";
+    public String test_email = "patient@email.com";
+    public String test_status = "patient";
 
     public UserTest(){}
+
+    @Test
+    public void testCloneUser(){
+        User user = new User(test_name,test_id,test_phone_number,test_email,test_status);
+
+        assertEquals(user.getName(),test_name);
+        assertEquals(user.getUserId(),test_id);
+        assertEquals(user.getPhoneNumber(),test_phone_number);
+        assertEquals(user.getEmail(),test_email);
+        assertEquals(user.getStatus(),test_status);
+
+        User user2 = new User("name2","id2","0987654321","doctor@email.com","care provider");
+
+        user.cloneUser(user2);
+
+        assertEquals(user.getName(),"name2");
+        assertEquals(user.getUserId(),"id2");
+        assertEquals(user.getPhoneNumber(),"0987654321");
+        assertEquals(user.getEmail(),"doctor@email.com");
+        assertEquals(user.getStatus(),"care provider");
+
+    }
 
     @Test
     public void testGetName(){
@@ -62,7 +84,7 @@ public class UserTest {
     @Test
     public void testSetPhoneNumber(){
         User user = new User(test_name,test_id,test_phone_number,test_email,test_status);
-        String new_number = "new_number";
+        String new_number = "7564536123";
         user.setPhoneNumber(new_number);
         assertEquals(user.getPhoneNumber(),new_number);
     }
@@ -77,7 +99,7 @@ public class UserTest {
     @Test
     public void testSetEmail(){
         User user = new User(test_name,test_id,test_phone_number,test_email,test_status);
-        String new_email = "new_email";
+        String new_email = "new_email@email.com";
         user.setEmail(new_email);
         assertEquals(user.getEmail(),new_email);
     }
@@ -92,7 +114,7 @@ public class UserTest {
     @Test
     public void testSetReminderFrequency(){
         User user = new User(test_name,test_id,test_phone_number,test_email,test_status);
-        String new_freq = "new_freq";
+        String new_freq = "daily";
         user.setReminderFrequency(new_freq);
         assertEquals(user.getReminderFrequency(),new_freq);
     }

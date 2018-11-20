@@ -5,7 +5,11 @@
 
 package com.cmput301f18t25.healthx;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.Date;
 
@@ -21,6 +25,10 @@ public class ProblemTest {
     public String test_title = "title";
     public String test_description = "description";
     public String test_date = "2018-10-1";
+    @Mock
+    Bitmap bitmap;
+
+
 
     public ProblemTest(){}
 
@@ -79,9 +87,44 @@ public class ProblemTest {
     public void testAddRecord(){
         Problem problem = new Problem(test_title,test_description,test_date);
         Record record = new Record("record_title","comment",
-                10.0,10.0);
+                10.0,10.0, bitmap, test_date);
         problem.addRecord(record);
         assertEquals(problem.getRecordArray().get(0),record);
+    }
+
+    @Test
+    public void testDeleteRecord(){
+        Problem problem = new Problem(test_title,test_description,test_date);
+        Record record = new Record("record_title","comment",
+                10.0,10.0, bitmap, test_date);
+        problem.addRecord(record);
+        assert(problem.getCount() == 1);
+
+        problem.deleteRecord(record);
+        assert(problem.getCount() == 0);
+
+    }
+
+    @Test
+    public void testGetCount(){
+        Problem problem = new Problem(test_title,test_description,test_date);
+        assert(problem.getCount() == 0);
+
+        Record record1 = new Record("record_title1","comment",
+                10.0,10.0, bitmap, test_date);
+
+        Record record2 = new Record("record_title2","comment",
+                10.0,10.0, bitmap, test_date);
+
+        problem.addRecord(record1);
+        assert(problem.getCount() == 1);
+
+        problem.addRecord(record2);
+        assert(problem.getCount() == 2);
+
+        problem.deleteRecord(record1);
+        assert(problem.getCount() == 1);
+
     }
 
 }
