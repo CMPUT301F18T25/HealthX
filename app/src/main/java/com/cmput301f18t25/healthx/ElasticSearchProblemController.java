@@ -18,6 +18,7 @@ import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 
 public class ElasticSearchProblemController {
     private static JestDroidClient client;
@@ -30,7 +31,7 @@ public class ElasticSearchProblemController {
             setClient();
             String problemID;
             for (Problem problem : problems){
-                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problems").build();
+                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problem1").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -39,7 +40,7 @@ public class ElasticSearchProblemController {
                     } else {
                         problemID = result1.getId();
                         problem.setId(problemID);
-                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem").build();
+                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -65,16 +66,27 @@ public class ElasticSearchProblemController {
         protected ArrayList<Problem> doInBackground(String... params) {
             setClient();
             ArrayList<Problem> problems = new ArrayList<Problem>();
-            Search search = new Search.Builder(params[0])
+            String query = "{\"query\" : { \"term\" : { \"userId\" : \"" + params[0] + "\"}}}";
+
+//            String query = "{\"query\" : { \"match\" : { \"userId\" : \"AWcyvtqMJ8UDX4NoY6py\"}}}";
+
+
+
+            Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newProblem")
+                    .addType("newProblem2")
                     .build();
             try {
-                JestResult result = client.execute(search);
+//                JestResult result = client.execute(search);
+                SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
+                    Log.d("IVANLIM", String.valueOf(problemList.size()));
                     problems.addAll(problemList);
+                }
+                else {
+                    Log.d("Error", "Invalid use of jestResult");
                 }
 
             } catch (IOException e) {
@@ -107,7 +119,7 @@ public class ElasticSearchProblemController {
     public static void setClient() {
         if (client == null) {
 
-            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("http://cmput301.softwareprocess.es:8080");
+            DroidClientConfig.Builder builder = new DroidClientConfig.Builder("n");
             DroidClientConfig config = builder.build();
 
             JestClientFactory factory = new JestClientFactory();

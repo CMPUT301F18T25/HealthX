@@ -21,11 +21,15 @@ import java.util.Date;
 
 public class ActivityAddProblem extends AppCompatActivity {
 
+    private ProblemList mProblemList = ProblemList.getInstance();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_problem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
     }
 
     @Override
@@ -71,7 +75,7 @@ public class ActivityAddProblem extends AppCompatActivity {
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate);
+                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);

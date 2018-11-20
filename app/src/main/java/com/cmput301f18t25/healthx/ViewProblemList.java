@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,9 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
+    private ProblemList mProblemList = ProblemList.getInstance();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +99,9 @@ public class ViewProblemList extends AppCompatActivity
     protected void onStart(){
         super.onStart();
         try {
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute("").get();
+            String userId = mProblemList.getUser().getId();
+            Log.d("IVANLIM", userId);
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
         }catch (Exception e){
 
         }

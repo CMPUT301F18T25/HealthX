@@ -15,12 +15,14 @@ public class Problem {
     protected ArrayList<Record> recordArray = new ArrayList<Record>();
     protected Integer count;
     protected String id;
+    protected String userId; // not the username
 
-    public Problem(String problemTitle, String problemDescription, String problemDate){
+    public Problem(String problemTitle, String problemDescription, String problemDate, String userId){
         this.title = problemTitle;
         this.description = problemDescription;
         this.date = problemDate;
         this.id = "";
+        this.userId = userId;
     }
 
     public void setTitle(String text){

@@ -9,6 +9,8 @@ public class ProblemList {
 //    private static final ProblemList ourInstance = new ProblemList();
 
     private static ArrayList<Problem> problemArray;
+
+    private static User user;
     public static ProblemList getInstance() {
         if (instance == null) {
             instance = new ProblemList();
@@ -20,6 +22,14 @@ public class ProblemList {
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
 
+    }
+
+    public  User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        ProblemList.user = user;
     }
 
     public  void addToProblemList(Problem problem) {
