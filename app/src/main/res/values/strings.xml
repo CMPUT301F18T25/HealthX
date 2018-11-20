@@ -6,6 +6,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="hi">hi</string>
+    <string name="title_activity_view_record" />
 
     <string-array name="frequency">
         <item>None</item>
@@ -18,4 +19,5 @@
         <item>Body Location</item>
         <item>Geo-location</item>
     </string-array>
+    <string name="title_activity_view_current_record">ViewCurrentRecord</string>
 </resources>

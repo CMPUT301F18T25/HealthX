@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.cmput301f18t25.healthx">
+
     <!-- For elasticSearch internet access -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -22,9 +23,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        >
-        <uses-library android:name="org.apache.http.legacy" android:required="false" />
+        android:theme="@style/AppTheme">
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
         <activity
             android:name=".Login"
@@ -40,11 +42,17 @@
             android:name=".ViewProblemList"
             android:label="@string/title_activity_view_problem"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ViewRecordList"
+            android:label="@string/title_activity_view_record"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddPhoto" />
-        <activity android:name=".ActivityAddRecord"></activity>
+        <activity android:name=".ActivityAddRecord" />
+        <activity
+            android:name=".ViewCurrentRecord"></activity>
     </application>
 
 </manifest>

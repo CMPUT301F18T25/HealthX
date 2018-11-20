@@ -40,12 +40,9 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
     @Override
     public void onBindViewHolder(RecordListAdapter.ViewHolder holder, final int position) {
 
-        Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-        final String timestamp = dateFormat.format(date);
         holder.rTitle.setText(records.get(position).getTitle());
         holder.rComment.setText(records.get(position).getComment());
-        holder.rTimestamp.setText(dateFormat.format(timestamp));
+        holder.rTimestamp.setText(records.get(position).getDate());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,10 +51,10 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
                 Bundle bundle = new Bundle();
                 bundle.putString("Title",toView.getTitle());
                 bundle.putString("Comment",toView.getComment());
-                bundle.putString("Date", timestamp);
+                bundle.putString("Date", toView.getDate());
 
                 // CHANGE ACTIVITY CLASS
-                Intent intent = new Intent(v.getContext(), ViewRecordList.class);
+                Intent intent = new Intent(v.getContext(), ViewCurrentRecord.class);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
