@@ -123,8 +123,14 @@ public class ViewProblemList extends AppCompatActivity
                             new UnderlayButtonClickListener() {
                                 @Override
                                 public void onClick(int pos) {
-                                    // if clicked the edit button, allow user to eit the current record
-
+                                    Problem problem = problemList.get(pos);
+                                    Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("title", problem.getTitle());
+                                    bundle.putString("description", problem.getDescription());
+                                    bundle.putString("date", problem.getDate());
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
 
                                 }
                             }

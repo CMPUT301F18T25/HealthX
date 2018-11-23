@@ -94,11 +94,10 @@ public class ElasticSearchRecordController {
         protected ArrayList<Record> doInBackground(String... params) {
             clientSet();
             ArrayList<Record> records = new ArrayList<Record>();
-            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
-
+            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\", \"latitude\", \"longitude\"]}}}";
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newRecord")
+                    .addType("newRecord2")
                     .build();
             try {
                 JestResult result = client.execute(search);

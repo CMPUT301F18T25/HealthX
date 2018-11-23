@@ -32,6 +32,7 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
 
     @Override
     public int getItemViewType(int position) {
+
         if(results.get(position) instanceof Problem) {
             return PROBLEM;
         } else if(results.get(position) instanceof Record) {
@@ -44,14 +45,17 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
     @Override
     public ProblemRecordAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-
-        if(viewType == PROBLEM) {
-            View v1 = inflater.inflate(R.layout.problemlist_cardview, viewGroup, false);
-            vh = new ViewHolder(v1);
-        } else if(viewType == RECORD){
-            View v2 = inflater.inflate(R.layout.recordlist_cardview, viewGroup, false);
-            vh = new ViewHolder(v2);
-
+        switch (viewType) {
+            case PROBLEM:
+                View v1 = inflater.inflate(R.layout.problemlist_cardview, viewGroup, false);
+                vh = new ViewHolder(v1);
+                break;
+            case RECORD:
+                View v2 = inflater.inflate(R.layout.recordlist_cardview, viewGroup, false);
+                vh = new ViewHolder(v2);
+                break;
+            default:
+                break;
         }
 
         return vh;
@@ -137,8 +141,8 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
             super(itemView);
             this.context = ctx;
 
-            rTitle = itemView.findViewById(R.id.record_title);
-            rComment = itemView.findViewById(R.id.record_comment);
+            rTitle = itemView.findViewById(R.id.recordTitle);
+            rComment = itemView.findViewById(R.id.recordComment);
             rTimestamp = itemView.findViewById(R.id.recordTimestamp);
 
             pTitle = itemView.findViewById(R.id.problemTitle);

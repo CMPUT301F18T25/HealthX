@@ -46,6 +46,7 @@
             android:name=".ViewRecordList"
             android:label="@string/title_activity_view_record"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ActivityEditProblem" />
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />

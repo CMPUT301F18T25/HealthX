@@ -53,6 +53,7 @@ public class ActivitySearch extends AppCompatActivity  {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == event.KEYCODE_ENTER && event.getAction() == event.ACTION_UP) {
+                    searchResults = new ArrayList<Object>();
                     InputMethodManager inputManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                     inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     String keyword = inputView.getText().toString();
