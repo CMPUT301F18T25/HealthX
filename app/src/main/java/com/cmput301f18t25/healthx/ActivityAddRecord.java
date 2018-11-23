@@ -36,6 +36,7 @@ public class ActivityAddRecord extends AppCompatActivity {
     Location location;
     double longitude;
     double latitude;
+    String problemID;
 
 
     @Override
@@ -43,6 +44,8 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Bundle bundle = this.getIntent().getExtras();
+        problemID = bundle.getString("ProblemID");
     }
 
     @Override
@@ -87,7 +90,7 @@ public class ActivityAddRecord extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
 
-              Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 

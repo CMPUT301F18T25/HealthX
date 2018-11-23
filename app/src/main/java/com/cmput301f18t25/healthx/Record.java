@@ -17,7 +17,10 @@ public class Record {
     protected Bitmap image;
     protected String date;
     protected String id;
+    protected String problemID; // problemId specifies the feild at which the record is associated with a problem
 
+
+    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
     /**
      * Creates an instance of Record with getter and setters for the parameters
      *
@@ -29,7 +32,6 @@ public class Record {
      * @param date the date created the user selected for the record
      *
      */
-    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date){
         this.title = record_title;
         this.comment = record_comment;
         this.latitude = latitude;
@@ -37,6 +39,7 @@ public class Record {
         this.image = image;
         this.date = date;
         this.id = "";
+        this.problemID = problemID;
 
     }
     /**

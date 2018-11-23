@@ -1,3 +1,4 @@
+
 package com.cmput301f18t25.healthx;
 
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 
 public class ElasticSearchProblemController {
     private static JestDroidClient client;
@@ -39,7 +42,7 @@ public class ElasticSearchProblemController {
                     } else {
                         problemID = result1.getId();
                         problem.setId(problemID);
-                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem").build();
+                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -65,16 +68,23 @@ public class ElasticSearchProblemController {
         protected ArrayList<Problem> doInBackground(String... params) {
             setClient();
             ArrayList<Problem> problems = new ArrayList<Problem>();
-            Search search = new Search.Builder(params[0])
+            String query = "{ \"query\" : { \"match\" :  { \"userId\" : \""+ params[0] + "\"}}}";
+            Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newProblem")
+                    .addType("newProblem2")
                     .build();
             try {
+//                JestResult result = client.execute(search);
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
+                    Log.d("IVANLIM", "doInBackground: succeded :)");
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
+                    Log.d("IVANLIM", String.valueOf(problemList.size()));
+                }
+                else {
+                    Log.d("IVANLIM", "Else caluse: ");
                 }
 
             } catch (IOException e) {
