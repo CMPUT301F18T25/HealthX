@@ -62,7 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="10dp"
-                    android:text="Comment"
+                    android:text="@string/comment"
                     android:textSize="16sp" />
 
                 <android.support.design.widget.TextInputLayout
@@ -78,7 +78,7 @@
                         android:maxLength="300"
                         android:padding="10dp"
                         android:ems="10"
-                        android:hint="Up to 300 characters"
+                        android:hint="@string/up_to_300_characters"
                         android:inputType="textMultiLine" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/record_photo"
-                    android:text="Add Photo"
+                    android:text="@string/add_photo"
                     android:onClick="addPhoto"
                     />
                 <ImageView
@@ -100,7 +100,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/record_geolocation"
-                    android:text="Add Geolocation"
+                    android:text="@string/add_geolocation"
+                    />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/record_addBodyLocation"
+                    android:text="@string/add_bodylocation"
                     />
 
 

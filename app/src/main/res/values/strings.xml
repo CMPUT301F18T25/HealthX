@@ -20,4 +20,9 @@
         <item>Geo-location</item>
     </string-array>
     <string name="title_activity_view_current_record">ViewCurrentRecord</string>
+    <string name="add_bodylocation">Add Body Location</string>
+    <string name="add_geolocation">Add Geolocation</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="up_to_300_characters">Up to 300 characters</string>
+    <string name="comment">Comment</string>
 </resources>
