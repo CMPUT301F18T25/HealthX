@@ -76,10 +76,12 @@ public class ActivityAddProblem extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
                 Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
+                Bundle bundle = getIntent().getExtras();
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
                 Intent intent = new Intent(ActivityAddProblem.this, ViewProblemList.class);
+                intent.putExtras(bundle);
                 startActivity(intent);
             }
 

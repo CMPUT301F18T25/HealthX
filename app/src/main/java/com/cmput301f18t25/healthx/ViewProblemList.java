@@ -120,6 +120,7 @@ public class ViewProblemList extends AppCompatActivity
                                 public void onClick(int position) {
                                     ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                                     deleteProblemTask.execute(problemList.get(position));
+                                    mAdapter.notifyItemRemoved(position);
 
                                 }
                             }
