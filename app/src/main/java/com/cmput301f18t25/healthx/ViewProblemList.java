@@ -6,6 +6,7 @@
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -176,7 +177,7 @@ public class ViewProblemList extends AppCompatActivity
         if (id == R.id.nav_view) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
-
+            
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_edit) {
@@ -192,7 +193,9 @@ public class ViewProblemList extends AppCompatActivity
             intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
+            Intent intent = new Intent(this, Login.class);
 
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
