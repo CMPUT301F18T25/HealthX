@@ -79,8 +79,6 @@ public class ActivityAddProblem extends AppCompatActivity {
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
-                // ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                // deleteProblemTask.execute();
                 Intent intent = new Intent(ActivityAddProblem.this, ViewProblemList.class);
                 startActivity(intent);
             }

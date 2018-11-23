@@ -12,7 +12,7 @@ public class Problem {
     protected String title;
     protected String description;
     protected String date;
-    protected ArrayList<Record> recordArray = new ArrayList<Record>();
+    protected ArrayList<Record> recordArray;
     protected Integer count;
     protected String id;
     protected String userId; // not the username
@@ -23,6 +23,7 @@ public class Problem {
         this.date = problemDate;
         this.id = "";
         this.userId = userId;
+        this.recordArray = new ArrayList<Record>();
     }
 
     public void setTitle(String text){
