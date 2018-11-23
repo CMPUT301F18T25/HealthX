@@ -88,6 +88,35 @@ public class ElasticSearchRecordController {
         }
 
     }
+
+    public static class SearchRecordsTask extends AsyncTask<String, Void, ArrayList<Record>> {
+        @Override
+        protected ArrayList<Record> doInBackground(String... params) {
+            clientSet();
+            ArrayList<Record> records = new ArrayList<Record>();
+            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
+
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("newRecord")
+                    .build();
+            try {
+                JestResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    List<Record> recordList;
+                    recordList = result.getSourceAsObjectList(Record.class);
+                    records.addAll(recordList);
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching problems");
+            }
+
+            return records;
+        }
+
+    }
+
     public static class DeleteRecordTask extends AsyncTask<Record, Void, Void> {
 
         @Override
