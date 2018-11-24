@@ -51,8 +51,12 @@
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddPhoto" />
         <activity android:name=".ActivityAddRecord" />
-        <activity
-            android:name=".ViewCurrentRecord"></activity>
+        <activity android:name=".ViewCurrentRecord" />
+        <activity android:name=".MapViewActivity"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA"/>
     </application>
 
 </manifest>

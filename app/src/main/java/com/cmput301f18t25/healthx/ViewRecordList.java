@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ViewRecordList extends AppCompatActivity
@@ -120,6 +121,11 @@ public class ViewRecordList extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_map) {
+            Intent intent = new Intent(this, MapViewActivity.class);
+            Bundle args = new Bundle();
+            args.putSerializable("RecordList", (Serializable) recordList);
+            intent.putExtra("BUNDLE",args);
+            startActivity(intent);
 
         } else if (id == R.id.nav_edit) {
             Intent intent = new Intent(this, EditUserProfile.class);

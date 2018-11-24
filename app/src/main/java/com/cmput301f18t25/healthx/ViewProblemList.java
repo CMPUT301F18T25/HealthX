@@ -184,6 +184,12 @@ public class ViewProblemList extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_map) {
+//            Intent intent = new Intent(this, MapViewActivity.class);
+//            startActivity(intent);
+            Toast toast = Toast.makeText(this, "Please Select a Problem to enable Map View", Toast.LENGTH_LONG);
+            toast.show();
+
+
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
