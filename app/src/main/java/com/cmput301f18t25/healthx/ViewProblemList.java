@@ -205,6 +205,7 @@ public class ViewProblemList extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
 
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -47,13 +47,12 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         } catch (SecurityException se) {
 
         }
-        //Edit the following as per you needs
+        // Sets the mapview such that it contains all locations markers on the google map
         googleMap.setTrafficEnabled(true);
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
         for (Record r : records) {
-            Log.d("IVANLIM",  Double.toString(r.getLatitude()) + Double.toString(r.getLongitude()));
             LatLng placeLocation = new LatLng(r.getLatitude(), r.getLongitude());
             Marker placeMarker = googleMap.addMarker(new MarkerOptions().position(placeLocation));
             placeMarker.setTitle(r.getTitle());
@@ -62,10 +61,6 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
 
         }
 //
-//        LatLng placeLocation = new LatLng(53.522834950000004, -113.5314327);
-//        Marker placeMarker = googleMap.addMarker(new MarkerOptions().position(placeLocation));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(placeLocation));
-//        googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
 
 
     }
