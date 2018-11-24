@@ -11,6 +11,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
+import io.searchbox.core.Index;
+
 public class Record  implements Serializable {
     protected String title;
     protected String comment;
@@ -20,6 +22,7 @@ public class Record  implements Serializable {
     protected String date;
     protected String id;
     protected String problemID; // problemId specifies the feild at which the record is associated with a problem
+    protected ArrayList<Bitmap> photos;
 
 
     public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
@@ -132,6 +135,14 @@ public class Record  implements Serializable {
      * */
     public void setId(String id){
         this.id = id;
+    }
+
+    public void addImage(Bitmap image) {
+        photos.add(image);
+    }
+
+    public Bitmap getImageFromArray(int index) {
+        return photos.get(index);
     }
 
 
