@@ -68,8 +68,10 @@ public class ElasticSearchProblemController {
         protected ArrayList<Problem> doInBackground(String... params) {
             setClient();
             ArrayList<Problem> problems = new ArrayList<Problem>();
+
             String query = "{ \"query\" : { \"match\" :  { \"userId\" : \""+ params[0] + "\"}}}";
             Search search = new Search.Builder(query)
+
                     .addIndex("cmput301f18t25test")
                     .addType("newProblem2")
                     .build();
@@ -85,6 +87,35 @@ public class ElasticSearchProblemController {
                 }
                 else {
                     Log.d("IVANLIM", "Else caluse: ");
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching problems");
+            }
+
+            return problems;
+        }
+
+    }
+
+    public static class SearchProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
+        @Override
+        protected ArrayList<Problem> doInBackground(String... params) {
+            setClient();
+            ArrayList<Problem> problems = new ArrayList<Problem>();
+            String keyword = params[0];
+            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"description\"]}}}";
+
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("newProblem")
+                    .build();
+            try {
+                JestResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    List<Problem> problemList;
+                    problemList = result.getSourceAsObjectList(Problem.class);
+                    problems.addAll(problemList);
                 }
 
             } catch (IOException e) {

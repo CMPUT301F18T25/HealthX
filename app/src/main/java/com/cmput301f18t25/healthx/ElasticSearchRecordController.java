@@ -70,6 +70,7 @@ public class ElasticSearchRecordController {
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
+
                     .addType("newRecord2")
                     .build();
             try {
@@ -92,6 +93,42 @@ public class ElasticSearchRecordController {
         }
 
     }
+
+    public static class SearchRecordsTask extends AsyncTask<String, Void, ArrayList<Record>> {
+        @Override
+        protected ArrayList<Record> doInBackground(String... params) {
+            clientSet();
+            ArrayList<Record> records = new ArrayList<Record>();
+            String keyword = params[0];
+            String query = "";
+            if (params[1] != null && params[2] != null){
+                Integer latitude = Integer.valueOf(params[1]);
+                Integer longitude = Integer.valueOf(params[2]);
+                query = "{\"query\" : { \"bool\" : { \"must\" : [ { \"range\" : { \"latitude\" : { \"gte\" : \"" + (latitude - 1) + "\", \"lte\" : \"" + (latitude + 1) + "\" } } }, { \"range\" : { \"longitude\" : { \"gte\" : \"" + (longitude - 1) + "\", \"lte\" : \"" + (longitude + 1) + "\" }}} { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*\" + \"\", \"fields\" : [\"title\" , \"description\"]}}]}}}";
+            }
+
+            // String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\", \"latitude\", \"longitude\"]}}}";
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("newRecord2")
+                    .build();
+            try {
+                JestResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    List<Record> recordList;
+                    recordList = result.getSourceAsObjectList(Record.class);
+                    records.addAll(recordList);
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching problems");
+            }
+
+            return records;
+        }
+
+    }
+
     public static class DeleteRecordTask extends AsyncTask<Record, Void, Void> {
 
         @Override
