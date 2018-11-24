@@ -28,9 +28,10 @@ public class ProblemList {
 
         return instance;
     }
+
     /**
      * Returns problem at a given index
-     * @param index index of problem you want to return
+     * @param index - index of problem you want to return
      * */
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
