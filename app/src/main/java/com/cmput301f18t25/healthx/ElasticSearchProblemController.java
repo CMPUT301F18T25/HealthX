@@ -92,7 +92,14 @@ public class ElasticSearchProblemController {
         protected ArrayList<Problem> doInBackground(String... params) {
             setClient();
             ArrayList<Problem> problems = new ArrayList<Problem>();
-            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"description\"]}}}";
+            String keyword = params[0];
+            if (params[1] != null && params[2] != null){
+                Integer latitude = Integer.valueOf(params[1]);
+                Integer longitude = Integer.valueOf(params[2]);
+                String query = "{\"query\" : { \"bool\" : { \"must\" : [ { \"range\" : { \"latitude\" : { \"gte\" : \"" + latitude + "\", \"lte\" : \"" + latitude + "\" } } }, { \"range\" : { \"longitude\" : { \"gte\" : \"" + longitude + "\", \"lte\" : \"" + longitude + "\" }}}]}}}";
+            }
+
+            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"description\"]}}}";
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
