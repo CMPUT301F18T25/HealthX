@@ -92,11 +92,11 @@ public class ViewProblemList extends AppCompatActivity
 
     }
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         try {
             problemList = new ElasticSearchProblemController.GetProblemsTask().execute("").get();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
         mRecyclerView = findViewById(R.id.recycler_list);
@@ -107,39 +107,36 @@ public class ViewProblemList extends AppCompatActivity
         mAdapter = new ProblemListAdapter(problemList);
         mRecyclerView.setAdapter(mAdapter);
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-                public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                    underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-                            new UnderlayButtonClickListener() {
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+                        new UnderlayButtonClickListener() {
 
-                                public void onClick(int position) {
-                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                    deleteProblemTask.execute(problemList.get(position));
+                            public void onClick(int position) {
+                                ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                deleteProblemTask.execute(problemList.get(position));
 
-                                }
                             }
-                    ));
+                        }
+                ));
 
-                    underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
-                            new UnderlayButtonClickListener() {
-                                @Override
-                                public void onClick(int pos) {
-                                    Problem problem = problemList.get(pos);
-                                    Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("title", problem.getTitle());
-                                    bundle.putString("description", problem.getDescription());
-                                    bundle.putString("date", problem.getDate());
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
+                underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                Problem problem = problemList.get(pos);
+                                Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("problem", problem);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
 
-                                }
                             }
-                    ));
-                }
+                        }
+                ));
+            }
         };
 
-
-        }
+    }
 
 
     @Override

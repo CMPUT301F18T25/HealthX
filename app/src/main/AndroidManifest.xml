@@ -54,6 +54,7 @@
         <activity android:name=".ActivityAddRecord" />
         <activity
             android:name=".ViewCurrentRecord"></activity>
+        <activity android:name=".ActivityEditRecord" />
     </application>
 
 </manifest>

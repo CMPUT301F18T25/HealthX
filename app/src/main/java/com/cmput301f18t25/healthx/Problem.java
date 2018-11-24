@@ -5,10 +5,11 @@
 
 package com.cmput301f18t25.healthx;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Problem {
+public class Problem implements Serializable{
     protected String title;
     protected String description;
     protected String date;

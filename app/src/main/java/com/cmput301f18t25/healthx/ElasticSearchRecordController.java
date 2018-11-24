@@ -70,7 +70,7 @@ public class ElasticSearchRecordController {
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("record")
+                    .addType("newRecord")
                     .build();
             try {
                 JestResult result = client.execute(search);

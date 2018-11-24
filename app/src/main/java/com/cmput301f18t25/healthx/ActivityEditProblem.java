@@ -24,24 +24,28 @@ public class ActivityEditProblem extends AppCompatActivity {
     String title;
     String description;
     String dateString;
+    Problem oldProblem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_problem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle bundle = this.getIntent().getExtras();
-        EditText title_textView = (EditText) findViewById(R.id.title_input);
+        EditText title_textView = findViewById(R.id.title_input);
         DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
-        EditText description_textView = (EditText) findViewById(R.id.description_input);
-        title = bundle.getString("title");
-        description = bundle.getString("description");
+        EditText description_textView = findViewById(R.id.description_input);
+        oldProblem = (Problem) bundle.getSerializable("problem");
+        title = oldProblem.getTitle();
+        description = oldProblem.getDescription();
+        dateString = oldProblem.getDate();
+
         title_textView.setText(title);
         description_textView.setText(description);
-        dateString = bundle.getString("date");
         dateStarted_textView.updateDate(Integer.valueOf(dateString.substring(0, 4)),
-                Integer.valueOf(dateString.substring(5,7)),
-                Integer.valueOf(dateString.substring(8,10)));
+                Integer.valueOf(dateString.substring(5, 7)) - 1,
+                Integer.valueOf(dateString.substring(8, 10)));
 
 
     }
@@ -70,9 +74,9 @@ public class ActivityEditProblem extends AppCompatActivity {
         }
         if (id == R.id.save_button) {
 
-            EditText title_textView = (EditText) findViewById(R.id.title_input);
+            EditText title_textView = findViewById(R.id.title_input);
             DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
-            EditText description_textView = (EditText) findViewById(R.id.description_input);
+            EditText description_textView = findViewById(R.id.description_input);
 
 
             String problemTitle = title_textView.getText().toString();
@@ -91,10 +95,7 @@ public class ActivityEditProblem extends AppCompatActivity {
             } else {
                 Bundle bundle = getIntent().getExtras();
                 Problem newProblem = new Problem(problemTitle, problemDescription, problemDate);
-                Problem oldProblem = new Problem(title, description, dateString);
-                Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
 
-                // NEED TO DELETE OLD PROBLEM
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
