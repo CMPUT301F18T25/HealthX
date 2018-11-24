@@ -13,9 +13,12 @@ public class Problem implements Serializable{
     protected String title;
     protected String description;
     protected String date;
-    protected ArrayList<Record> recordArray = new ArrayList<Record>();
+    protected ArrayList<Record> recordArray;
     protected Integer count;
     protected String id;
+    protected String userId; // not the username
+
+    public Problem(String problemTitle, String problemDescription, String problemDate, String userId){
 
     /**
      * Creates an instance of Problem with getter and setters for the parameters
@@ -25,11 +28,12 @@ public class Problem implements Serializable{
      * @param problemDate the date created that the user selected for the problem
      *
      */
-    public Problem(String problemTitle, String problemDescription, String problemDate){
         this.title = problemTitle;
         this.description = problemDescription;
         this.date = problemDate;
         this.id = "";
+        this.userId = userId;
+        this.recordArray = new ArrayList<Record>();
     }
 
     public void setTitle(String text){

@@ -20,4 +20,5 @@
         <item>Geo-location</item>
     </string-array>
     <string name="title_activity_view_current_record">ViewCurrentRecord</string>
+    <string name="view_record_photo">View Record Photo</string>
 </resources>

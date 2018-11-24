@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,7 @@ public class ViewRecordList extends AppCompatActivity
     private RecyclerView.Adapter rAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
     private ArrayList<Record> recordList = new ArrayList<Record>();
+    private  String problemId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class ViewRecordList extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ViewRecordList.this,ActivityAddRecord.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("ProblemID",problemId);
+                intent.putExtras(bundle); // pass the problemid to the addactivity
                 startActivity(intent);
             }
         });
@@ -53,13 +58,17 @@ public class ViewRecordList extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Bundle bundle = this.getIntent().getExtras();
+        problemId = bundle.getString("ProblemID");
+
+
     }
 
     @Override
     protected void onStart(){
         super.onStart();
         try {
-            recordList = new ElasticSearchRecordController.GetRecordsTask().execute("").get();
+            recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
         }catch (Exception e){
 
         }
@@ -142,6 +151,11 @@ public class ViewRecordList extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_map) {
+            Intent intent = new Intent(this, MapViewActivity.class);
+            Bundle args = new Bundle();
+            args.putSerializable("RecordList", (Serializable) recordList);
+            intent.putExtra("BUNDLE",args);
+            startActivity(intent);
 
         } else if (id == R.id.nav_edit) {
             Intent intent = new Intent(this, EditUserProfile.class);

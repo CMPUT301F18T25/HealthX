@@ -25,62 +25,85 @@
             android:scrollbars="none"
             android:scrollingCache="false">
 
-            <LinearLayout
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="483dp"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
+                android:text="Title"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:textSize="16sp" />
+            <TextView
+                android:id="@+id/record_title"
+                android:layout_width="247dp"
+                android:layout_height="25dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/text_second_color_primary"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                <TextView
-                    android:id="@+id/record_title"
-                    android:layout_width="247dp"
-                    android:layout_height="25dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginBottom="15dp"
-                    android:textSize="20sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:textColor="@color/text_second_color_primary"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="Date"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:text="Date"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/recordTimestamp"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:textSize="20sp" />
+            <TextView
+                android:id="@+id/recordTimestamp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="20sp" />
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:text="Comment (Optional)"
-                    android:textSize="16sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
+                android:text="Comment (Optional)"
+                android:textSize="16sp" />
 
 
-                <TextView
-                    android:id="@+id/record_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:inputType="textMultiLine"
-                    android:maxLength="100"
-                    android:padding="10dp"
-                    android:textSize="18sp" />
+            <TextView
+                android:id="@+id/record_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:padding="10dp"
+                android:textSize="18sp" />
+
+            <fragment
+                android:id="@+id/RecordMap"
+                class="com.google.android.gms.maps.MapFragment"
+                android:layout_width="329dp"
+                android:layout_height="189dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/SeePhoto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/view_record_photo" />
 
 
-            </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
     </FrameLayout>
 </LinearLayout>

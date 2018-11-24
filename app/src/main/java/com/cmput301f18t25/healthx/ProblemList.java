@@ -16,6 +16,8 @@ public class ProblemList {
 //    private static final ProblemList ourInstance = new ProblemList();
 
     private static ArrayList<Problem> problemArray;
+    private static User user;
+
     /**
       Static method that creates instance of Singleton ProblemListclass
      */
@@ -26,14 +28,24 @@ public class ProblemList {
 
         return instance;
     }
+
     /**
      * Returns problem at a given index
-     * @param index index of problem you want to return
+     * @param index - index of problem you want to return
      * */
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
 
     }
+
+    public  User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        ProblemList.user = user;
+    }
+
     /**
      * Adds a problem to ProblemList
      * @param problem problem to be added

@@ -17,6 +17,7 @@ import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 
 public class ElasticSearchRecordController {
     private static JestDroidClient client;
@@ -38,7 +39,7 @@ public class ElasticSearchRecordController {
                     } else {
                         recordID = result1.getId();
                         record.setId(recordID);
-                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord").build();
+                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -65,19 +66,23 @@ public class ElasticSearchRecordController {
             ArrayList<Record> records = new ArrayList<Record>();
             String query = "{\n" + "\"from\" : 0, \"size\": 100,\n" +
                     "    \"query\": {\n" +
-                    "                \"match_all\" : {}\n"  +  " }\n}\n";
-
+                    "                \"match\" : {\"problemID\": \""+ params[0] + "\" }\n"  +  " }\n}\n";
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newRecord")
+
+                    .addType("newRecord2")
                     .build();
             try {
-                JestResult result = client.execute(search);
+                SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
+                    Log.d("IVANLIM", "doInBackground: RECORD SUCESS");
                     List<Record> recordList;
                     recordList = result.getSourceAsObjectList(Record.class);
                     records.addAll(recordList);
+                }
+                else {
+                    Log.d("IVANLIM", "doInBackground: RECORD ELSe");
                 }
 
             } catch (IOException e) {

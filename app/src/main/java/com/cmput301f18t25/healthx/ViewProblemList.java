@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +35,9 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
+    private ProblemList mProblemList = ProblemList.getInstance();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +99,12 @@ public class ViewProblemList extends AppCompatActivity
     protected void onStart() {
         super.onStart();
         try {
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute("").get();
-        } catch (Exception e) {
+
+            String userId = mProblemList.getUser().getId();
+            Log.d("IVANLIM", userId);
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+        }catch (Exception e){
+
 
         }
         mRecyclerView = findViewById(R.id.recycler_list);
@@ -111,9 +119,12 @@ public class ViewProblemList extends AppCompatActivity
                 underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
                         new UnderlayButtonClickListener() {
 
-                            public void onClick(int position) {
-                                ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                deleteProblemTask.execute(problemList.get(position));
+
+                                public void onClick(int position) {
+                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                    deleteProblemTask.execute(problemList.get(position));
+                                    mAdapter.notifyItemRemoved(position);
+
 
                             }
                         }
@@ -180,6 +191,12 @@ public class ViewProblemList extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_map) {
+//            Intent intent = new Intent(this, MapViewActivity.class);
+//            startActivity(intent);
+            Toast toast = Toast.makeText(this, "Please Select a Problem to enable Map View", Toast.LENGTH_LONG);
+            toast.show();
+
+
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
@@ -194,6 +211,7 @@ public class ViewProblemList extends AppCompatActivity
             intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
+
 
         }
 
