@@ -17,7 +17,6 @@ import java.util.zip.Inflater;
 
 public class MapViewActivity extends AppCompatActivity implements OnMapReadyCallback{
 
-
     GoogleMap myMap;
     MapFragment mapFragment;
 
@@ -25,13 +24,9 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_view);
-//        View view = new Inflater().inflate(R.layout.activity_map_view, null, false);
-//        View view = infal
 
 
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-//        mapFragment.getMapAsync(this);
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -49,7 +44,7 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         googleMap.setIndoorEnabled(true);
         googleMap.setBuildingsEnabled(true);
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-        //
+
         LatLng placeLocation = new LatLng(53.522834950000004, -113.5314327);
         Marker placeMarker = googleMap.addMarker(new MarkerOptions().position(placeLocation));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(placeLocation));
