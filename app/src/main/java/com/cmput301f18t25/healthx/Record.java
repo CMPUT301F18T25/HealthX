@@ -8,6 +8,7 @@ package com.cmput301f18t25.healthx;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Record  implements Serializable {
