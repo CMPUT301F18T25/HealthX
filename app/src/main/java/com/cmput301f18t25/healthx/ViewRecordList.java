@@ -28,12 +28,21 @@ public class ViewRecordList extends AppCompatActivity
     private RecyclerView.LayoutManager rLayoutManager;
     private ArrayList<Record> recordList = new ArrayList<Record>();
     private  String problemId;
+    private int position;
+    private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offline;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recycler);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+
+        Bundle bundle = this.getIntent().getExtras();
+        problemId = bundle.getString("ProblemID");
+        position = bundle.getInt("Position");
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -43,6 +52,7 @@ public class ViewRecordList extends AppCompatActivity
                 Intent intent = new Intent(ViewRecordList.this,ActivityAddRecord.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("ProblemID",problemId);
+                bundle.putInt("Position", position);
                 intent.putExtras(bundle); // pass the problemid to the addactivity
                 startActivity(intent);
             }
@@ -57,27 +67,30 @@ public class ViewRecordList extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        Bundle bundle = this.getIntent().getExtras();
-        problemId = bundle.getString("ProblemID");
-
 
     }
 
     @Override
     protected void onStart(){
         super.onStart();
+        offline = new OfflineBehaviour();
         try {
+            offline.synchronizeWithElasticSearch();
             recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+            mProblemList.addRecordListToProblem(position, recordList);
         }catch (Exception e){
 
         }
+
+//        offline.synchronizeWithElasticSearch();
         rRecyclerView = findViewById(R.id.recycler_list);
         rRecyclerView.setHasFixedSize(true);
 
         rLayoutManager = new LinearLayoutManager(this);
         rRecyclerView.setLayoutManager(rLayoutManager);
-        rAdapter = new RecordListAdapter(recordList);
+        rAdapter = new RecordListAdapter(mProblemList.getElementByIndex(position).recordArray);
         rRecyclerView.setAdapter(rAdapter);
+
 
     }
 

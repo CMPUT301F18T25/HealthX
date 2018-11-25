@@ -31,11 +31,19 @@ public class ProblemList {
 
     /**
      * Returns problem at a given index
-     * @param index - index of problem you want to return
+     * @param  index of problem you want to return
      * */
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
 
+    }
+
+    public  ArrayList<Problem> getProblemArray() {
+        return problemArray;
+    }
+
+    public void setProblemArray(ArrayList<Problem> array) {
+        problemArray = array;
     }
 
     public  User getUser() {
@@ -89,6 +97,7 @@ public class ProblemList {
         problemArray.remove(index);
     }
 
+
     /**
      * Sorts array by date from recent to least recent
      * */
@@ -99,5 +108,14 @@ public class ProblemList {
                 return t2.getDate().compareTo(t1.getDate());
             }
         });
+    }
+
+    public void addToRecordToProblem(int index, Record record) {
+        problemArray.get(index).recordArray.add(record);
+    }
+
+
+    public void addRecordListToProblem(int position, ArrayList<Record> recordList) {
+        problemArray.get(position).recordArray = recordList;
     }
 }

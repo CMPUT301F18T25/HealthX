@@ -37,6 +37,7 @@ public class ActivityAddRecord extends AppCompatActivity {
     double longitude;
     double latitude;
     String problemID;
+    int position;
     private ProblemList mProblemList = ProblemList.getInstance();
 
 
@@ -48,6 +49,8 @@ public class ActivityAddRecord extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = this.getIntent().getExtras();
         problemID = bundle.getString("ProblemID");
+        position = bundle.getInt("Position");
+
     }
 
     @Override
@@ -84,20 +87,24 @@ public class ActivityAddRecord extends AppCompatActivity {
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
             setGeoLocation();
-
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+            mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
+            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
+                offlineBehaviour.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-            } else {
+                finish();
 
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+            } else {
+//                offlineBehaviour.synchronizeWithElasticSearch();
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
-
-                Intent intent = new Intent(ActivityAddRecord.this, ViewRecordList.class);
-                startActivity(intent);
+                finish();
+//                Intent intent = new Intent(ActivityAddRecord.this, ViewRecordList.class);
+//                startActivity(intent);
             }
 
         }

@@ -5,7 +5,10 @@
 
 package com.cmput301f18t25.healthx;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +39,7 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
 
 
 
@@ -101,16 +105,21 @@ public class ViewProblemList extends AppCompatActivity
         try {
             String userId = mProblemList.getUser().getId();
             Log.d("IVANLIM", userId);
+            offlineBehaviour.synchronizeWithElasticSearch();
             problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+            mProblemList.setProblemArray(problemList);
         }catch (Exception e){
 
+        }
+        for (Problem problem: mProblemList.getProblemArray()) {
+            Log.d("IVANLIM", problem.getTitle());
         }
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProblemListAdapter(problemList);
+        mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
         mRecyclerView.setAdapter(mAdapter);
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
                 public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
@@ -118,10 +127,19 @@ public class ViewProblemList extends AppCompatActivity
                             new UnderlayButtonClickListener() {
 
                                 public void onClick(int position) {
-                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                    deleteProblemTask.execute(problemList.get(position));
-                                    mAdapter.notifyItemRemoved(position);
 
+                                    ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                                    if (activeNetwork!=null) {
+                                        offlineBehaviour.addItem(mProblemList.getElementByIndex(position), "DELETE");
+                                        mProblemList.removeProblemFromList(position);
+                                    }
+                                    else {
+                                        offlineBehaviour.synchronizeWithElasticSearch();
+                                        ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                        deleteProblemTask.execute(problemList.get(position));
+                                        mAdapter.notifyItemRemoved(position);
+                                    }
                                 }
                             }
                     ));
@@ -188,8 +206,6 @@ public class ViewProblemList extends AppCompatActivity
 //            startActivity(intent);
             Toast toast = Toast.makeText(this, "Please Select a Problem to enable Map View", Toast.LENGTH_LONG);
             toast.show();
-
-
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;

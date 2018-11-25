@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import java.util.UUID;
 public class ActivityAddProblem extends AppCompatActivity {
 
     private ProblemList mProblemList = ProblemList.getInstance();
+    OfflineBehaviour offline;
 
 
     @Override
@@ -30,8 +32,10 @@ public class ActivityAddProblem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_problem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        offline = new OfflineBehaviour();
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,14 +84,12 @@ public class ActivityAddProblem extends AppCompatActivity {
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
 //                Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-                newProblem.setId(UUID.randomUUID().toString());
+                newProblem.setId(UUID.randomUUID().toString()); // set a random id
                 offline.addItem(newProblem, "ADD");
-
                 finish();
             } else {
 //                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
 //                Bundle bundle = getIntent().getExtras();
-                offline.synchronizeWithElasticSearch();
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
