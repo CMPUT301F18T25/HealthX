@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class ActivityAddProblem extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class ActivityAddProblem extends AppCompatActivity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -56,6 +58,7 @@ public class ActivityAddProblem extends AppCompatActivity {
         }
         if (id == R.id.save_button) {
 
+
             EditText title_textView = (EditText) findViewById(R.id.title_input);
             DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
             EditText description_textView = (EditText) findViewById(R.id.description_input);
@@ -70,19 +73,28 @@ public class ActivityAddProblem extends AppCompatActivity {
             String problemDescription = description_textView.getText().toString();
 
             // Check if app is connected to a network.
+            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
+            mProblemList.addToProblemList(newProblem);
+            OfflineBehaviour offline = new OfflineBehaviour();
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-                Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                newProblem.setId(UUID.randomUUID().toString());
+                offline.addItem(newProblem, "ADD");
+
+                finish();
             } else {
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
-                Bundle bundle = getIntent().getExtras();
+//                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
+//                Bundle bundle = getIntent().getExtras();
+                offline.synchronizeWithElasticSearch();
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
-                Intent intent = new Intent(ActivityAddProblem.this, ViewProblemList.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                finish();
+//                Intent intent = new Intent(ActivityAddProblem.this, ViewProblemList.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
             }
 
 
@@ -91,5 +103,6 @@ public class ActivityAddProblem extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
 
 }

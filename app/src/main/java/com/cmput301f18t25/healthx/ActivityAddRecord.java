@@ -37,6 +37,8 @@ public class ActivityAddRecord extends AppCompatActivity {
     double longitude;
     double latitude;
     String problemID;
+    private ProblemList mProblemList = ProblemList.getInstance();
+
 
 
     @Override
