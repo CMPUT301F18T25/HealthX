@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,6 +51,7 @@ public class ActivitySearch extends AppCompatActivity  {
         final EditText latitudeView = findViewById(R.id.search_latitude);
         final EditText longitudeView = findViewById(R.id.search_longitude);
         final EditText bodyLocationView = findViewById(R.id.search_body_location);
+        final LinearLayout extraSearchView = findViewById(R.id.search_extra);
 
         sRecyclerView = findViewById(R.id.recycler_search);
         sRecyclerView.setHasFixedSize(true);
@@ -60,14 +62,18 @@ public class ActivitySearch extends AppCompatActivity  {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 searchType = parent.getItemAtPosition(pos);
                 if(searchType.toString().equals("Geo-location")){
+                    extraSearchView.setVisibility(View.VISIBLE);
                     bodyLocationView.setVisibility(View.GONE);
                     latitudeView.setVisibility(View.VISIBLE);
                     longitudeView.setVisibility(View.VISIBLE);
+
                 } else if (searchType.toString().equals("Body Location")){
+                    extraSearchView.setVisibility(View.VISIBLE);
                     latitudeView.setVisibility(View.GONE);
                     longitudeView.setVisibility(View.GONE);
                     bodyLocationView.setVisibility(View.VISIBLE);
                 } else {
+                    extraSearchView.setVisibility(View.GONE);
                     bodyLocationView.setVisibility(View.GONE);
                     latitudeView.setVisibility(View.GONE);
                     longitudeView.setVisibility(View.GONE);
@@ -91,9 +97,10 @@ public class ActivitySearch extends AppCompatActivity  {
                         try {
                             String latitude = latitudeView.getText().toString();
                             String longitude = longitudeView.getText().toString();
-                            // problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword,latitude,longitude).get();
                             recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword,latitude,longitude).get();
-                            // searchResults.addAll(problemList);
+
+                            problemList = new ElasticSearchProblemController.SearchGeoProblemsTask().execute(recordList).get();
+                            searchResults.addAll(problemList);
                             searchResults.addAll(recordList);
 
                             sAdapter = new ProblemRecordAdapter(searchResults);

@@ -101,12 +101,17 @@ public class ElasticSearchRecordController {
             ArrayList<Record> records = new ArrayList<Record>();
             String keyword = params[0];
             String query = "";
-            // if (params[1] != null && params[2] != null){
-                Integer latitude = Integer.valueOf(params[1]);
-                Integer longitude = Integer.valueOf(params[2]);
+            if (params[1] != null && params[2] != null){
 
-                query = "{\"query\" : { \"bool\" : { \"must\": [ { \"range\": { \"latitude\" : { \"gte\" : " + latitude + ", \"lte\" : " + latitude + " } } },{ \"range\": { \"longitude\": { \"gte\" : " + longitude + ", \"lte\": " + longitude + " } } },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" +  "\", \"fields\" : [\"title\" , \"comment\"]} }]} }}";
-            // }
+                // APPROXIMATELY WITHIN A 5 KM RANGE
+                Double minLatitude = Double.valueOf(params[1]) - 0.025;
+                Double minLongitude = Double.valueOf(params[2]) - 0.025;
+                Double maxLatitude = Double.valueOf(params[1]) + 0.025;
+                Double maxLongitude = Double.valueOf(params[2]) + 0.025;
+
+                query = "{\"query\" : { \"bool\" : { \"must\": [ { \"range\": { \"latitude\" : { \"gte\" : " + minLatitude + ", \"lte\" : " + maxLatitude + " } } },{ \"range\": { \"longitude\": { \"gte\" : " + minLongitude + ", \"lte\": " + maxLongitude + " } } },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" +  "\", \"fields\" : [\"title\" , \"comment\"]} }]} }}";
+
+            }
 
             // query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
             Search search = new Search.Builder(query)
