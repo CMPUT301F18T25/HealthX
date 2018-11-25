@@ -39,7 +39,7 @@ public class ElasticSearchRecordController {
                     } else {
                         recordID = result1.getId();
                         record.setId(recordID);
-                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord2").build();
+                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord3").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -71,7 +71,7 @@ public class ElasticSearchRecordController {
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
 
-                    .addType("newRecord2")
+                    .addType("newRecord3")
                     .build();
             try {
                 SearchResult result = client.execute(search);
@@ -110,7 +110,7 @@ public class ElasticSearchRecordController {
             query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newRecord2")
+                    .addType("newRecord3")
                     .build();
             try {
                 JestResult result = client.execute(search);
@@ -135,7 +135,7 @@ public class ElasticSearchRecordController {
         protected Void doInBackground(Record... records) {
             clientSet();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + records[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord2").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord3").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {
