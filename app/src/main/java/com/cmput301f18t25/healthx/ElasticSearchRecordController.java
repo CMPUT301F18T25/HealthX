@@ -101,13 +101,13 @@ public class ElasticSearchRecordController {
             ArrayList<Record> records = new ArrayList<Record>();
             String keyword = params[0];
             String query = "";
-            if (params[1] != null && params[2] != null){
-                Integer latitude = Integer.valueOf(params[1]);
-                Integer longitude = Integer.valueOf(params[2]);
-                query = "{\"query\" : { \"bool\" : { \"must\" : [ { \"range\" : { \"latitude\" : { \"gte\" : \"" + (latitude - 1) + "\", \"lte\" : \"" + (latitude + 1) + "\" } } }, { \"range\" : { \"longitude\" : { \"gte\" : \"" + (longitude - 1) + "\", \"lte\" : \"" + (longitude + 1) + "\" }}} { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*\" + \"\", \"fields\" : [\"title\" , \"description\"]}}]}}}";
-            }
+//            if (params[1] != null && params[2] != null){
+//                Integer latitude = Integer.valueOf(params[1]);
+//                Integer longitude = Integer.valueOf(params[2]);
+//                query = "{\"query\" : { \"bool\" : { \"must\" : [ { \"range\" : { \"latitude\" : { \"gte\" : \"" + (latitude - 1) + "\", \"lte\" : \"" + (latitude + 1) + "\" } } }, { \"range\" : { \"longitude\" : { \"gte\" : \"" + (longitude - 1) + "\", \"lte\" : \"" + (longitude + 1) + "\" }}} { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*\" + \"\", \"fields\" : [\"title\" , \"comment\"]}}]}}}";
+//            }
 
-            // String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\", \"latitude\", \"longitude\"]}}}";
+            query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
                     .addType("newRecord2")
@@ -135,7 +135,7 @@ public class ElasticSearchRecordController {
         protected Void doInBackground(Record... records) {
             clientSet();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + records[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord2").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {

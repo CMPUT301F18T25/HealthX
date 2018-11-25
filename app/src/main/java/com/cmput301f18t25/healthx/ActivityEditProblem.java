@@ -24,6 +24,7 @@ public class ActivityEditProblem extends AppCompatActivity {
     String title;
     String description;
     String dateString;
+    String userId;
     Problem oldProblem;
 
     @Override
@@ -40,6 +41,7 @@ public class ActivityEditProblem extends AppCompatActivity {
         title = oldProblem.getTitle();
         description = oldProblem.getDescription();
         dateString = oldProblem.getDate();
+        userId = oldProblem.getId();
 
         title_textView.setText(title);
         description_textView.setText(description);
@@ -94,7 +96,7 @@ public class ActivityEditProblem extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
                 Bundle bundle = getIntent().getExtras();
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate);
+                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
 
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
