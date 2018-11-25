@@ -136,6 +136,12 @@ public class Record  implements Serializable {
         this.id = id;
     }
 
+    public void setProblemID(String problemID){
+        this.problemID = problemID;
+    }
+    public String getProblemID(){
+        return this.problemID;
+    }
 
 }
 

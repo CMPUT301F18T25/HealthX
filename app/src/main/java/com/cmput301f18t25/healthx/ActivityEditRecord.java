@@ -40,6 +40,7 @@ public class ActivityEditRecord extends AppCompatActivity {
     String title;
     String comment;
     String dateString;
+    String problemId;
     Record oldRecord;
 
 
@@ -60,6 +61,7 @@ public class ActivityEditRecord extends AppCompatActivity {
         title = oldRecord.getTitle();
         comment = oldRecord.getComment();
         dateString = oldRecord.getDate();
+        problemId = oldRecord.getProblemID();
 
         title_textView.setText(title);
         comment_textView.setText(comment);
@@ -110,7 +112,7 @@ public class ActivityEditRecord extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
 
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
