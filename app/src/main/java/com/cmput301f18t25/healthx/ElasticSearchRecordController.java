@@ -39,7 +39,7 @@ public class ElasticSearchRecordController {
                     } else {
                         recordID = result1.getId();
                         record.setId(recordID);
-                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord2").build();
+                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord3").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -71,7 +71,7 @@ public class ElasticSearchRecordController {
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
 
-                    .addType("newRecord2")
+                    .addType("newRecord3")
                     .build();
             try {
                 SearchResult result = client.execute(search);
@@ -100,17 +100,31 @@ public class ElasticSearchRecordController {
             clientSet();
             ArrayList<Record> records = new ArrayList<Record>();
             String keyword = params[0];
-            String query = "";
-//            if (params[1] != null && params[2] != null){
-//                Integer latitude = Integer.valueOf(params[1]);
-//                Integer longitude = Integer.valueOf(params[2]);
-//                query = "{\"query\" : { \"bool\" : { \"must\" : [ { \"range\" : { \"latitude\" : { \"gte\" : \"" + (latitude - 1) + "\", \"lte\" : \"" + (latitude + 1) + "\" } } }, { \"range\" : { \"longitude\" : { \"gte\" : \"" + (longitude - 1) + "\", \"lte\" : \"" + (longitude + 1) + "\" }}} { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*\" + \"\", \"fields\" : [\"title\" , \"comment\"]}}]}}}";
-//            }
+            String query;
+            if (params.length == 3){
 
-            query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + params[0] + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
+                // APPROXIMATELY WITHIN A 5 KM RANGE
+                Double minLatitude = Double.valueOf(params[1]) - 0.025;
+                Double minLongitude = Double.valueOf(params[2]) - 0.025;
+                Double maxLatitude = Double.valueOf(params[1]) + 0.025;
+                Double maxLongitude = Double.valueOf(params[2]) + 0.025;
+
+                query = "{\"query\" : { \"bool\" : { \"must\": [ { \"range\": { \"latitude\" : { \"gte\" : " + minLatitude + ", \"lte\" : " + maxLatitude + " } } },{ \"range\": { \"longitude\": { \"gte\" : " + minLongitude + ", \"lte\": " + maxLongitude + " } } },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" +  "\", \"fields\" : [\"title\" , \"comment\"]} }]} }}";
+
+            } else if (params.length == 2){
+
+                String bodyLocation = params[1];
+                query = "{\"query\" : { \"match\" : { \"bodyLocation\" : \"" + bodyLocation + "\"}}}";
+
+            } else {
+
+                query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
+
+            }
+
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newRecord2")
+                    .addType("newRecord3")
                     .build();
             try {
                 JestResult result = client.execute(search);
@@ -135,7 +149,7 @@ public class ElasticSearchRecordController {
         protected Void doInBackground(Record... records) {
             clientSet();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + records[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord2").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord3").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {

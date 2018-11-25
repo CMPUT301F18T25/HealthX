@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
@@ -108,7 +109,7 @@ public class ElasticSearchProblemController {
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newProblem")
+                    .addType("newProblem2")
                     .build();
             try {
                 JestResult result = client.execute(search);
@@ -125,6 +126,38 @@ public class ElasticSearchProblemController {
             return problems;
         }
 
+    }
+
+    public static class SearchProblemsFromRecordsTask extends AsyncTask<ArrayList<Record>, Void, ArrayList<Problem>> {
+        @Override
+        protected ArrayList<Problem> doInBackground(ArrayList<Record>... params) {
+            setClient();
+            ArrayList<Problem> problems = new ArrayList<Problem>();
+            ArrayList<Record> records = params[0];
+            for (Record record : records){
+                String problemId = record.getProblemID();
+                String query = "{ \"query\" : { \"match\" :  { \"id\" : \""+ problemId + "\"}}}";
+                Search search = new Search.Builder(query)
+                        .addIndex("cmput301f18t25test")
+                        .addType("newProblem2")
+                        .build();
+                try {
+                    JestResult result = client.execute(search);
+                    if (result.isSucceeded()) {
+                        List<Problem> problemList;
+                        problemList = result.getSourceAsObjectList(Problem.class);
+                        problems.addAll(problemList);
+                    }
+
+                } catch (IOException e) {
+                    Log.d("Error", "Error in searching problems");
+                }
+
+
+            }
+
+            return problems;
+        }
     }
 
     public static class DeleteProblemTask extends AsyncTask<Problem, Void, Void> {

@@ -18,10 +18,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 public class ActivitySearch extends AppCompatActivity  {
@@ -50,6 +53,7 @@ public class ActivitySearch extends AppCompatActivity  {
         final EditText latitudeView = findViewById(R.id.search_latitude);
         final EditText longitudeView = findViewById(R.id.search_longitude);
         final EditText bodyLocationView = findViewById(R.id.search_body_location);
+        final LinearLayout extraSearchView = findViewById(R.id.search_extra);
 
         sRecyclerView = findViewById(R.id.recycler_search);
         sRecyclerView.setHasFixedSize(true);
@@ -60,14 +64,18 @@ public class ActivitySearch extends AppCompatActivity  {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 searchType = parent.getItemAtPosition(pos);
                 if(searchType.toString().equals("Geo-location")){
+                    extraSearchView.setVisibility(View.VISIBLE);
                     bodyLocationView.setVisibility(View.GONE);
                     latitudeView.setVisibility(View.VISIBLE);
                     longitudeView.setVisibility(View.VISIBLE);
+
                 } else if (searchType.toString().equals("Body Location")){
+                    extraSearchView.setVisibility(View.VISIBLE);
                     latitudeView.setVisibility(View.GONE);
                     longitudeView.setVisibility(View.GONE);
                     bodyLocationView.setVisibility(View.VISIBLE);
                 } else {
+                    extraSearchView.setVisibility(View.GONE);
                     bodyLocationView.setVisibility(View.GONE);
                     latitudeView.setVisibility(View.GONE);
                     longitudeView.setVisibility(View.GONE);
@@ -87,59 +95,72 @@ public class ActivitySearch extends AppCompatActivity  {
                     inputManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
                     String keyword = inputView.getText().toString();
 
-                    if(searchType.toString().equals("Geo-location")) {
-                        try {
-                            String latitude = latitudeView.getText().toString();
-                            String longitude = longitudeView.getText().toString();
+                    switch (searchType.toString()) {
+                        case "Geo-location":
+                            try {
+                                String latitude = latitudeView.getText().toString();
+                                String longitude = longitudeView.getText().toString();
+                                recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword, latitude, longitude).get();
+                                problemList = new ElasticSearchProblemController.SearchProblemsFromRecordsTask().execute(recordList).get();
+                                ArrayList<Problem> uniqueProblems = new ArrayList<>();
+                                ArrayList<String> uniqueProblemIds = new ArrayList<>();
+                                for (int i = 0; i < problemList.size(); i++) {
+                                    if (!uniqueProblemIds.contains(problemList.get(i).getId())) {
+                                        uniqueProblemIds.add(problemList.get(i).getId());
+                                        uniqueProblems.add(problemList.get(i));
+                                    }
+                                }
+                                searchResults.addAll(uniqueProblems);
+                                searchResults.addAll(recordList);
 
-                            problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword,latitude,longitude).get();
-                            recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword,latitude,longitude).get();
-                            searchResults.addAll(problemList);
-                            searchResults.addAll(recordList);
 
-                            sAdapter = new ProblemRecordAdapter(searchResults);
-                            sRecyclerView.setAdapter(sAdapter);
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case "Body Location":
+                            try {
+                                String bodyLocation = bodyLocationView.getText().toString();
+                                recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword, bodyLocation).get();
+                                problemList = new ElasticSearchProblemController.SearchProblemsFromRecordsTask().execute(recordList).get();
+                                ArrayList<Problem> uniqueProblems = new ArrayList<>();
+                                ArrayList<String> uniqueProblemIds = new ArrayList<>();
+                                for (int i = 0; i < problemList.size(); i++) {
+                                    if (!uniqueProblemIds.contains(problemList.get(i).getId())) {
+                                        uniqueProblemIds.add(problemList.get(i).getId());
+                                        uniqueProblems.add(problemList.get(i));
+                                    }
+                                }
+                                searchResults.addAll(uniqueProblems);
+                                searchResults.addAll(recordList);
 
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    } else if (searchType.toString().equals("Body Location")){
-                        try {
-                            String bodyLocation = bodyLocationView.getText().toString();
-                            problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword, bodyLocation).get();
-                            recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword).get();
-                            searchResults.addAll(problemList);
-                            searchResults.addAll(recordList);
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
-                            sAdapter = new ProblemRecordAdapter(searchResults);
-                            sRecyclerView.setAdapter(sAdapter);
+                            break;
+                        default:
+                            try {
+                                problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword).get();
+                                recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword).get();
+                                searchResults.addAll(problemList);
+                                searchResults.addAll(recordList);
 
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
 
-                    }else {
-                        try {
-
-                            problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword).get();
-                            recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword).get();
-                            searchResults.addAll(problemList);
-                            searchResults.addAll(recordList);
-
-                            sAdapter = new ProblemRecordAdapter(searchResults);
-                            sRecyclerView.setAdapter(sAdapter);
-
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
+                            break;
                     }
+
+                    sAdapter = new ProblemRecordAdapter(searchResults);
+                    sRecyclerView.setAdapter(sAdapter);
 
                 }
 
