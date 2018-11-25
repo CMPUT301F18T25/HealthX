@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
@@ -108,7 +109,7 @@ public class ElasticSearchProblemController {
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("newProblem")
+                    .addType("newProblem2")
                     .build();
             try {
                 JestResult result = client.execute(search);
@@ -127,7 +128,7 @@ public class ElasticSearchProblemController {
 
     }
 
-    public static class SearchGeoProblemsTask extends AsyncTask<ArrayList<Record>, Void, ArrayList<Problem>> {
+    public static class SearchProblemsFromRecordsTask extends AsyncTask<ArrayList<Record>, Void, ArrayList<Problem>> {
         @Override
         protected ArrayList<Problem> doInBackground(ArrayList<Record>... params) {
             setClient();
@@ -154,6 +155,7 @@ public class ElasticSearchProblemController {
 
 
             }
+
             return problems;
         }
     }

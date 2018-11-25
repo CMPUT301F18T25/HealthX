@@ -100,8 +100,8 @@ public class ElasticSearchRecordController {
             clientSet();
             ArrayList<Record> records = new ArrayList<Record>();
             String keyword = params[0];
-            String query = "";
-            if (params[1] != null && params[2] != null){
+            String query;
+            if (params.length == 3){
 
                 // APPROXIMATELY WITHIN A 5 KM RANGE
                 Double minLatitude = Double.valueOf(params[1]) - 0.025;
@@ -111,9 +111,17 @@ public class ElasticSearchRecordController {
 
                 query = "{\"query\" : { \"bool\" : { \"must\": [ { \"range\": { \"latitude\" : { \"gte\" : " + minLatitude + ", \"lte\" : " + maxLatitude + " } } },{ \"range\": { \"longitude\": { \"gte\" : " + minLongitude + ", \"lte\": " + maxLongitude + " } } },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" +  "\", \"fields\" : [\"title\" , \"comment\"]} }]} }}";
 
+            } else if (params.length == 2){
+
+                String bodyLocation = params[1];
+                query = "{\"query\" : { \"match\" : { \"bodyLocation\" : \"" + bodyLocation + "\"}}}";
+
+            } else {
+
+                query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
+
             }
 
-            // query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
                     .addType("newRecord3")
