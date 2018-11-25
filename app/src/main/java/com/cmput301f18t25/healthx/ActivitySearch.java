@@ -91,10 +91,9 @@ public class ActivitySearch extends AppCompatActivity  {
                         try {
                             String latitude = latitudeView.getText().toString();
                             String longitude = longitudeView.getText().toString();
-
-                            problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword,latitude,longitude).get();
+                            // problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword,latitude,longitude).get();
                             recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword,latitude,longitude).get();
-                            searchResults.addAll(problemList);
+                            // searchResults.addAll(problemList);
                             searchResults.addAll(recordList);
 
                             sAdapter = new ProblemRecordAdapter(searchResults);
