@@ -51,6 +51,11 @@
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddPhoto" />
         <activity android:name=".ActivityAddRecord" />
+        <activity android:name=".ViewPatientList"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ActivityAddPatient" />
+        <activity android:name=".ActivityViewPatientProblem"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ViewCurrentRecord"></activity>
     </application>

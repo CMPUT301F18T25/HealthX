@@ -52,7 +52,7 @@ public class Login extends AppCompatActivity {
             try {
                 user = getUserTask.execute(userId,email).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
-                if (!user.getStatus().equals("")) {
+                if (user.getStatus().equals("Patient")){
                     Bundle bundle = new Bundle();
                     bundle.putString("id",user.getUsername());
                     bundle.putString("email",user.getEmail());
@@ -60,6 +60,15 @@ public class Login extends AppCompatActivity {
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
+                else if (user.getStatus().equals("Care Provider")){
+                    Bundle bundle = new Bundle();
+                    bundle.putString("id",user.getUsername());
+                    bundle.putString("email",user.getEmail());
+                    Intent intent = new Intent(this, ViewPatientList.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+
                 else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credientials!" , Toast.LENGTH_SHORT);
                     toast.show();
@@ -69,10 +78,7 @@ public class Login extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//                        createUser(UserName);
-//                        saveUsernameInFile(UserName); // save username for auto login
-//            Intent intent = new Intent(Signup.this, Login.class);
-//            startActivity(intent);
+
 
         }
     }

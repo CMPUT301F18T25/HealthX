@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,17 +31,18 @@ import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Delete;
 
-public class ViewProblemList extends AppCompatActivity
+public class ActivityViewPatientProblem extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
+    private ProblemList mProblemList = ProblemList.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_recycler);
+        setContentView(R.layout.care_provider_view_problem);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -80,6 +82,7 @@ public class ViewProblemList extends AppCompatActivity
         TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
+
         if (user.getStatus() == "Care Provider"){
             headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
         }
@@ -88,28 +91,22 @@ public class ViewProblemList extends AppCompatActivity
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = null;
-                bundle = ViewProblemList.this.getIntent().getExtras();
-                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+        fab.hide();
+
 
     }
     @Override
     protected void onStart(){
         super.onStart();
         try {
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute("").get();
+
+            String userId = mProblemList.getUser().getId();
+            Log.d("IVANLIM", userId);
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
         }catch (Exception e){
 
+
         }
-
-
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
@@ -117,35 +114,9 @@ public class ViewProblemList extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new ProblemListAdapter(problemList);
         mRecyclerView.setAdapter(mAdapter);
-        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-                public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                    underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-                            new UnderlayButtonClickListener() {
-
-                                public void onClick(int position) {
-                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                    deleteProblemTask.execute(problemList.get(position));
-                                    mAdapter.notifyItemRemoved(position);
-
-                                }
-                            }
-                    ));
-
-                    underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
-                            new UnderlayButtonClickListener() {
-                                @Override
-                                public void onClick(int pos) {
-                                    // if clicked the edit button, allow user to eit the current record
 
 
-                                }
-                            }
-                    ));
-                }
-        };
-
-
-        }
+    }
 
 
     @Override
@@ -187,7 +158,7 @@ public class ViewProblemList extends AppCompatActivity
         if (id == R.id.nav_view) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
-            
+
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_edit) {
