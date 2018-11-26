@@ -9,8 +9,10 @@ import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import io.searchbox.client.JestResult;
 import io.searchbox.core.Delete;
@@ -18,6 +20,7 @@ import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 
 public class ElasticSearchProblemController {
     private static JestDroidClient client;
@@ -39,7 +42,7 @@ public class ElasticSearchProblemController {
                     } else {
                         problemID = result1.getId();
                         problem.setId(problemID);
-                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem").build();
+                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -65,9 +68,47 @@ public class ElasticSearchProblemController {
         protected ArrayList<Problem> doInBackground(String... params) {
             setClient();
             ArrayList<Problem> problems = new ArrayList<Problem>();
-            Search search = new Search.Builder(params[0])
+
+            String query = "{ \"query\" : { \"match\" :  { \"userId\" : \""+ params[0] + "\"}}}";
+            Search search = new Search.Builder(query)
+
                     .addIndex("cmput301f18t25test")
-                    .addType("newProblem")
+                    .addType("newProblem2")
+                    .build();
+            try {
+//                JestResult result = client.execute(search);
+                JestResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    Log.d("IVANLIM", "doInBackground: succeded :)");
+                    List<Problem> problemList;
+                    problemList = result.getSourceAsObjectList(Problem.class);
+                    problems.addAll(problemList);
+                    Log.d("IVANLIM", String.valueOf(problemList.size()));
+                }
+                else {
+                    Log.d("IVANLIM", "Else caluse: ");
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching problems");
+            }
+
+            return problems;
+        }
+
+    }
+
+    public static class SearchProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
+        @Override
+        protected ArrayList<Problem> doInBackground(String... params) {
+            setClient();
+            ArrayList<Problem> problems = new ArrayList<Problem>();
+            String keyword = params[0];
+            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"description\"]}}}";
+
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("newProblem2")
                     .build();
             try {
                 JestResult result = client.execute(search);
@@ -84,6 +125,38 @@ public class ElasticSearchProblemController {
             return problems;
         }
 
+    }
+
+    public static class SearchProblemsFromRecordsTask extends AsyncTask<ArrayList<Record>, Void, ArrayList<Problem>> {
+        @Override
+        protected ArrayList<Problem> doInBackground(ArrayList<Record>... params) {
+            setClient();
+            ArrayList<Problem> problems = new ArrayList<Problem>();
+            ArrayList<Record> records = params[0];
+            for (Record record : records){
+                String problemId = record.getProblemID();
+                String query = "{ \"query\" : { \"match\" :  { \"id\" : \""+ problemId + "\"}}}";
+                Search search = new Search.Builder(query)
+                        .addIndex("cmput301f18t25test")
+                        .addType("newProblem2")
+                        .build();
+                try {
+                    JestResult result = client.execute(search);
+                    if (result.isSucceeded()) {
+                        List<Problem> problemList;
+                        problemList = result.getSourceAsObjectList(Problem.class);
+                        problems.addAll(problemList);
+                    }
+
+                } catch (IOException e) {
+                    Log.d("Error", "Error in searching problems");
+                }
+
+
+            }
+
+            return problems;
+        }
     }
 
     public static class DeleteProblemTask extends AsyncTask<Problem, Void, Void> {

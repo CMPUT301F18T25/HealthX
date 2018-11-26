@@ -41,7 +41,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     @Override
     public void onBindViewHolder(ProblemListAdapter.ViewHolder holder, final int position) {
-        
+
         holder.pTitle.setText(problems.get(position).getTitle());
         holder.pDescription.setText(problems.get(position).getDescription());
         //holder.pCount.setText(problems.get(position).getCount());
@@ -55,6 +55,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
                 bundle.putString("Title",toView.getTitle());
                 bundle.putString("Description",toView.getDescription());
                 bundle.putString("Count",Integer.toString(toView.getCount()));
+                bundle.putString("ProblemID", toView.getId());
                 ///////////////////////////////
                 /// Date OR STRING
                 ///////////////////////////////////

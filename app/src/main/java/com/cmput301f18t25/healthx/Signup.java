@@ -57,8 +57,8 @@ public class Signup extends AppCompatActivity {
 //                        saveUsernameInFile(UserName); // save username for auto login
                     Intent intent = new Intent(Signup.this, Login.class);
                     startActivity(intent);
-                    }
                 }
+            }
 
         });
     }

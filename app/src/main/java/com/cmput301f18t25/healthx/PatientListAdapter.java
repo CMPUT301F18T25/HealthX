@@ -21,13 +21,13 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
     //<div>Icons made by <a href="https://www.flaticon.com/authors/popcorns-arts" title="Icon Pond">Icon Pond</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
     public Context ctx;
     private List<User> users;
-    private Intent Pintent;
+    private Intent Mintent;
 
     // NEED TO DISTINGUISH EACH USER WHETHER HE IS A PATIENT
-    public PatientListAdapter(List<User> users){
+    public PatientListAdapter(List<User> users, Intent intent){
 
         this.users = users;
-
+        this.Mintent = intent;
 
     }
     @NonNull
@@ -45,14 +45,16 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
     public void onBindViewHolder(PatientListAdapter.ViewHolder holder, final int position) {
 
         holder.pName.setText(users.get(position).getName());
-        holder.pUserId.setText(users.get(position).getId());
+        holder.pUserId.setText(users.get(position).getUsername());
         holder.pUserEmail.setText(users.get(position).getEmail());
+        holder.pUserPhone.setText(users.get(position).getPhoneNumber());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Intent currentIntent = Mintent.getExtras();
                 User toView = users.get(position);
-                Bundle bundle = Pintent.getExtras();
+                Bundle bundle = Mintent.getExtras();
                 bundle.putString("PatientEmail",toView.getEmail());
                 bundle.putString("PatientId",toView.getUsername());
 
@@ -78,16 +80,19 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
         public TextView pName;
         public TextView pUserId;
         public TextView pUserEmail;
+        public TextView pUserPhone;
         public Context context;
-        public Intent intent2;
+        //public Intent intent2;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             this.context = ctx;
-            this.intent2 = Pintent;
+            //this.intent2 = Pintent;
             pName = itemView.findViewById(R.id.patientName);
             pUserId = itemView.findViewById(R.id.patientID);
             pUserEmail = itemView.findViewById(R.id.patientEmail);
+            pUserPhone = itemView.findViewById(R.id.patientPhone);
+
             itemView.setClickable(true);
 
         }

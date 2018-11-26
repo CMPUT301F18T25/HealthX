@@ -1,16 +1,11 @@
-/*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
- *
- */
-
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -36,6 +31,9 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
+    private ProblemList mProblemList = ProblemList.getInstance();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +78,7 @@ public class ViewProblemList extends AppCompatActivity
         TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
-        if (user.getStatus() == "Care Provider"){
-            headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
-        }
-        else{
-            headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
-        }
-
+        headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,15 +93,17 @@ public class ViewProblemList extends AppCompatActivity
 
     }
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         try {
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute("").get();
+
+            String userId = mProblemList.getUser().getId();
+            Log.d("IVANLIM", userId);
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
         }catch (Exception e){
 
+
         }
-
-
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
@@ -118,34 +112,39 @@ public class ViewProblemList extends AppCompatActivity
         mAdapter = new ProblemListAdapter(problemList);
         mRecyclerView.setAdapter(mAdapter);
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-                public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                    underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-                            new UnderlayButtonClickListener() {
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+                        new UnderlayButtonClickListener() {
 
-                                public void onClick(int position) {
-                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                    deleteProblemTask.execute(problemList.get(position));
-                                    mAdapter.notifyItemRemoved(position);
 
-                                }
+                            public void onClick(int position) {
+                                ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                deleteProblemTask.execute(problemList.get(position));
+                                mAdapter.notifyItemRemoved(position);
+
+
                             }
-                    ));
+                        }
+                ));
 
-                    underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
-                            new UnderlayButtonClickListener() {
-                                @Override
-                                public void onClick(int pos) {
-                                    // if clicked the edit button, allow user to eit the current record
+                underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                Problem problem = problemList.get(pos);
+                                Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("problem", problem);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
 
-
-                                }
                             }
-                    ));
-                }
+                        }
+                ));
+            }
         };
 
-
-        }
+    }
 
 
     @Override
@@ -187,8 +186,14 @@ public class ViewProblemList extends AppCompatActivity
         if (id == R.id.nav_view) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
-            
+
         } else if (id == R.id.nav_map) {
+//            Intent intent = new Intent(this, MapViewActivity.class);
+//            startActivity(intent);
+            Toast toast = Toast.makeText(this, "Please Select a Problem to enable Map View", Toast.LENGTH_LONG);
+            toast.show();
+
+
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
@@ -203,9 +208,8 @@ public class ViewProblemList extends AppCompatActivity
             intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-            Intent intent = new Intent(this, Login.class);
 
-            startActivity(intent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

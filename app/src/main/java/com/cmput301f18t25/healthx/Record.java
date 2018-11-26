@@ -7,9 +7,13 @@ package com.cmput301f18t25.healthx;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
+import java.util.ArrayList;
 import java.util.Date;
 
-public class Record {
+public class Record  implements Serializable {
+
     protected String title;
     protected String comment;
     protected Double longitude;
@@ -17,19 +21,21 @@ public class Record {
     protected Bitmap image;
     protected String date;
     protected String id;
+    protected String problemID; // problemId specifies the feild at which the record is associated with a problem
 
-    /**
-     * Creates an instance of Record with getter and setters for the parameters
-     *
-     * @param record_title the title the user entered for the record
-     * @param record_comment the comment the user entered for the record
-     * @param latitude the latitude from geolocation of user
-     * @param longitude the longitude from geolocation of user
-     * @param image the bitmap of the photo taken by the user for a record
-     * @param date the date created the user selected for the record
-     *
-     */
-    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date){
+
+    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
+        /**
+         * Creates an instance of Record with getter and setters for the parameters
+         *
+         * @param record_title the title the user entered for the record
+         * @param record_comment the comment the user entered for the record
+         * @param latitude the latitude from geolocation of user
+         * @param longitude the longitude from geolocation of user
+         * @param image the bitmap of the photo taken by the user for a record
+         * @param date the date created the user selected for the record
+         *
+         */
         this.title = record_title;
         this.comment = record_comment;
         this.latitude = latitude;
@@ -37,6 +43,7 @@ public class Record {
         this.image = image;
         this.date = date;
         this.id = "";
+        this.problemID = problemID;
 
     }
     /**
@@ -129,6 +136,11 @@ public class Record {
         this.id = id;
     }
 
+    public void setProblemID(String problemID){
+        this.problemID = problemID;
+    }
+    public String getProblemID(){
+        return this.problemID;
+    }
 
 }
-

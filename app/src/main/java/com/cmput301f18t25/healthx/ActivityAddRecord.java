@@ -9,11 +9,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,10 +34,11 @@ import java.util.List;
 
 public class ActivityAddRecord extends AppCompatActivity {
     Bitmap recordPhoto;
-    private LocationManager locationManager;
-    Location location;
-    double longitude;
-    double latitude;
+    LocationListener listener;
+    LocationManager lm;
+    Double longitude;
+    Double latitude;
+    String problemID;
 
 
     @Override
@@ -43,6 +46,9 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Bundle bundle = this.getIntent().getExtras();
+        problemID = bundle.getString("ProblemID");
+        setGeoLocation();
     }
 
     @Override
@@ -87,7 +93,7 @@ public class ActivityAddRecord extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
 
-              Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
@@ -105,15 +111,15 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
 
-             ImageView imageView = findViewById(R.id.view_photo);
+            ImageView imageView = findViewById(R.id.view_photo);
             byte[] byteArray = data.getByteArrayExtra("image");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-             Drawable drawable = new BitmapDrawable(bitmapScaled);
-             imageView.setImageDrawable(drawable);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            imageView.setImageDrawable(drawable);
 
-             imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);
 
 
             recordPhoto = bitmap;
@@ -131,36 +137,57 @@ public class ActivityAddRecord extends AppCompatActivity {
     }
 
     public void setGeoLocation() {
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},1);
-        }else{
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            if (location != null){
+        listener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                Log.d("SANDY 301", String.valueOf(longitude));
-                Log.d("SANDY 301", String.valueOf(latitude));
+                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+
             }
-            else{
-                Log.d("SANDY 301","NO LOCATION");
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
             }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION},1);
+        }else{
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
 
         }
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case 1:
-                setGeoLocation();
-                break;
-        }
 
+        if (grantResults.length > 0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+            }
+        }
     }
 
 }

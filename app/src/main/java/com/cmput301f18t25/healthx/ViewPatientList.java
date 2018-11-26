@@ -48,7 +48,7 @@ public class ViewPatientList extends AppCompatActivity
         ElasticSearchUserController.GetUserTask getUserTaskTest = new ElasticSearchUserController.GetUserTask();
         User user2 = null;
         try {
-            user2 = getUserTaskTest.execute("hai","ilim1@ualberta.ca").get();
+            user2 = getUserTaskTest.execute("test","asdf@abc.com").get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -62,7 +62,7 @@ public class ViewPatientList extends AppCompatActivity
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PatientListAdapter(patientList);
+        mAdapter = new PatientListAdapter(patientList,this.getIntent());
         mRecyclerView.setAdapter(mAdapter);
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
@@ -94,7 +94,7 @@ public class ViewPatientList extends AppCompatActivity
             public void onClick(View view) {
                 Bundle bundle = null;
                 bundle = ViewPatientList.this.getIntent().getExtras();
-                Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
+                Intent intent = new Intent(ViewPatientList.this, ActivityViewPatientProblem.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }

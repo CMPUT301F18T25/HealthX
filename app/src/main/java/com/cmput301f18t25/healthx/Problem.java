@@ -5,30 +5,35 @@
 
 package com.cmput301f18t25.healthx;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Problem {
+public class Problem implements Serializable{
     protected String title;
     protected String description;
     protected String date;
-    protected ArrayList<Record> recordArray = new ArrayList<Record>();
+    protected ArrayList<Record> recordArray;
     protected Integer count;
     protected String id;
+    protected String userId; // not the username
 
-    /**
-     * Creates an instance of Problem with getter and setters for the parameters
-     *
-     * @param problemTitle the title the user entered for the problem
-     * @param problemDescription the description user entered for the problem
-     * @param problemDate the date created that the user selected for the problem
-     *
-     */
-    public Problem(String problemTitle, String problemDescription, String problemDate){
+    public Problem(String problemTitle, String problemDescription, String problemDate, String userId){
+
+        /**
+         * Creates an instance of Problem with getter and setters for the parameters
+         *
+         * @param problemTitle the title the user entered for the problem
+         * @param problemDescription the description user entered for the problem
+         * @param problemDate the date created that the user selected for the problem
+         *
+         */
         this.title = problemTitle;
         this.description = problemDescription;
         this.date = problemDate;
         this.id = "";
+        this.userId = userId;
+        this.recordArray = new ArrayList<Record>();
     }
 
     public void setTitle(String text){

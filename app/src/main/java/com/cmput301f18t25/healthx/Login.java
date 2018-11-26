@@ -23,6 +23,7 @@ public class Login extends AppCompatActivity {
     EditText userIdTextView;
     EditText emailtextView;
     private User user;
+    private ProblemList mProblemList = ProblemList.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class Login extends AppCompatActivity {
                 user = getUserTask.execute(userId,email).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 if (user.getStatus().equals("Patient")){
+                    mProblemList.setUser(user);
                     Bundle bundle = new Bundle();
                     bundle.putString("id",user.getUsername());
                     bundle.putString("email",user.getEmail());

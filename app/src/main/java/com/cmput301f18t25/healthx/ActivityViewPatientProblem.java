@@ -7,8 +7,10 @@ package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -22,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,13 +85,9 @@ public class ActivityViewPatientProblem extends AppCompatActivity
         TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
+        headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
 
-        if (user.getStatus() == "Care Provider"){
-            headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
-        }
-        else{
-            headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
-        }
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide();
@@ -99,9 +98,36 @@ public class ActivityViewPatientProblem extends AppCompatActivity
     protected void onStart(){
         super.onStart();
         try {
+            Bundle bundle = null;
+            bundle = this.getIntent().getExtras();
+            String email = bundle.getString("PatientEmail");
+            Toast.makeText(this,email,Toast.LENGTH_LONG).show();
+            String id = bundle.getString("PatientId");
+            ElasticSearchUserController.GetUserTask getUserTaskTest = new ElasticSearchUserController.GetUserTask();
+            User patient = null;
+            try {
+                patient = getUserTaskTest.execute(id,email).get();
 
-            String userId = mProblemList.getUser().getId();
-            Log.d("IVANLIM", userId);
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //String userId = mProblemList.getUser().getId();
+            //Log.d("IVANLIM", userId);
+            LinearLayout card = findViewById(R.id.OnePatient);
+            String color_string = "#c3b1e2";
+            int myColor = Color.parseColor(color_string);
+            card.setBackgroundColor(myColor);
+            TextView pName = findViewById(R.id.patientName);
+            TextView pUserId = findViewById(R.id.patientID);
+            TextView pUserEmail = findViewById(R.id.patientEmail);
+            TextView pUserPhone = findViewById(R.id.patientPhone);
+            pName.setText(patient.getName());
+            pUserId.setText(patient.getUsername());
+            pUserEmail.setText(patient.getEmail());
+            pUserPhone.setText(patient.getPhoneNumber());
+            String userId = patient.getId();
             problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
         }catch (Exception e){
 
