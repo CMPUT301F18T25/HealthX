@@ -24,7 +24,7 @@ import java.util.UUID;
 public class ActivityAddProblem extends AppCompatActivity {
 
     private ProblemList mProblemList = ProblemList.getInstance();
-    OfflineBehaviour offline;
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
 
     @Override
@@ -32,7 +32,6 @@ public class ActivityAddProblem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_problem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        offline = new OfflineBehaviour();
 
     }
 
@@ -79,7 +78,8 @@ public class ActivityAddProblem extends AppCompatActivity {
             // Check if app is connected to a network.
             Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
             mProblemList.addToProblemList(newProblem);
-            OfflineBehaviour offline = new OfflineBehaviour();
+//            OfflineBehaviour offline = new OfflineBehaviour();
+
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {

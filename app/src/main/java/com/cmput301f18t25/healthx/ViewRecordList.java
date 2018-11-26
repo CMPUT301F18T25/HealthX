@@ -105,7 +105,7 @@ public class ViewRecordList extends AppCompatActivity
 
         rLayoutManager = new LinearLayoutManager(this);
         rRecyclerView.setLayoutManager(rLayoutManager);
-        rAdapter = new RecordListAdapter(mProblemList.getElementByIndex(position).recordArray);
+        rAdapter = new RecordListAdapter(mProblemList.getRecordList(position));
         rRecyclerView.setAdapter(rAdapter);
 
 

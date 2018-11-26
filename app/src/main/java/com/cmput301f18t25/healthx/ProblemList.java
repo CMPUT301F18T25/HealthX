@@ -43,7 +43,9 @@ public class ProblemList {
     }
 
     public void setProblemArray(ArrayList<Problem> array) {
+
         problemArray = array;
+        sortArray();
     }
 
     public  User getUser() {
@@ -95,6 +97,7 @@ public class ProblemList {
      * */
     public void removeProblemFromList(int index) {
         problemArray.remove(index);
+        sortArray();
     }
 
 
@@ -106,6 +109,15 @@ public class ProblemList {
             @Override
             public int compare(Problem t1, Problem t2) {
                 return t2.getDate().compareTo(t1.getDate());
+            }
+        });
+    }
+
+    public void sortRecordArray(int i) {
+        Collections.sort(problemArray.get(i).recordArray, new Comparator<Record>() {
+            @Override
+            public int compare(Record o1, Record o2) {
+                return o2.getDate().compareTo(o1.getDate());
             }
         });
     }
@@ -124,6 +136,7 @@ public class ProblemList {
     }
 
     public ArrayList<Record> getRecordList(int position) {
+        sortRecordArray(position);
         return problemArray.get(position).recordArray;
     }
 }
