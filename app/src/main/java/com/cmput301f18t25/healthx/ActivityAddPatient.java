@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,13 +34,30 @@ public class ActivityAddPatient extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_patient);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAddButton = (Button) findViewById(R.id.btnAddPatient); // R.id.idofButton once created
         mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
         mEmailText = (EditText) findViewById(R.id.userEmailText);
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
 
+        int id = item.getItemId();
+
+        // if clicked the save button,
+        if (id == android.R.id.home) {
+            Bundle bundle = this.getIntent().getExtras();
+            Intent intent = new Intent(this, ViewPatientList.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
     public void addPatient(View view) {
 
         String userId = mUserText.getText().toString();
@@ -58,10 +76,11 @@ public class ActivityAddPatient extends AppCompatActivity {
                 /////////////////////////////////////
                 Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
                 toast.show();
-                Intent intent = new Intent(this, ViewPatientList.class);
-                Bundle bundle = getIntent().getExtras();
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                Intent intent = new Intent(this, ViewPatientList.class);
+//                Bundle bundle = getIntent().getExtras();
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+                finish();
 
             }
 

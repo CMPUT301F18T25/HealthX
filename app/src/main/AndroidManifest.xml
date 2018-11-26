@@ -44,13 +44,16 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewRecordList"
-            android:label="@string/title_activity_view_record"
+            android:label="ViewRecord"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MapViewActivity"/>
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddPhoto" />
         <activity android:name=".ActivityAddRecord" />
+        <activity android:name=".ActivityEditRecord" />
+        <activity android:name=".ActivityEditProblem" />
         <activity android:name=".ViewPatientList"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".ActivityAddPatient" />
@@ -58,6 +61,10 @@
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ViewCurrentRecord"></activity>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA"/>
+
     </application>
 
 </manifest>

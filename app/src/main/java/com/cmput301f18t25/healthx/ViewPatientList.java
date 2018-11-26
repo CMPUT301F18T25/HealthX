@@ -94,7 +94,7 @@ public class ViewPatientList extends AppCompatActivity
             public void onClick(View view) {
                 Bundle bundle = null;
                 bundle = ViewPatientList.this.getIntent().getExtras();
-                Intent intent = new Intent(ViewPatientList.this, ActivityViewPatientProblem.class);
+                Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
