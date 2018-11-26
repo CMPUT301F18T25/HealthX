@@ -48,18 +48,19 @@ public class LoginTest extends ActivityTestRule<Login>{
         solo.assertCurrentActivity("wrong activity", Login.class);
 
 
-        EditText id = (EditText) solo.getView("loginUserID");
-        EditText email = (EditText) solo.getView("loginEmail");
+        EditText id = (EditText) solo.getView(R.id.loginUserID);
+        EditText email = (EditText) solo.getView(R.id.loginEmail);
 
-        solo.clickOnView(solo.getView("btn_login"));
-        solo.waitForText("Invalid Credientials!",1,3000);
+        solo.clickOnView(solo.getView(R.id.btn_login));
+        assertTrue(solo.waitForText("Invalid Credentials!",1,3000));
 
         solo.enterText(id,test_username);
         solo.enterText(email, test_email);
-        solo.clickOnView(solo.getView("btn_login"));
+        solo.clickOnView(solo.getView(R.id.btn_login));
 
         boolean next_view = solo.waitForActivity(ViewProblemList.class, 3000);
         assertTrue(next_view);
+
     }
 
 }
