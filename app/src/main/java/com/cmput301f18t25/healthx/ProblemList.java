@@ -4,6 +4,8 @@
  */
 package com.cmput301f18t25.healthx;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,9 +32,7 @@ public class ProblemList {
     }
 
     /**
-     * Returns problem at a given index
-     * @param  index of problem you want to return
-     * */
+     * Returns problem at a given index  */
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
 
@@ -116,6 +116,14 @@ public class ProblemList {
 
 
     public void addRecordListToProblem(int position, ArrayList<Record> recordList) {
-        problemArray.get(position).recordArray = recordList;
+        Log.d("IVANLIM", problemArray.get(position).getTitle());
+        problemArray.get(position).recordArray = new ArrayList<>(recordList);
+        for (Record r : problemArray.get(position).recordArray) {
+            Log.d("IVANLIM", r.getTitle());
+        }
+    }
+
+    public ArrayList<Record> getRecordList(int position) {
+        return problemArray.get(position).recordArray;
     }
 }

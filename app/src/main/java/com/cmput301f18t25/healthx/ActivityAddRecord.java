@@ -39,6 +39,8 @@ public class ActivityAddRecord extends AppCompatActivity {
     String problemID;
     int position;
     private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
+
 
 
 
@@ -90,7 +92,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
             mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
-            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
+//            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {

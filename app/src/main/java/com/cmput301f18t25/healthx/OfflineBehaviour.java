@@ -1,6 +1,8 @@
 package com.cmput301f18t25.healthx;
 
 
+import android.util.Log;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,13 +18,19 @@ import java.util.Queue;
 
 public class OfflineBehaviour {
 
-    private LinkedList<Object> objectQueue;
-    private LinkedList<String> objectAction;
+    private static OfflineBehaviour instance;
+    private LinkedList<Object> objectQueue = new LinkedList<>();
+    private LinkedList<String> objectAction = new LinkedList<>();
     // object can be either probelm or record
 
-    public OfflineBehaviour() {
-        objectQueue = new LinkedList<>();
-        objectAction = new LinkedList<>();
+    public static OfflineBehaviour getInstance() {
+        if (instance == null) {
+            instance = new OfflineBehaviour();
+        }
+        return instance;
+    }
+
+    OfflineBehaviour() {
     }
 
     public Queue<String> getActionQueue() {
@@ -45,10 +53,11 @@ public class OfflineBehaviour {
     }
 
     public void synchronizeWithElasticSearch() {
-
+        Log.d("synchRecord", "synchronizeWithElasticSearch: begin" + String.valueOf(objectQueue.size()) + " "+ String.valueOf(objectAction.size()));
         for (int index= 0; index < objectQueue.size(); index++) {
             Object obj = objectQueue.get(index);
             String action = objectAction.get(index);
+            Log.d("synchRecord", "synchronizeWithElasticSearch: " + action);
 
             if (action.compareTo("ADD") == 0 && obj.getClass() == Problem.class) {
                 // call elasticsearch for problemAdd
@@ -57,6 +66,7 @@ public class OfflineBehaviour {
 
             }
             else if (action.compareTo("ADD") == 0 && obj.getClass() == Record.class) {
+                Log.d("synchRecord", "synchronizeWithElasticSearch: " + obj.getClass());
                 ElasticSearchRecordController.AddRecordTask addrecord = new ElasticSearchRecordController.AddRecordTask();
                 addrecord.execute((Record) obj);
 

@@ -1,6 +1,9 @@
 package com.cmput301f18t25.healthx;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -12,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +23,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 public class ViewRecordList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -30,7 +35,7 @@ public class ViewRecordList extends AppCompatActivity
     private  String problemId;
     private int position;
     private ProblemList mProblemList = ProblemList.getInstance();
-    private OfflineBehaviour offline;
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
 
     @Override
@@ -67,20 +72,32 @@ public class ViewRecordList extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork == null) {
+            recordList = mProblemList.getRecordList(position);
+        } else  {
+            offline.synchronizeWithElasticSearch();
+            try {
+                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("IVANLIM", "recordlist: " + String.valueOf(recordList.size()));
+            mProblemList.addRecordListToProblem(position, recordList);
+        }
+
+
+
 
     }
 
     @Override
     protected void onStart(){
         super.onStart();
-        offline = new OfflineBehaviour();
-        try {
-            offline.synchronizeWithElasticSearch();
-            recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
-            mProblemList.addRecordListToProblem(position, recordList);
-        }catch (Exception e){
 
-        }
 
 //        offline.synchronizeWithElasticSearch();
         rRecyclerView = findViewById(R.id.recycler_list);

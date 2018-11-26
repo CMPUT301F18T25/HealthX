@@ -24,6 +24,8 @@ public class Login extends AppCompatActivity {
     EditText emailtextView;
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
+//    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

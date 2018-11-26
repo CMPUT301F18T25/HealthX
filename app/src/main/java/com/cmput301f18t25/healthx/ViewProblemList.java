@@ -39,7 +39,7 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
-    private OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
+    private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
 
 
 
@@ -86,6 +86,16 @@ public class ViewProblemList extends AppCompatActivity
         TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
 
+        try {
+            String userId = mProblemList.getUser().getId();
+            Log.d("IVANLIM", userId);
+            offlineBehaviour.synchronizeWithElasticSearch();
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+            mProblemList.setProblemArray(problemList);
+        }catch (Exception e){
+
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +112,7 @@ public class ViewProblemList extends AppCompatActivity
     @Override
     protected void onStart(){
         super.onStart();
-        try {
-            String userId = mProblemList.getUser().getId();
-            Log.d("IVANLIM", userId);
-            offlineBehaviour.synchronizeWithElasticSearch();
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-            mProblemList.setProblemArray(problemList);
-        }catch (Exception e){
 
-        }
         for (Problem problem: mProblemList.getProblemArray()) {
             Log.d("IVANLIM", problem.getTitle());
         }
@@ -135,7 +137,7 @@ public class ViewProblemList extends AppCompatActivity
                                         mProblemList.removeProblemFromList(position);
                                     }
                                     else {
-                                        offlineBehaviour.synchronizeWithElasticSearch();
+//                                        offlineBehaviour.synchronizeWithElasticSearch();
                                         ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                                         deleteProblemTask.execute(problemList.get(position));
                                         mAdapter.notifyItemRemoved(position);
