@@ -6,6 +6,8 @@
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -14,19 +16,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
+
 public class SlideShowAdapter extends PagerAdapter {
 
     private Context mcontext;
     private LayoutInflater layoutInflater;
-    private Integer [] images = {R.drawable.test1, R.drawable.test2,R.drawable.test3};
 
-    public SlideShowAdapter(Context mcontext) {
+    private ArrayList<Drawable> newList;
+    protected Bitmap bitmap;
+//    private Integer [] images = {R.drawable.test1, R.drawable.test2,R.drawable.test3};
+
+    public SlideShowAdapter(Context mcontext, ArrayList<Drawable> alist) {
         this.mcontext = mcontext;
+        this.newList =  alist;
     }
 
-    @Override
+//    @Override
+//    public int getCount() {
+//        return images.length;
+//    }
+
+        @Override
     public int getCount() {
-        return images.length;
+        return this.newList.size();
     }
 
     @Override
@@ -41,7 +54,8 @@ public class SlideShowAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.slideshow_customlayout, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView2);
 
-        imageView.setImageResource(images[position]);
+//        imageView.setImageResource(images[position]);
+        imageView.setImageDrawable(newList.get(position));
 
         ViewPager vp = (ViewPager) container;
         vp.addView(view,0);
