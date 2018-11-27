@@ -42,7 +42,6 @@ public class ViewProblemList extends AppCompatActivity
     private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -165,10 +164,11 @@ public class ViewProblemList extends AppCompatActivity
                         new UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
-                                Problem problem = problemList.get(pos);
+                                Problem problem = mProblemList.getElementByIndex(pos);
                                 Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("problem", problem);
+                                bundle.putInt("position", pos);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
 

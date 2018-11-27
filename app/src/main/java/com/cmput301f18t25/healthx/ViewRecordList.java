@@ -130,6 +130,8 @@ public class ViewRecordList extends AppCompatActivity
                                 Intent intent = new Intent(ViewRecordList.this, ActivityEditRecord.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("record", record);
+                                bundle.putInt("recordPositon", pos);
+                                bundle.putInt("position", position);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
 
