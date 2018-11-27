@@ -147,6 +147,7 @@ public class ViewProblemList extends AppCompatActivity
                                     if (activeNetwork!=null) {
                                         offlineBehaviour.addItem(mProblemList.getElementByIndex(position), "DELETE");
                                         mProblemList.removeProblemFromList(position);
+                                        mAdapter.notifyItemRemoved(position);
                                     }
                                     else {
 //                                        offlineBehaviour.synchronizeWithElasticSearch();
