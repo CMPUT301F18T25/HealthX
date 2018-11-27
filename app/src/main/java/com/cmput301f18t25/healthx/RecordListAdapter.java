@@ -66,6 +66,8 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
     }
 
+
+
     @Override
     public int getItemCount() {
         return records.size();
