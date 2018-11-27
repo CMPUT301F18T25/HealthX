@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,18 +28,22 @@ public class SlideShow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide_show);
 
+
         for(int i = 0; i<problemList.getListCount(); i++){
             Problem problem = problemList.getElementByIndex(i);
             recordList = problem.getRecordArray();
-            for(int x = 0 ; x<recordList.size(); x++){
+//            Toast.makeText(this,"Reached ",Toast.LENGTH_LONG).show();
+            Toast.makeText(this,String.valueOf(i),Toast.LENGTH_LONG).show();
+            Log.d("Sandy 301",String.valueOf(recordList.size()));
+            for(int x= 0; x<recordList.size(); x++){
+                Log.d("Sandy 301","Reached");
                 Record record = recordList.get(x);
                 Bitmap bitmap = record.getImage();
                 Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
                 Drawable drawable = new BitmapDrawable(bitmapScaled);
-                Log.d("Sandy 301",drawable.toString());
                 images.add(drawable);
-            }
 
+            }
 
         }
 
