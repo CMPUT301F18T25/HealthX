@@ -91,8 +91,7 @@ public class Signup extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, Login.class);
-            startActivity(intent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

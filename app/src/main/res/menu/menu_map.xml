@@ -7,9 +7,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:compat="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_search"
-        android:title="Search"
-        android:icon="@drawable/search"
-        compat:showAsAction="ifRoom"/>
+        android:id="@+id/map_button"
+        android:icon="@drawable/mapicon"
+        android:title="map"
+        compat:showAsAction="always"
+        android:tint="@android:color/black"/>
 
 </menu>

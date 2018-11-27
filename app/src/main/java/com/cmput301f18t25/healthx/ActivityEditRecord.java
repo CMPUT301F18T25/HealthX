@@ -81,8 +81,9 @@ public class ActivityEditRecord extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, ViewRecordList.class);
-            startActivity(intent);
+            if (id == android.R.id.home) {
+                finish();
+            }
         }
         if (id == R.id.save_button) {
 
