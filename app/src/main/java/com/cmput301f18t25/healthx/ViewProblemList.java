@@ -110,12 +110,23 @@ public class ViewProblemList extends AppCompatActivity
 
     }
     @Override
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
+// <<<<<<< offline
 
-        for (Problem problem: mProblemList.getProblemArray()) {
-            Log.d("IVANLIM", problem.getTitle());
-        }
+//         for (Problem problem: mProblemList.getProblemArray()) {
+//             Log.d("IVANLIM", problem.getTitle());
+// =======
+//         try {
+
+//             String userId = mProblemList.getUser().getId();
+//             Log.d("IVANLIM", userId);
+//             problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+//         }catch (Exception e){
+
+
+// >>>>>>> master
+//         }
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
@@ -124,11 +135,13 @@ public class ViewProblemList extends AppCompatActivity
         mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
         mRecyclerView.setAdapter(mAdapter);
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-                public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                    underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-                            new UnderlayButtonClickListener() {
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+                        new UnderlayButtonClickListener() {
+
 
                                 public void onClick(int position) {
+
 
                                     ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                                     NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -146,21 +159,26 @@ public class ViewProblemList extends AppCompatActivity
                             }
                     ));
 
-                    underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
-                            new UnderlayButtonClickListener() {
-                                @Override
-                                public void onClick(int pos) {
-                                    // if clicked the edit button, allow user to eit the current record
 
 
-                                }
+                underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                Problem problem = problemList.get(pos);
+                                Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("problem", problem);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+
                             }
-                    ));
-                }
+                        }
+                ));
+            }
         };
 
-
-        }
+    }
 
 
     @Override

@@ -9,13 +9,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,22 +26,22 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
-public class ActivityAddRecord extends AppCompatActivity {
+public class ActivityEditRecord extends AppCompatActivity {
     Bitmap recordPhoto;
-    LocationListener listener;
-    LocationManager lm;
-    Double longitude;
-    Double latitude;
-    String problemID;
-    int position;
-    private ProblemList mProblemList = ProblemList.getInstance();
-    private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
-
-
+    private LocationManager locationManager;
+    Location location;
+    double longitude;
+    double latitude;
+    String title;
+    String comment;
+    String dateString;
+    String problemId;
+    Record oldRecord;
 
 
     @Override
@@ -51,10 +49,26 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         Bundle bundle = this.getIntent().getExtras();
-        problemID = bundle.getString("ProblemID");
-        position = bundle.getInt("Position");
-        setGeoLocation();
+
+        EditText title_textView = findViewById(R.id.record_title);
+        EditText comment_textView = findViewById(R.id.record_comment);
+        DatePicker recordDate_T = findViewById(R.id.recordDate);
+
+
+        oldRecord = (Record) bundle.getSerializable("record");
+        title = oldRecord.getTitle();
+        comment = oldRecord.getComment();
+        dateString = oldRecord.getDate();
+        problemId = oldRecord.getProblemID();
+
+        title_textView.setText(title);
+        comment_textView.setText(comment);
+        recordDate_T.updateDate(Integer.valueOf(dateString.substring(0, 4)),
+                Integer.valueOf(dateString.substring(5, 7)) - 1,
+                Integer.valueOf(dateString.substring(8, 10)));
+
     }
 
     @Override
@@ -76,7 +90,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             EditText title_textView = findViewById(R.id.record_title);
             EditText comment_textView = findViewById(R.id.record_comment);
-
             DatePicker recordDate_T = findViewById(R.id.recordDate);
 
             Date selected = new Date(recordDate_T.getYear() - 1900,
@@ -91,24 +104,21 @@ public class ActivityAddRecord extends AppCompatActivity {
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
             setGeoLocation();
-            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
-            mProblemList.addToRecordToProblem(position,newRecord);
+
             // Check if app is connected to a network.
-//            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-                offlineBehaviour.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-                finish();
             } else {
-//                offlineBehaviour.synchronizeWithElasticSearch();
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
-                finish();
-//                Intent intent = new Intent(ActivityAddRecord.this, ViewRecordList.class);
-//                startActivity(intent);
+                ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
+                deleteRecordTask.execute(oldRecord);
+                Intent intent = new Intent(ActivityEditRecord.this, ViewRecordList.class);
+                startActivity(intent);
             }
 
         }
@@ -121,21 +131,21 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
 
-             ImageView imageView = findViewById(R.id.view_photo);
+            ImageView imageView = findViewById(R.id.view_photo);
             byte[] byteArray = data.getByteArrayExtra("image");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-             Drawable drawable = new BitmapDrawable(bitmapScaled);
-             imageView.setImageDrawable(drawable);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            imageView.setImageDrawable(drawable);
 
-             imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);
 
 
             recordPhoto = bitmap;
 
         }else{
-            Toast.makeText(ActivityAddRecord.this,"Unable To Set Photo To Record",Toast.LENGTH_LONG).show();
+            Toast.makeText(ActivityEditRecord.this,"Unable To Set Photo To Record",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -147,57 +157,36 @@ public class ActivityAddRecord extends AppCompatActivity {
     }
 
     public void setGeoLocation() {
-        lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-        listener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.ACCESS_FINE_LOCATION},1);
+        }else{
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            if (location != null){
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
-
+                Log.d("SANDY 301", String.valueOf(longitude));
+                Log.d("SANDY 301", String.valueOf(latitude));
             }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
+            else{
+                Log.d("SANDY 301","NO LOCATION");
             }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-
-            }
-        };
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            ActivityCompat.requestPermissions(this,new String[] {Manifest.permission.ACCESS_FINE_LOCATION},1);
-        }else{
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
 
         }
+
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length > 0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
-            if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
-                lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
-            }
+        switch (requestCode) {
+            case 1:
+                setGeoLocation();
+                break;
         }
+
     }
 
 }

@@ -8,10 +8,12 @@ package com.cmput301f18t25.healthx;
 import android.graphics.Bitmap;
 
 import java.io.Serializable;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Record  implements Serializable {
+
     protected String title;
     protected String comment;
     protected Double longitude;
@@ -134,6 +136,12 @@ public class Record  implements Serializable {
         this.id = id;
     }
 
+    public void setProblemID(String problemID){
+        this.problemID = problemID;
+    }
+    public String getProblemID(){
+        return this.problemID;
+    }
 
 }
 
