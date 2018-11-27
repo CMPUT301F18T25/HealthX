@@ -103,7 +103,7 @@ public class ActivityAddRecord extends AppCompatActivity {
                 finish();
             } else {
 //                offlineBehaviour.synchronizeWithElasticSearch();
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+//                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
                 finish();
