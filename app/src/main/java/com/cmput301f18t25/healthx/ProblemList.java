@@ -150,4 +150,8 @@ public class ProblemList {
         sortRecordArray(problemPosition);
     }
 
+    public Record getRecord(int problemPosition, int recordPosition) {
+        return problemArray.get(problemPosition).recordArray.get(recordPosition);
+    }
+
 }

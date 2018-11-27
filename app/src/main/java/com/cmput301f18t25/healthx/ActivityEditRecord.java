@@ -148,14 +148,10 @@ public class ActivityEditRecord extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.view_photo);
             byte[] byteArray = data.getByteArrayExtra("image");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
             Drawable drawable = new BitmapDrawable(bitmapScaled);
             imageView.setImageDrawable(drawable);
-
             imageView.setImageBitmap(bitmap);
-
-
             recordPhoto = bitmap;
 
         }else{

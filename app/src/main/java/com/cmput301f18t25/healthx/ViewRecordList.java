@@ -114,9 +114,18 @@ public class ViewRecordList extends AppCompatActivity
                 underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
                         new UnderlayButtonClickListener() {
 
-                            public void onClick(int position) {
-                                ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
-                                deleteRecordTask.execute(recordList.get(position));
+                            public void onClick(int rposition) {
+                                ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                                if (activeNetwork!=null) {
+                                    offline.addItem(mProblemList.getRecord(position,rposition), "DELETE");
+                                    mProblemList.removeRecord(position, rposition);
+                                }
+                                else{
+                                    ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
+                                    deleteRecordTask.execute(recordList.get(position));
+                                }
+
 
                             }
                         }
