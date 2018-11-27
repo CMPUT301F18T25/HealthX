@@ -97,8 +97,7 @@ public class ActivityAddRecord extends AppCompatActivity {
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
-                Intent intent = new Intent(ActivityAddRecord.this, ViewRecordList.class);
-                startActivity(intent);
+                finish();
             }
 
         }
