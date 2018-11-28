@@ -26,6 +26,7 @@ public class ViewPatientList extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<User> patientList = new ArrayList<User>();
+    private String doctorID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,17 +89,25 @@ public class ViewPatientList extends AppCompatActivity
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
+        doctorID = user.getId();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = null;
-                bundle = ViewPatientList.this.getIntent().getExtras();
+                Bundle bundle = new Bundle();
+
+                //bundle = ViewPatientList.this.getIntent().getExtras();
                 Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
-                intent.putExtras(bundle);
+                bundle.putString("doctorID",doctorID);
+                intent.putExtras(bundle); // pass the problemid to the addactivity
                 startActivity(intent);
             }
         });
+        try {
+            patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
+        }catch (Exception e){
+
+        }
     }
 
     @Override

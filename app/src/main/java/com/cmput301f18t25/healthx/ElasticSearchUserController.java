@@ -11,6 +11,7 @@ import com.searchly.jestdroid.JestDroidClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +143,77 @@ public class ElasticSearchUserController {
         }
     }
 
+    public static class GetPatientsTask extends AsyncTask<String, Void, ArrayList<User>> {
+        @Override
+        protected ArrayList<User> doInBackground(String... params) {
 
+            verifySettings();
+            ArrayList<User> patients = new ArrayList<User>();
+            String query = "{\n" + "\"from\" : 0, \"size\": 100,\n" +
+                    "    \"query\": {\n" +
+                    "                \"match\" : {\"doctorID\": \""+ params[0] + "\" }\n"  +  " }\n}\n";
+
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+
+                    .addType("myPatient")
+                    .build();
+            try {
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    Log.d("CeciliaW", "doInBackground: patient SUCESS");
+                    List<User> patientList;
+                    patientList = result.getSourceAsObjectList(User.class);
+                    patients.addAll(patientList);
+                }
+                else {
+                    Log.d("CeciliaW", "doInBackground: patient ELSe");
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching records");
+            }
+
+            return patients;
+        }
+
+    }
+
+    public static class AddPatientTask extends AsyncTask<User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... patients) {
+            verifySettings();
+            String patientID;
+            for (User patient : patients){
+                Index index = new Index.Builder(patient).index("cmput301f18t25test").type("patients").build();
+
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    } else {
+                        patientID = result1.getId();
+                        patient.setId(patientID);
+                        Index index1 = new Index.Builder(patient).index("cmput301f18t25test").type("myPatient").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
+                    }
+                }
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
+            }
+            return null;
+
+        }
+    }
 
     public static void verifySettings() {
         if (client == null) {

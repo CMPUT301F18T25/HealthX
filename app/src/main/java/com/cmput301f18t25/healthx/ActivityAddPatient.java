@@ -29,7 +29,7 @@ public class ActivityAddPatient extends AppCompatActivity {
     Button mAddButton;
     EditText mUserText;
     EditText mEmailText;
-
+    String doctorID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,8 @@ public class ActivityAddPatient extends AppCompatActivity {
         mAddButton = (Button) findViewById(R.id.btnAddPatient); // R.id.idofButton once created
         mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
         mEmailText = (EditText) findViewById(R.id.userEmailText);
+        Bundle bundle = this.getIntent().getExtras();
+        doctorID = bundle.getString("doctorID");
 
     }
 
@@ -70,7 +72,9 @@ public class ActivityAddPatient extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
             if (user.getStatus().equals("Patient")) {
                 //////////////////// add patient
-
+                user.setDoctorID(doctorID);
+                ElasticSearchUserController.AddPatientTask addPatientTask = new ElasticSearchUserController.AddPatientTask();
+                addPatientTask.execute(user);
 
 
 
@@ -82,11 +86,9 @@ public class ActivityAddPatient extends AppCompatActivity {
 //                intent.putExtras(bundle);
 //                startActivity(intent);
                 finish();
-
             }
-
             else {
-                Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credientials!" , Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), user.getStatus()+"Invalid Credientials!" , Toast.LENGTH_SHORT);
                 toast.show();
             }
         } catch (ExecutionException e) {

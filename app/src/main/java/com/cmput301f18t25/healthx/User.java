@@ -12,6 +12,16 @@ public class User {
     protected String phoneNumber;
     protected String email;
     protected String id;
+
+    public String getDoctorID() {
+        return doctorID;
+    }
+
+    public void setDoctorID(String doctorID) {
+        this.doctorID = doctorID;
+    }
+
+    protected String doctorID;
     //    status meaning if the user is a patient or a care provider.
     protected String status;
 
