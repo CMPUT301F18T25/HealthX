@@ -52,12 +52,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
                 Problem toView = problems.get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("Title",toView.getTitle());
-                bundle.putString("Description",toView.getDescription());
-                bundle.putString("Count",Integer.toString(toView.getCount()));
                 bundle.putString("ProblemID", toView.getId());
-
-                bundle.putString("Date",toView.getDate());
 
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewRecordList.class);

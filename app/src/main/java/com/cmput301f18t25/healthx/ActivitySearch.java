@@ -48,8 +48,7 @@ public class ActivitySearch extends AppCompatActivity {
 
 
     public void toViewProblem(View view) {
-        Intent intent = new Intent(this, ViewProblemList.class);
-        startActivity(intent);
+        finish();
     }
 }
 

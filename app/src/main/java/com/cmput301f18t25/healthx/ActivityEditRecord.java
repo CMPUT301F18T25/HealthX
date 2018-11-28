@@ -116,8 +116,9 @@ public class ActivityEditRecord extends AppCompatActivity {
                 addRecordTask.execute(newRecord);
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
-                Intent intent = new Intent(ActivityEditRecord.this, ViewRecordList.class);
-                startActivity(intent);
+                finish();
+                //Intent intent = new Intent(ActivityEditRecord.this, ViewRecordList.class);
+                //startActivity(intent);
             }
 
         }

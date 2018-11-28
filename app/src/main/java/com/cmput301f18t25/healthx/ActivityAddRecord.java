@@ -63,8 +63,9 @@ public class ActivityAddRecord extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, ViewRecordList.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, ViewRecordList.class);
+//            startActivity(intent);
+            finish();
         }
         if (id == R.id.save_button) {
 

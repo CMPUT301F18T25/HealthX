@@ -49,10 +49,11 @@ public class ActivityAddProblem extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Bundle bundle = this.getIntent().getExtras();
-            Intent intent = new Intent(this, ViewProblemList.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            finish();
+//            Bundle bundle = this.getIntent().getExtras();
+//            Intent intent = new Intent(this, ViewProblemList.class);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
         }
         if (id == R.id.save_button) {
 

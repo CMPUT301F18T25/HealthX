@@ -55,8 +55,9 @@ public class Signup extends AppCompatActivity {
                     addUserTask.execute(user);
 //                        createUser(UserName);
 //                        saveUsernameInFile(UserName); // save username for auto login
-                    Intent intent = new Intent(Signup.this, Login.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(Signup.this, Login.class);
+//                    startActivity(intent);
+                    finish();
                 }
             }
 

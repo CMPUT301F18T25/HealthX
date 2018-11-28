@@ -68,11 +68,12 @@ public class EditUserProfile extends AppCompatActivity {
         int id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Bundle bundle = null;
-            bundle = this.getIntent().getExtras();
-            Intent intent = new Intent(this, ViewProblemList.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            finish();
+//            Bundle bundle = null;
+//            bundle = this.getIntent().getExtras();
+//            Intent intent = new Intent(this, ViewProblemList.class);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
         }
         if (id == R.id.save_button) {
             Bundle bundle = null;
@@ -106,12 +107,13 @@ public class EditUserProfile extends AppCompatActivity {
             ElasticSearchUserController.UpdateUserTask updateUserTask = new ElasticSearchUserController.UpdateUserTask();
             updateUserTask.execute(user);
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
-            bundle = null;
-            bundle.putString("id",user.getUsername());
-            bundle.putString("email",user.getEmail());
-            Intent intent = new Intent(this, ViewProblemList.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            finish();
+//            bundle = null;
+//            bundle.putString("id",user.getUsername());
+//            bundle.putString("email",user.getEmail());
+//            Intent intent = new Intent(this, ViewProblemList.class);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
             return true;
         }
 

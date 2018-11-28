@@ -208,6 +208,9 @@ public class ViewProblemList extends AppCompatActivity
             intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
+            //finish();
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
 
 
         }

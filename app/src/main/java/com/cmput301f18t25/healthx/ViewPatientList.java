@@ -45,17 +45,17 @@ public class ViewPatientList extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
 
 
-        ElasticSearchUserController.GetUserTask getUserTaskTest = new ElasticSearchUserController.GetUserTask();
-        User user2 = null;
-        try {
-            user2 = getUserTaskTest.execute("test","asdf@abc.com").get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        patientList.add(user2);
+//        ElasticSearchUserController.GetUserTask getUserTaskTest = new ElasticSearchUserController.GetUserTask();
+//        User user2 = null;
+//        try {
+//            user2 = getUserTaskTest.execute("test","asdf@abc.com").get();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        patientList.add(user2);
 
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);

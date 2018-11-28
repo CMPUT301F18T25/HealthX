@@ -38,6 +38,8 @@ public class ViewRecordList extends AppCompatActivity{
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle bundle = this.getIntent().getExtras();
+        problemId = bundle.getString("ProblemID");
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,8 +53,7 @@ public class ViewRecordList extends AppCompatActivity{
             }
         });
 
-        Bundle bundle = this.getIntent().getExtras();
-        problemId = bundle.getString("ProblemID");
+
 
 
     }
