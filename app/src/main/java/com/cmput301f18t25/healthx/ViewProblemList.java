@@ -151,8 +151,8 @@ public class ViewProblemList extends AppCompatActivity
                                     }
                                     else {
 //                                        offlineBehaviour.synchronizeWithElasticSearch();
-                                        ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                        deleteProblemTask.execute(problemList.get(position));
+//                                        ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+//                                        deleteProblemTask.execute(problemList.get(position));
                                         mAdapter.notifyItemRemoved(position);
                                     }
                                 }
