@@ -1,5 +1,7 @@
 package com.cmput301f18t25.healthx;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.concurrent.ExecutionException;
 
 public class EditUserProfile extends AppCompatActivity {
@@ -35,23 +38,24 @@ public class EditUserProfile extends AppCompatActivity {
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         User user = null;
         try {
-            user = getUserTask.execute(id,email).get();
+            user = getUserTask.execute(id, email).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        TextView Eid = (TextView)findViewById(R.id.edit_id);
+        TextView Eid = (TextView) findViewById(R.id.edit_id);
         Eid.setText(user.getUsername());
-        TextView Ename = (TextView)findViewById(R.id.edit_name);
+        TextView Ename = (TextView) findViewById(R.id.edit_name);
         Ename.setText(user.getName());
-        TextView Ephone = (TextView)findViewById(R.id.edit_phone);
+        TextView Ephone = (TextView) findViewById(R.id.edit_phone);
         Ephone.setText(user.getPhoneNumber());
-        TextView Eemail = (TextView)findViewById(R.id.edit_email);
+        TextView Eemail = (TextView) findViewById(R.id.edit_email);
         Eemail.setText(user.getEmail());
 
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -59,6 +63,7 @@ public class EditUserProfile extends AppCompatActivity {
 
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -82,7 +87,7 @@ public class EditUserProfile extends AppCompatActivity {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             User user = null;
             try {
-                user = getUserTask.execute(Bid,Bemail).get();
+                user = getUserTask.execute(Bid, Bemail).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -90,13 +95,13 @@ public class EditUserProfile extends AppCompatActivity {
             }
 
 
-            Spinner freq = (Spinner)findViewById(R.id.frequency_menu);
+            Spinner freq = (Spinner) findViewById(R.id.frequency_menu);
             String frequency = String.valueOf(freq.getSelectedItem());
-            TextView Ename = (TextView)findViewById(R.id.edit_name);
+            TextView Ename = (TextView) findViewById(R.id.edit_name);
             String ENAME = Ename.getText().toString();
-            TextView Ephone = (TextView)findViewById(R.id.edit_phone);
+            TextView Ephone = (TextView) findViewById(R.id.edit_phone);
             String EPHONE = Ephone.getText().toString();
-            TextView Eemail = (TextView)findViewById(R.id.edit_email);
+            TextView Eemail = (TextView) findViewById(R.id.edit_email);
             String EEMAIL = Eemail.getText().toString();
 
             user.setEmail(EEMAIL);
@@ -107,17 +112,27 @@ public class EditUserProfile extends AppCompatActivity {
             updateUserTask.execute(user);
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
             bundle = null;
-            bundle.putString("id",user.getUsername());
-            bundle.putString("email",user.getEmail());
+            bundle.putString("id", user.getUsername());
+            bundle.putString("email", user.getEmail());
             Intent intent = new Intent(this, ViewProblemList.class);
             intent.putExtras(bundle);
             startActivity(intent);
+
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
-
-
+    public void SetNotification(String time) {
+        switch time {
+            case()
+        }
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.SECOND, 5);
+        Intent intent = new Intent(getApplicationContext(),Notification_receiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 100, new Intent(""), PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, ), );
+    }
 }
