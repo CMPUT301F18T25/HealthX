@@ -1,11 +1,16 @@
 package com.cmput301f18t25.healthx;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,8 +24,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Delete;
@@ -33,6 +42,7 @@ public class ViewProblemList extends AppCompatActivity
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
     private boolean isDoctor;
+    boolean isNight = false;
 
 
     @Override
@@ -94,6 +104,33 @@ public class ViewProblemList extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
+        String frequency = user.getReminderFrequency();
+        if (!frequency.equals("None")){
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,10);
+            calendar.set(Calendar.MINUTE,33);
+            calendar.set(Calendar.SECOND,20);
+
+            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
+            Intent intent = new Intent(this, Notification_receiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            if (frequency.equals("Everyday")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every week")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every month")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+
+        }
+
 
     }
     @Override
@@ -216,6 +253,10 @@ public class ViewProblemList extends AppCompatActivity
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
 
+
+        }
+        else if (id == R.id.nav_theme) {
+            /* finish(); */
 
         }
 

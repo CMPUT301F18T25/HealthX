@@ -22,6 +22,11 @@
             android:id="@+id/nav_map"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="Map Mode" />
+
+        <item
+            android:id="@+id/nav_theme"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="Change Theme" />
     </group>
 
     <item android:title="User">
