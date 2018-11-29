@@ -37,6 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CodeLogin" />
         <activity android:name=".Signup" />
         <activity
             android:name=".ViewProblemList"
@@ -48,17 +49,17 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ActivityEditProblem" />
         <activity android:name=".EditUserProfile" />
+        <activity android:name=".ActivityGenerateCode" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddPhoto" />
         <activity android:name=".ActivityAddRecord" />
-
         <activity android:name=".ViewCurrentRecord" />
-        <activity android:name=".MapViewActivity"></activity>
+        <activity android:name=".MapViewActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA"/>
+            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA" />
 
     </application>
 

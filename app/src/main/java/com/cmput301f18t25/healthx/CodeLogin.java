@@ -16,13 +16,11 @@ import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Get;
 
+import java.util.concurrent.ExecutionException;
 
-public class Login extends AppCompatActivity {
-//
-//    TextInputEditText userIdTextView;
-//    TextInputEditText emailtextView;
-    EditText userIdTextView;
-    EditText emailtextView;
+public class CodeLogin extends AppCompatActivity {
+
+    EditText userCodeTextView;
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
 
@@ -30,14 +28,13 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_with_code);
         getSupportActionBar().hide();
-        userIdTextView = findViewById(R.id.loginUserID);
-        emailtextView = findViewById(R.id.loginEmail);
+        userCodeTextView = findViewById(R.id.loginUserCode);
     }
 
-    public void toCodeLogin(View view) {
-        Intent intent = new Intent(this, CodeLogin.class);
+    public void toMainLogin(View view) {
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
@@ -52,11 +49,10 @@ public class Login extends AppCompatActivity {
         if (null == activeNetwork) {
             Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
         } else {
-//            User user = new User(name,id,phone,email,status);
-            String userId = userIdTextView.getText().toString();
-            String email = emailtextView.getText().toString();
+//          User user = new User(name,id,phone,email,status);
+            String userCode = userCodeTextView.getText().toString();
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-            try {
+            /*try {
                 user = getUserTask.execute(userId,email).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 if (!user.getStatus().equals("")) {
@@ -69,7 +65,7 @@ public class Login extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials!" , Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!" , Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } catch (ExecutionException e) {
@@ -82,7 +78,9 @@ public class Login extends AppCompatActivity {
 //            Intent intent = new Intent(Signup.this, Login.class);
 //            startActivity(intent);
 
+        }*/
         }
+
     }
 
 }

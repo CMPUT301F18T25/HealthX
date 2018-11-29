@@ -157,9 +157,15 @@ public class ViewRecordList extends AppCompatActivity
             intent.putExtra("BUNDLE",args);
             startActivity(intent);
 
+        } else if (id == R.id.nav_code) {
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            startActivity(intent);
+
+
         } else if (id == R.id.nav_edit) {
             Intent intent = new Intent(this, EditUserProfile.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_logout) {
 
         }
