@@ -1,11 +1,13 @@
 package com.cmput301f18t25.healthx;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,7 +32,8 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_a_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        Button viewPhotoButton = (Button) findViewById(R.id.SeePhoto);
+        viewPhotoButton.setOnClickListener(this);
 
 
 //        Bundle bundle = null;
@@ -85,5 +88,15 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(placeLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
 
+    }
+
+    @Override
+    public void onClick(View v){
+        switch(v.getId()){
+            case R.id.SeePhoto: {
+                Intent i = new Intent(getApplicationContext(),ViewRecordPhotos.class);
+                startActivity(i);
+            }
+        }
     }
 }
