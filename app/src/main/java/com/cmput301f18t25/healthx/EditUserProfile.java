@@ -124,15 +124,11 @@ public class EditUserProfile extends AppCompatActivity {
     }
 
     public void SetNotification(String time) {
-        switch time {
-            case()
-        }
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.SECOND, 5);
         Intent intent = new Intent(getApplicationContext(),Notification_receiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 100, new Intent(""), PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, ), );
     }
 }
