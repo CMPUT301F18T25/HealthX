@@ -205,9 +205,9 @@ public class ViewProblemList extends AppCompatActivity
             String Oemail = obundle.getString("email");
 
             Bundle bundle = new Bundle();
-            bundle.putString("id",Oid);
-            bundle.putString("email",Oemail);
+            bundle.putAll(obundle);
             Intent intent = new Intent(this, ActivityGenerateCode.class);
+            intent.putExtras(bundle);
             startActivity(intent);
 
 
