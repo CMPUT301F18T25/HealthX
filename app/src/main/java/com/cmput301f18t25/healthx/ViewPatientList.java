@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class ViewPatientList extends AppCompatActivity
@@ -57,14 +58,6 @@ public class ViewPatientList extends AppCompatActivity
 //        }
 //
 //        patientList.add(user2);
-
-        mRecyclerView = findViewById(R.id.recycler_list);
-        mRecyclerView.setHasFixedSize(true);
-
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new PatientListAdapter(patientList,this.getIntent());
-        mRecyclerView.setAdapter(mAdapter);
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
@@ -90,6 +83,36 @@ public class ViewPatientList extends AppCompatActivity
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
         doctorID = user.getId();
+        try {
+            patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
+        }catch (Exception e){
+
+        }
+
+        mRecyclerView = findViewById(R.id.recycler_list);
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new PatientListAdapter(patientList,this.getIntent());
+        mRecyclerView.setAdapter(mAdapter);
+        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+                        new UnderlayButtonClickListener() {
+
+                            public void onClick(int position) {
+                                ElasticSearchUserController.DeletePatientTask deletePatientTask = new ElasticSearchUserController.DeletePatientTask();
+                                deletePatientTask.execute(patientList.get(position));
+                                mAdapter.notifyItemRemoved(position);
+
+                            }
+                        }
+                ));
+
+
+        };};
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,11 +126,7 @@ public class ViewPatientList extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        try {
-            patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
-        }catch (Exception e){
 
-        }
     }
 
     @Override
@@ -156,7 +175,8 @@ public class ViewPatientList extends AppCompatActivity
             Intent intent = new Intent(this, EditUserProfile.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
-
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

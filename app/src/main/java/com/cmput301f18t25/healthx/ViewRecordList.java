@@ -29,6 +29,7 @@ public class ViewRecordList extends AppCompatActivity{
     private RecyclerView.LayoutManager rLayoutManager;
     private ArrayList<Record> recordList = new ArrayList<Record>();
     private  String problemId;
+    private boolean isDoctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +39,18 @@ public class ViewRecordList extends AppCompatActivity{
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Bundle bundle = this.getIntent().getExtras();
+        final Bundle bundle = this.getIntent().getExtras();
         problemId = bundle.getString("ProblemID");
-
+        //isDoctor = bundle.getBoolean("isDoctor");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ViewRecordList.this,ActivityAddRecord.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("ProblemID",problemId);
                 intent.putExtras(bundle); // pass the problemid to the addactivity
                 startActivity(intent);
+                //startActivityForResult(intent, 1);
+
             }
         });
 
@@ -57,6 +58,8 @@ public class ViewRecordList extends AppCompatActivity{
 
 
     }
+
+
 
     @Override
     protected void onStart(){
@@ -81,6 +84,7 @@ public class ViewRecordList extends AppCompatActivity{
                             public void onClick(int position) {
                                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                                 deleteRecordTask.execute(recordList.get(position));
+                                rAdapter.notifyItemRemoved(position);
 
                             }
                         }
@@ -96,8 +100,7 @@ public class ViewRecordList extends AppCompatActivity{
                                 bundle.putSerializable("record", record);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
-
-                            }
+                                }
                         }
                 ));
             }

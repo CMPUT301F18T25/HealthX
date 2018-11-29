@@ -23,6 +23,16 @@ public class Record  implements Serializable {
     protected String id;
     protected String problemID; // problemId specifies the feild at which the record is associated with a problem
 
+    public boolean isCPComment() {
+        return CPComment;
+    }
+
+    public void setCPComment(boolean CPComment) {
+        this.CPComment = CPComment;
+    }
+
+    protected boolean CPComment;
+
 
     public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
         /**

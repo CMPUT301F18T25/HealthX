@@ -41,6 +41,7 @@ public class ActivityViewPatientProblem extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
+    private boolean isDoctor = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +139,7 @@ public class ActivityViewPatientProblem extends AppCompatActivity
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProblemListAdapter(problemList);
+        mAdapter = new ProblemListAdapter(problemList,isDoctor);
         mRecyclerView.setAdapter(mAdapter);
 
 

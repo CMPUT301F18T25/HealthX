@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -94,12 +95,7 @@ public class ElasticSearchUserController {
 //                DocumentResult docres = client.execute(search);
 //                SearchRes
                 if (result.isSucceeded()) {
-//                    Map user = result.getJsonMap();
-//                    String user = result.getJsonString();
-//                    Log.d("IVANLIM", user);
-
-//                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
-
+//
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);
                     userArray.addAll(userList);
@@ -193,8 +189,8 @@ public class ElasticSearchUserController {
                     if (!result1.isSucceeded()) {
                         Log.i("Error", "Elasticsearch was not able to add problem.");
                     } else {
-                        patientID = result1.getId();
-                        patient.setId(patientID);
+                        //patientID = result1.getId();
+                        //patient.setId(patientID);
                         Index index1 = new Index.Builder(patient).index("cmput301f18t25test").type("myPatient").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
@@ -214,7 +210,27 @@ public class ElasticSearchUserController {
 
         }
     }
+    public static class DeletePatientTask extends AsyncTask<User, Void, Void> {
 
+        @Override
+        protected Void doInBackground(User... patients) {
+            verifySettings();
+            //String query = "{\"query\" : { \"match\" : { \"user\" : \"" + records[0].getId() + "\"}}}";
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "                \"bool\" : {\n" +
+                    "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ patients[0].getUsername()+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ patients[0].getEmail()+"\"}}\n]\n}\n}\n}\n";
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("myPatient").build();
+            try {
+                client.execute(delete);
+            } catch (Exception e) {
+                Log.d("ElasticProblem", "The application failed to build and send the problem");
+            }
+
+            return null;
+        }
+
+    }
     public static void verifySettings() {
         if (client == null) {
 

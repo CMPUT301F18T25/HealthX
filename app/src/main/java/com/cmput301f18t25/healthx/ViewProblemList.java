@@ -32,7 +32,7 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
-
+    private boolean isDoctor;
 
 
     @Override
@@ -63,6 +63,10 @@ public class ViewProblemList extends AppCompatActivity
         User user = null;
         try {
             user = getUserTask.execute(id,email).get();
+            if (user.getStatus().equals("Care Provider")){
+                isDoctor = true;
+            }
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -109,7 +113,7 @@ public class ViewProblemList extends AppCompatActivity
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProblemListAdapter(problemList);
+        mAdapter = new ProblemListAdapter(problemList,isDoctor);
         mRecyclerView.setAdapter(mAdapter);
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {

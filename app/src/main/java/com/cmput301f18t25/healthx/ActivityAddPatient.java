@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,8 +37,7 @@ public class ActivityAddPatient extends AppCompatActivity {
         setContentView(R.layout.activity_add_patient);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAddButton = (Button) findViewById(R.id.btnAddPatient); // R.id.idofButton once created
-        mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
-        mEmailText = (EditText) findViewById(R.id.userEmailText);
+
         Bundle bundle = this.getIntent().getExtras();
         doctorID = bundle.getString("doctorID");
 
@@ -62,29 +62,27 @@ public class ActivityAddPatient extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public void addPatient(View view) {
+        mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
+        mEmailText = (EditText) findViewById(R.id.userEmailText);
 
         String userId = mUserText.getText().toString();
         String userEmail = mEmailText.getText().toString();
+        Log.i("CWei", userId+" "+userEmail);
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         try {
 
             User user = getUserTask.execute(userId,userEmail).get();
-            Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
-            if (user.getStatus().equals("Patient")) {
+            Log.i("CWei", user.getName());
+            Toast.makeText(getApplicationContext(), user.getName()+"name" , Toast.LENGTH_LONG).show();
+            if (!user.getStatus().equals("")) {
                 //////////////////// add patient
                 user.setDoctorID(doctorID);
                 ElasticSearchUserController.AddPatientTask addPatientTask = new ElasticSearchUserController.AddPatientTask();
                 addPatientTask.execute(user);
 
-
-
                 /////////////////////////////////////
                 Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
                 toast.show();
-//                Intent intent = new Intent(this, ViewPatientList.class);
-//                Bundle bundle = getIntent().getExtras();
-//                intent.putExtras(bundle);
-//                startActivity(intent);
                 finish();
             }
             else {

@@ -39,6 +39,7 @@ public class ActivityAddRecord extends AppCompatActivity {
     Double longitude;
     Double latitude;
     String problemID;
+    boolean isDoctor;
 
 
     @Override
@@ -48,6 +49,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = this.getIntent().getExtras();
         problemID = bundle.getString("ProblemID");
+        isDoctor = bundle.getBoolean("isDoctor");
         setGeoLocation();
     }
 
@@ -95,9 +97,9 @@ public class ActivityAddRecord extends AppCompatActivity {
             } else {
 
                 Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+                newRecord.setCPComment(isDoctor);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
-
                 finish();
             }
 
@@ -189,5 +191,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
+
+
 
 }

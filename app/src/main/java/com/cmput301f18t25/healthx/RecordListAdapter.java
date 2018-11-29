@@ -2,11 +2,13 @@ package com.cmput301f18t25.healthx;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.text.DateFormat;
@@ -33,16 +35,28 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
         // CHANGE LAYOUT
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recordlist_cardview, parent, false);
         ViewHolder vh = new ViewHolder(v);
+        //v.setBackgroundColor(Color.BLACK                                                                                                                                                                                                                );
+        // vh.itemView.setBackgroundColor(Color.BLACK);
+
+
         return vh;
 
     }
 
     @Override
     public void onBindViewHolder(RecordListAdapter.ViewHolder holder, final int position) {
-
+        //holder.itemView.setBackgroundColor(Color.BLACK);
         holder.rTitle.setText(records.get(position).getTitle());
         holder.rComment.setText(records.get(position).getComment());
         holder.rTimestamp.setText(records.get(position).getDate());
+
+        if (records.get(position).isCPComment()){
+            String color_string = "#c3b1e2";
+            int myColor = Color.parseColor(color_string);
+            //oneRecord.setBackgroundColor(myColor);
+            holder.oneRecord.setBackgroundColor(myColor);
+//            holder.itemView.setBackgroundColor(Color.BLACK);
+       }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +89,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
         public TextView rTitle;
         public TextView rComment;
         public TextView rTimestamp;
+        public  LinearLayout oneRecord;
         public Context context;
 
         public ViewHolder(final View itemView) {
@@ -84,6 +99,8 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
             rTitle = itemView.findViewById(R.id.recordTitle);
             rComment = itemView.findViewById(R.id.recordComment);
             rTimestamp = itemView.findViewById(R.id.recordTimestamp);
+            oneRecord = itemView.findViewById(R.id.OneRecord);
+
             itemView.setClickable(true);
 
         }
