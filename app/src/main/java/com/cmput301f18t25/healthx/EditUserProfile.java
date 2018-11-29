@@ -108,12 +108,7 @@ public class EditUserProfile extends AppCompatActivity {
             updateUserTask.execute(user);
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
             finish();
-//            bundle = null;
-//            bundle.putString("id",user.getUsername());
-//            bundle.putString("email",user.getEmail());
-//            Intent intent = new Intent(this, ViewProblemList.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
+
             return true;
         }
 

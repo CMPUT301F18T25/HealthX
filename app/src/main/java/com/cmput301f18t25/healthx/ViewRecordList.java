@@ -54,11 +54,7 @@ public class ViewRecordList extends AppCompatActivity{
             }
         });
 
-
-
-
     }
-
 
 
     @Override
@@ -76,6 +72,9 @@ public class ViewRecordList extends AppCompatActivity{
         rRecyclerView.setLayoutManager(rLayoutManager);
         rAdapter = new RecordListAdapter(recordList);
         rRecyclerView.setAdapter(rAdapter);
+        if (!isDoctor){
+
+        }
         SwipeHelper swipeHelper = new SwipeHelper(this, rRecyclerView) {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),

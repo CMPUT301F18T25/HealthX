@@ -46,18 +46,6 @@ public class ViewPatientList extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
 
-
-//        ElasticSearchUserController.GetUserTask getUserTaskTest = new ElasticSearchUserController.GetUserTask();
-//        User user2 = null;
-//        try {
-//            user2 = getUserTaskTest.execute("test","asdf@abc.com").get();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        patientList.add(user2);
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
@@ -83,6 +71,56 @@ public class ViewPatientList extends AppCompatActivity
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
         doctorID = user.getId();
+//        try {
+//            patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
+//        }catch (Exception e){
+//
+//        }
+//
+//        mRecyclerView = findViewById(R.id.recycler_list);
+//        mRecyclerView.setHasFixedSize(true);
+//
+//        mLayoutManager = new LinearLayoutManager(this);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mAdapter = new PatientListAdapter(patientList,this.getIntent());
+//        mRecyclerView.setAdapter(mAdapter);
+//        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
+//            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+//                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+//                        new UnderlayButtonClickListener() {
+//
+//                            public void onClick(int position) {
+//                                ElasticSearchUserController.DeletePatientTask deletePatientTask = new ElasticSearchUserController.DeletePatientTask();
+//                                deletePatientTask.execute(patientList.get(position));
+//                                patientList.remove(position);
+//                                mAdapter.notifyItemRemoved(position);
+//
+//                            }
+//                        }
+//                ));
+//
+//
+//            };};
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+
+                //bundle = ViewPatientList.this.getIntent().getExtras();
+                Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
+                bundle.putString("doctorID",doctorID);
+                intent.putExtras(bundle); // pass the problemid to the addactivity
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         try {
             patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
         }catch (Exception e){
@@ -104,6 +142,7 @@ public class ViewPatientList extends AppCompatActivity
                             public void onClick(int position) {
                                 ElasticSearchUserController.DeletePatientTask deletePatientTask = new ElasticSearchUserController.DeletePatientTask();
                                 deletePatientTask.execute(patientList.get(position));
+                                patientList.remove(position);
                                 mAdapter.notifyItemRemoved(position);
 
                             }
@@ -111,22 +150,7 @@ public class ViewPatientList extends AppCompatActivity
                 ));
 
 
-        };};
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-
-                //bundle = ViewPatientList.this.getIntent().getExtras();
-                Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
-                bundle.putString("doctorID",doctorID);
-                intent.putExtras(bundle); // pass the problemid to the addactivity
-                startActivity(intent);
-            }
-        });
-
+            };};
     }
 
     @Override

@@ -81,6 +81,7 @@ public class ElasticSearchUserController {
                     "                \"bool\" : {\n" +
                     "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
 
+
             // Build the query
             String userId = null;
             ArrayList<User> userArray = new ArrayList<User>();
@@ -138,6 +139,52 @@ public class ElasticSearchUserController {
             return null;
         }
     }
+
+    public static class CheckPatientTask extends AsyncTask<String, Void, User> {
+        @Override
+        protected User doInBackground(String... users) {
+//            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
+            verifySettings();
+            User theUser = new User("", "", "", "", "");
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "                \"bool\" : {\n" +
+                    "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
+
+             //Build the query
+
+            String userId = null;
+            ArrayList<User> userArray = new ArrayList<User>();
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("myPatient")
+                    .build();
+
+            try {
+                // gets result
+                SearchResult result = client.execute(search);
+//                DocumentResult docres = client.execute(search);
+//                SearchRes
+                if (result.isSucceeded()) {
+//
+                    List<User> userList;
+                    userList = result.getSourceAsObjectList(User.class);
+                    userArray.addAll(userList);
+                    theUser.cloneUser(userArray.get(0));
+                    Log.d("IVANLIM", theUser.getId() );
+
+
+//                    }
+                } else {
+                    Log.i("IVANLIM", "The search query failed to find any user that matched.");
+                }
+            } catch (Exception e) {
+                Log.i("IVANLIM", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return theUser;
+        }
+    }
+
 
     public static class GetPatientsTask extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
@@ -216,6 +263,7 @@ public class ElasticSearchUserController {
         protected Void doInBackground(User... patients) {
             verifySettings();
             //String query = "{\"query\" : { \"match\" : { \"user\" : \"" + records[0].getId() + "\"}}}";
+            //String query = "{ \"query\" : { \"match\" :  { \"doctorID\" : \""+ "AWdN0d3BrOXHRTUxDl1l" + "\"}}}";
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +

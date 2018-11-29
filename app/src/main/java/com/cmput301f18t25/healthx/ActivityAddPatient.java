@@ -54,10 +54,6 @@ public class ActivityAddPatient extends AppCompatActivity {
         // if clicked the save button,
         if (id == android.R.id.home) {
             finish();
-//            Bundle bundle = this.getIntent().getExtras();
-//            Intent intent = new Intent(this, ViewPatientList.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -72,23 +68,35 @@ public class ActivityAddPatient extends AppCompatActivity {
         try {
 
             User user = getUserTask.execute(userId,userEmail).get();
-            Log.i("CWei", user.getName());
-            Toast.makeText(getApplicationContext(), user.getName()+"name" , Toast.LENGTH_LONG).show();
-            if (!user.getStatus().equals("")) {
-                //////////////////// add patient
-                user.setDoctorID(doctorID);
-                ElasticSearchUserController.AddPatientTask addPatientTask = new ElasticSearchUserController.AddPatientTask();
-                addPatientTask.execute(user);
+            if (!user.getStatus().equals("")){
+                ElasticSearchUserController.CheckPatientTask checkPatientTask = new ElasticSearchUserController.CheckPatientTask();
+                try {
 
-                /////////////////////////////////////
-                Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
-                toast.show();
-                finish();
+                    User user2 = checkPatientTask.execute(userId, userEmail).get();
+                    if (user2.getStatus().equals("")){
+                        user.setDoctorID(doctorID);
+                        ElasticSearchUserController.AddPatientTask addPatientTask = new ElasticSearchUserController.AddPatientTask();
+                        addPatientTask.execute(user);
+
+                        Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
+                        toast.show();
+                        finish();
+                    }
+                    else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "This patient is already signed!" , Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                }catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
             else {
-                Toast toast = Toast.makeText(getApplicationContext(), user.getStatus()+"Invalid Credientials!" , Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "Invalid credentials!!", Toast.LENGTH_SHORT);
                 toast.show();
             }
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
