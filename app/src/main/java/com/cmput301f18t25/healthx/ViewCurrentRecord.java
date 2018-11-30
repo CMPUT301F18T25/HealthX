@@ -1,6 +1,7 @@
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,7 +21,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.concurrent.ExecutionException;
 
-public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCallback {
+public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
 
     GoogleMap myMap;
@@ -44,6 +45,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
           String title = theRecord.getTitle();
           String date = theRecord.getDate();
           String comment = theRecord.getComment();
+          Bitmap image = theRecord.getImage();
           longitude = theRecord.getLongitude();
           latitude = theRecord.getLatitude();
           mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
@@ -94,7 +96,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
     public void onClick(View v){
         switch(v.getId()){
             case R.id.SeePhoto: {
-                Intent i = new Intent(getApplicationContext(),ViewRecordPhotos.class);
+                Intent i = new Intent(getApplicationContext(),ActivitySeeRecordPhotos.class);
                 startActivity(i);
             }
         }

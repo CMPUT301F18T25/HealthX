@@ -60,7 +60,7 @@
             android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA" />
 
         <activity android:name=".SlideShow" />
-        <activity android:name=".SeeRecordPhotosActivity"></activity>
+        <activity android:name=".ActivitySeeRecordPhotos"></activity>
     </application>
 
 </manifest>
