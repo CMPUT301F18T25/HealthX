@@ -3,21 +3,19 @@ package com.cmput301f18t25.healthx;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
-
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
 
+import com.robotium.solo.Solo;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class AddProblemTest extends ActivityTestRule<Login> {
+public class AddRecordTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname";
     public String test_email = "user@email.com";
@@ -27,7 +25,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public AddProblemTest() {
+    public AddRecordTest() {
         super(Login.class);
     }
 
@@ -67,7 +65,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.fab));
         boolean next_view = solo.waitForActivity(ActivityAddProblem.class,3000);
-        assertTrue("did not go to add problem",next_view);
+        assertTrue(next_view);
 
         // fill in problem details
 
@@ -84,7 +82,9 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.save_button));
         boolean next_view4 = solo.waitForActivity(ViewProblemList.class,3000);
-        assertTrue("did not go to problem list",next_view4);
+        assertTrue(next_view4);
 
+        //
+        solo.clickOnView(solo.getView(R.id.save_button));
     }
 }

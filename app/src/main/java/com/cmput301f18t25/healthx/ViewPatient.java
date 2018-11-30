@@ -99,6 +99,10 @@ public class ViewPatient extends AppCompatActivity
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
 
+        } else if (id == R.id.nav_code) {
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            startActivity(intent);
+
         } else if (id == R.id.nav_map) {
 
         } else if (id == R.id.nav_edit) {

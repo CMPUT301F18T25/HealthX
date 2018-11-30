@@ -81,10 +81,10 @@ public class ElasticSearchProblemController {
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
 //                    Log.d("IVANLIM", "doInBackground: succeded :)");
+
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
-                    Log.d("IVANLIM", String.valueOf(problemList.size()));
                 }
                 else {
                     Log.d("IVANLIM", "Else caluse: ");

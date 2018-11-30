@@ -329,12 +329,29 @@ public class ViewProblemList extends AppCompatActivity
         if (id == R.id.nav_view) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(ViewProblemList.this, SlideShow.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_map) {
 //            Intent intent = new Intent(this, MapViewActivity.class);
 //            startActivity(intent);
             Toast toast = Toast.makeText(this, "Please Select a Problem to enable Map View", Toast.LENGTH_LONG);
             toast.show();
+
+
+        } else if (id == R.id.nav_code) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+            String Oid = obundle.getString("id");
+            String Oemail = obundle.getString("email");
+
+            Bundle bundle = new Bundle();
+            bundle.putAll(obundle);
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
@@ -343,8 +360,19 @@ public class ViewProblemList extends AppCompatActivity
             String Oemail = obundle.getString("email");
 
             Bundle bundle = new Bundle();
-            bundle.putString("id",Oid);
-            bundle.putString("email",Oemail);
+            bundle.putAll(obundle);
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+
+
+        } else if (id == R.id.nav_edit) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+
+            Bundle bundle = new Bundle();
+            bundle.putAll(obundle);
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);
             startActivity(intent);
