@@ -165,7 +165,7 @@ public class ElasticSearchProblemController {
         protected Void doInBackground(Problem... problems) {
             setClient();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + problems[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newProblem").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newProblem2").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {

@@ -55,7 +55,7 @@ public class Notification_receiver extends BroadcastReceiver {
         PendingIntent pendingIntent = PendingIntent.getActivity(context,100,repeating_intent,PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(android.R.drawable.arrow_up_float)
+                .setSmallIcon(android.R.drawable.ic_menu_camera)
                 .setContentTitle("HealthX")
                 .setContentText("It is time to take your photo.")
                 .setAutoCancel(true)

@@ -50,7 +50,7 @@ public class Signup extends AppCompatActivity {
                 if (null == activeNetwork) {
                     Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
                 } else {
-                    User user = new User(name,id,phone,email,status);
+                    User user = new User(name,id,phone,email,status,"None");
                     ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
                     addUserTask.execute(user);
 //                        createUser(UserName);

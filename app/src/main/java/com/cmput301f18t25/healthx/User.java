@@ -13,14 +13,6 @@ public class User {
     protected String email;
     protected String id;
 
-    public String getDoctorID() {
-        return doctorID;
-    }
-
-    public void setDoctorID(String doctorID) {
-        this.doctorID = doctorID;
-    }
-
     protected String doctorID;
     //    status meaning if the user is a patient or a care provider.
     protected String status;
@@ -36,13 +28,14 @@ public class User {
      * @param user_email the email address of the user
      * @param user_status the status of the user is either a patient or care provider
      */
-    public User(String name, String user_name, String user_phoneNumber, String user_email, String user_status){
+    public User(String name, String user_name, String user_phoneNumber, String user_email, String user_status, String reminderFrequency){
         this.name = name;
         this.username = user_name;
         this.phoneNumber = user_phoneNumber;
         this.email = user_email;
         this.status = user_status;
         this.id = "";
+        this.reminderFrequency = reminderFrequency;
     }
     /**
      * Clones user, is required for elastic search
@@ -55,8 +48,17 @@ public class User {
         this.email = user.getEmail();
         this.status = user.getStatus();
         this.id = user.getId();
+        this.reminderFrequency = user.getReminderFrequency();
     }
 
+
+    public String getDoctorID() {
+        return doctorID;
+    }
+
+    public void setDoctorID(String doctorID) {
+        this.doctorID = doctorID;
+    }
     public void setName(String text){
         this.name = text;
     }

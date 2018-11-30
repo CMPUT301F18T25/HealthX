@@ -11,6 +11,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class EditUserProfile extends AppCompatActivity {
@@ -20,13 +22,6 @@ public class EditUserProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Spinner freq = (Spinner) findViewById(R.id.frequency_menu);
-
-
-        ArrayAdapter<CharSequence> spinAdp = ArrayAdapter.createFromResource(this,
-                R.array.frequency, android.R.layout.simple_spinner_item);
-        spinAdp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        freq.setAdapter(spinAdp);
 
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
@@ -49,6 +44,25 @@ public class EditUserProfile extends AppCompatActivity {
         Ephone.setText(user.getPhoneNumber());
         TextView Eemail = (TextView)findViewById(R.id.edit_email);
         Eemail.setText(user.getEmail());
+
+
+        Spinner freq = (Spinner) findViewById(R.id.frequency_menu);
+        String userFreq = user.getReminderFrequency();
+        List<String> freqList =  new ArrayList<String>();
+        freqList.add(userFreq);
+        String[] FreqList_all = getResources().getStringArray(R.array.frequency);
+        for (int i=0;i < FreqList_all.length;i++){
+            String freqItem = FreqList_all[i];
+            if (!freqList.contains(freqItem)){
+                freqList.add(freqItem);
+            }
+
+        }
+        // Set adapter for spinner
+        ArrayAdapter<String> spinAdp = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item,freqList);
+        spinAdp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        freq.setAdapter(spinAdp);
 
 
     }
@@ -93,6 +107,7 @@ public class EditUserProfile extends AppCompatActivity {
 
             Spinner freq = (Spinner)findViewById(R.id.frequency_menu);
             String frequency = String.valueOf(freq.getSelectedItem());
+
             TextView Ename = (TextView)findViewById(R.id.edit_name);
             String ENAME = Ename.getText().toString();
             TextView Ephone = (TextView)findViewById(R.id.edit_phone);

@@ -42,7 +42,6 @@ public class ViewProblemList extends AppCompatActivity
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
     private boolean isDoctor;
-    boolean isNight = false;
 
 
     @Override
@@ -105,32 +104,36 @@ public class ViewProblemList extends AppCompatActivity
             }
         });
 
-        String frequency = user.getReminderFrequency();
-        if (!frequency.equals("None")){
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY,10);
-            calendar.set(Calendar.MINUTE,33);
-            calendar.set(Calendar.SECOND,20);
+//        String frequency = user.getReminderFrequency();
+////
+////        Log.d("CWei", frequency+"freq");
+////        if (!frequency.equals("None")){
+////            Calendar calendar = Calendar.getInstance();
+////            calendar.set(Calendar.HOUR_OF_DAY,18);
+////            calendar.set(Calendar.MINUTE,5);
+////            calendar.set(Calendar.SECOND,40);
 
-            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
-            Intent intent = new Intent(this, Notification_receiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-            if (frequency.equals("Everyday")){
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
-
-            }
-            else if (frequency.equals("Every week")){
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
-
-            }
-            else if (frequency.equals("Every month")){
-                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
-
-            }
-
-        }
-
+ ////
+////            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
+////            Intent intent = new Intent(this, Notification_receiver.class);
+////            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+////            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+////
+////            if (frequency.equals("Everyday")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////            else if (frequency.equals("Every week")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////            else if (frequency.equals("Every month")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////
+////        }
 
     }
     @Override
@@ -157,10 +160,10 @@ public class ViewProblemList extends AppCompatActivity
                 underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
                         new UnderlayButtonClickListener() {
 
-
                             public void onClick(int position) {
                                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                                 deleteProblemTask.execute(problemList.get(position));
+                                problemList.remove(position);
                                 mAdapter.notifyItemRemoved(position);
 
 
@@ -255,11 +258,6 @@ public class ViewProblemList extends AppCompatActivity
 
 
         }
-        else if (id == R.id.nav_theme) {
-            /* finish(); */
-
-        }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -75,7 +75,7 @@ public class ElasticSearchUserController {
         protected User doInBackground(String... users) {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
-            User theUser = new User("", "", "", "", "");
+            User theUser = new User("", "", "", "", "","");
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +
@@ -145,7 +145,7 @@ public class ElasticSearchUserController {
         protected User doInBackground(String... users) {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
-            User theUser = new User("", "", "", "", "");
+            User theUser = new User("", "", "", "", "","");
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +
@@ -208,6 +208,9 @@ public class ElasticSearchUserController {
                     List<User> patientList;
                     patientList = result.getSourceAsObjectList(User.class);
                     patients.addAll(patientList);
+                    Log.d("CWei", String.valueOf(patients.size()));
+                    Log.d("CWei", "prted");
+
                 }
                 else {
                     Log.d("CeciliaW", "doInBackground: patient ELSe");

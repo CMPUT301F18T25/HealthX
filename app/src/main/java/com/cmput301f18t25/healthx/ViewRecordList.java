@@ -72,9 +72,6 @@ public class ViewRecordList extends AppCompatActivity{
         rRecyclerView.setLayoutManager(rLayoutManager);
         rAdapter = new RecordListAdapter(recordList);
         rRecyclerView.setAdapter(rAdapter);
-        if (!isDoctor){
-
-        }
         SwipeHelper swipeHelper = new SwipeHelper(this, rRecyclerView) {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
@@ -83,6 +80,7 @@ public class ViewRecordList extends AppCompatActivity{
                             public void onClick(int position) {
                                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                                 deleteRecordTask.execute(recordList.get(position));
+                                recordList.remove(position);
                                 rAdapter.notifyItemRemoved(position);
 
                             }
@@ -107,15 +105,6 @@ public class ViewRecordList extends AppCompatActivity{
 
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

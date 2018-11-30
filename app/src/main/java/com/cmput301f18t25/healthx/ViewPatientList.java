@@ -1,5 +1,6 @@
 package com.cmput301f18t25.healthx;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,56 +74,6 @@ public class ViewPatientList extends AppCompatActivity
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
         doctorID = user.getId();
-//        try {
-//            patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
-//        }catch (Exception e){
-//
-//        }
-//
-//        mRecyclerView = findViewById(R.id.recycler_list);
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new PatientListAdapter(patientList,this.getIntent());
-//        mRecyclerView.setAdapter(mAdapter);
-//        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-//            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-//                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-//                        new UnderlayButtonClickListener() {
-//
-//                            public void onClick(int position) {
-//                                ElasticSearchUserController.DeletePatientTask deletePatientTask = new ElasticSearchUserController.DeletePatientTask();
-//                                deletePatientTask.execute(patientList.get(position));
-//                                patientList.remove(position);
-//                                mAdapter.notifyItemRemoved(position);
-//
-//                            }
-//                        }
-//                ));
-//
-//
-//            };};
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-
-                //bundle = ViewPatientList.this.getIntent().getExtras();
-                Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
-                bundle.putString("doctorID",doctorID);
-                intent.putExtras(bundle); // pass the problemid to the addactivity
-                startActivity(intent);
-            }
-        });
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         try {
             patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
         }catch (Exception e){
@@ -151,7 +104,83 @@ public class ViewPatientList extends AppCompatActivity
 
 
             };};
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+
+                //bundle = ViewPatientList.this.getIntent().getExtras();
+                Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
+                bundle.putString("doctorID",doctorID);
+                intent.putExtras(bundle); // pass the problemid to the addactivity
+                //startActivity(intent);
+                startActivityForResult(intent, 10);
+            }
+        });
+
+
+
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("CWei", "OAR called");
+        if(resultCode == 10)
+        {
+            try {
+                patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
+                Log.d("CWei", String.valueOf(patientList.size()));
+
+            } catch (Exception e) {
+
+            }
+            mAdapter = new PatientListAdapter(patientList, this.getIntent());
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        try {
+//            patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
+//            Log.d("CWei", String.valueOf(patientList.size()));
+//
+//        } catch (Exception e) {
+//
+//        }
+//        mAdapter = new PatientListAdapter(patientList, this.getIntent());
+//        mRecyclerView.setAdapter(mAdapter);
+//    }
+//
+//        mRecyclerView = findViewById(R.id.recycler_list);
+//        mRecyclerView.setHasFixedSize(true);
+//
+//        mLayoutManager = new LinearLayoutManager(this);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+//        mAdapter = new PatientListAdapter(patientList,this.getIntent());
+//        mRecyclerView.setAdapter(mAdapter);
+//        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
+//            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+//                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+//                        new UnderlayButtonClickListener() {
+//
+//                            public void onClick(int position) {
+//                                Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_LONG).show();
+//                                ElasticSearchUserController.DeletePatientTask deletePatientTask = new ElasticSearchUserController.DeletePatientTask();
+//                                deletePatientTask.execute(patientList.get(position));
+//                                patientList.remove(position);
+//                                mAdapter.notifyItemRemoved(position);
+//
+//                            }
+//                        }
+//                ));
+//
+//
+//            };};
+//    }
 
     @Override
     public void onBackPressed() {

@@ -1,5 +1,6 @@
 package com.cmput301f18t25.healthx;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -53,6 +54,9 @@ public class ActivityAddPatient extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "finished");
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -80,6 +84,10 @@ public class ActivityAddPatient extends AppCompatActivity {
 
                         Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
                         toast.show();
+                        //Intent intent = new Intent(this,ViewPatientList.class);
+                        Intent intent = new Intent();
+                        setResult(10,intent);
+                        Log.i("CWei", "finished adding");
                         finish();
                     }
                     else {
