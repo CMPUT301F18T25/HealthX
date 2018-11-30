@@ -189,6 +189,8 @@ public class ViewProblemList extends AppCompatActivity
         if (id == R.id.nav_view) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
+            Intent intent = new Intent(ViewProblemList.this, SlideShow.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_map) {
 //            Intent intent = new Intent(this, MapViewActivity.class);
