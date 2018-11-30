@@ -111,7 +111,7 @@ public class ViewProblemList extends AppCompatActivity
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("problem", problem);
                                 intent.putExtras(bundle);
-                                startActivity(intent);
+                                startActivityForResult(intent,10);
 
                             }
                         }
