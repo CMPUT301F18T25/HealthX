@@ -26,6 +26,10 @@ public class ActivityEditProblem extends AppCompatActivity {
     String dateString;
     String userId;
     Problem oldProblem;
+    int problemPositon;
+    private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +46,7 @@ public class ActivityEditProblem extends AppCompatActivity {
         description = oldProblem.getDescription();
         dateString = oldProblem.getDate();
         userId = oldProblem.getId();
-
+        problemPositon = bundle.getInt("position");
         title_textView.setText(title);
         description_textView.setText(description);
         dateStarted_textView.updateDate(Integer.valueOf(dateString.substring(0, 4)),
@@ -88,23 +92,29 @@ public class ActivityEditProblem extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String problemDate = format.format(selected);
             String problemDescription = description_textView.getText().toString();
+            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
 
             // Check if app is connected to a network.
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
+                mProblemList.removeProblemFromList(problemPositon);
+                mProblemList.addToProblemList(newProblem);
+                offline.addItem(oldProblem, "DELETE");
+                offline.addItem(newProblem, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
-                Bundle bundle = getIntent().getExtras();
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+//                Bundle bundle = getIntent().getExtras();
 
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
-                Intent intent = new Intent(ActivityEditProblem.this, ViewProblemList.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+//                Intent intent = new Intent(ActivityEditProblem.this, ViewProblemList.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+                finish();
             }
 
 
