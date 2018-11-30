@@ -67,6 +67,9 @@ public class ActivityAddRecord extends AppCompatActivity {
         if (id == android.R.id.home) {
 //            Intent intent = new Intent(this, ViewRecordList.class);
 //            startActivity(intent);
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "back");
             finish();
         }
         if (id == R.id.save_button) {
@@ -100,6 +103,16 @@ public class ActivityAddRecord extends AppCompatActivity {
                 newRecord.setCPComment(isDoctor);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
+
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished adding");
                 finish();
             }
 

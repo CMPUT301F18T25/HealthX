@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +50,9 @@ public class ActivityAddProblem extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "finished");
             finish();
 //            Bundle bundle = this.getIntent().getExtras();
 //            Intent intent = new Intent(this, ViewProblemList.class);
@@ -81,10 +85,16 @@ public class ActivityAddProblem extends AppCompatActivity {
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished adding");
                 finish();
-//                Intent intent = new Intent(ActivityAddProblem.this, ViewProblemList.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
+//
             }
 
 

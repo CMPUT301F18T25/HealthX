@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,18 +49,11 @@ public class ViewRecordList extends AppCompatActivity{
             public void onClick(View view) {
                 Intent intent = new Intent(ViewRecordList.this,ActivityAddRecord.class);
                 intent.putExtras(bundle); // pass the problemid to the addactivity
-                startActivity(intent);
+                startActivityForResult(intent,10);
                 //startActivityForResult(intent, 1);
 
             }
         });
-
-    }
-
-
-    @Override
-    protected void onStart(){
-        super.onStart();
         try {
             recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
         }catch (Exception e){
@@ -97,12 +91,32 @@ public class ViewRecordList extends AppCompatActivity{
                                 bundle.putSerializable("record", record);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
-                                }
+                            }
                         }
                 ));
             }
         };
 
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("CWei", "OAR called");
+        if(resultCode == 10)
+        {
+            try {
+                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+                //Log.d("CWei", String.valueOf(recordList.size()));
+
+            } catch (Exception e) {
+
+            }
+            rAdapter = new RecordListAdapter(recordList);
+            rRecyclerView.setAdapter(rAdapter);
+        }
     }
 
 
@@ -127,6 +141,12 @@ public class ViewRecordList extends AppCompatActivity{
             toast.show();
 
         }
+        else if (id == R.id.slideShow_button){
+            Toast toast = Toast.makeText(getApplicationContext(), "View Slide Show" , Toast.LENGTH_SHORT);
+            toast.show();
+
+        }
+
         //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);

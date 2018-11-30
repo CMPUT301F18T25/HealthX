@@ -84,6 +84,11 @@ public class ActivityAddPatient extends AppCompatActivity {
 
                         Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
                         toast.show();
+                        try {
+                            Thread.sleep(1000);                 //1000 milliseconds is one second.
+                        } catch(InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
                         //Intent intent = new Intent(this,ViewPatientList.class);
                         Intent intent = new Intent();
                         setResult(10,intent);

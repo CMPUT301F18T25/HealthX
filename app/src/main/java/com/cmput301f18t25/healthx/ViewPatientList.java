@@ -141,46 +141,7 @@ public class ViewPatientList extends AppCompatActivity
             mRecyclerView.setAdapter(mAdapter);
         }
     }
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        try {
-//            patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
-//            Log.d("CWei", String.valueOf(patientList.size()));
-//
-//        } catch (Exception e) {
-//
-//        }
-//        mAdapter = new PatientListAdapter(patientList, this.getIntent());
-//        mRecyclerView.setAdapter(mAdapter);
-//    }
-//
-//        mRecyclerView = findViewById(R.id.recycler_list);
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new PatientListAdapter(patientList,this.getIntent());
-//        mRecyclerView.setAdapter(mAdapter);
-//        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-//            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-//                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-//                        new UnderlayButtonClickListener() {
-//
-//                            public void onClick(int position) {
-//                                Toast.makeText(getApplicationContext(),"clicked",Toast.LENGTH_LONG).show();
-//                                ElasticSearchUserController.DeletePatientTask deletePatientTask = new ElasticSearchUserController.DeletePatientTask();
-//                                deletePatientTask.execute(patientList.get(position));
-//                                patientList.remove(position);
-//                                mAdapter.notifyItemRemoved(position);
-//
-//                            }
-//                        }
-//                ));
-//
-//
-//            };};
-//    }
+
 
     @Override
     public void onBackPressed() {

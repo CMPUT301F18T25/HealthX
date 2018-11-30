@@ -80,6 +80,7 @@ public class ElasticSearchRecordController {
                     List<Record> recordList;
                     recordList = result.getSourceAsObjectList(Record.class);
                     records.addAll(recordList);
+                    Log.d("CWei", String.valueOf(recordList.size()));
                 }
                 else {
                     Log.d("IVANLIM", "doInBackground: RECORD ELSe");

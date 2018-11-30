@@ -71,75 +71,6 @@ public class ViewProblemList extends AppCompatActivity
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         User user = null;
         try {
-            user = getUserTask.execute(id,email).get();
-            if (user.getStatus().equals("Care Provider")){
-                isDoctor = true;
-            }
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        TextView Uid = (TextView) header.findViewById(R.id.user_id);
-        Uid.setText(id);
-        TextView Uname = (TextView)header.findViewById(R.id.user_name);
-        Uname.setText(user.getName());
-        TextView Uemail = (TextView)header.findViewById(R.id.user_email);
-        Uemail.setText(user.getEmail());
-        TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
-        Uphone.setText(user.getPhoneNumber());
-        ImageView headerImage = header.findViewById(R.id.imageView);
-        headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = null;
-                bundle = ViewProblemList.this.getIntent().getExtras();
-                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-
-//        String frequency = user.getReminderFrequency();
-////
-////        Log.d("CWei", frequency+"freq");
-////        if (!frequency.equals("None")){
-////            Calendar calendar = Calendar.getInstance();
-////            calendar.set(Calendar.HOUR_OF_DAY,18);
-////            calendar.set(Calendar.MINUTE,5);
-////            calendar.set(Calendar.SECOND,40);
-
- ////
-////            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
-////            Intent intent = new Intent(this, Notification_receiver.class);
-////            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-////            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-////
-////            if (frequency.equals("Everyday")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////            else if (frequency.equals("Every week")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////            else if (frequency.equals("Every month")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////
-////        }
-
-    }
-    @Override
-    protected void onStart() {
-        super.onStart();
-        try {
 
             String userId = mProblemList.getUser().getId();
             Log.d("IVANLIM", userId);
@@ -187,7 +118,94 @@ public class ViewProblemList extends AppCompatActivity
                 ));
             }
         };
+        try {
+            user = getUserTask.execute(id,email).get();
+            if (user.getStatus().equals("Care Provider")){
+                isDoctor = true;
+            }
 
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        TextView Uid = (TextView) header.findViewById(R.id.user_id);
+        Uid.setText(id);
+        TextView Uname = (TextView)header.findViewById(R.id.user_name);
+        Uname.setText(user.getName());
+        TextView Uemail = (TextView)header.findViewById(R.id.user_email);
+        Uemail.setText(user.getEmail());
+        TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
+        Uphone.setText(user.getPhoneNumber());
+        ImageView headerImage = header.findViewById(R.id.imageView);
+        headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Bundle bundle = null;
+                //bundle = ViewProblemList.this.getIntent().getExtras();
+                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
+                //intent.putExtras(bundle);
+                startActivityForResult(intent,10);
+            }
+        });
+
+//        String frequency = user.getReminderFrequency();
+////
+////        Log.d("CWei", frequency+"freq");
+////        if (!frequency.equals("None")){
+////            Calendar calendar = Calendar.getInstance();
+////            calendar.set(Calendar.HOUR_OF_DAY,18);
+////            calendar.set(Calendar.MINUTE,5);
+////            calendar.set(Calendar.SECOND,40);
+
+ ////
+////            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
+////            Intent intent = new Intent(this, Notification_receiver.class);
+////            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+////            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+////
+////            if (frequency.equals("Everyday")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////            else if (frequency.equals("Every week")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////            else if (frequency.equals("Every month")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////
+////        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("CWei", "OAR called");
+        Log.d("CWei", String.valueOf(resultCode));
+        ProblemList mProblemList = ProblemList.getInstance();
+        if(resultCode == 10)
+        {   //Log.d("CWei", "why");
+            try {
+
+                String userId = mProblemList.getUser().getId();
+                problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+
+            }catch (Exception e){
+
+            }
+            //Log.d("CWei", "not");
+            mAdapter = new ProblemListAdapter(problemList,isDoctor);
+            mRecyclerView.setAdapter(mAdapter);
+        }
     }
 
 
