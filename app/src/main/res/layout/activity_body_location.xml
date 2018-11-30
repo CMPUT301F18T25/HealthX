@@ -23,13 +23,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <EditText
+    <TextView
         android:id="@+id/body_image_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/body_image"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:layout_marginTop="25sp"
+        android:textSize="32sp"
         android:paddingBottom="10dp"/>
 
     <Button
