@@ -25,6 +25,8 @@ public class Login extends AppCompatActivity {
     EditText emailtextView;
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
+//    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class Login extends AppCompatActivity {
     }
 
     public void toViewProblem(View view) {
+        // Check if user is present
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
@@ -77,10 +80,7 @@ public class Login extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//                        createUser(UserName);
-//                        saveUsernameInFile(UserName); // save username for auto login
-//            Intent intent = new Intent(Signup.this, Login.class);
-//            startActivity(intent);
+
 
         }
     }

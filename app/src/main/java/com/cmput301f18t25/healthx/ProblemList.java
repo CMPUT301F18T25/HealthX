@@ -4,6 +4,8 @@
  */
 package com.cmput301f18t25.healthx;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -30,12 +32,20 @@ public class ProblemList {
     }
 
     /**
-     * Returns problem at a given index
-     * @param index - index of problem you want to return
-     * */
+     * Returns problem at a given index  */
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
 
+    }
+
+    public  ArrayList<Problem> getProblemArray() {
+        return problemArray;
+    }
+
+    public void setProblemArray(ArrayList<Problem> array) {
+
+        problemArray = array;
+        sortArray();
     }
 
     public  User getUser() {
@@ -87,7 +97,9 @@ public class ProblemList {
      * */
     public void removeProblemFromList(int index) {
         problemArray.remove(index);
+        sortArray();
     }
+
 
     /**
      * Sorts array by date from recent to least recent
@@ -99,5 +111,32 @@ public class ProblemList {
                 return t2.getDate().compareTo(t1.getDate());
             }
         });
+    }
+
+    public void sortRecordArray(int i) {
+        Collections.sort(problemArray.get(i).recordArray, new Comparator<Record>() {
+            @Override
+            public int compare(Record o1, Record o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
+    }
+
+    public void addToRecordToProblem(int index, Record record) {
+        problemArray.get(index).recordArray.add(record);
+    }
+
+
+    public void addRecordListToProblem(int position, ArrayList<Record> recordList) {
+        Log.d("IVANLIM", problemArray.get(position).getTitle());
+        problemArray.get(position).recordArray = new ArrayList<>(recordList);
+        for (Record r : problemArray.get(position).recordArray) {
+            Log.d("IVANLIM", r.getTitle());
+        }
+    }
+
+    public ArrayList<Record> getRecordList(int position) {
+        sortRecordArray(position);
+        return problemArray.get(position).recordArray;
     }
 }

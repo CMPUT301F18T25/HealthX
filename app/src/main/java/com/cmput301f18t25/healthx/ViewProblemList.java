@@ -5,7 +5,10 @@
 
 package com.cmput301f18t25.healthx;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +39,7 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
 
 
 
@@ -82,6 +86,16 @@ public class ViewProblemList extends AppCompatActivity
         TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
 
+        try {
+            String userId = mProblemList.getUser().getId();
+            Log.d("IVANLIM", userId);
+            offlineBehaviour.synchronizeWithElasticSearch();
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+            mProblemList.setProblemArray(problemList);
+        }catch (Exception e){
+
+        }
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,21 +112,27 @@ public class ViewProblemList extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        try {
+// <<<<<<< offline
 
-            String userId = mProblemList.getUser().getId();
-            Log.d("IVANLIM", userId);
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-        }catch (Exception e){
+//         for (Problem problem: mProblemList.getProblemArray()) {
+//             Log.d("IVANLIM", problem.getTitle());
+// =======
+//         try {
+
+//             String userId = mProblemList.getUser().getId();
+//             Log.d("IVANLIM", userId);
+//             problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+//         }catch (Exception e){
 
 
-        }
+// >>>>>>> master
+//         }
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProblemListAdapter(problemList);
+        mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
         mRecyclerView.setAdapter(mAdapter);
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
@@ -121,14 +141,25 @@ public class ViewProblemList extends AppCompatActivity
 
 
                                 public void onClick(int position) {
-                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                    deleteProblemTask.execute(problemList.get(position));
-                                    mAdapter.notifyItemRemoved(position);
 
 
+                                    ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                                    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+                                    if (activeNetwork!=null) {
+                                        offlineBehaviour.addItem(mProblemList.getElementByIndex(position), "DELETE");
+                                        mProblemList.removeProblemFromList(position);
+                                    }
+                                    else {
+//                                        offlineBehaviour.synchronizeWithElasticSearch();
+                                        ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                        deleteProblemTask.execute(problemList.get(position));
+                                        mAdapter.notifyItemRemoved(position);
+                                    }
+                                }
                             }
-                        }
-                ));
+                    ));
+
+
 
                 underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
                         new UnderlayButtonClickListener() {
@@ -199,8 +230,21 @@ public class ViewProblemList extends AppCompatActivity
             toast.show();
 
 
-
         } else if (id == R.id.nav_code) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+            String Oid = obundle.getString("id");
+            String Oemail = obundle.getString("email");
+
+            Bundle bundle = new Bundle();
+            bundle.putAll(obundle);
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+
+
+        } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
             obundle = this.getIntent().getExtras();
             String Oid = obundle.getString("id");
