@@ -74,10 +74,24 @@ public class ElasticSearchUserController {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
             User theUser = new User("", "", "", "", "");
-            String query = "{\n" +
-                    "    \"query\": {\n" +
-                    "                \"bool\" : {\n" +
-                    "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
+            String query = null;
+
+            if (users.length == 1){
+                query = "{\n" +
+                        "    \"query\": {\n" +
+                        "                \"bool\" : {\n" +
+                        "\"must\" : [\n"+ "{\"match\" : {\"code\" : \""+ users[0]+ "\"}},\n]\n}\n}\n}\n";
+
+            }
+            else {
+                query = "{\n" +
+                        "    \"query\": {\n" +
+                        "                \"bool\" : {\n" +
+                        "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
+
+
+            }
+
 
             // Build the query
             String userId = null;

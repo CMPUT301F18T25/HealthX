@@ -52,8 +52,8 @@ public class CodeLogin extends AppCompatActivity {
 //          User user = new User(name,id,phone,email,status);
             String userCode = userCodeTextView.getText().toString();
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-            /*try {
-                user = getUserTask.execute(userId,email).get();
+            try {
+                user = getUserTask.execute(userCode).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 if (!user.getStatus().equals("")) {
                     mProblemList.setUser(user);
@@ -78,11 +78,11 @@ public class CodeLogin extends AppCompatActivity {
 //            Intent intent = new Intent(Signup.this, Login.class);
 //            startActivity(intent);
 
-        }*/
+        }
         }
 
     }
 
-}
+
 
 

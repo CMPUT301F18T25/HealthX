@@ -20,6 +20,7 @@ public class UserTest {
     public String test_phone_number = "1234567890";
     public String test_email = "patient@email.com";
     public String test_status = "patient";
+    public String test_code = "12345";
 
     public UserTest(){}
 
@@ -117,6 +118,20 @@ public class UserTest {
         String new_freq = "daily";
         user.setReminderFrequency(new_freq);
         assertEquals(user.getReminderFrequency(),new_freq);
+    }
+
+    @Test
+    public void testGetCode(){
+        User user = new User(test_name,test_username,test_phone_number,test_email,test_status);
+        assertNull(user.getCode());
+
+    }
+
+    @Test
+    public void testSetCode(){
+        User user = new User(test_name,test_username,test_phone_number,test_email,test_status);
+        user.setCode(test_code);
+        assertEquals(user.getCode(),test_code);
     }
 
 

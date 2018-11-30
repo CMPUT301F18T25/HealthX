@@ -244,19 +244,6 @@ public class ViewProblemList extends AppCompatActivity
 
 
 
-        } else if (id == R.id.nav_edit) {
-            Bundle obundle = null;
-            obundle = this.getIntent().getExtras();
-            String Oid = obundle.getString("id");
-            String Oemail = obundle.getString("email");
-
-            Bundle bundle = new Bundle();
-            bundle.putAll(obundle);
-            Intent intent = new Intent(this, ActivityGenerateCode.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
