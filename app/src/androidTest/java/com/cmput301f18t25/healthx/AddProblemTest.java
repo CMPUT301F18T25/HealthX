@@ -67,7 +67,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.fab));
         boolean next_view = solo.waitForActivity(ActivityAddProblem.class,3000);
-        assertTrue(next_view);
+        assertTrue("did not go to add problem",next_view);
 
         // fill in problem details
 
@@ -84,7 +84,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.save_button));
         boolean next_view4 = solo.waitForActivity(ViewProblemList.class,3000);
-        assertTrue(next_view4);
+        assertTrue("did not go to problem list",next_view4);
 
     }
 }
