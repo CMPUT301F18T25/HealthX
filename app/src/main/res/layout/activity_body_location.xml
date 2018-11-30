@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="16dp"
     android:paddingLeft="16dp"
+    android:background="@drawable/bg_view"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
     android:orientation="vertical"
@@ -16,10 +17,33 @@
         android:src="@drawable/mappedhuman"
         android:layout_gravity="center"
         android:clickable="true"
-
+        android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
+        android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/body_image_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/body_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25sp"
+        android:paddingBottom="10dp"/>
+
+    <Button
+        android:id="@+id/saveBodyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/black"
+        android:onClick="savePicture"
+        android:text="Save"
+        android:textColor="@color/white"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/body_image_textview"/>
+
 
 
 
