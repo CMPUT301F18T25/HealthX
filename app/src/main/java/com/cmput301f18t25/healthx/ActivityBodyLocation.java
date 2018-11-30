@@ -24,16 +24,12 @@ public class ActivityBodyLocation extends AppCompatActivity {
         imgView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-//                return false;
-                int[] viewCoords = new int[2];
-                imgView.getLocationOnScreen(viewCoords);
+
                 int x = (int) event.getX();
                 int y = (int)event.getY();
 
-                int imageX = x - viewCoords[0];
-                int imageY = y - viewCoords[1];
+                Log.d("IVANLIM", "The coordinates for on touch are x:" + String.valueOf(x) + " y: " + String.valueOf(y));
 
-                Log.d("IVANLIM", "The coordinates for on touch are x:" + String.valueOf(imageX) + " y: " + String.valueOf(imageY));
                 return false;
 
             }
