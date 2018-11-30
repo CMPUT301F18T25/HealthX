@@ -39,6 +39,7 @@ public class ProblemList {
     }
 
     public  ArrayList<Problem> getProblemArray() {
+        sortArray();
         return problemArray;
     }
 

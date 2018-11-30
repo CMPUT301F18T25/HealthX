@@ -109,11 +109,12 @@ public class ViewProblemList extends AppCompatActivity
 
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
-
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
         mRecyclerView.setAdapter(mAdapter);
+
+
         SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
@@ -125,24 +126,50 @@ public class ViewProblemList extends AppCompatActivity
 
                                 ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
                                 if (activeNetwork!=null) {
+
+                                    Log.d("IVANLIM", "delete from problemview ");
+                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                    deleteProblemTask.execute(mProblemList.getElementByIndex(position));
+
+//                                    mProblemList.removeProblemFromList(position);
+//                                    mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
+//                                    mRecyclerView.setAdapter(mAdapter);
+//                                    mRecyclerView.removeViewAt(position);
+                                    mProblemList.removeProblemFromList(position);
+                                    mAdapter.notifyItemRemoved(position);
+                                    mAdapter.notifyDataSetChanged();
+//                                    try {
+//                                        problemList = new ElasticSearchProblemController.GetProblemsTask().execute(mProblemList.getUser().getId()).get();
+//                                    } catch (ExecutionException e) {
+//                                        e.printStackTrace();
+//                                    } catch (InterruptedException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                    mProblemList.setProblemArray(problemList);
+
+
+                                }
+                                else {
+//                                        offlineBehaviour.synchronizeWithElasticSearch();
+//                                    Log.d("IVANLIM", "delete from problemview ");
+//                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+//                                    deleteProblemTask.execute(mProblemList.getElementByIndex(position));
+//                                    mProblemList.removeProblemFromList(position);
+////                                    mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
+////                                    mRecyclerView.setAdapter(mAdapter);
+////                                    mRecyclerView.removeViewAt(position);
+//                                    mAdapter.notifyItemRemoved(position);
+////                                        mAdapter.notifyItemRangeChanged(position, mProblemList.getListCount());
+////                                        mAdapter.notifyDataSetChanged();
+
+
+//                                    Log.d("IVANLIM", "in activenetwork!=null");
                                     offlineBehaviour.addItem(mProblemList.getElementByIndex(position), "DELETE");
                                     mProblemList.removeProblemFromList(position);
                                     mAdapter.notifyItemRemoved(position);
                                     mAdapter.notifyDataSetChanged();
-                                }
-                                else {
-//                                        offlineBehaviour.synchronizeWithElasticSearch();
-                                    Log.d("IVANLIM", "delete ");
-                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                    deleteProblemTask.execute(mProblemList.getElementByIndex(position));
-                                    mProblemList.removeProblemFromList(position);
-//                                    mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
-//                                    mRecyclerView.setAdapter(mAdapter);
-                                    mRecyclerView.removeViewAt(position);
-//                                        mAdapter.notifyItemRemoved(position);
-//                                        mAdapter.notifyItemRangeChanged(position, mProblemList.getListCount());
-//                                        mAdapter.notifyDataSetChanged();
                                 }
                             }
                         }
@@ -169,7 +196,19 @@ public class ViewProblemList extends AppCompatActivity
         };
 
     }
-//    @Override
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        mRecyclerView = findViewById(R.id.recycler_list);
+//        mRecyclerView.setHasFixedSize(true);
+//        mLayoutManager = new LinearLayoutManager(this);
+//        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    //    @Override
 //    protected void onStart() {
 //        super.onStart();
 //// <<<<<<< offline
