@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
@@ -23,53 +24,14 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
             android:layout_marginBottom="-5dp"
             android:src="@drawable/logo" />
 
-        <!-- Password Label -->
         <EditText
+            android:id="@+id/loginUserCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:id="@+id/loginUserID"
-            android:hint="User ID"
+            android:layout_marginTop="40dp"
+            android:hint="Login Code"
             android:inputType="text" />
 
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginBottom="8dp">-->
-
-            <!--<android.support.design.widget.TextInputEditText-->
-        <!--android:id="@+id/loginUserID"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:hint="User ID"-->
-        <!--android:inputType="text" />-->
-        <!--</android.support.design.widget.TextInputLayout>-->
-
-        <!-- Email Label -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:id="@+id/loginEmail"
-            android:inputType="textEmailAddress"
-            android:hint="Email" />
-
-        <!--<android.support.design.widget.TextInputLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_marginBottom="8dp">-->
-
-            <!--<android.support.design.widget.TextInputEditText-->
-                <!--android:id="@+id/loginEmail"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:inputType="textEmailAddress"-->
-                <!--android:hint="Email" />-->
-        <!--</android.support.design.widget.TextInputLayout>-->
 
 
         <android.support.v7.widget.AppCompatButton
@@ -86,12 +48,11 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="Log in with Code Instead"
+            android:text="Log in with ID and Email"
             android:gravity="center"
             android:textSize="18dip"
             android:textColor="@color/colorPrimaryDark"
-            android:onClick="toCodeLogin"/>
-
+            android:onClick="toMainLogin"/>
 
         <TextView android:id="@+id/link_signup"
             android:layout_width="fill_parent"

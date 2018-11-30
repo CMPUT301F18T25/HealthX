@@ -37,6 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CodeLogin" />
         <activity android:name=".Signup" />
         <activity
             android:name=".ViewProblemList"
@@ -48,6 +49,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ActivityEditProblem" />
         <activity android:name=".EditUserProfile" />
+        <activity android:name=".ActivityGenerateCode" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddPhoto" />
