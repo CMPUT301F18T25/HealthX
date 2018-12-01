@@ -3,6 +3,7 @@ package com.cmput301f18t25.healthx;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -72,9 +73,10 @@ public class OfflineSave {
             FileOutputStream fos = mContext.openFileOutput(USRFILENAME, Context.MODE_PRIVATE);
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
-            gson.toJson(user);
+            gson.toJson(user, bufferedWriter);
             bufferedWriter.flush();
             fos.close();
+            Log.d("Dhruba", "saveUserToFile: success");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

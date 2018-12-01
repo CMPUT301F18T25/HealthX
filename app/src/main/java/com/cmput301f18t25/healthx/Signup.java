@@ -27,7 +27,7 @@ public class Signup extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        offlineSave = new OfflineSave(this);
 
         final EditText id_textView = findViewById(R.id.input_id);
         final EditText name_textView = findViewById(R.id.input_name);
