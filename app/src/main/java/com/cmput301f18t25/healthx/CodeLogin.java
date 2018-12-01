@@ -1,8 +1,5 @@
 package com.cmput301f18t25.healthx;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -15,37 +12,29 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Get;
 
+import java.util.concurrent.ExecutionException;
 
-public class Login extends AppCompatActivity {
-//
-//    TextInputEditText userIdTextView;
-//    TextInputEditText emailtextView;
-    EditText userIdTextView;
-    EditText emailtextView;
+public class CodeLogin extends AppCompatActivity {
+
+    EditText userCodeTextView;
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
-
-//    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login_with_code);
         getSupportActionBar().hide();
-        userIdTextView = findViewById(R.id.loginUserID);
-        emailtextView = findViewById(R.id.loginEmail);
+        userCodeTextView = findViewById(R.id.loginUserCode);
     }
 
-    public void toCodeLogin(View view) {
-        Intent intent = new Intent(this, CodeLogin.class);
+    public void toMainLogin(View view) {
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
@@ -55,44 +44,28 @@ public class Login extends AppCompatActivity {
     }
 
     public void toViewProblem(View view) {
-
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
             Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
         } else {
-//            User user = new User(name,id,phone,email,status);
-            String userId = userIdTextView.getText().toString();
-            String email = emailtextView.getText().toString();
+//          User user = new User(name,id,phone,email,status);
+            String userCode = userCodeTextView.getText().toString();
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-            try {
+            /*try {
                 user = getUserTask.execute(userId,email).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
-                if (user.getStatus().equals("Patient")){
+                if (!user.getStatus().equals("")) {
                     mProblemList.setUser(user);
                     Bundle bundle = new Bundle();
                     bundle.putString("id",user.getUsername());
                     bundle.putString("email",user.getEmail());
-
-                    Intent mintent = new Intent(this, ViewProblemList.class);
-                    mintent.putExtras(bundle);
-                    startActivity(mintent);
+                    Intent intent = new Intent(this, ViewProblemList.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
-                else if (user.getStatus().equals("Care Provider")){
-//=======
-//                if (!user.getStatus().equals("")) {
-//                    mProblemList.setUser(user);
-//>>>>>>> master
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id",user.getUsername());
-                    bundle.putString("email",user.getEmail());
-                    Intent mintent = new Intent(this, ViewPatientList.class);
-                    mintent.putExtras(bundle);
-                    startActivity(mintent);
-                }
-
                 else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials!" , Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!" , Toast.LENGTH_SHORT);
                     toast.show();
                 }
             } catch (ExecutionException e) {
@@ -100,9 +73,14 @@ public class Login extends AppCompatActivity {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+//                        createUser(UserName);
+//                        saveUsernameInFile(UserName); // save username for auto login
+//            Intent intent = new Intent(Signup.this, Login.class);
+//            startActivity(intent);
 
-
+        }*/
         }
+
     }
 
 }

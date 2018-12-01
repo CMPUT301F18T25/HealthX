@@ -47,6 +47,11 @@ public class ActivityEditRecord extends AppCompatActivity {
     String dateString;
     String problemId;
     Record oldRecord;
+    int problemPosition;
+    int recordPostion;
+
+    private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
 
     @Override
@@ -67,6 +72,8 @@ public class ActivityEditRecord extends AppCompatActivity {
         comment = oldRecord.getComment();
         dateString = oldRecord.getDate();
         problemId = oldRecord.getProblemID();
+        problemPosition = bundle.getInt("position");
+        recordPostion = bundle.getInt("recordPositon");
 
         title_textView.setText(title);
         comment_textView.setText(comment);
@@ -112,19 +119,24 @@ public class ActivityEditRecord extends AppCompatActivity {
             setGeoLocation();
 
             // Check if app is connected to a network.
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+            //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
+                mProblemList.removeRecord(problemPosition, recordPostion);
+                mProblemList.addRecord(problemPosition, newRecord);
+                offline.addItem(oldRecord, "DELETE");
+                offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
-
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+//                offline.synchronizeWithElasticSearch();
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
                 finish();
-
             }
 
         }
@@ -140,14 +152,10 @@ public class ActivityEditRecord extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.view_photo);
             byte[] byteArray = data.getByteArrayExtra("image");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
             Drawable drawable = new BitmapDrawable(bitmapScaled);
             imageView.setImageDrawable(drawable);
-
             imageView.setImageBitmap(bitmap);
-
-
             recordPhoto = bitmap;
 
         }else{

@@ -169,13 +169,15 @@ public class ElasticSearchProblemController {
 
         @Override
         protected Void doInBackground(Problem... problems) {
+            Log.d("IVANLIM", "delete ");
             setClient();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + problems[0].getId() + "\"}}}";
             DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newProblem2").build();
             try {
+                Log.d("IVANLIM", "delete ");
                 client.execute(delete);
             } catch (Exception e) {
-                Log.d("ElasticProblem", "The application failed to build and send the problem");
+                Log.d("IVANLIM", "The application failed to build and send the problem in delete");
             }
 
             return null;

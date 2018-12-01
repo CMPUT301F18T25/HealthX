@@ -28,13 +28,13 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.List;
 
-public class ViewRecordList extends AppCompatActivity{
+public class ViewRecordList extends AppCompatActivity {
 
     private RecyclerView rRecyclerView;
     private RecyclerView.Adapter rAdapter;
     private RecyclerView.LayoutManager rLayoutManager;
     private ArrayList<Record> recordList = new ArrayList<Record>();
-    private  String problemId;
+    private String problemId;
     private boolean isDoctor;
     private int position;
     private ProblemList mProblemList = ProblemList.getInstance();
@@ -117,45 +117,46 @@ public class ViewRecordList extends AppCompatActivity{
 
 //        offline.synchronizeWithElasticSearch();
         }
-            rRecyclerView = findViewById(R.id.recycler_list);
-            rRecyclerView.setHasFixedSize(true);
+        rRecyclerView = findViewById(R.id.recycler_list);
+        rRecyclerView.setHasFixedSize(true);
 
-            rLayoutManager = new LinearLayoutManager(this);
-            rRecyclerView.setLayoutManager(rLayoutManager);
+        rLayoutManager = new LinearLayoutManager(this);
+        rRecyclerView.setLayoutManager(rLayoutManager);
 //            rAdapter = new RecordListAdapter(mProblemList.getRecordList(position));
-            rAdapter = new RecordListAdapter(recordList);
-            rRecyclerView.setAdapter(rAdapter);
-            SwipeHelper swipeHelper = new SwipeHelper(this, rRecyclerView) {
-                public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                    underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-                            new UnderlayButtonClickListener() {
+        rAdapter = new RecordListAdapter(recordList);
+        rRecyclerView.setAdapter(rAdapter);
+        SwipeHelper swipeHelper = new SwipeHelper(this, rRecyclerView) {
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+                        new UnderlayButtonClickListener() {
 
-                                public void onClick(int position) {
-                                    ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
-                                    deleteRecordTask.execute(recordList.get(position));
-                                    recordList.remove(position);
-                                    rAdapter.notifyItemRemoved(position);
-                                }
+                            public void onClick(int position) {
+                                ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
+                                deleteRecordTask.execute(recordList.get(position));
+                                recordList.remove(position);
+                                rAdapter.notifyItemRemoved(position);
                             }
-                    ));
+                        }
+                ));
 
-                    underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
-                            new UnderlayButtonClickListener() {
-                                @Override
-                                public void onClick(int pos) {
-                                    Record record = recordList.get(pos);
-                                    Intent intent = new Intent(ViewRecordList.this, ActivityEditRecord.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable("record", record);
-                                    intent.putExtras(bundle);
+                underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                Record record = recordList.get(pos);
+                                Intent intent = new Intent(ViewRecordList.this, ActivityEditRecord.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("record", record);
+                                intent.putExtras(bundle);
 
-                                }
                             }
-                    ));
-                }
-            };
 
-        }
+                        }
+                ));
+            }
+        };
+
+    }
 
 
     @Override
@@ -230,6 +231,7 @@ public class ViewRecordList extends AppCompatActivity{
 //            startActivity(intent);
 //        } else if (id == R.id.nav_logout) {
 //>>>>>>> master
+        //noinspection SimplifiableIfStatement
 
         }
 
