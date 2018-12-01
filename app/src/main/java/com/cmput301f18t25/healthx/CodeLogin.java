@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Get;
@@ -21,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 public class CodeLogin extends AppCompatActivity {
 
     EditText userCodeTextView;
-    private User user;
+    private RequestCode requestCode;
     private ProblemList mProblemList = ProblemList.getInstance();
 
     @Override
@@ -43,7 +44,7 @@ public class CodeLogin extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void toViewProblem(View view) {
+    public void toViewProblemCode(View view) {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
@@ -51,20 +52,40 @@ public class CodeLogin extends AppCompatActivity {
         } else {
 //          User user = new User(name,id,phone,email,status);
             String userCode = userCodeTextView.getText().toString();
-            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            ElasticSearchUserController.GetRequestCodeTask getRequestCodeTask = new ElasticSearchUserController.GetRequestCodeTask();
             try {
-                user = getUserTask.execute(userCode).get();
-                Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
-                if (!user.getStatus().equals("")) {
-                    mProblemList.setUser(user);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id",user.getUsername());
-                    bundle.putString("email",user.getEmail());
-                    Intent intent = new Intent(this, ViewProblemList.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                }
-                else {
+
+                ArrayList<RequestCode> requestCodes = getRequestCodeTask.execute(userCode).get();
+                requestCode = requestCodes.get(0);
+
+                String username = requestCode.getUsername();
+                if (!username.equals("")) {
+
+
+                    Log.d("here", username);
+                    ElasticSearchUserController.GetUserTask userTask = new ElasticSearchUserController.GetUserTask();
+                    User user = userTask.execute(username).get();
+                    Log.d("heree", user.getName());
+                    Toast.makeText(getApplicationContext(), user.getName(), Toast.LENGTH_LONG).show();
+                    if (!user.getStatus().equals("")) {
+                        mProblemList.setUser(user);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("id", user.getUsername());
+                        bundle.putString("email", user.getEmail());
+                        bundle.putString("code", user.getCode());
+
+
+                        ElasticSearchUserController.DeleteRequestCodeTask deleteRequestCodeTask = new ElasticSearchUserController.DeleteRequestCodeTask();
+                        deleteRequestCodeTask.execute(requestCode);
+
+                        Intent intent = new Intent(this, ViewProblemList.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    } else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                } else {
                     Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!" , Toast.LENGTH_SHORT);
                     toast.show();
                 }

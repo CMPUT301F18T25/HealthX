@@ -18,6 +18,8 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
     Button generate_btn;
     TextView code_output;
+    User user = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +29,11 @@ public class ActivityGenerateCode extends AppCompatActivity {
         generate_btn = (Button) findViewById(R.id.btn_generate);
         code_output = (TextView) findViewById(R.id.code_output);
 
+
         Bundle bundle = this.getIntent().getExtras();
         String Bid = bundle.getString("id");
         String Bemail = bundle.getString("email");
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        User user = null;
         try {
             user = getUserTask.execute(Bid,Bemail).get();
         } catch (ExecutionException e) {
@@ -66,23 +68,14 @@ public class ActivityGenerateCode extends AppCompatActivity {
     }
 
     public void generateCode(View view) {
-        code_output = (TextView) findViewById(R.id.code_output);
-        String new_code = RandomStringUtils.randomAscii(RandomUtils.nextInt(3,7));
-        code_output.setText(new_code);
-        Bundle bundle = this.getIntent().getExtras();
-        String Bid = bundle.getString("id");
-        String Bemail = bundle.getString("email");
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        User user = null;
-        try {
-            user = getUserTask.execute(Bid,Bemail).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-        user.setCode(new_code);
+        code_output = (TextView) findViewById(R.id.code_output);
+        String new_code = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(3,7));
+        code_output.setText(new_code);
+
+        RequestCode requestCode = new RequestCode(user.getName(),new_code);
+        ElasticSearchUserController.AddRequestCodeTask addRequestCodeTask = new ElasticSearchUserController.AddRequestCodeTask();
+        addRequestCodeTask.execute(requestCode);
 
     }
 }

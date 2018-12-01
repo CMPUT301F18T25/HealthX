@@ -11,11 +11,14 @@ import com.searchly.jestdroid.JestDroidClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import io.searchbox.client.JestResult;
+import io.searchbox.core.DeleteByQuery;
 import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -74,23 +77,8 @@ public class ElasticSearchUserController {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
             User theUser = new User("", "", "", "", "");
-            String query = null;
+            String query = "{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}";
 
-            if (users.length == 1){
-                query = "{\n" +
-                        "    \"query\": {\n" +
-                        "                \"bool\" : {\n" +
-                        "\"must\" : [\n"+ "{\"match\" : {\"code\" : \""+ users[0]+ "\"}},\n]\n}\n}\n}\n";
-
-            }
-            else {
-                query = "{\n" +
-                        "    \"query\": {\n" +
-                        "                \"bool\" : {\n" +
-                        "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
-
-
-            }
 
 
             // Build the query
@@ -129,6 +117,85 @@ public class ElasticSearchUserController {
             }
             return theUser;
         }
+    }
+
+    public static class AddRequestCodeTask extends AsyncTask<RequestCode, Void, Void> {
+
+        @Override
+        protected Void doInBackground(RequestCode... requestCodes) {
+            verifySettings();
+            String problemID;
+            for (RequestCode rc : requestCodes){
+                Index index = new Index.Builder(rc).index("cmput301f18t25test").type("newReqCodes").build();
+
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to find user.");
+                    } else {
+
+                    }
+                }
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
+            }
+            return null;
+
+        }
+
+    }
+
+    public static class DeleteRequestCodeTask extends AsyncTask<RequestCode, Void, Void> {
+
+        @Override
+        protected Void doInBackground(RequestCode... requestCodes) {
+            verifySettings();
+            String query = "{\"query\" : { \"match\" : { \"user_code\" : \"" + requestCodes[0].getCode() + "\"}}}";
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newReqCodes").build();
+            try {
+                client.execute(delete);
+            } catch (Exception e) {
+                Log.d("ElasticProblem", "The application failed to build and send the code");
+            }
+
+            return null;
+        }
+
+    }
+
+
+    public static class GetRequestCodeTask extends AsyncTask<String, Void, ArrayList<RequestCode>> {
+        @Override
+        protected ArrayList<RequestCode> doInBackground(String... params) {
+            verifySettings();
+            ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
+
+            String query = "{ \"query\" : { \"match\" :  { \"user_code\" : \""+ params[0] + "\"}}}";
+            Search search = new Search.Builder(query)
+
+                    .addIndex("cmput301f18t25test")
+                    .addType("newReqCodes")
+                    .build();
+            try {
+//                JestResult result = client.execute(search);
+                JestResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    List<RequestCode> requestCodesList;
+                    requestCodesList = result.getSourceAsObjectList(RequestCode.class);
+                    requestCodes.addAll(requestCodesList);
+                }
+                else {
+                    Log.d("IVANLIM", "Else caluse: ");
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching problems");
+            }
+
+            return requestCodes;
+        }
+
     }
 
     public static class UpdateUserTask extends AsyncTask<User, Void, Void> {

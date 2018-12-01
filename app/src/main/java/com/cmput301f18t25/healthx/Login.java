@@ -67,6 +67,7 @@ public class Login extends AppCompatActivity {
                     Bundle bundle = new Bundle();
                     bundle.putString("id",user.getUsername());
                     bundle.putString("email",user.getEmail());
+                    bundle.putString("code",user.getCode());
                     Intent intent = new Intent(this, ViewProblemList.class);
                     intent.putExtras(bundle);
                     startActivity(intent);
