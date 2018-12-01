@@ -18,13 +18,13 @@ public class Record  implements Serializable {
     protected String comment;
     protected Double longitude;
     protected Double latitude;
-    protected Bitmap image;
+    protected String image;
     protected String date;
     protected String id;
     protected String problemID; // problemId specifies the feild at which the record is associated with a problem
 
 
-    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
+    public Record(String record_title,String record_comment, Double latitude, Double longitude, String image, String date, String problemID){
     /**
      * Creates an instance of Record with getter and setters for the parameters
      *
@@ -113,13 +113,13 @@ public class Record  implements Serializable {
      * sets image
      * @param image image you want to set
      * */
-    public void setImage(Bitmap image){
+    public void setImage(String image){
         this.image = image;
     }
     /**
      * returns image
      * */
-    public Bitmap getImage(){
+    public String getImage(){
         return this.image;
     }
     /**

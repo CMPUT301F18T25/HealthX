@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Access the storage for photos -->
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!--
@@ -50,7 +53,6 @@
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
-        <activity android:name=".ActivityAddPhoto" />
         <activity android:name=".ActivityAddRecord" />
         <activity android:name=".ViewCurrentRecord" />
         <activity android:name=".MapViewActivity" />

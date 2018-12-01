@@ -47,15 +47,15 @@ public class ActivityBodyLocation extends AppCompatActivity {
                 } else if(x > 0.67 * width && x < width && y > 0.35 * height && y < 0.58 * height) {
                     frontBodyLocation = "Front Right Arm";
                 } else if(x > 0.277 * width && x < 0.75 * width && y > 0 && y < 0.356 * height){
-                    frontBodyLocation = "Front Head";
+                    frontBodyLocation = "Head";
                 } else if(x > 0.34 * width && x < 0.67 * width && y > 0.356 * height && y < 0.58 * height){
-                    frontBodyLocation = "Front Torso";
+                    frontBodyLocation = "Chest";
                 } else if(x > 0.04 * width && x < 0.5 * width && y > 0.786 * height && y < 0.974 * height){
                     frontBodyLocation = "Front Left Leg";
                 } else if(x > 0.5 * width && x < 0.973 * width && y > 0.786 * height && y < 0.974 * height){
                     frontBodyLocation = "Front Right Leg";
                 } else if (x > 0.219 * width && x < 0.81 * width && y > 0.58 * height && y < 0.974 * height){
-                    frontBodyLocation = "Front Waist";
+                    frontBodyLocation = "Waist";
                 } else{
                     frontBodyLocation = null;
                 }
@@ -85,15 +85,15 @@ public class ActivityBodyLocation extends AppCompatActivity {
                 } else if(x > 0.67 * width && x < width && y > 0.35 * height && y < 0.58 * height) {
                     backBodyLocation = "Back Right Arm";
                 } else if(x > 0.277 * width && x < 0.75 * width && y > 0 && y < 0.356 * height){
-                    backBodyLocation = "Back Head";
+                    backBodyLocation = "Head";
                 } else if(x > 0.34 * width && x < 0.67 * width && y > 0.356 * height && y < 0.58 * height){
-                    backBodyLocation = "Back Torso";
+                    backBodyLocation = "Back";
                 } else if(x > 0.04 * width && x < 0.5 * width && y > 0.786 * height && y < 0.974 * height){
                     backBodyLocation = "Back Left Leg";
                 } else if(x > 0.5 * width && x < 0.973 * width && y > 0.786 * height && y < 0.974 * height){
                     backBodyLocation = "Back Right Leg";
                 } else if (x > 0.219 * width && x < 0.81 * width && y > 0.58 * height && y < 0.974 * height){
-                    backBodyLocation = "Back Waist";
+                    backBodyLocation = " Waist";
                 } else{
                     backBodyLocation = null;
                 }
