@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -203,6 +204,10 @@ public class ViewRecordList extends AppCompatActivity {
         else if (id == R.id.slideShow_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View Slide Show" , Toast.LENGTH_SHORT);
             toast.show();
+
+            Intent intent = new Intent(getApplicationContext(),SlideShow.class);
+
+            startActivity(intent);
 //=======
 //        //noinspection SimplifiableIfStatement
 //
@@ -239,6 +244,5 @@ public class ViewRecordList extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

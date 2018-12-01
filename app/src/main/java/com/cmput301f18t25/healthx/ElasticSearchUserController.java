@@ -77,7 +77,7 @@ public class ElasticSearchUserController {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
             User theUser = new User("", "", "", "", "", "");
-            String query = "{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}"
+            String query = "{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}";
        
 
 

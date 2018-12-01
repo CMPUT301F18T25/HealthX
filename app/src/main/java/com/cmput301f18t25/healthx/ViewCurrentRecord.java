@@ -1,5 +1,7 @@
 package com.cmput301f18t25.healthx;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,13 +21,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.concurrent.ExecutionException;
 
-public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCallback {
+public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
 
     GoogleMap myMap;
     MapFragment mapFragment;
     private double longitude;
     private double latitude;
+    Record theRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,13 +38,15 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
 
 
 //        Bundle bundle = null;
-        Record theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
+
 //        String title = bundle.getString("Title");
 //        String comment = bundle.getString("Comment");
 //        String date = bundle.getString("Date");
+        theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
         String title = theRecord.getTitle();
         String date = theRecord.getDate();
         String comment = theRecord.getComment();
+        Bitmap image = theRecord.getImage();
         longitude = theRecord.getLongitude();
         latitude = theRecord.getLatitude();
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
@@ -100,6 +105,18 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onClick(View v){
+        switch(v.getId()){
+            case R.id.SeePhoto: {
+                Intent intent = new Intent(getApplicationContext(),ActivitySeeRecordPhotos.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Record", theRecord);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }
     }
 
 }
