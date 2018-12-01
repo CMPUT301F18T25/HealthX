@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -196,8 +197,16 @@ public class ViewRecordList extends AppCompatActivity {
             finish();
         }
         else if (id == R.id.map_button){
-            Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
-            toast.show();
+//            Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
+//            toast.show();
+            Intent intent = new Intent(this, MapViewActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("RecordList" , (Parcelable) recordList);
+//            bundle.putSerializable("RecordList", (Serializable) recordList);
+            intent.putExtra("BUNDLE", bundle);
+            startActivity(intent);
+
+
 
         }
         else if (id == R.id.slideShow_button){

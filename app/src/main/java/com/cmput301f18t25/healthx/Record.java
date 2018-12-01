@@ -6,13 +6,15 @@
 package com.cmput301f18t25.healthx;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Record  implements Serializable {
+public class Record implements Serializable {
 
     protected String title;
     protected String comment;
@@ -83,7 +85,7 @@ public class Record  implements Serializable {
     }
     /**
      * sets Date
-     * @param newDate date to set
+     * @param setDate date to set
      * */
     public void setDate(String newDate){
         this.date = newDate;
@@ -153,5 +155,21 @@ public class Record  implements Serializable {
     public String getProblemID(){
         return this.problemID;
     }
-
+//
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(this.comment);
+//        dest.writeString(this.date);
+//        dest.writeString(this.id);
+//        dest.writeString(this.problemID);
+//        dest.writeString(this.title);
+//        dest.writeInt(this.CPComment ? 1 : 0);
+//        dest.bitmap
+//
+//    }
 }
