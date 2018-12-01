@@ -85,10 +85,8 @@ public class SignupTest extends ActivityTestRule<Signup>{
         // test successful signup by logging in
 
         EditText log_id = (EditText) solo.getView(R.id.loginUserID);
-        EditText log_email = (EditText) solo.getView(R.id.loginEmail);
 
         solo.enterText(log_id,test_username);
-        solo.enterText(log_email, test_email);
         solo.clickOnView(solo.getView(R.id.btn_login));
 
         boolean next_view3 = solo.waitForActivity(ViewProblemList.class, 3000);

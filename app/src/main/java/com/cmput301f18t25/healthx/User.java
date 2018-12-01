@@ -39,6 +39,20 @@ public class User {
         this.reminderFrequency = reminderFrequency;
 
     }
+
+    public User() {
+
+    }
+
+    public void setUser(User u) {
+        this.name = u.getName();
+        this.username = u.getUsername();
+        this.phoneNumber = u.getPhoneNumber();
+        this.email = u.getEmail();
+        this.status = u.getStatus();
+        this.id = u.getId();
+        this.reminderFrequency = u.getReminderFrequency();
+    }
     /**
      * Clones user, is required for elastic search
      * @param user user to be cloned

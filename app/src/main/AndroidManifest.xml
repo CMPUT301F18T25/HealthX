@@ -7,6 +7,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Access the storage for photos -->
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!--
@@ -54,7 +57,6 @@
         <activity android:name=".ActivityGenerateCode" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
-        <activity android:name=".ActivityAddPhoto" />
         <activity android:name=".ActivityAddRecord" />
         <activity android:name=".ActivityEditRecord" />
         <activity android:name=".ViewPatientList"
@@ -75,6 +77,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA" />
+
+        <activity android:name=".SlideShow" />
+        <activity android:name=".ActivityBodyLocation"></activity>
 
     </application>
 

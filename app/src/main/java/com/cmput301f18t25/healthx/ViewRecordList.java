@@ -69,6 +69,9 @@ public class ViewRecordList extends AppCompatActivity {
         });
         try {
             recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+            for(Record record: recordList){
+                mProblemList.addRecord(position, record);
+            }
         } catch (Exception e) {
 //=======
 //                Bundle bundle = new Bundle();
