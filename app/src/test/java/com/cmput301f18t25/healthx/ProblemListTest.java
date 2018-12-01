@@ -20,6 +20,8 @@ public class ProblemListTest {
     public String test_title = "title";
     public String test_description = "description";
     public String test_date = "2018-10-1";
+    public String test_id = "abc";
+
     public ProblemList problemList = ProblemList.getInstance();
 
     public ProblemListTest(){}
@@ -27,7 +29,7 @@ public class ProblemListTest {
     @Test
     public void testAddToProblemList(){
 
-        Problem problem = new Problem(test_title,test_description,test_date);
+        Problem problem = new Problem(test_title,test_description,test_date,test_id);
         problemList.addToProblemList(problem);
         assertEquals(problemList.getListCount(),1);
         assertEquals(problemList.getElementByIndex(0),problem);
@@ -37,12 +39,12 @@ public class ProblemListTest {
 
     @Test
     public void testEditProblem(){
-        Problem problem = new Problem(test_title,test_description,test_date);
+        Problem problem = new Problem(test_title,test_description,test_date,test_id);
         problemList.addToProblemList(problem);
         assertEquals(problemList.getElementByIndex(0),problem);
 
         String new_title = "new title";
-        Problem editedProblem = new Problem(new_title,test_description,test_date);
+        Problem editedProblem = new Problem(new_title,test_description,test_date,test_id);
         problemList.EditProblem(0,editedProblem);
         assertEquals(problemList.getElementByIndex(0).getTitle(),new_title);
         problemList.removeProblemFromList(0);
@@ -51,7 +53,7 @@ public class ProblemListTest {
 
     @Test
     public void testGetListCount(){
-        Problem problem = new Problem(test_title,test_description,test_date);
+        Problem problem = new Problem(test_title,test_description,test_date,test_id);
 
         problemList.addToProblemList(problem);
         problemList.addToProblemList(problem);
@@ -73,8 +75,8 @@ public class ProblemListTest {
 
     @Test
     public void testGetElementByIndex(){
-        Problem problem1 = new Problem(test_title,test_description,test_date);
-        Problem problem2 = new Problem(test_title+"2",test_description+"2",test_date);
+        Problem problem1 = new Problem(test_title,test_description,test_date,test_id);
+        Problem problem2 = new Problem(test_title+"2",test_description+"2",test_date,test_id+"2");
 
         problemList.addToProblemList(problem1);
         problemList.addToProblemList(problem2);
@@ -88,7 +90,7 @@ public class ProblemListTest {
 
     @Test
     public void testRemoveProblemFromList(){
-        Problem problem = new Problem(test_title,test_description,test_date);
+        Problem problem = new Problem(test_title,test_description,test_date,test_id);
         problemList.addToProblemList(problem);
         assertEquals(problemList.getListCount(),1);
 
