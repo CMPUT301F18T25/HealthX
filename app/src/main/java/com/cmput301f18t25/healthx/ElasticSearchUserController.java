@@ -76,9 +76,9 @@ public class ElasticSearchUserController {
         protected User doInBackground(String... users) {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
-            User theUser = new User("", "", "", "", "");
-            String query = "{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}";
-
+            User theUser = new User("", "", "", "", "", "");
+            String query = "{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}"
+       
 
 
             // Build the query
@@ -95,12 +95,7 @@ public class ElasticSearchUserController {
 //                DocumentResult docres = client.execute(search);
 //                SearchRes
                 if (result.isSucceeded()) {
-//                    Map user = result.getJsonMap();
-//                    String user = result.getJsonString();
-//                    Log.d("IVANLIM", user);
-
-//                    List<SearchResult.Hit<User, Void>> hits = result.getHits(User.class);
-
+//
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);
                     userArray.addAll(userList);
@@ -223,8 +218,148 @@ public class ElasticSearchUserController {
         }
     }
 
+    public static class CheckPatientTask extends AsyncTask<String, Void, User> {
+        @Override
+        protected User doInBackground(String... users) {
+//            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
+            verifySettings();
+            User theUser = new User("", "", "", "", "","");
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "                \"bool\" : {\n" +
+                    "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
+
+             //Build the query
+
+            String userId = null;
+            ArrayList<User> userArray = new ArrayList<User>();
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("myPatient")
+                    .build();
+
+            try {
+                // gets result
+                SearchResult result = client.execute(search);
+//                DocumentResult docres = client.execute(search);
+//                SearchRes
+                if (result.isSucceeded()) {
+//
+                    List<User> userList;
+                    userList = result.getSourceAsObjectList(User.class);
+                    userArray.addAll(userList);
+                    theUser.cloneUser(userArray.get(0));
+                    Log.d("IVANLIM", theUser.getId() );
 
 
+//                    }
+                } else {
+                    Log.i("IVANLIM", "The search query failed to find any user that matched.");
+                }
+            } catch (Exception e) {
+                Log.i("IVANLIM", "Something went wrong when we tried to communicate with the elasticsearch server!");
+            }
+            return theUser;
+        }
+    }
+
+
+    public static class GetPatientsTask extends AsyncTask<String, Void, ArrayList<User>> {
+        @Override
+        protected ArrayList<User> doInBackground(String... params) {
+
+            verifySettings();
+            ArrayList<User> patients = new ArrayList<User>();
+            String query = "{\n" + "\"from\" : 0, \"size\": 100,\n" +
+                    "    \"query\": {\n" +
+                    "                \"match\" : {\"doctorID\": \""+ params[0] + "\" }\n"  +  " }\n}\n";
+
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+
+                    .addType("myPatient")
+                    .build();
+            try {
+                SearchResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    Log.d("CeciliaW", "doInBackground: patient SUCESS");
+                    List<User> patientList;
+                    patientList = result.getSourceAsObjectList(User.class);
+                    patients.addAll(patientList);
+                    Log.d("CWei", String.valueOf(patients.size()));
+                    Log.d("CWei", "prted");
+
+                }
+                else {
+                    Log.d("CeciliaW", "doInBackground: patient ELSe");
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching records");
+            }
+
+            return patients;
+        }
+
+    }
+
+    public static class AddPatientTask extends AsyncTask<User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... patients) {
+            verifySettings();
+            String patientID;
+            for (User patient : patients){
+                Index index = new Index.Builder(patient).index("cmput301f18t25test").type("patients").build();
+
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    } else {
+                        //patientID = result1.getId();
+                        //patient.setId(patientID);
+                        Index index1 = new Index.Builder(patient).index("cmput301f18t25test").type("myPatient").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
+                    }
+                }
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
+            }
+            return null;
+
+        }
+    }
+    public static class DeletePatientTask extends AsyncTask<User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... patients) {
+            verifySettings();
+            //String query = "{\"query\" : { \"match\" : { \"user\" : \"" + records[0].getId() + "\"}}}";
+            //String query = "{ \"query\" : { \"match\" :  { \"doctorID\" : \""+ "AWdN0d3BrOXHRTUxDl1l" + "\"}}}";
+            String query = "{\n" +
+                    "    \"query\": {\n" +
+                    "                \"bool\" : {\n" +
+                    "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ patients[0].getUsername()+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ patients[0].getEmail()+"\"}}\n]\n}\n}\n}\n";
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("myPatient").build();
+            try {
+                client.execute(delete);
+            } catch (Exception e) {
+                Log.d("ElasticProblem", "The application failed to build and send the problem");
+            }
+
+            return null;
+        }
+
+    }
     public static void verifySettings() {
         if (client == null) {
 

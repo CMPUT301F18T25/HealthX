@@ -12,6 +12,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +47,11 @@ public class ActivityEditRecord extends AppCompatActivity {
     String dateString;
     String problemId;
     Record oldRecord;
+    int problemPosition;
+    int recordPostion;
+
+    private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
 
     @Override
@@ -62,6 +72,8 @@ public class ActivityEditRecord extends AppCompatActivity {
         comment = oldRecord.getComment();
         dateString = oldRecord.getDate();
         problemId = oldRecord.getProblemID();
+        problemPosition = bundle.getInt("position");
+        recordPostion = bundle.getInt("recordPositon");
 
         title_textView.setText(title);
         comment_textView.setText(comment);
@@ -83,8 +95,9 @@ public class ActivityEditRecord extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, ViewRecordList.class);
-            startActivity(intent);
+            if (id == android.R.id.home) {
+                finish();
+            }
         }
         if (id == R.id.save_button) {
 
@@ -106,19 +119,24 @@ public class ActivityEditRecord extends AppCompatActivity {
             setGeoLocation();
 
             // Check if app is connected to a network.
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+            //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
+                mProblemList.removeRecord(problemPosition, recordPostion);
+                mProblemList.addRecord(problemPosition, newRecord);
+                offline.addItem(oldRecord, "DELETE");
+                offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
-
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+//                offline.synchronizeWithElasticSearch();
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
-                Intent intent = new Intent(ActivityEditRecord.this, ViewRecordList.class);
-                startActivity(intent);
+                finish();
             }
 
         }
@@ -134,14 +152,10 @@ public class ActivityEditRecord extends AppCompatActivity {
             ImageView imageView = findViewById(R.id.view_photo);
             byte[] byteArray = data.getByteArrayExtra("image");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
             Drawable drawable = new BitmapDrawable(bitmapScaled);
             imageView.setImageDrawable(drawable);
-
             imageView.setImageBitmap(bitmap);
-
-
             recordPhoto = bitmap;
 
         }else{

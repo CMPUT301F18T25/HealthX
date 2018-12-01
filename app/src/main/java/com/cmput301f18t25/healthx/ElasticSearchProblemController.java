@@ -46,6 +46,7 @@ public class ElasticSearchProblemController {
                         Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
+                            Log.d("CWei","added");
                             if (!result2.isSucceeded()) {
                                 Log.i("Error", "doInBackground: error");
                             }
@@ -72,7 +73,6 @@ public class ElasticSearchProblemController {
 
             String query = "{ \"query\" : { \"match\" :  { \"userId\" : \""+ params[0] + "\"}}}";
             Search search = new Search.Builder(query)
-
                     .addIndex("cmput301f18t25test")
                     .addType("newProblem2")
                     .build();
@@ -80,9 +80,12 @@ public class ElasticSearchProblemController {
 //                JestResult result = client.execute(search);
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
+                    Log.d("IVANLIM", "doInBackground: succeded :)");
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
+                    Log.d("CWei", String.valueOf(problemList.size()));
+                    Log.d("IVANLIM", String.valueOf(problemList.size()));
                 }
                 else {
                     Log.d("IVANLIM", "Else caluse: ");
@@ -110,11 +113,15 @@ public class ElasticSearchProblemController {
                     .addType("newProblem2")
                     .build();
             try {
+//                JestResult result = client.execute(search);
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
+                }
+                else {
+                    Log.d("IVANLIM", "Else caluse: ");
                 }
 
             } catch (IOException e) {
@@ -162,13 +169,15 @@ public class ElasticSearchProblemController {
 
         @Override
         protected Void doInBackground(Problem... problems) {
+            Log.d("IVANLIM", "delete ");
             setClient();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + problems[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newProblem").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newProblem2").build();
             try {
+                Log.d("IVANLIM", "delete ");
                 client.execute(delete);
             } catch (Exception e) {
-                Log.d("ElasticProblem", "The application failed to build and send the problem");
+                Log.d("IVANLIM", "The application failed to build and send the problem in delete");
             }
 
             return null;

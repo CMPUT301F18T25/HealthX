@@ -4,18 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewRecordList"
-    android:fitsSystemWindows="true">
+    tools:context=".ViewRecordList">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.NoActionBar">
+        android:theme="@style/AppTheme.AppBarOverlay">
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.NoActionBar"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
             app:contentInsetEnd="0dp"
             app:contentInsetLeft="0dp"
             app:contentInsetRight="0dp"
@@ -24,12 +23,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_recycler"
+    <include layout="@layout/content_cp_view_patient_problem"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="0.5dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -40,4 +38,5 @@
         android:background="@color/colorPrimary"
         app:backgroundTint="@color/colorPrimaryDark"
         app:srcCompat="@android:drawable/ic_input_add" />
+
 </android.support.design.widget.CoordinatorLayout>

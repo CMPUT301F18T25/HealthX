@@ -21,11 +21,11 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     public Context ctx;
     private List<Problem> problems;
-
-    public ProblemListAdapter(List<Problem> problems){
+    private boolean isDoctor;
+    public ProblemListAdapter(List<Problem> problems, boolean isDoctor){
 
         this.problems = problems;
-
+        this.isDoctor = isDoctor;
     }
 
     @NonNull
@@ -41,7 +41,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     @Override
     public void onBindViewHolder(ProblemListAdapter.ViewHolder holder, final int position) {
-        
+
         holder.pTitle.setText(problems.get(position).getTitle());
         holder.pDescription.setText(problems.get(position).getDescription());
         //holder.pCount.setText(problems.get(position).getCount());
@@ -52,21 +52,9 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
                 Problem toView = problems.get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("Title",toView.getTitle());
-                bundle.putString("Description",toView.getDescription());
-                bundle.putString("Count",Integer.toString(toView.getCount()));
                 bundle.putString("ProblemID", toView.getId());
-                bundle.putInt("Position",position);
-                ///////////////////////////////
-                /// Date OR STRING
-                ///////////////////////////////////
-
-                bundle.putString("Date",toView.getDate());
-
+                bundle.putBoolean("isDoctor",isDoctor);
                 // CHANGE ACTIVITY CLASS
-
-
-
                 Intent intent = new Intent(v.getContext(), ViewRecordList.class);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);

@@ -21,7 +21,7 @@ public class ProblemList {
     private static User user;
 
     /**
-      Static method that creates instance of Singleton ProblemListclass
+     Static method that creates instance of Singleton ProblemListclass
      */
     public static ProblemList getInstance() {
         if (instance == null) {
@@ -32,13 +32,18 @@ public class ProblemList {
     }
 
     /**
-     * Returns problem at a given index  */
+     * Returns problem at a given index
+     * @param index - index of problem you want to return
+     * */
+
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
 
     }
 
+
     public  ArrayList<Problem> getProblemArray() {
+        sortArray();
         return problemArray;
     }
 
@@ -113,6 +118,7 @@ public class ProblemList {
         });
     }
 
+
     public void sortRecordArray(int i) {
         Collections.sort(problemArray.get(i).recordArray, new Comparator<Record>() {
             @Override
@@ -139,4 +145,19 @@ public class ProblemList {
         sortRecordArray(position);
         return problemArray.get(position).recordArray;
     }
+
+    public void removeRecord(int problemPosition, int recordPosition) {
+        problemArray.get(problemPosition).recordArray.remove(recordPosition);
+        sortRecordArray(problemPosition);
+    }
+
+    public void addRecord(int problemPosition, Record r) {
+        problemArray.get(problemPosition).recordArray.add(r);
+        sortRecordArray(problemPosition);
+    }
+
+    public Record getRecord(int problemPosition, int recordPosition) {
+        return problemArray.get(problemPosition).recordArray.get(recordPosition);
+    }
+
 }

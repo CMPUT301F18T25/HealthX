@@ -44,6 +44,8 @@ public class ElasticSearchRecordController {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
                                 Log.i("Error", "doInBackground: error");
+                            }else {
+                                Log.d("CWei", "doInBackground: successed addrecord ");
                             }
                         } catch (Exception e) {
                             Log.i("Error", "The application failed to build and send the tweets");
@@ -82,6 +84,8 @@ public class ElasticSearchRecordController {
                     List<Record> recordList;
                     recordList = result.getSourceAsObjectList(Record.class);
                     records.addAll(recordList);
+                    Log.d("CWei", String.valueOf(recordList.size()));
+
                 }
                 else {
                     Log.d("IVANLIM", "doInBackground: RECORD ELSe");
@@ -106,6 +110,7 @@ public class ElasticSearchRecordController {
             if (params.length == 3){
 
                 // APPROXIMATELY WITHIN A 5 KM RANGE
+
                 Double longitudeRange = (2.5 / (111.320 * Math.toDegrees(Math.cos(Math.toRadians(Double.valueOf(params[1]))))));
 
                 Log.d("UWU" , longitudeRange.toString());
