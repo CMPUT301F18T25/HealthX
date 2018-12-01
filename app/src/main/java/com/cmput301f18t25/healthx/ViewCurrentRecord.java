@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
@@ -46,7 +47,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         String title = theRecord.getTitle();
         String date = theRecord.getDate();
         String comment = theRecord.getComment();
-        Bitmap image = theRecord.getImage();
+        ArrayList <String> images = theRecord.getImageURIs();
         longitude = theRecord.getLongitude();
         latitude = theRecord.getLatitude();
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);

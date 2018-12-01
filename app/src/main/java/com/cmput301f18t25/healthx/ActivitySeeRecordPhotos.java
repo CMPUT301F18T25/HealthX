@@ -30,18 +30,19 @@ public class ActivitySeeRecordPhotos extends AppCompatActivity {
         setContentView(R.layout.activity_slide_show);
         Bundle bundle = this.getIntent().getExtras();
         Record record = (Record) bundle.getParcelable("Record");
-        Bitmap bitmap = record.getImage();
-        Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-        Drawable drawable = new BitmapDrawable(bitmapScaled);
-        images.add(drawable);
-        /*for(int x= 0; x<recordList.size(); x++){
+        ArrayList<String> imageList= record.getImageURIs();
+        //Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+        //Drawable drawable = new BitmapDrawable(bitmapScaled);
+        //images.add(drawable);
+        for(int x= 0; x<imageList.size(); x++){
             Log.d("Sandy 301","Reached");
-            Record record = recordList.get(x);
-            Bitmap bitmap = record.getImage();
-            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            String image_path = imageList.get(x);
+            Drawable drawable = Drawable.createFromPath(image_path);
+            //Bitmap bitmap = record.getImage();
+            //Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+            //Drawable drawable = new (bitmapScaled);
             images.add(drawable);
-         }*/
+         }
         /*LinearLayout gallery = findViewById(R.id.gallery);
          LayoutInflater inflater = LayoutInflater.from(this);
          for (int i = 0; i<6;i++){

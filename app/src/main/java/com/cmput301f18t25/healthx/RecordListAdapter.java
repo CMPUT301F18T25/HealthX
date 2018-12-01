@@ -69,7 +69,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewCurrentRecord.class);
-//                intent.putExtras(bundle);
+//              intent.putExtras(bundle);
                 intent.putExtra("Record",toView );
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
