@@ -173,7 +173,6 @@ public class ElasticSearchUserController {
                     .addType("newReqCodes")
                     .build();
             try {
-//                JestResult result = client.execute(search);
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
                     List<RequestCode> requestCodesList;
@@ -259,6 +258,39 @@ public class ElasticSearchUserController {
         }
     }
 
+    public static class CheckPatientTaskRequestCode extends AsyncTask<String, Void, ArrayList<RequestCode>> {
+        @Override
+        protected ArrayList<RequestCode> doInBackground(String... users) {
+//            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
+            ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
+
+            String query = "{ \"query\" : { \"match\" :  { \"user_code\" : \""+ users[0] + "\"}}}";
+            //Build the query
+
+            Search search = new Search.Builder(query)
+                    .addIndex("cmput301f18t25test")
+                    .addType("myPatientCodes")
+                    .build();
+
+            try {
+                JestResult result = client.execute(search);
+                if (result.isSucceeded()) {
+                    List<RequestCode> requestCodesList;
+                    requestCodesList = result.getSourceAsObjectList(RequestCode.class);
+                    requestCodes.addAll(requestCodesList);
+                }
+                else {
+                    Log.d("IVANLIM", "Else caluse: ");
+                }
+
+            } catch (IOException e) {
+                Log.d("Error", "Error in searching problems");
+            }
+
+            return requestCodes;
+        }
+    }
+
 
     public static class GetPatientsTask extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
@@ -334,6 +366,44 @@ public class ElasticSearchUserController {
 
         }
     }
+
+    public static class AddPatientRequestCodeTask extends AsyncTask<RequestCode, Void, Void> {
+
+        @Override
+        protected Void doInBackground(RequestCode... patients) {
+            verifySettings();
+            String patientID;
+            for (RequestCode rc : patients){
+                Index index = new Index.Builder(rc).index("cmput301f18t25test").type("patients").build();
+
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    Log.i("here","the fuck??");
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to add patient.");
+                    } else {
+                        //patientID = result1.getId();
+                        //patient.setId(patientID);
+                        Index index1 = new Index.Builder(rc).index("cmput301f18t25test").type("myPatientCodes").build();
+                        try {
+                            DocumentResult result2 = client.execute(index1);
+                            if (!result2.isSucceeded()) {
+                                Log.i("Error", "doInBackground: error");
+                            }
+                        } catch (Exception e) {
+                            Log.i("Error", "The application failed to build and send the tweets");
+                        }
+                    }
+                }
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
+            }
+            return null;
+
+        }
+    }
+
     public static class DeletePatientTask extends AsyncTask<User, Void, Void> {
         // TODO: shall we get rid of email for this query too?
 
