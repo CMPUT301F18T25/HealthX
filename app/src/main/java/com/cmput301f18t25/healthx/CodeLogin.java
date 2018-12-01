@@ -58,9 +58,9 @@ public class CodeLogin extends AppCompatActivity {
                 ArrayList<RequestCode> requestCodes = getRequestCodeTask.execute(userCode).get();
                 requestCode = requestCodes.get(0);
 
-                String username = requestCode.getUsername();
-                if (!username.equals("")) {
 
+                if (!(requestCode == null)) {
+                    String username = requestCode.getUsername();
 
                     Log.d("here", username);
                     ElasticSearchUserController.GetUserTask userTask = new ElasticSearchUserController.GetUserTask();
@@ -70,9 +70,8 @@ public class CodeLogin extends AppCompatActivity {
                     if (!user.getStatus().equals("")) {
                         mProblemList.setUser(user);
                         Bundle bundle = new Bundle();
+
                         bundle.putString("id", user.getUsername());
-                        bundle.putString("email", user.getEmail());
-                        bundle.putString("code", user.getCode());
 
 
                         ElasticSearchUserController.DeleteRequestCodeTask deleteRequestCodeTask = new ElasticSearchUserController.DeleteRequestCodeTask();
@@ -91,7 +90,12 @@ public class CodeLogin extends AppCompatActivity {
                 }
             } catch (ExecutionException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
+            }
+            catch (IndexOutOfBoundsException e){
+                Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!" , Toast.LENGTH_SHORT);
+                toast.show();
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace();
             }
 //                        createUser(UserName);
