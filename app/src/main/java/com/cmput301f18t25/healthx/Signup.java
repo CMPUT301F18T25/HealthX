@@ -135,4 +135,16 @@ public class Signup extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    public boolean checkIfValid(String username) {
+        if (username.length() < 8) {
+            Toast toast = Toast.makeText(this,"Userid Too Short",  Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+
+        }
+        return true;
+        // now implement if hits == 0 for elastic search;
+    }
+
 }
