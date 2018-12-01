@@ -256,7 +256,6 @@ public class ViewProblemList extends AppCompatActivity
             toast.show();
 
 
-
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
             obundle = this.getIntent().getExtras();
@@ -266,6 +265,7 @@ public class ViewProblemList extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("id",Oid);
             bundle.putString("email",Oemail);
+
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);
             startActivity(intent);
