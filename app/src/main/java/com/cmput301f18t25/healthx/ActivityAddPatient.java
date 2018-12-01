@@ -61,6 +61,14 @@ public class ActivityAddPatient extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void toCodeAdd(View view) {
+        Intent intent = new Intent(this, ActivityAddPatientByCode.class);
+        Bundle inBundle = new Bundle();
+        inBundle.putString("doctorID",doctorID);
+        intent.putExtras(inBundle);
+        startActivity(intent);
+    }
+
     public void addPatient(View view) {
         mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
 
