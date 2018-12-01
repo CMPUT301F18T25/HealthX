@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +74,7 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Log.d("IVANLIM", "PROBLEM " + String.valueOf(position));
                         Problem toView = (Problem) results.get(position);
                         Bundle bundle = new Bundle();
                         bundle.putString("Title",toView.getTitle());
@@ -97,6 +98,8 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                 break;
 
             case RECORD:
+                Log.d("IVANLIM", "RECORD " + String.valueOf(position));
+
                 Record record = (Record) results.get(position);
                 holder.rTitle.setText(record.getTitle());
                 holder.rComment.setText(record.getComment());
