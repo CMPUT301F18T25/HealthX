@@ -163,7 +163,7 @@ public class ActivityAddRecord extends AppCompatActivity {
 
         verifyPermission(this);
 
-        String imageFilePath = folder + "/" + String.valueOf(System.currentTimeMillis()) + ".jpg";
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
         Log.d("UWU", imageFilePath);
         File imageFile = new File(folder,imageFilePath);
         imageFileUri = Uri.fromFile(imageFile);
