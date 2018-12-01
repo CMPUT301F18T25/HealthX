@@ -30,7 +30,8 @@ public class Login extends AppCompatActivity {
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
 
-//    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private  OfflineSave offSave;
 
 
     @Override
@@ -40,6 +41,11 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
         userIdTextView = findViewById(R.id.loginUserID);
+        offSave = new OfflineSave(getApplicationContext());
+        User user  = offSave.loadUserFromFile();
+        if (user != null) {
+            userIdTextView.setText(user.getUsername());
+        }
     }
 
     public void toCodeLogin(View view) {
@@ -58,6 +64,7 @@ public class Login extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
             Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+            // load from user table
         } else {
 //            User user = new User(name,id,phone,email,status);
             String userId = userIdTextView.getText().toString();

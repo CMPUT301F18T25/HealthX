@@ -1,9 +1,7 @@
 package com.cmput301f18t25.healthx;
 
-
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.robotium.solo.Solo;
@@ -15,8 +13,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-public class AddRecordTest extends ActivityTestRule<Login> {
-
+public class EditProfileTest extends ActivityTestRule<Login> {
     public String test_username = "usrname";
     public String test_title = "title";
     public String test_description = "description of problem";
@@ -24,7 +21,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public AddRecordTest() {
+    public EditProfileTest() {
         super(Login.class);
     }
 
@@ -45,9 +42,9 @@ public class AddRecordTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddProblem() throws Exception {
+    public void testEdit() throws Exception {
 
-        // log in
+        // first log in
 
         solo.assertCurrentActivity("wrong activity", Login.class);
 
@@ -58,30 +55,22 @@ public class AddRecordTest extends ActivityTestRule<Login> {
 
         solo.assertCurrentActivity("wrong activity", ViewProblemList.class);
 
-        // choose to add a problem
+        // click on edit profile button
 
-        solo.clickOnView(solo.getView(R.id.fab));
-        boolean next_view = solo.waitForActivity(ActivityAddProblem.class,3000);
-        assertTrue(next_view);
+        solo.clickOnActionBarHomeButton();
+        solo.clickOnView(solo.getView(R.id.nav_edit));
+        boolean next_view = solo.waitForActivity(EditUserProfile.class,3000);
+        assertTrue("did not go to edit profile",next_view);
 
-        // fill in problem details
+        // edit fields
 
-        EditText title = (EditText) solo.getView(R.id.title_input);
-        DatePicker date = (DatePicker) solo.getView(R.id.dateStarted_input);
-        EditText description = (EditText) solo.getView(R.id.description_input);
-
-        solo.enterText(title,test_title);
-        solo.setDatePicker(date, 2018, 11, 2);
-        solo.enterText(description,test_description);
+        
 
 
-        // save problem and go to problem list
 
-        solo.clickOnView(solo.getView(R.id.save_button));
-        boolean next_view4 = solo.waitForActivity(ViewProblemList.class,3000);
-        assertTrue(next_view4);
 
-        //
-        solo.clickOnView(solo.getView(R.id.save_button));
+
     }
+
+
 }
