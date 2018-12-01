@@ -64,7 +64,9 @@ public class EditProfileTest extends ActivityTestRule<Login> {
 
         // edit fields
 
-        
+
+
+
 
 
 
