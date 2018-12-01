@@ -28,6 +28,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
     MapFragment mapFragment;
     private double longitude;
     private double latitude;
+    Record theRecord  = (Record) this.getIntent().getSerializableExtra("record");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +39,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
 
 
 //        Bundle bundle = null;
-          Record theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
+          //Record theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
 //        String title = bundle.getString("Title");
 //        String comment = bundle.getString("Comment");
 //        String date = bundle.getString("Date");
@@ -96,8 +97,11 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
     public void onClick(View v){
         switch(v.getId()){
             case R.id.SeePhoto: {
-                Intent i = new Intent(getApplicationContext(),ActivitySeeRecordPhotos.class);
-                startActivity(i);
+                Intent intent = new Intent(getApplicationContext(),ActivitySeeRecordPhotos.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Record", theRecord);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         }
     }

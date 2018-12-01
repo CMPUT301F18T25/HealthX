@@ -31,11 +31,8 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         Intent intent = getIntent();
         Bundle args = intent.getBundleExtra("BUNDLE");
         records = (ArrayList<Record>) args.getSerializable("RecordList");
-
-
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
     @Override
