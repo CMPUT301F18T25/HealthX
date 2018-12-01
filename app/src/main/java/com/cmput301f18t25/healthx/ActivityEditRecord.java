@@ -58,7 +58,7 @@ public class ActivityEditRecord extends AppCompatActivity {
     String dateString;
     String problemId;
     Record oldRecord;
-
+    ArrayList<String> imageURIs;
     Uri imageFileUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
@@ -133,7 +133,7 @@ public class ActivityEditRecord extends AppCompatActivity {
             setGeoLocation();
 
             // Check if app is connected to a network.
-            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
             //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

@@ -24,4 +24,8 @@
     <string name="save">Save</string>
     <string name="front_view">Front View</string>
     <string name="switch_to_back_view">SWITCH TO BACK VIEW</string>
+    <string name="up_to_300_characters">Up to 300 characters</string>
+    <string name="add_body_location">Add Body Location</string>
+    <string name="back_body_location_not_set">Back Body Location: Not Set</string>
+    <string name="front_body_location_not_set">Front Body Location: Not Set</string>
 </resources>

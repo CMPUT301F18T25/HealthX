@@ -4,9 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,22 +26,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
+
 import android.widget.ImageView;
-import android.widget.TextView;
+
 import android.widget.Toast;
+
+import com.google.common.collect.ArrayTable;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
 
 public class ActivityAddRecord extends AppCompatActivity {
-    String recordPhoto;
+
+    ArrayList<String> imageURIs;
     LocationListener listener;
     LocationManager lm;
     Double longitude;
@@ -65,6 +66,9 @@ public class ActivityAddRecord extends AppCompatActivity {
         problemID = bundle.getString("ProblemID");
         isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
+        Log.d("IVANLIM",String.valueOf(position));
+//        Log.d("IVANLIM", mProblemList.getElementByIndex(position).getTitle());
+        imageURIs = new ArrayList<>(10);
         setGeoLocation();
     }
 
@@ -118,8 +122,9 @@ public class ActivityAddRecord extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
 //                finish();
             } else {
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
                 newRecord.setCPComment(isDoctor);
+                mProblemList.addRecord(position,newRecord);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
@@ -147,7 +152,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 ImageView imagePhoto = findViewById(R.id.view_photo);
                 imagePhoto.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
-                recordPhoto = imageFileUri.getPath();
+                imageURIs.add(imageFileUri.getPath());
             }else{
                 Log.d("UWW", "Rip");
             }
@@ -179,7 +184,6 @@ public class ActivityAddRecord extends AppCompatActivity {
         Log.d("UWU", imageFilePath);
         File imageFile = new File(folder,imageFilePath);
         imageFileUri = Uri.fromFile(imageFile);
-
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
