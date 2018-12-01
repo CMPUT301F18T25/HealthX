@@ -46,6 +46,7 @@ public class ElasticSearchProblemController {
                         Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
+                            Log.d("CWei","added");
                             if (!result2.isSucceeded()) {
                                 Log.i("Error", "doInBackground: error");
                             }

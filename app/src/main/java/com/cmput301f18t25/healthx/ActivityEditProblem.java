@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class ActivityEditProblem extends AppCompatActivity {
     String title;
@@ -71,6 +72,8 @@ public class ActivityEditProblem extends AppCompatActivity {
         if (id == android.R.id.home) {
 //<<<<<<< HEAD
             if (id == android.R.id.home) {
+                Intent intent = new Intent();
+                setResult(10,intent);
                 finish();
             }
 //=======
@@ -107,17 +110,17 @@ public class ActivityEditProblem extends AppCompatActivity {
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
-                addProblemTask.execute(newProblem);
-//<<<<<<< HEAD
+                try {
+                    addProblemTask.execute(newProblem).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent();
+                setResult(10,intent);
                 finish();
-//                Intent intent = new Intent(ActivityEditProblem.this, ViewProblemList.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//=======
-//                Intent intent = new Intent(ActivityEditProblem.this, ViewProblemList.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-//>>>>>>> master
+
             }
 
 

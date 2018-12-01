@@ -116,6 +116,7 @@ public class ViewRecordList extends AppCompatActivity{
 
 
 //        offline.synchronizeWithElasticSearch();
+        }
             rRecyclerView = findViewById(R.id.recycler_list);
             rRecyclerView.setHasFixedSize(true);
 
@@ -156,7 +157,6 @@ public class ViewRecordList extends AppCompatActivity{
 
         }
 
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
