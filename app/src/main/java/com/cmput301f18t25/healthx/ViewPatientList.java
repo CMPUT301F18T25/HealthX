@@ -52,11 +52,10 @@ public class ViewPatientList extends AppCompatActivity
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
-        String email = bundle.getString("email");
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         User user = null;
         try {
-            user = getUserTask.execute(id,email).get();
+            user = getUserTask.execute(id).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -184,6 +183,18 @@ public class ViewPatientList extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_map) {
+
+        } else if (id == R.id.nav_code) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+            String Oid = obundle.getString("id");
+            String Oemail = obundle.getString("email");
+
+            Bundle bundle = new Bundle();
+            bundle.putAll(obundle);
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
 
         } else if (id == R.id.nav_edit) {
             Intent intent = new Intent(this, EditUserProfile.class);
