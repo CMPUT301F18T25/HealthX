@@ -46,6 +46,7 @@ public class Record  implements Serializable {
          * @param date the date created the user selected for the record
          *
          */
+
         this.title = record_title;
         this.comment = record_comment;
         this.latitude = latitude;
@@ -82,7 +83,7 @@ public class Record  implements Serializable {
     }
     /**
      * sets Date
-     * @param setDate date to set
+     * @param newDate date to set
      * */
     public void setDate(String newDate){
         this.date = newDate;

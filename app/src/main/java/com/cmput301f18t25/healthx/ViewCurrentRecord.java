@@ -47,6 +47,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
         mapFragment.getMapAsync(this);
 
+
 //        ElasticSearchRecordController.GetRecordsTask getRecordTask = new ElasticSearchRecordController.GetRecordsTask();
 //        Record record = null;
 //        try {
@@ -100,7 +101,5 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
 
         return super.onOptionsItemSelected(item);
     }
-
-
 
 }

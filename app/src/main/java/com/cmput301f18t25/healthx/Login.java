@@ -30,6 +30,9 @@ public class Login extends AppCompatActivity {
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
 
+//    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
@@ -70,6 +73,10 @@ public class Login extends AppCompatActivity {
                     startActivity(mintent);
                 }
                 else if (user.getStatus().equals("Care Provider")){
+//=======
+//                if (!user.getStatus().equals("")) {
+//                    mProblemList.setUser(user);
+//>>>>>>> master
                     Bundle bundle = new Bundle();
                     bundle.putString("id",user.getUsername());
                     bundle.putString("email",user.getEmail());

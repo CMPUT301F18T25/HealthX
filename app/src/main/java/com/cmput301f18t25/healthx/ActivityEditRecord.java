@@ -16,6 +16,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +31,9 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 public class ActivityEditRecord extends AppCompatActivity {
@@ -117,8 +124,7 @@ public class ActivityEditRecord extends AppCompatActivity {
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
                 finish();
-                //Intent intent = new Intent(ActivityEditRecord.this, ViewRecordList.class);
-                //startActivity(intent);
+
             }
 
         }

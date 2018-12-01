@@ -44,6 +44,8 @@ public class ElasticSearchRecordController {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
                                 Log.i("Error", "doInBackground: error");
+                            }else {
+                                Log.d("CWei", "doInBackground: successed addrecord ");
                             }
                         } catch (Exception e) {
                             Log.i("Error", "The application failed to build and send the tweets");
@@ -64,6 +66,8 @@ public class ElasticSearchRecordController {
 
             clientSet();
             ArrayList<Record> records = new ArrayList<Record>();
+
+            // SHOULD CHANGE TO DYNAMIC SIZE
             String query = "{\n" + "\"from\" : 0, \"size\": 100,\n" +
                     "    \"query\": {\n" +
                     "                \"match\" : {\"problemID\": \""+ params[0] + "\" }\n"  +  " }\n}\n";
@@ -81,6 +85,7 @@ public class ElasticSearchRecordController {
                     recordList = result.getSourceAsObjectList(Record.class);
                     records.addAll(recordList);
                     Log.d("CWei", String.valueOf(recordList.size()));
+
                 }
                 else {
                     Log.d("IVANLIM", "doInBackground: RECORD ELSe");
@@ -105,10 +110,14 @@ public class ElasticSearchRecordController {
             if (params.length == 3){
 
                 // APPROXIMATELY WITHIN A 5 KM RANGE
+
+                Double longitudeRange = (2.5 / (111.320 * Math.toDegrees(Math.cos(Math.toRadians(Double.valueOf(params[1]))))));
+
+                Log.d("UWU" , longitudeRange.toString());
                 Double minLatitude = Double.valueOf(params[1]) - 0.025;
-                Double minLongitude = Double.valueOf(params[2]) - 0.025;
+                Double minLongitude = Double.valueOf(params[2]) - longitudeRange;
                 Double maxLatitude = Double.valueOf(params[1]) + 0.025;
-                Double maxLongitude = Double.valueOf(params[2]) + 0.025;
+                Double maxLongitude = Double.valueOf(params[2]) + longitudeRange;
 
                 query = "{\"query\" : { \"bool\" : { \"must\": [ { \"range\": { \"latitude\" : { \"gte\" : " + minLatitude + ", \"lte\" : " + maxLatitude + " } } },{ \"range\": { \"longitude\": { \"gte\" : " + minLongitude + ", \"lte\": " + maxLongitude + " } } },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" +  "\", \"fields\" : [\"title\" , \"comment\"]} }]} }}";
 

@@ -1,3 +1,4 @@
+
 package com.cmput301f18t25.healthx;
 
 import android.os.AsyncTask;
@@ -71,7 +72,6 @@ public class ElasticSearchProblemController {
 
             String query = "{ \"query\" : { \"match\" :  { \"userId\" : \""+ params[0] + "\"}}}";
             Search search = new Search.Builder(query)
-
                     .addIndex("cmput301f18t25test")
                     .addType("newProblem2")
                     .build();
@@ -112,11 +112,15 @@ public class ElasticSearchProblemController {
                     .addType("newProblem2")
                     .build();
             try {
+//                JestResult result = client.execute(search);
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
+                }
+                else {
+                    Log.d("IVANLIM", "Else caluse: ");
                 }
 
             } catch (IOException e) {

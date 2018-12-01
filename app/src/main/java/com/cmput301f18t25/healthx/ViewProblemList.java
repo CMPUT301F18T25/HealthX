@@ -111,7 +111,7 @@ public class ViewProblemList extends AppCompatActivity
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("problem", problem);
                                 intent.putExtras(bundle);
-                                startActivity(intent);
+                                startActivityForResult(intent,10);
 
                             }
                         }
@@ -161,7 +161,7 @@ public class ViewProblemList extends AppCompatActivity
 ////            calendar.set(Calendar.MINUTE,5);
 ////            calendar.set(Calendar.SECOND,40);
 
- ////
+        ////
 ////            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
 ////            Intent intent = new Intent(this, Notification_receiver.class);
 ////            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);

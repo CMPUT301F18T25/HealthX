@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +20,12 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 public class ActivityAddProblem extends AppCompatActivity {
 
     private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
 
     @Override
@@ -33,12 +36,14 @@ public class ActivityAddProblem extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -61,6 +66,7 @@ public class ActivityAddProblem extends AppCompatActivity {
         }
         if (id == R.id.save_button) {
 
+
             EditText title_textView = (EditText) findViewById(R.id.title_input);
             DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
             EditText description_textView = (EditText) findViewById(R.id.description_input);
@@ -74,11 +80,18 @@ public class ActivityAddProblem extends AppCompatActivity {
             String problemDate = format.format(selected);
             String problemDescription = description_textView.getText().toString();
 
-            // Check if app is connected to a network.
+//            // Check if app is connected to a network.
+//            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
+//            mProblemList.addToProblemList(newProblem);
+//            OfflineBehaviour offline = new OfflineBehaviour();
+
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+//                newProblem.setId(UUID.randomUUID().toString()); // set a random id
+//                offline.addItem(newProblem, "ADD");
+//                finish();
             } else {
                 Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
                 //Bundle bundle = getIntent().getExtras();
@@ -95,6 +108,7 @@ public class ActivityAddProblem extends AppCompatActivity {
                 Log.i("CWei", "finished adding");
                 finish();
 //
+
             }
 
 
@@ -103,5 +117,6 @@ public class ActivityAddProblem extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
 
 }

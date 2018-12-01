@@ -69,9 +69,16 @@ public class ActivityEditProblem extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
+//<<<<<<< HEAD
             if (id == android.R.id.home) {
                 finish();
             }
+//=======
+//            Bundle bundle = this.getIntent().getExtras();
+//            Intent intent = new Intent(this, ViewProblemList.class);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
+//>>>>>>> master
         }
         if (id == R.id.save_button) {
 
@@ -94,17 +101,23 @@ public class ActivityEditProblem extends AppCompatActivity {
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             } else {
-                //Bundle bundle = getIntent().getExtras();
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
 
+                Bundle bundle = getIntent().getExtras();
+                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
+//<<<<<<< HEAD
                 finish();
 //                Intent intent = new Intent(ActivityEditProblem.this, ViewProblemList.class);
 //                intent.putExtras(bundle);
 //                startActivity(intent);
+//=======
+//                Intent intent = new Intent(ActivityEditProblem.this, ViewProblemList.class);
+//                intent.putExtras(bundle);
+//                startActivity(intent);
+//>>>>>>> master
             }
 
 

@@ -40,7 +40,9 @@ public class ActivityAddRecord extends AppCompatActivity {
     Double latitude;
     String problemID;
     boolean isDoctor;
-
+    int position;
+    private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         Bundle bundle = this.getIntent().getExtras();
         problemID = bundle.getString("ProblemID");
         isDoctor = bundle.getBoolean("isDoctor");
+        position = bundle.getInt("Position");
         setGeoLocation();
     }
 
@@ -73,6 +76,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             finish();
         }
         if (id == R.id.save_button) {
+            Log.d("CWei", "onOptionsItemSelected: clicked save button");
 
             EditText title_textView = findViewById(R.id.record_title);
             EditText comment_textView = findViewById(R.id.record_comment);
@@ -91,14 +95,17 @@ public class ActivityAddRecord extends AppCompatActivity {
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
             setGeoLocation();
-
+//            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+//            mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
+//            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
+//                offlineBehaviour.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+//                finish();
             } else {
-
                 Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
                 newRecord.setCPComment(isDoctor);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
