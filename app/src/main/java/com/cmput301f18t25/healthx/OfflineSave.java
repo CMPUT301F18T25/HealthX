@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 
 public class OfflineSave {
@@ -85,6 +86,7 @@ public class OfflineSave {
     }
 
     public User loadUserFromFile() {
+        ArrayList<User> userArrayList = new ArrayList<>();
         User newuser = new User();
         newuser.setStatus("null");
         try {

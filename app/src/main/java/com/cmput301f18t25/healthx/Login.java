@@ -42,6 +42,10 @@ public class Login extends AppCompatActivity {
         getSupportActionBar().hide();
         userIdTextView = findViewById(R.id.loginUserID);
         offSave = new OfflineSave(getApplicationContext());
+        User user  = offSave.loadUserFromFile();
+        if (user != null) {
+            userIdTextView.setText(user.getUsername());
+        }
     }
 
     public void toCodeLogin(View view) {
