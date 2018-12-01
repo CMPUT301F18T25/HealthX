@@ -224,11 +224,7 @@ public class ElasticSearchUserController {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             verifySettings();
             User theUser = new User("", "", "", "", "","");
-            String query = "{\n" +
-                    "    \"query\": {\n" +
-                    "                \"bool\" : {\n" +
-                    "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ users[0]+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ users[1]+"\"}}\n]\n}\n}\n}\n";
-
+            String query ="{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}";
              //Build the query
 
             String userId = null;
@@ -339,6 +335,7 @@ public class ElasticSearchUserController {
         }
     }
     public static class DeletePatientTask extends AsyncTask<User, Void, Void> {
+        // TODO: shall we get rid of email for this query too?
 
         @Override
         protected Void doInBackground(User... patients) {
