@@ -22,6 +22,7 @@
             android:id="@+id/nav_map"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="Map Mode" />
+
     </group>
 
     <item android:title="User">
@@ -30,6 +31,10 @@
                 android:id="@+id/nav_edit"
                 android:icon="@android:drawable/editbox_background"
                 android:title="Edit" />
+            <item
+                android:id="@+id/nav_code"
+                android:icon="@drawable/ic_person_pin_black_24dp"
+                android:title="Generate share code" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"

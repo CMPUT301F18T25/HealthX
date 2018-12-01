@@ -33,7 +33,7 @@ public class ViewPatient extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewPatient.this, AddPatient.class);
+                Intent intent = new Intent(ViewPatient.this, ActivityAddPatient.class);
                 startActivity(intent);
             }
         });
@@ -57,6 +57,8 @@ public class ViewPatient extends AppCompatActivity
 
     }
 
+
+    // on activity result
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -96,6 +98,10 @@ public class ViewPatient extends AppCompatActivity
         if (id == R.id.nav_view) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
+
+        } else if (id == R.id.nav_code) {
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_map) {
 

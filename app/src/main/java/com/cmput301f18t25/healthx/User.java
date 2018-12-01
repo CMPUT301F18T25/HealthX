@@ -12,10 +12,13 @@ public class User {
     protected String phoneNumber;
     protected String email;
     protected String id;
+
+    protected String doctorID;
     //    status meaning if the user is a patient or a care provider.
     protected String status;
 
     protected String reminderFrequency;
+    protected String code;
 
     /**
      * Creates an instance of User with getter and setters for the parameters
@@ -26,13 +29,15 @@ public class User {
      * @param user_email the email address of the user
      * @param user_status the status of the user is either a patient or care provider
      */
-    public User(String name, String user_name, String user_phoneNumber, String user_email, String user_status){
+    public User(String name, String user_name, String user_phoneNumber, String user_email, String user_status, String reminderFrequency){
         this.name = name;
         this.username = user_name;
         this.phoneNumber = user_phoneNumber;
         this.email = user_email;
         this.status = user_status;
         this.id = "";
+        this.reminderFrequency = reminderFrequency;
+
     }
     /**
      * Clones user, is required for elastic search
@@ -45,8 +50,17 @@ public class User {
         this.email = user.getEmail();
         this.status = user.getStatus();
         this.id = user.getId();
+        this.reminderFrequency = user.getReminderFrequency();
     }
 
+
+    public String getDoctorID() {
+        return doctorID;
+    }
+
+    public void setDoctorID(String doctorID) {
+        this.doctorID = doctorID;
+    }
     public void setName(String text){
         this.name = text;
     }
@@ -92,15 +106,23 @@ public class User {
         return this.reminderFrequency;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

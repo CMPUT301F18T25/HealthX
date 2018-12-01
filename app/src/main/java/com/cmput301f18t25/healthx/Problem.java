@@ -20,14 +20,15 @@ public class Problem implements Serializable{
 
     public Problem(String problemTitle, String problemDescription, String problemDate, String userId){
 
-    /**
-     * Creates an instance of Problem with getter and setters for the parameters
-     *
-     * @param problemTitle the title the user entered for the problem
-     * @param problemDescription the description user entered for the problem
-     * @param problemDate the date created that the user selected for the problem
-     *
-     */
+        /**
+         * Creates an instance of Problem with getter and setters for the parameters
+         *
+         * @param problemTitle the title the user entered for the problem
+         * @param problemDescription the description user entered for the problem
+         * @param problemDate the date created that the user selected for the problem
+         *
+         */
+
         this.title = problemTitle;
         this.description = problemDescription;
         this.date = problemDate;

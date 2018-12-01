@@ -2,7 +2,7 @@ package com.cmput301f18t25.healthx;
 
 /*
    Original code Copyright (c) 2017 Wenxi Zeng[1]
-   Modified code Copyright (c) 2018 Cecilia Wei
+   Modified code Copyright (c) 2018 HealthX
    Licensed under the CC-BY-SA 3.0[2]
    Original code posted to this question[3] and answer[4] from
    stackoverflow.com where user contributions are licensed under

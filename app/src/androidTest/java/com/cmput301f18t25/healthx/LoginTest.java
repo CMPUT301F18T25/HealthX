@@ -18,7 +18,6 @@ import static org.junit.Assert.*;
 public class LoginTest extends ActivityTestRule<Login>{
 
     public String test_username = "usrname";
-    public String test_email = "patient@email.com";
     private Solo solo;
 
 
@@ -49,17 +48,15 @@ public class LoginTest extends ActivityTestRule<Login>{
 
 
         EditText id = (EditText) solo.getView(R.id.loginUserID);
-        EditText email = (EditText) solo.getView(R.id.loginEmail);
 
         solo.clickOnView(solo.getView(R.id.btn_login));
-        assertTrue(solo.waitForText("Invalid Credentials!",1,3000));
+        assertTrue("toast not shown",solo.waitForText("Invalid Credentials!",1,3000));
 
         solo.enterText(id,test_username);
-        solo.enterText(email, test_email);
         solo.clickOnView(solo.getView(R.id.btn_login));
 
         boolean next_view = solo.waitForActivity(ViewProblemList.class, 3000);
-        assertTrue(next_view);
+        assertTrue("not logged in",next_view);
 
     }
 

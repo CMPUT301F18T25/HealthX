@@ -20,7 +20,6 @@ import static org.junit.Assert.*;
 public class AddProblemTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname";
-    public String test_email = "user@email.com";
     public String test_title = "title";
     public String test_description = "description of problem";
 
@@ -55,10 +54,8 @@ public class AddProblemTest extends ActivityTestRule<Login> {
         solo.assertCurrentActivity("wrong activity", Login.class);
 
         EditText id = (EditText) solo.getView(R.id.loginUserID);
-        EditText email = (EditText) solo.getView(R.id.loginEmail);
 
         solo.enterText(id,test_username);
-        solo.enterText(email, test_email);
         solo.clickOnView(solo.getView(R.id.btn_login));
 
         solo.assertCurrentActivity("wrong activity", ViewProblemList.class);
@@ -67,7 +64,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.fab));
         boolean next_view = solo.waitForActivity(ActivityAddProblem.class,3000);
-        assertTrue(next_view);
+        assertTrue("did not go to add problem",next_view);
 
         // fill in problem details
 
@@ -84,7 +81,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.save_button));
         boolean next_view4 = solo.waitForActivity(ViewProblemList.class,3000);
-        assertTrue(next_view4);
+        assertTrue("did not go to problem list",next_view4);
 
     }
 }

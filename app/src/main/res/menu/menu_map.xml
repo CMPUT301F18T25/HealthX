@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+  ~
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:compat="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/slideShow_button"
+        android:icon="@drawable/images"
+        android:title="Slide Show"
+        compat:showAsAction="always"
+        android:tint="@android:color/black"/>
+    <item
+        android:id="@+id/map_button"
+        android:icon="@drawable/mapicon"
+        android:title="map"
+        compat:showAsAction="always"
+        android:tint="@android:color/black"/>
+</menu>

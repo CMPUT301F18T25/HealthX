@@ -27,8 +27,7 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="40dp"
             android:id="@+id/loginUserID"
             android:hint="User ID"
             android:inputType="text" />
@@ -47,15 +46,7 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
         <!--android:inputType="text" />-->
         <!--</android.support.design.widget.TextInputLayout>-->
 
-        <!-- Email Label -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:id="@+id/loginEmail"
-            android:inputType="textEmailAddress"
-            android:hint="Email" />
+
 
         <!--<android.support.design.widget.TextInputLayout-->
             <!--android:layout_width="match_parent"-->
@@ -81,6 +72,17 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
             android:padding="12dp"
             android:text="Login"
             android:onClick="toViewProblem"/>
+
+        <TextView android:id="@+id/link_code_login"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Log in with Code Instead"
+            android:gravity="center"
+            android:textSize="18dip"
+            android:textColor="@color/colorPrimaryDark"
+            android:onClick="toCodeLogin"/>
+
 
         <TextView android:id="@+id/link_signup"
             android:layout_width="fill_parent"

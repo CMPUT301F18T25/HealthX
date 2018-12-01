@@ -19,12 +19,13 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    -->notification
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/round_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <uses-library
@@ -40,6 +41,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".CodeLogin" />
         <activity android:name=".Signup" />
         <activity
             android:name=".ViewProblemList"
@@ -47,15 +49,30 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ViewRecordList"
-            android:label="@string/title_activity_view_record"
+            android:label="ViewRecord"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MapViewActivity"/>
         <activity android:name=".ActivityEditProblem" />
         <activity android:name=".EditUserProfile" />
+        <activity android:name=".ActivityGenerateCode" />
         <activity android:name=".ActivitySearch" />
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddRecord" />
-        <activity android:name=".ViewCurrentRecord" />
-        <activity android:name=".MapViewActivity" />
+        <activity android:name=".ActivityEditRecord" />
+        <activity android:name=".ViewPatientList"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ActivityAddPatient" />
+        <activity android:name=".ActivityViewPatientProblem"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".ViewCurrentRecord"></activity>
+        <activity android:name=".SlideShow"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA"/>
+        <receiver android:name=".Notification_receiver"/>
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -63,6 +80,7 @@
 
         <activity android:name=".SlideShow" />
         <activity android:name=".ActivityBodyLocation"></activity>
+
     </application>
 
 </manifest>

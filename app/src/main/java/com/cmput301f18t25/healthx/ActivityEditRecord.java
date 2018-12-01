@@ -12,10 +12,17 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import android.net.Uri;
 import android.os.Environment;
 import android.os.StrictMode;
 import android.provider.MediaStore;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +39,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,8 +58,15 @@ public class ActivityEditRecord extends AppCompatActivity {
     String dateString;
     String problemId;
     Record oldRecord;
+
     Uri imageFileUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+
+    int problemPosition;
+    int recordPostion;
+
+    private ProblemList mProblemList = ProblemList.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +86,8 @@ public class ActivityEditRecord extends AppCompatActivity {
         comment = oldRecord.getComment();
         dateString = oldRecord.getDate();
         problemId = oldRecord.getProblemID();
+        problemPosition = bundle.getInt("position");
+        recordPostion = bundle.getInt("recordPositon");
 
         title_textView.setText(title);
         comment_textView.setText(comment);
@@ -92,8 +109,9 @@ public class ActivityEditRecord extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, ViewRecordList.class);
-            startActivity(intent);
+            if (id == android.R.id.home) {
+                finish();
+            }
         }
         if (id == R.id.save_button) {
 
@@ -115,19 +133,24 @@ public class ActivityEditRecord extends AppCompatActivity {
             setGeoLocation();
 
             // Check if app is connected to a network.
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+            //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
+                mProblemList.removeRecord(problemPosition, recordPostion);
+                mProblemList.addRecord(problemPosition, newRecord);
+                offline.addItem(oldRecord, "DELETE");
+                offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
-
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+//                offline.synchronizeWithElasticSearch();
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
-                Intent intent = new Intent(ActivityEditRecord.this, ViewRecordList.class);
-                startActivity(intent);
+                finish();
             }
 
         }

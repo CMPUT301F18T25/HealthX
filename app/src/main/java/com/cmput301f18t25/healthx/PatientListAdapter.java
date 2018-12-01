@@ -1,5 +1,6 @@
 package com.cmput301f18t25.healthx;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
@@ -17,14 +18,16 @@ import java.util.List;
 public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.ViewHolder> {
 
     // private PatientList mPatientList = PatientList.getInstance();
-
+    //<div>Icons made by <a href="https://www.flaticon.com/authors/popcorns-arts" title="Icon Pond">Icon Pond</a> from <a href="https://www.flaticon.com/" 		    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 		    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
     public Context ctx;
     private List<User> users;
+    private Intent Mintent;
 
     // NEED TO DISTINGUISH EACH USER WHETHER HE IS A PATIENT
-    public PatientListAdapter(List<User> users){
+    public PatientListAdapter(List<User> users, Intent intent){
 
         this.users = users;
+        this.Mintent = intent;
 
     }
     @NonNull
@@ -43,17 +46,20 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
         holder.pName.setText(users.get(position).getName());
         holder.pUserId.setText(users.get(position).getUsername());
+        holder.pUserEmail.setText(users.get(position).getEmail());
+        holder.pUserPhone.setText(users.get(position).getPhoneNumber());
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Intent currentIntent = Mintent.getExtras();
                 User toView = users.get(position);
-                Bundle bundle = new Bundle();
-                bundle.putString("Name",toView.getName());
-                bundle.putString("UserId",toView.getUsername());
+                Bundle bundle = Mintent.getExtras();
+                bundle.putString("PatientEmail",toView.getEmail());
+                bundle.putString("PatientId",toView.getUsername());
 
                 // CHANGE ACTIVITY CLASS
-                Intent intent = new Intent(v.getContext(), ViewPatient.class);
+                Intent intent = new Intent(v.getContext(), ActivityViewPatientProblem.class);
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getName(), Toast.LENGTH_SHORT).show();
@@ -73,14 +79,20 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
         public TextView pName;
         public TextView pUserId;
+        public TextView pUserEmail;
+        public TextView pUserPhone;
         public Context context;
+        //public Intent intent2;
 
         public ViewHolder(final View itemView) {
             super(itemView);
             this.context = ctx;
-
+            //this.intent2 = Pintent;
             pName = itemView.findViewById(R.id.patientName);
-            pUserId = itemView.findViewById(R.id.patientUserId);
+            pUserId = itemView.findViewById(R.id.patientID);
+            pUserEmail = itemView.findViewById(R.id.patientEmail);
+            pUserPhone = itemView.findViewById(R.id.patientPhone);
+
             itemView.setClickable(true);
 
         }

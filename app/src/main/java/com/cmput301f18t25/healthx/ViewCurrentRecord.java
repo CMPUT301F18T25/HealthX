@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -34,17 +35,18 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
 
 
 //        Bundle bundle = null;
-          Record theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
+        Record theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
 //        String title = bundle.getString("Title");
 //        String comment = bundle.getString("Comment");
 //        String date = bundle.getString("Date");
-          String title = theRecord.getTitle();
-          String date = theRecord.getDate();
-          String comment = theRecord.getComment();
-          longitude = theRecord.getLongitude();
-          latitude = theRecord.getLatitude();
-          mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
-          mapFragment.getMapAsync(this);
+        String title = theRecord.getTitle();
+        String date = theRecord.getDate();
+        String comment = theRecord.getComment();
+        longitude = theRecord.getLongitude();
+        latitude = theRecord.getLatitude();
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
+        mapFragment.getMapAsync(this);
+
 
 //        ElasticSearchRecordController.GetRecordsTask getRecordTask = new ElasticSearchRecordController.GetRecordsTask();
 //        Record record = null;
@@ -86,4 +88,18 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
