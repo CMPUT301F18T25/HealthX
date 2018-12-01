@@ -22,6 +22,7 @@
             android:id="@+id/nav_map"
             android:icon="@android:drawable/ic_dialog_map"
             android:title="Map Mode" />
+
     </group>
 
     <item android:title="User">

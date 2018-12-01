@@ -39,12 +39,10 @@ public class ActivityAddRecord extends AppCompatActivity {
     Double longitude;
     Double latitude;
     String problemID;
+    boolean isDoctor;
     int position;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +51,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = this.getIntent().getExtras();
         problemID = bundle.getString("ProblemID");
+        isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
         setGeoLocation();
     }
@@ -69,10 +68,15 @@ public class ActivityAddRecord extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, ViewRecordList.class);
-            startActivity(intent);
+//            Intent intent = new Intent(this, ViewRecordList.class);
+//            startActivity(intent);
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "back");
+            finish();
         }
         if (id == R.id.save_button) {
+            Log.d("CWei", "onOptionsItemSelected: clicked save button");
 
             EditText title_textView = findViewById(R.id.record_title);
             EditText comment_textView = findViewById(R.id.record_comment);
@@ -91,24 +95,32 @@ public class ActivityAddRecord extends AppCompatActivity {
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
             setGeoLocation();
-            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
-            mProblemList.addToRecordToProblem(position,newRecord);
+//            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+//            mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
 //            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-                offlineBehaviour.addItem(newRecord, "ADD");
+//                offlineBehaviour.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-                finish();
+//                finish();
             } else {
-//                offlineBehaviour.synchronizeWithElasticSearch();
-//                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+                newRecord.setCPComment(isDoctor);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
+
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished adding");
                 finish();
-//                Intent intent = new Intent(ActivityAddRecord.this, ViewRecordList.class);
-//                startActivity(intent);
             }
 
         }
@@ -121,15 +133,15 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1) {
 
-             ImageView imageView = findViewById(R.id.view_photo);
+            ImageView imageView = findViewById(R.id.view_photo);
             byte[] byteArray = data.getByteArrayExtra("image");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
 
-             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-             Drawable drawable = new BitmapDrawable(bitmapScaled);
-             imageView.setImageDrawable(drawable);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            imageView.setImageDrawable(drawable);
 
-             imageView.setImageBitmap(bitmap);
+            imageView.setImageBitmap(bitmap);
 
 
             recordPhoto = bitmap;
@@ -199,5 +211,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
+
+
 
 }

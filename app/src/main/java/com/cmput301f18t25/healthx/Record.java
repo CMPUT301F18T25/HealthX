@@ -23,19 +23,30 @@ public class Record  implements Serializable {
     protected String id;
     protected String problemID; // problemId specifies the feild at which the record is associated with a problem
 
+    public boolean isCPComment() {
+        return CPComment;
+    }
+
+    public void setCPComment(boolean CPComment) {
+        this.CPComment = CPComment;
+    }
+
+    protected boolean CPComment;
+
 
     public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
-    /**
-     * Creates an instance of Record with getter and setters for the parameters
-     *
-     * @param record_title the title the user entered for the record
-     * @param record_comment the comment the user entered for the record
-     * @param latitude the latitude from geolocation of user
-     * @param longitude the longitude from geolocation of user
-     * @param image the bitmap of the photo taken by the user for a record
-     * @param date the date created the user selected for the record
-     *
-     */
+        /**
+         * Creates an instance of Record with getter and setters for the parameters
+         *
+         * @param record_title the title the user entered for the record
+         * @param record_comment the comment the user entered for the record
+         * @param latitude the latitude from geolocation of user
+         * @param longitude the longitude from geolocation of user
+         * @param image the bitmap of the photo taken by the user for a record
+         * @param date the date created the user selected for the record
+         *
+         */
+
         this.title = record_title;
         this.comment = record_comment;
         this.latitude = latitude;
@@ -72,7 +83,7 @@ public class Record  implements Serializable {
     }
     /**
      * sets Date
-     * @param setDate date to set
+     * @param newDate date to set
      * */
     public void setDate(String newDate){
         this.date = newDate;
@@ -144,4 +155,3 @@ public class Record  implements Serializable {
     }
 
 }
-

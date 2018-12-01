@@ -50,15 +50,16 @@ public class Signup extends AppCompatActivity {
                 if (null == activeNetwork) {
                     Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
                 } else {
-                    User user = new User(name,id,phone,email,status);
+                    User user = new User(name,id,phone,email,status,"None");
                     ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
                     addUserTask.execute(user);
 //                        createUser(UserName);
 //                        saveUsernameInFile(UserName); // save username for auto login
-                    Intent intent = new Intent(Signup.this, Login.class);
-                    startActivity(intent);
-                    }
+//                    Intent intent = new Intent(Signup.this, Login.class);
+//                    startActivity(intent);
+                    finish();
                 }
+            }
 
         });
     }
@@ -91,8 +92,7 @@ public class Signup extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, Login.class);
-            startActivity(intent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

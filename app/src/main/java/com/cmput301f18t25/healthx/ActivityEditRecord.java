@@ -12,6 +12,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -90,8 +95,9 @@ public class ActivityEditRecord extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Intent intent = new Intent(this, ViewRecordList.class);
-            startActivity(intent);
+            if (id == android.R.id.home) {
+                finish();
+            }
         }
         if (id == R.id.save_button) {
 
@@ -131,8 +137,6 @@ public class ActivityEditRecord extends AppCompatActivity {
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
                 finish();
-//                Intent intent = new Intent(ActivityEditRecord.this, ViewRecordList.class);
-//                startActivity(intent);
             }
 
         }

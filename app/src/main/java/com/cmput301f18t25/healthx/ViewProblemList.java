@@ -1,19 +1,16 @@
-/*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
- *
- */
-
 package com.cmput301f18t25.healthx;
 
-import android.content.Context;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -23,11 +20,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Delete;
@@ -39,7 +41,7 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
-    private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
+    private boolean isDoctor;
 
 
     @Override
@@ -69,7 +71,59 @@ public class ViewProblemList extends AppCompatActivity
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         User user = null;
         try {
+
+            String userId = mProblemList.getUser().getId();
+            Log.d("IVANLIM", userId);
+            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+        }catch (Exception e){
+
+
+        }
+        mRecyclerView = findViewById(R.id.recycler_list);
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new ProblemListAdapter(problemList,isDoctor);
+        mRecyclerView.setAdapter(mAdapter);
+        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
+                        new UnderlayButtonClickListener() {
+
+                            public void onClick(int position) {
+                                ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
+                                deleteProblemTask.execute(problemList.get(position));
+                                problemList.remove(position);
+                                mAdapter.notifyItemRemoved(position);
+
+
+                            }
+                        }
+                ));
+
+                underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+                                Problem problem = problemList.get(pos);
+                                Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("problem", problem);
+                                intent.putExtras(bundle);
+                                startActivityForResult(intent,10);
+
+                            }
+                        }
+                ));
+            }
+        };
+        try {
             user = getUserTask.execute(id,email).get();
+            if (user.getStatus().equals("Care Provider")){
+                isDoctor = true;
+            }
+
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -84,210 +138,75 @@ public class ViewProblemList extends AppCompatActivity
         Uemail.setText(user.getEmail());
         TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
-
-        try {
-            String userId = mProblemList.getUser().getId();
-            Log.d("IVANLIM", userId);
-            offlineBehaviour.synchronizeWithElasticSearch();
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-            mProblemList.setProblemArray(problemList);
-        }catch (Exception e){
-
-        }
-
+        ImageView headerImage = header.findViewById(R.id.imageView);
+        headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = null;
-                bundle = ViewProblemList.this.getIntent().getExtras();
+                //Bundle bundle = null;
+                //bundle = ViewProblemList.this.getIntent().getExtras();
                 Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                //intent.putExtras(bundle);
+                startActivityForResult(intent,10);
             }
         });
 
-        mRecyclerView = findViewById(R.id.recycler_list);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
-        mRecyclerView.setAdapter(mAdapter);
+//        String frequency = user.getReminderFrequency();
+////
+////        Log.d("CWei", frequency+"freq");
+////        if (!frequency.equals("None")){
+////            Calendar calendar = Calendar.getInstance();
+////            calendar.set(Calendar.HOUR_OF_DAY,18);
+////            calendar.set(Calendar.MINUTE,5);
+////            calendar.set(Calendar.SECOND,40);
 
-
-        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-                        new UnderlayButtonClickListener() {
-
-
-                            public void onClick(int position) {
-                                Log.d("SwipeError", String.valueOf(position));
-
-                                ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-                                NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-
-                                if (activeNetwork!=null) {
-
-                                    Log.d("IVANLIM", "delete from problemview ");
-                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-                                    deleteProblemTask.execute(mProblemList.getElementByIndex(position));
-
-//                                    mProblemList.removeProblemFromList(position);
-//                                    mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
-//                                    mRecyclerView.setAdapter(mAdapter);
-//                                    mRecyclerView.removeViewAt(position);
-                                    mProblemList.removeProblemFromList(position);
-                                    mAdapter.notifyItemRemoved(position);
-                                    mAdapter.notifyDataSetChanged();
-//                                    try {
-//                                        problemList = new ElasticSearchProblemController.GetProblemsTask().execute(mProblemList.getUser().getId()).get();
-//                                    } catch (ExecutionException e) {
-//                                        e.printStackTrace();
-//                                    } catch (InterruptedException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                    mProblemList.setProblemArray(problemList);
-
-
-                                }
-                                else {
-//                                        offlineBehaviour.synchronizeWithElasticSearch();
-//                                    Log.d("IVANLIM", "delete from problemview ");
-//                                    ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-//                                    deleteProblemTask.execute(mProblemList.getElementByIndex(position));
-//                                    mProblemList.removeProblemFromList(position);
-////                                    mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
-////                                    mRecyclerView.setAdapter(mAdapter);
-////                                    mRecyclerView.removeViewAt(position);
-//                                    mAdapter.notifyItemRemoved(position);
-////                                        mAdapter.notifyItemRangeChanged(position, mProblemList.getListCount());
-////                                        mAdapter.notifyDataSetChanged();
-
-
-//                                    Log.d("IVANLIM", "in activenetwork!=null");
-                                    offlineBehaviour.addItem(mProblemList.getElementByIndex(position), "DELETE");
-                                    mProblemList.removeProblemFromList(position);
-                                    mAdapter.notifyItemRemoved(position);
-                                    mAdapter.notifyDataSetChanged();
-                                }
-                            }
-                        }
-                ));
-
-
-
-                underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
-                        new UnderlayButtonClickListener() {
-                            @Override
-                            public void onClick(int pos) {
-                                Problem problem = mProblemList.getElementByIndex(pos);
-                                Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("problem", problem);
-                                bundle.putInt("position", pos);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-
-                            }
-                        }
-                ));
-            }
-        };
+        ////
+////            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
+////            Intent intent = new Intent(this, Notification_receiver.class);
+////            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+////            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+////
+////            if (frequency.equals("Everyday")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////            else if (frequency.equals("Every week")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////            else if (frequency.equals("Every month")){
+////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
+////
+////            }
+////
+////        }
 
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-//        mRecyclerView = findViewById(R.id.recycler_list);
-//        mRecyclerView.setHasFixedSize(true);
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
-        mRecyclerView.setAdapter(mAdapter);
-    }
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("CWei", "OAR called");
+        Log.d("CWei", String.valueOf(resultCode));
+        ProblemList mProblemList = ProblemList.getInstance();
+        if(resultCode == 10)
+        {   //Log.d("CWei", "why");
+            try {
 
-    //    @Override
-//    protected void onStart() {
-//        super.onStart();
-//// <<<<<<< offline
-//
-////         for (Problem problem: mProblemList.getProblemArray()) {
-////             Log.d("IVANLIM", problem.getTitle());
-//// =======
-////         try {
-//
-////             String userId = mProblemList.getUser().getId();
-////             Log.d("IVANLIM", userId);
-////             problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-////         }catch (Exception e){
-//
-//
-//// >>>>>>> master
-////         }
-//        mRecyclerView = findViewById(R.id.recycler_list);
-//        mRecyclerView.setHasFixedSize(true);
-//
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
-//        mRecyclerView.setAdapter(mAdapter);
-//        SwipeHelper swipeHelper = new SwipeHelper(this, mRecyclerView) {
-//            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
-//                underlayButtons.add(new UnderlayButton("Delete", getResources().getColor(R.color.DeleteButtonColor),
-//                        new UnderlayButtonClickListener() {
-//
-//
-//                                public void onClick(int position) {
-//
-//
-//                                    ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-//                                    NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-//                                    if (activeNetwork!=null) {
-//                                        offlineBehaviour.addItem(mProblemList.getElementByIndex(position), "DELETE");
-//                                        mProblemList.removeProblemFromList(position);
-//                                        mAdapter.notifyItemRemoved(position);
-//                                        mAdapter.notifyDataSetChanged();
-//                                    }
-//                                    else {
-////                                        offlineBehaviour.synchronizeWithElasticSearch();
-//                                        Log.d("IVANLIM", "delete ");
-//                                        ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
-//                                        deleteProblemTask.execute(mProblemList.getElementByIndex(position));
-//                                        mProblemList.removeProblemFromList(position);
-//                                        mAdapter = new ProblemListAdapter(mProblemList.getProblemArray());
-//                                        mRecyclerView.setAdapter(mAdapter);
-////                                        mRecyclerView.removeViewAt(position);
-////                                        mAdapter.notifyItemRemoved(position);
-////                                        mAdapter.notifyItemRangeChanged(position, mProblemList.getListCount());
-////                                        mAdapter.notifyDataSetChanged();
-//                                    }
-//                                }
-//                            }
-//                    ));
-//
-//
-//
-//                underlayButtons.add(new UnderlayButton("Edit", getResources().getColor(R.color.EditButtonColor),
-//                        new UnderlayButtonClickListener() {
-//                            @Override
-//                            public void onClick(int pos) {
-//                                Problem problem = mProblemList.getElementByIndex(pos);
-//                                Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
-//                                Bundle bundle = new Bundle();
-//                                bundle.putSerializable("problem", problem);
-//                                bundle.putInt("position", pos);
-//                                intent.putExtras(bundle);
-//                                startActivity(intent);
-//
-//                            }
-//                        }
-//                ));
-//            }
-//        };
-//
-//    }
+                String userId = mProblemList.getUser().getId();
+                problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+
+            }catch (Exception e){
+
+            }
+            //Log.d("CWei", "not");
+            mAdapter = new ProblemListAdapter(problemList,isDoctor);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+    }
 
 
     @Override
@@ -329,8 +248,6 @@ public class ViewProblemList extends AppCompatActivity
         if (id == R.id.nav_view) {
             // Handle the camera action
         } else if (id == R.id.nav_slideshow) {
-            Intent intent = new Intent(ViewProblemList.this, SlideShow.class);
-            startActivity(intent);
 
         } else if (id == R.id.nav_map) {
 //            Intent intent = new Intent(this, MapViewActivity.class);
@@ -339,19 +256,6 @@ public class ViewProblemList extends AppCompatActivity
             toast.show();
 
 
-        } else if (id == R.id.nav_code) {
-            Bundle obundle = null;
-            obundle = this.getIntent().getExtras();
-            String Oid = obundle.getString("id");
-            String Oemail = obundle.getString("email");
-
-            Bundle bundle = new Bundle();
-            bundle.putAll(obundle);
-            Intent intent = new Intent(this, ActivityGenerateCode.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
@@ -360,27 +264,18 @@ public class ViewProblemList extends AppCompatActivity
             String Oemail = obundle.getString("email");
 
             Bundle bundle = new Bundle();
-            bundle.putAll(obundle);
-            Intent intent = new Intent(this, ActivityGenerateCode.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-
-
-
-        } else if (id == R.id.nav_edit) {
-            Bundle obundle = null;
-            obundle = this.getIntent().getExtras();
-
-            Bundle bundle = new Bundle();
-            bundle.putAll(obundle);
+            bundle.putString("id",Oid);
+            bundle.putString("email",Oemail);
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
+            //finish();
+            Intent intent = new Intent(this, Login.class);
+            startActivity(intent);
 
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 public class ActivityEditProblem extends AppCompatActivity {
     String title;
@@ -73,10 +74,18 @@ public class ActivityEditProblem extends AppCompatActivity {
 
         // if clicked the save button,
         if (id == android.R.id.home) {
-            Bundle bundle = this.getIntent().getExtras();
-            Intent intent = new Intent(this, ViewProblemList.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+//<<<<<<< HEAD
+            if (id == android.R.id.home) {
+                Intent intent = new Intent();
+                setResult(10,intent);
+                finish();
+            }
+//=======
+//            Bundle bundle = this.getIntent().getExtras();
+//            Intent intent = new Intent(this, ViewProblemList.class);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
+//>>>>>>> master
         }
         if (id == R.id.save_button) {
 
@@ -92,29 +101,37 @@ public class ActivityEditProblem extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String problemDate = format.format(selected);
             String problemDescription = description_textView.getText().toString();
-            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+//            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
 
             // Check if app is connected to a network.
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-                mProblemList.removeProblemFromList(problemPositon);
-                mProblemList.addToProblemList(newProblem);
-                offline.addItem(oldProblem, "DELETE");
-                offline.addItem(newProblem, "ADD");
+//                mProblemList.removeProblemFromList(problemPositon);
+////                mProblemList.addToProblemList(newProblem);
+////                offline.addItem(oldProblem, "DELETE");
+////                offline.addItem(newProblem, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-                finish();
+//                finish();
             } else {
-//                Bundle bundle = getIntent().getExtras();
 
+                Bundle bundle = getIntent().getExtras();
+                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
-                addProblemTask.execute(newProblem);
-//                Intent intent = new Intent(ActivityEditProblem.this, ViewProblemList.class);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
+                try {
+                    addProblemTask.execute(newProblem).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Intent intent = new Intent();
+                setResult(10,intent);
                 finish();
+
+
             }
 
 
