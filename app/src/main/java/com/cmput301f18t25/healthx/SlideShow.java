@@ -38,10 +38,10 @@ public class SlideShow extends AppCompatActivity {
             for(int x= 0; x<recordList.size(); x++){
                 Log.d("Sandy 301","Reached");
                 Record record = recordList.get(x);
-                Bitmap bitmap = record.getImage();
-                Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-                Drawable drawable = new BitmapDrawable(bitmapScaled);
-                images.add(drawable);
+//                Bitmap bitmap = record.getImage();
+//                Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
+//                Drawable drawable = new BitmapDrawable(bitmapScaled);
+//                images.add(drawable);
 
             }
 

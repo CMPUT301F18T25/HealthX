@@ -13,6 +13,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -24,16 +28,22 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
+
 
 public class ActivityAddRecord extends AppCompatActivity {
-    Bitmap recordPhoto;
+    String recordPhoto;
     LocationListener listener;
     LocationManager lm;
     Double longitude;
@@ -41,6 +51,8 @@ public class ActivityAddRecord extends AppCompatActivity {
     String problemID;
     boolean isDoctor;
     int position;
+    Uri imageFileUri;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
 
@@ -131,32 +143,47 @@ public class ActivityAddRecord extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1) {
-
-            ImageView imageView = findViewById(R.id.view_photo);
-            byte[] byteArray = data.getByteArrayExtra("image");
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-            Drawable drawable = new BitmapDrawable(bitmapScaled);
-            imageView.setImageDrawable(drawable);
-
-            imageView.setImageBitmap(bitmap);
-
-
-            recordPhoto = bitmap;
-
-        }else{
-            Toast.makeText(ActivityAddRecord.this,"Unable To Set Photo To Record",Toast.LENGTH_LONG).show();
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                ImageView imagePhoto = findViewById(R.id.view_photo);
+                imagePhoto.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
+                recordPhoto = imageFileUri.getPath();
+            }else{
+                Log.d("UWW", "Rip");
+            }
         }
     }
 
+
     public void addPhoto(View view){
 
-        Intent photoIntent = new Intent(this, ActivityAddPhoto.class);
-        startActivityForResult(photoIntent, 1);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+      
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        Log.d("UWU", imageFilePath);
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
+
 
     public void setGeoLocation() {
         lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);

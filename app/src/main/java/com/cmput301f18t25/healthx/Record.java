@@ -18,7 +18,7 @@ public class Record  implements Serializable {
     protected String comment;
     protected Double longitude;
     protected Double latitude;
-    protected Bitmap image;
+    protected String image;
     protected String date;
     protected String id;
     protected String problemID; // problemId specifies the feild at which the record is associated with a problem
@@ -33,19 +33,18 @@ public class Record  implements Serializable {
 
     protected boolean CPComment;
 
-
-    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
-        /**
-         * Creates an instance of Record with getter and setters for the parameters
-         *
-         * @param record_title the title the user entered for the record
-         * @param record_comment the comment the user entered for the record
-         * @param latitude the latitude from geolocation of user
-         * @param longitude the longitude from geolocation of user
-         * @param image the bitmap of the photo taken by the user for a record
-         * @param date the date created the user selected for the record
-         *
-         */
+    public Record(String record_title,String record_comment, Double latitude, Double longitude, String image, String date, String problemID){
+    /**
+     * Creates an instance of Record with getter and setters for the parameters
+     *
+     * @param record_title the title the user entered for the record
+     * @param record_comment the comment the user entered for the record
+     * @param latitude the latitude from geolocation of user
+     * @param longitude the longitude from geolocation of user
+     * @param image the bitmap of the photo taken by the user for a record
+     * @param date the date created the user selected for the record
+     *
+     */
 
         this.title = record_title;
         this.comment = record_comment;
@@ -124,13 +123,13 @@ public class Record  implements Serializable {
      * sets image
      * @param image image you want to set
      * */
-    public void setImage(Bitmap image){
+    public void setImage(String image){
         this.image = image;
     }
     /**
      * returns image
      * */
-    public Bitmap getImage(){
+    public String getImage(){
         return this.image;
     }
     /**
