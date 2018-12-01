@@ -70,7 +70,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
         try {
 
             ArrayList<RequestCode> requestCodes = requestCodeTask.execute(userCode).get();
-            // the problem is here -- requestCodes array has size 0
+            // the problem is here -- requestCodes array has size 0 -- Ivan help me
             RequestCode requestCode = requestCodes.get(0);
 
             if (!(requestCode == null)){
