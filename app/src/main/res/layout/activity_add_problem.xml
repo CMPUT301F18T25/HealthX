@@ -101,6 +101,14 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/bodyPhoto"
+                    android:text="@string/add_body_location"
+                    android:onClick="addBodyLocationPhoto"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/record_photo"
                     android:text="@string/add_body_location"
                     android:onClick="addBodyLocation"
