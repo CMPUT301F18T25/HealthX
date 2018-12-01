@@ -6,6 +6,7 @@
 package com.cmput301f18t25.healthx;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -102,12 +103,15 @@ public class ActivityBodyLocation extends AppCompatActivity {
         });
     }
 
-    public void saveBodyLocations(){
+    public void saveBodyLocations(View view){
 
-        // problem.setBodyLocation(frontBodyLocation);
-        
-
-
+        Intent intent = new Intent();
+        intent.putExtra("front", frontBodyLocation);
+        intent.putExtra("back", backBodyLocation);
+        setResult(2, intent);
+        finish();
 
     }
+
+
 }

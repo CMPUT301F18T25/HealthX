@@ -75,6 +75,7 @@ public class ViewProblemList extends AppCompatActivity
             String userId = mProblemList.getUser().getId();
             Log.d("IVANLIM", userId);
             problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+            mProblemList.setProblemArray(problemList);
         }catch (Exception e){
 
 
@@ -95,6 +96,7 @@ public class ViewProblemList extends AppCompatActivity
                                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                                 deleteProblemTask.execute(problemList.get(position));
                                 problemList.remove(position);
+                                mProblemList.removeProblemFromList(position);
                                 mAdapter.notifyItemRemoved(position);
 
 
@@ -147,7 +149,9 @@ public class ViewProblemList extends AppCompatActivity
                 //Bundle bundle = null;
                 //bundle = ViewProblemList.this.getIntent().getExtras();
                 Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
+
                 //intent.putExtras(bundle);
+
                 startActivityForResult(intent,10);
             }
         });
@@ -191,14 +195,14 @@ public class ViewProblemList extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("CWei", "OAR called");
         Log.d("CWei", String.valueOf(resultCode));
-        ProblemList mProblemList = ProblemList.getInstance();
+//        ProblemList mProblemList = ProblemList.getInstance();
         if(resultCode == 10)
         {   //Log.d("CWei", "why");
             try {
 
                 String userId = mProblemList.getUser().getId();
                 problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-
+                mProblemList.setProblemArray(problemList);
             }catch (Exception e){
 
             }

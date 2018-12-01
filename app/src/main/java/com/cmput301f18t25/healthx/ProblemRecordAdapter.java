@@ -78,7 +78,7 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                         Bundle bundle = new Bundle();
                         bundle.putString("Title",toView.getTitle());
                         bundle.putString("Description",toView.getDescription());
-                        bundle.putString("Count",Integer.toString(toView.getCount()));
+
                         ///////////////////////////////
                         /// Date OR STRING
                         ///////////////////////////////////
