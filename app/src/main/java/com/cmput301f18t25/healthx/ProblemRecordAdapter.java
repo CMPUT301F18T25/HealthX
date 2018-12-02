@@ -74,19 +74,20 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("IVANLIM", "PROBLEM " + String.valueOf(position));
                         Problem toView = (Problem) results.get(position);
                         Bundle bundle = new Bundle();
-                        bundle.putString("Title",toView.getTitle());
-                        bundle.putString("Description",toView.getDescription());
+//                        bundle.putString("Title",toView.getTitle());
+//                        bundle.putString("Description",toView.getDescription());
                         String problemid = toView.getId();
                         int problemListPosition = mProblemlist.getPositionByProblemId(problemid);
-                        Log.d("IVANLIM", String.valueOf(problemListPosition));
+                        Log.d("Problemlistpos", String.valueOf(problemListPosition));
+                        bundle.putString("ProblemID", problemid);
+                        bundle.putInt("Position", problemListPosition);
                         ///////////////////////////////
                         /// Date OR STRING
                         ///////////////////////////////////
 
-                        bundle.putString("Date",toView.getDate());
+//                        bundle.putString("Date",toView.getDate());
 
                         // CHANGE ACTIVITY CLASS
                         Intent intent = new Intent(v.getContext(), ViewRecordList.class);
