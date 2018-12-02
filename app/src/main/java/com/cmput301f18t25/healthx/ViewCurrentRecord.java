@@ -49,7 +49,12 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         String comment = theRecord.getComment();
         ArrayList <String> images = theRecord.getImageURIs();
         longitude = theRecord.getLongitude();
+//        if longitude == null:
+//            longitude = 0;
+
         latitude = theRecord.getLatitude();
+//        if latitude == null:
+//            latitude = 0;
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
         mapFragment.getMapAsync(this);
 

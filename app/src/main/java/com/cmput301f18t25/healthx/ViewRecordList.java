@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.List;
 
-public class ViewRecordList extends AppCompatActivity {
+public class ViewRecordList extends AppCompatActivity implements Serializable {
 
     private RecyclerView rRecyclerView;
     private RecyclerView.Adapter rAdapter;
@@ -209,7 +209,7 @@ public class ViewRecordList extends AppCompatActivity {
             toast.show();
 
             Intent intent = new Intent(getApplicationContext(),SlideShow.class);
-
+            intent.putExtra("Records",recordList);
             startActivity(intent);
 //=======
 //        //noinspection SimplifiableIfStatement

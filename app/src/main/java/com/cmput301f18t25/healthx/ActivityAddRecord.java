@@ -242,7 +242,14 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
-
+//    @Override
+//    public void onClick(View v){
+//        switch(v.getId()){
+//            case R.id.record_geolocation: {
+//               setGeoLocation();
+//            }
+//        }
+//    }
 
 
 }

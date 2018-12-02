@@ -5,19 +5,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> {
+public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> implements Serializable {
 
     // private ProblemList mProblemList = ProblemList.getInstance();
 
@@ -66,11 +69,13 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 //                bundle.putString("Title",toView.getTitle());
 //                bundle.putString("Comment",toView.getComment());
 //                bundle.putString("Date", toView.getDate());
-
+                //Log.d("position",position);
+                //Log.d("Record",toView.title);
+                //Log.d("context",v.getContext());
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewCurrentRecord.class);
 //              intent.putExtras(bundle);
-                intent.putExtra("Record",toView );
+                intent.putExtra("Record",toView);
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
 

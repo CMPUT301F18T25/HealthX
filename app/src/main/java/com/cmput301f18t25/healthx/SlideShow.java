@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class SlideShow extends AppCompatActivity {
     ViewPager viewPager;
     protected ArrayList<Drawable> images = new ArrayList<>();
-    ProblemList problemList = ProblemList.getInstance();
+    //ProblemList problemList = ProblemList.getInstance();
     ArrayList<Record> recordList;
 
 
@@ -28,22 +28,29 @@ public class SlideShow extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide_show);
 
-
-        for(int i = 0; i<problemList.getListCount(); i++){
-            Problem problem = problemList.getElementByIndex(i);
-            recordList = problem.getRecordArray();
-//            Toast.makeText(this,"Reached ",Toast.LENGTH_LONG).show();
-            Toast.makeText(this,String.valueOf(i),Toast.LENGTH_LONG).show();
-            Log.d("Sandy 301",String.valueOf(recordList.size()));
-            for(int x= 0; x<recordList.size(); x++){
+        recordList = (ArrayList<Record>) getIntent().getSerializableExtra("Records");
+        //for(int i = 0; i<problemList.getListCount(); i++){
+//            Problem problem = problemList.getElementByIndex(i);
+//            recordList = problem.getRecordArray();
+////            Toast.makeText(this,"Reached ",Toast.LENGTH_LONG).show();
+//            Toast.makeText(this,String.valueOf(i),Toast.LENGTH_LONG).show();
+        Log.d("Num Records:",String.valueOf(recordList.size()));
+        for(int pos= 0; pos<recordList.size(); pos++){
+            Record record = recordList.get(pos);
+            Log.d("Sandy 301","Reached");
+            ArrayList<String> imageList= record.getImageURIs();
+            //String image_path = imageList.get(pos);
+            //Drawable drawable = Drawable.createFromPath(image_path);
+            for(int x= 0; x<imageList.size(); x++){
                 Log.d("Sandy 301","Reached");
-                Record record = recordList.get(x);
+                String image_path = imageList.get(x);
+                Drawable drawable = Drawable.createFromPath(image_path);
 //                Bitmap bitmap = record.getImage();
 //                Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
 //                Drawable drawable = new BitmapDrawable(bitmapScaled);
 //                images.add(drawable);
-
-            }
+                images.add(drawable);
+        }
 
         }
 
