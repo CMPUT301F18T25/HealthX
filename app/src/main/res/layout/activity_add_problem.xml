@@ -101,11 +101,25 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/bodyPhoto"
-                    android:text="@string/add_body_location"
-                    android:onClick="addBodyLocationPhoto"
+                    android:id="@+id/bodyPhotoFront"
+                    android:text="Add Front Body Photo"
+                    android:onClick="addBodyLocationPhotoFront"
                     />
-
+                <ImageView
+                    android:id="@+id/view_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bodyPhotoBack"
+                    android:text="Add Back Body Photo"
+                    android:onClick="addBodyLocationPhotoBack"
+                    />
+                <ImageView
+                    android:id="@+id/view_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
