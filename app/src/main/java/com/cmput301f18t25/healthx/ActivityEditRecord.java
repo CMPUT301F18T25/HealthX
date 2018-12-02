@@ -96,6 +96,9 @@ public class ActivityEditRecord extends AppCompatActivity {
         // if clicked the save button,
         if (id == android.R.id.home) {
             if (id == android.R.id.home) {
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished");
                 finish();
             }
         }
@@ -129,6 +132,14 @@ public class ActivityEditRecord extends AppCompatActivity {
                 offline.addItem(oldRecord, "DELETE");
                 offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished adding");
                 finish();
             } else {
 //                offline.synchronizeWithElasticSearch();
@@ -136,6 +147,14 @@ public class ActivityEditRecord extends AppCompatActivity {
                 addRecordTask.execute(newRecord);
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished adding");
                 finish();
             }
 

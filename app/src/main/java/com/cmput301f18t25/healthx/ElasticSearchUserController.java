@@ -122,7 +122,7 @@ public class ElasticSearchUserController {
             verifySettings();
 
             User user = search_parameters[0];
-            String userId = user.getUsername();
+            String userId = user.getId();
 
             Index index = new Index.Builder(user).index("cmput301f18t25test").type("user").id(userId).build();
 
@@ -138,6 +138,24 @@ public class ElasticSearchUserController {
 
             return null;
         }
+    }
+
+    public static class DeleteUserTask extends AsyncTask<User, Void, Void> {
+
+        @Override
+        protected Void doInBackground(User... users) {
+            verifySettings();
+            String query = "{\"query\" : { \"match\" : { \"id\" : \"" + users[0].getId() + "\"}}}";
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("usernew2").build();
+            try {
+                client.execute(delete);
+            } catch (Exception e) {
+                Log.d("ElasticProblem", "The application failed to build and send the problem");
+            }
+
+            return null;
+        }
+
     }
 
     public static class CheckPatientTask extends AsyncTask<String, Void, User> {

@@ -27,6 +27,7 @@ public class ActivityEditProblem extends AppCompatActivity {
     String dateString;
     String userId;
     Problem oldProblem;
+    Problem newProblem;
     int problemPositon;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
@@ -116,17 +117,21 @@ public class ActivityEditProblem extends AppCompatActivity {
             } else {
 
                 Bundle bundle = getIntent().getExtras();
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+                ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
+                addProblemTask.execute(newProblem);
+
+
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
-                ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
+
+
                 try {
-                    addProblemTask.execute(newProblem).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
                 }
+
                 Intent intent = new Intent();
                 setResult(10,intent);
                 finish();

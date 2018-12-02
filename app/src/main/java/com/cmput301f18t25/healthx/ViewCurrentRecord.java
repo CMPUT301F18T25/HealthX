@@ -1,5 +1,8 @@
 package com.cmput301f18t25.healthx;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -65,6 +69,13 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         rtime.setText(date);
         TextView rcomment = findViewById(R.id.record_comment);
         rcomment.setText(comment);
+
+//        ImageView recordPhotoView = findViewById(R.id.RecordPhoto1);
+//        Bitmap recordPhoto = theRecord.getImage();
+//        Drawable drawable = new BitmapDrawable(recordPhoto);
+//        recordPhotoView.setImageDrawable(drawable);
+
+
     }
 
     @Override
