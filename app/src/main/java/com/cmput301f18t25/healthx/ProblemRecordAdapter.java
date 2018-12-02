@@ -112,14 +112,17 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                     public void onClick(View v) {
 
                         Record toView = (Record) results.get(position);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("Title",toView.getTitle());
-                        bundle.putString("Comment",toView.getComment());
-                        bundle.putString("Date", toView.getDate());
+//                        Bundle bundle = new Bundle();
+//
+//                        bundle.putString("Title",toView.getTitle());
+//                        bundle.putString("Comment",toView.getComment());
+//                        bundle.putString("Date", toView.getDate());
+
 
                         // CHANGE ACTIVITY CLASS
                         Intent intent = new Intent(v.getContext(), ViewCurrentRecord.class);
-                        intent.putExtras(bundle);
+//                        intent.putExtras(bundle);
+                        intent.putExtra("Record",toView );
                         v.getContext().startActivity(intent);
                         Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
 
