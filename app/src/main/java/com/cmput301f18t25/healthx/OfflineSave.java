@@ -27,10 +27,12 @@ public class OfflineSave {
     private static final String PROBLEMLISTFILENAME = "problemlist.sav";
     private ProblemList problemList = ProblemList.getInstance();
     Context mContext;
+    private ArrayList<Problem> allproblems;
     UserList userList = UserList.getInstance();
 
     public OfflineSave(Context context) {
         this.mContext = context;
+        this.allproblems = new ArrayList<>();
     }
 
 //    public void LoadFiles() {
@@ -91,6 +93,21 @@ public class OfflineSave {
 //        loadUserFromFile();
     }
 
+    public void loadTheProblemList() {
+        try {
+            FileInputStream fis = mContext.openFileInput(PROBLEMLISTFILENAME);
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis));
+            Gson gson = new Gson();
+            Type prob = new TypeToken<ArrayList<Problem>>(){}.getType();
+            allproblems = gson.fromJson(bufferedReader,prob);
+            fis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public void loadProblemList(String userId) {
         try {
@@ -98,8 +115,8 @@ public class OfflineSave {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
             Type prob = new TypeToken<ArrayList<Problem>>(){}.getType();
-            ArrayList<Problem> problems = gson.fromJson(bufferedReader,prob);
-            ArrayList<Problem> sortedProblems = getProblemsByUserID(userId, problems);
+            allproblems = gson.fromJson(bufferedReader,prob);
+            ArrayList<Problem> sortedProblems = getProblemsByUserID(userId, allproblems);
             problemList.setProblemArray(sortedProblems);
             fis.close();
         } catch (FileNotFoundException e) {
@@ -120,12 +137,14 @@ public class OfflineSave {
         return sortedProbs;
     }
 
-    public void saveProblemListToFile () {
+    public void saveProblemListToFile(Problem aproblem) {
+        loadTheProblemList();
+        allproblems.add(aproblem);
         try {
             FileOutputStream fos = mContext.openFileOutput(PROBLEMLISTFILENAME, Context.MODE_PRIVATE);
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
-            gson.toJson(problemList.getProblemArray(), bufferedWriter);
+            gson.toJson(allproblems, bufferedWriter);
             bufferedWriter.flush();
             fos.close();
         } catch (FileNotFoundException e) {

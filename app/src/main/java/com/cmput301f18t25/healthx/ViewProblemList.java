@@ -72,16 +72,20 @@ public class ViewProblemList extends AppCompatActivity
         String email = bundle.getString("email");
         User user = null;
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        String userId = mProblemList.getUser().getId();
         if (offlineSave.checkNetworkStatus()) {
 //            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
 
-                String userId = mProblemList.getUser().getId();
                 Log.d("IVANLIM", userId);
                 problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
                 mProblemList.setProblemArray(problemList);
             }catch (Exception ignored){
             }
+        }
+        else {
+            offlineSave.loadProblemList(userId);
+            problemList = mProblemList.getProblemArray();
         }
 
         mRecyclerView = findViewById(R.id.recycler_list);
@@ -203,15 +207,14 @@ public class ViewProblemList extends AppCompatActivity
         if(resultCode == 10)
         {   //Log.d("CWei", "why");
             try {
-
                 String userId = mProblemList.getUser().getId();
                 problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-                mProblemList.setProblemArray(problemList);
+//                mProblemList.setProblemArray(problemList);
             }catch (Exception e){
 
             }
             //Log.d("CWei", "not");
-            mAdapter = new ProblemListAdapter(problemList,isDoctor);
+            mAdapter = new ProblemListAdapter(mProblemList.getProblemArray(),isDoctor);
             mRecyclerView.setAdapter(mAdapter);
         }
     }
