@@ -47,8 +47,8 @@ public class Login extends AppCompatActivity {
 
         mLayout = findViewById(R.id.animation_layout);
         animationDrawable = (AnimationDrawable) mLayout.getBackground();
-        animationDrawable.setEnterFadeDuration(2000);
-        animationDrawable.setExitFadeDuration(2000);
+        animationDrawable.setEnterFadeDuration(4000);
+        animationDrawable.setExitFadeDuration(4000);
         animationDrawable.start();
 
         //getSupportActionBar().hide();
