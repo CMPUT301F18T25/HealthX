@@ -26,6 +26,7 @@ public class OfflineSave {
     private static final String USRFILENAME = "users.sav";
     private static final String PROBLEMLISTFILENAME = "problemlist.sav";
     Context mContext;
+    UserList userList = UserList.getInstance();
 
     public OfflineSave(Context context) {
         this.mContext = context;
@@ -41,14 +42,15 @@ public class OfflineSave {
             FileInputStream fis = mContext.openFileInput(USRFILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
-            User user = gson.fromJson(in, new TypeToken<User>() {
+           ArrayList<User> ulist = gson.fromJson(in, new TypeToken<ArrayList<User>>() {
             }.getType());
+           userList.SetUserList(ulist);
             fis.close();
-
         } catch (FileNotFoundException e) {
             Toast.makeText(mContext, "Error, unable to load the files.", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
         }
+
     }
 
     public void loadProblemListFile() {
@@ -70,11 +72,13 @@ public class OfflineSave {
     }
 
     public void saveUserToFile(User user) {
+        loadUsersFile();
+        userList.addToList(user);
         try {
             FileOutputStream fos = mContext.openFileOutput(USRFILENAME, Context.MODE_PRIVATE);
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
-            gson.toJson(user, bufferedWriter);
+            gson.toJson(userList.getUserlist(), bufferedWriter);
             bufferedWriter.flush();
             fos.close();
             Log.d("Dhruba", "saveUserToFile: success");
@@ -86,22 +90,31 @@ public class OfflineSave {
     }
 
     public User loadUserFromFile() {
-        ArrayList<User> userArrayList = new ArrayList<>();
-        User newuser = new User();
-        newuser.setStatus("null");
+//        ArrayList<User> userArrayList = new ArrayList<>();
+//        User newuser = new User();
+//        newuser.setStatus("null");
         try {
             FileInputStream fis = mContext.openFileInput(USRFILENAME);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
-            Type user = new TypeToken<User>(){}.getType();
-            newuser.setUser((User) gson.fromJson(bufferedReader, user));
+            Type user = new TypeToken<ArrayList<User>>(){}.getType();
+            ArrayList<User> userdata = gson.fromJson(bufferedReader, user);
+            userList.SetUserList(userdata);
+//            newuser.setUser((User) gson.fromJson(bufferedReader, user));
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        if ("null".compareTo(newuser.getStatus()) != 0) {
-            return newuser;
-        } else {
+        if (userList.getUserlist().size() != 0) {
+            return userList.getUserlist().get(userList.getUserlist().size()-1);
+        }
+        else {
             return null;
         }
+
+//        if ("null".compareTo(newuser.getStatus()) != 0) {
+//            return newuser;
+//        } else {
+//            return null;
+//        }
     }
 }
