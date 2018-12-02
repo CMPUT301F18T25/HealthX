@@ -3,7 +3,8 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fitsSystemWindows="true"
-    android:background="@drawable/bg_login"
+    android:id="@+id/animation_layout"
+    android:background="@drawable/bg_animation"
     >
 <!-- bg_view image: <a href="https://www.123freevectors.com/">Free Vector</a>
 https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-design/

@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.design.widget.TextInputEditText;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.util.Calendar;
@@ -26,6 +29,7 @@ public class Login extends AppCompatActivity {
 //
 //    TextInputEditText userIdTextView;
 //    TextInputEditText emailtextView;
+
     EditText userIdTextView;
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
@@ -33,13 +37,21 @@ public class Login extends AppCompatActivity {
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
     private  OfflineSave offSave;
 
-
+    ScrollView mLayout;
+    AnimationDrawable animationDrawable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().hide();
+
+        mLayout = findViewById(R.id.animation_layout);
+        animationDrawable = (AnimationDrawable) mLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2000);
+        animationDrawable.setExitFadeDuration(2000);
+        animationDrawable.start();
+
+        //getSupportActionBar().hide();
         userIdTextView = findViewById(R.id.loginUserID);
         offSave = new OfflineSave(getApplicationContext());
         User user  = offSave.loadUserFromFile();
