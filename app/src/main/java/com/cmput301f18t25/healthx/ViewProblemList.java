@@ -41,6 +41,7 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
+    OfflineSave offlineSave;
     private boolean isDoctor;
 
 
@@ -48,6 +49,7 @@ public class ViewProblemList extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recycler);
+        offlineSave = new OfflineSave(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,18 +70,20 @@ public class ViewProblemList extends AppCompatActivity
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
         String email = bundle.getString("email");
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         User user = null;
-        try {
+        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        if (offlineSave.checkNetworkStatus()) {
+//            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            try {
 
-            String userId = mProblemList.getUser().getId();
-            Log.d("IVANLIM", userId);
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-            mProblemList.setProblemArray(problemList);
-        }catch (Exception e){
-
-
+                String userId = mProblemList.getUser().getId();
+                Log.d("IVANLIM", userId);
+                problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+                mProblemList.setProblemArray(problemList);
+            }catch (Exception ignored){
+            }
         }
+
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
