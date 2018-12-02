@@ -69,7 +69,8 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
         try {
 
             ArrayList<RequestCode> requestCodes = requestCodeTask.execute(userCode).get();
-            // the problem is here -- requestCodes array has size 0 -- Ivan help me
+            // the problem is here -- requestCodes array always has size 0 -- Ivan help me
+
             RequestCode requestCode = requestCodes.get(0);
 
             if (!(requestCode == null)){
@@ -113,6 +114,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                 }
             }
             else {
+                Log.i("wtf????","wtf");
                 Toast toast = Toast.makeText(getApplicationContext(), "Invalid code!!", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -120,6 +122,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e){
+            Log.i("wtf????","wtf222");
             Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!" , Toast.LENGTH_SHORT);
             toast.show();
         } catch (InterruptedException e) {
