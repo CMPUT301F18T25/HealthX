@@ -197,7 +197,17 @@ public class ViewPatientList extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_edit) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+            String Oid = obundle.getString("id");
+            String Oemail = obundle.getString("email");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("id",Oid);
+            bundle.putString("email",Oemail);
+
             Intent intent = new Intent(this, EditUserProfile.class);
+            intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, Login.class);

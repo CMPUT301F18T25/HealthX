@@ -25,6 +25,7 @@ public class EditUserProfile extends AppCompatActivity {
 
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
+        assert (bundle != null);
         String id = bundle.getString("id");
         String email = bundle.getString("email");
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
@@ -97,7 +98,7 @@ public class EditUserProfile extends AppCompatActivity {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             User user = null;
             try {
-                user = getUserTask.execute(Bid,Bemail).get();
+                user = getUserTask.execute(Bid).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

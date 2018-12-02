@@ -61,10 +61,9 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
     public void addPatientByCode(View view) {
 
-        mUserCode = (EditText) findViewById(R.id.code_input); // R.id.userid specifies textview
+        mUserCode = (EditText) findViewById(R.id.code_input);
 
         String userCode = mUserCode.getText().toString();
-        //Log.i("CWei", userId);
         ElasticSearchUserController.GetRequestCodeTask requestCodeTask = new ElasticSearchUserController.GetRequestCodeTask();
 
         try {
@@ -107,6 +106,8 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                     }
                 }catch (ExecutionException e) {
                     e.printStackTrace();
+
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -118,6 +119,9 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
         } catch (ExecutionException e) {
             e.printStackTrace();
+        } catch (IndexOutOfBoundsException e){
+            Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!" , Toast.LENGTH_SHORT);
+            toast.show();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
