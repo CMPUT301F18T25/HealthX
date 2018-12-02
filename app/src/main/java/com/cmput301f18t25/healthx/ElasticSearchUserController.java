@@ -165,13 +165,13 @@ public class ElasticSearchUserController {
         protected ArrayList<RequestCode> doInBackground(String... params) {
             verifySettings();
             ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
-
-            String query = "{ \"query\" : { \"match\" :  { \"user_code\" : \""+ params[0] + "\"}}}";
+            String query = "{ \"query\" : { \"match\" :  { \"user_code\" : \"" + params[0] + "\"}}}";
             Search search = new Search.Builder(query)
 
                     .addIndex("cmput301f18t25test")
                     .addType("newReqCodes")
                     .build();
+
             try {
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
@@ -264,7 +264,7 @@ public class ElasticSearchUserController {
 //            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
             ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
 
-            String query = "{ \"query\" : { \"match\" :  { \"user_code\" : \""+ users[0] + "\"}}}";
+            String query = "{ \"query\" : { \"match\" :  { \"name\" : \""+ users[0] + "\"}}}";
             //Build the query
 
             Search search = new Search.Builder(query)

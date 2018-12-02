@@ -20,6 +20,9 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
     Button mAddButton;
     EditText mUserCode;
     String doctorID;
+    ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
+    ArrayList<RequestCode> requestCodes2 = new ArrayList<RequestCode>();
+    RequestCode requestCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,17 +71,19 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
         try {
 
-            ArrayList<RequestCode> requestCodes = requestCodeTask.execute(userCode).get();
-            // the problem is here -- requestCodes array always has size 0 -- Ivan help me
+            // Have to declare global requestCodes Arrays
+            requestCodes = requestCodeTask.execute(userCode).get();
 
-            RequestCode requestCode = requestCodes.get(0);
+            requestCode = requestCodes.get(0);
+            String patientUsername = requestCode.getUsername();
 
             if (!(requestCode == null)){
                 ElasticSearchUserController.CheckPatientTaskRequestCode checkPatientTask = new ElasticSearchUserController.CheckPatientTaskRequestCode();
 
                 try {
 
-                    ArrayList<RequestCode> requestCodes2 = checkPatientTask.execute(userCode).get();
+                    // Im assuming you should be querying based off the username not request code so thats also why it didnt work
+                    requestCodes2 = checkPatientTask.execute(patientUsername).get();
                     RequestCode requestCode2 = requestCodes2.get(0);
 
                     if (!(requestCode2 == null)){
