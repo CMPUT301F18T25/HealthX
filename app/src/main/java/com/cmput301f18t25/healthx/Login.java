@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import io.searchbox.core.Get;
 
 
+
 public class Login extends AppCompatActivity {
 //
 //    TextInputEditText userIdTextView;
@@ -45,7 +46,7 @@ public class Login extends AppCompatActivity {
         offSave = new OfflineSave(getApplicationContext());
         User user  = offSave.loadUserFromFile();
         if (user != null) {
-            userIdTextView.setText(mUserList.getPreviousUser().getUsername());
+            userIdTextView.setText(user.getUsername());
         }
     }
 
@@ -70,8 +71,7 @@ public class Login extends AppCompatActivity {
             // load from user table
             User u = mUserList.getUserByUsername(userId);
             if (u != null) {
-                mUserList.setPreviousUser(u);
-                CheckUser(u);
+               CheckUser(u);
             }
             else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials & Offline!" , Toast.LENGTH_SHORT);
