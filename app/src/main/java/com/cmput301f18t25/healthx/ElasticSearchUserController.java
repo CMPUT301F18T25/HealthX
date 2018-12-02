@@ -269,7 +269,7 @@ public class ElasticSearchUserController {
 
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
-                    .addType("myPatientCodes")
+                    .addType("myPatient")
                     .build();
 
             try {
