@@ -87,6 +87,7 @@ public class OfflineSave {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        loadUserFromFile();
     }
 
     public User loadUserFromFile() {

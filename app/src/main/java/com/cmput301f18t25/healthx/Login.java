@@ -44,10 +44,29 @@ public class Login extends AppCompatActivity {
         getSupportActionBar().hide();
         userIdTextView = findViewById(R.id.loginUserID);
         offSave = new OfflineSave(getApplicationContext());
-        User user  = offSave.loadUserFromFile();
-        if (user != null) {
-            userIdTextView.setText(user.getUsername());
+//        User user  = offSave.loadUserFromFile();
+//        if (user != null) {
+//            userIdTextView.setText(user.getUsername());
+//        }
+        if (mUserList.getPreviousUser() != null) {
+            userIdTextView.setText(mUserList.getPreviousUser().getUsername());
+        } else {
+            User user = offSave.loadUserFromFile();
+            if (user != null) {
+                userIdTextView.setText(user.getUsername());
+            }
         }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mUserList.getPreviousUser() != null) {
+            userIdTextView.setText(mUserList.getPreviousUser().getUsername());
+        }
+
+
     }
 
     public void toCodeLogin(View view) {
@@ -71,6 +90,7 @@ public class Login extends AppCompatActivity {
             // load from user table
             User u = mUserList.getUserByUsername(userId);
             if (u != null) {
+                mUserList.setPreviousUser(u);
                CheckUser(u);
             }
             else {
@@ -84,6 +104,7 @@ public class Login extends AppCompatActivity {
             try {
                 user = getUserTask.execute(userId).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
+                mUserList.setPreviousUser(user);
                 CheckUser(user);
             } catch (ExecutionException e) {
                 e.printStackTrace();

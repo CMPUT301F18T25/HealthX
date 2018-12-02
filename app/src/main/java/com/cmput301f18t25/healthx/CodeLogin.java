@@ -24,6 +24,7 @@ public class CodeLogin extends AppCompatActivity {
     EditText userCodeTextView;
     private RequestCode requestCode;
     private ProblemList mProblemList = ProblemList.getInstance();
+    private UserList mUserList = UserList.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +73,7 @@ public class CodeLogin extends AppCompatActivity {
                         Bundle bundle = new Bundle();
 
                         bundle.putString("id", user.getUsername());
-
-
+                        mUserList.setPreviousUser(user);
                         ElasticSearchUserController.DeleteRequestCodeTask deleteRequestCodeTask = new ElasticSearchUserController.DeleteRequestCodeTask();
                         deleteRequestCodeTask.execute(requestCode);
 
