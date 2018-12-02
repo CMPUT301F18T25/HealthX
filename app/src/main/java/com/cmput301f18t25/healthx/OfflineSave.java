@@ -105,6 +105,7 @@ public class OfflineSave {
             e.printStackTrace();
         }
         if (userList.getUserlist().size() != 0) {
+            userList.setPreviousUser(userList.getUserlist().get(userList.getUserlist().size()-1));
             return userList.getUserlist().get(userList.getUserlist().size()-1);
         }
         else {

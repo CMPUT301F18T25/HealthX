@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class UserList {
     private static  UserList instance;
     private static ArrayList<User> userlist;
+    public static User previousUser = null;
 
 
     public static UserList getInstance() {
@@ -45,6 +46,20 @@ public class UserList {
             }
         }
         return  null;
+    }
+
+    public void setPreviousUser(User u) {
+        previousUser = u;
+    }
+
+    public User getPreviousUser() {
+
+        if (previousUser == null) {
+            return null;
+        }
+        else {
+            return previousUser;
+        }
     }
 //
 //    public User getLastUser() {

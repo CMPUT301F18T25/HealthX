@@ -45,7 +45,7 @@ public class Login extends AppCompatActivity {
         offSave = new OfflineSave(getApplicationContext());
         User user  = offSave.loadUserFromFile();
         if (user != null) {
-            userIdTextView.setText(user.getUsername());
+            userIdTextView.setText(mUserList.getPreviousUser().getUsername());
         }
     }
 
@@ -64,14 +64,14 @@ public class Login extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
-//            Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
             // if null, we grab the userlist array, and check if the username is in the list,
             // if it is we have to load the users problems and records
             // return the user
             // load from user table
             User u = mUserList.getUserByUsername(userId);
             if (u != null) {
-               CheckUser(u);
+                mUserList.setPreviousUser(u);
+                CheckUser(u);
             }
             else {
                 Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials & Offline!" , Toast.LENGTH_SHORT);
@@ -80,39 +80,11 @@ public class Login extends AppCompatActivity {
 
 
         } else {
-//            User user = new User(name,id,phone,email,status);
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
                 user = getUserTask.execute(userId).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 CheckUser(user);
-//                if (user.getStatus().equals("Patient")){
-//                    mProblemList.setUser(user);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("id",user.getUsername());
-//
-//
-//                    Intent intent = new Intent(this, ViewProblemList.class);
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
-//
-//                    Intent mintent = new Intent(this, ViewProblemList.class);
-//                    mintent.putExtras(bundle);
-//                    startActivity(mintent);
-//                }
-//                else if (user.getStatus().equals("Care Provider")){
-//
-//                    Bundle bundle = new Bundle();
-//                    bundle.putString("id",user.getUsername());
-//                    Intent mintent = new Intent(this, ViewPatientList.class);
-//                    mintent.putExtras(bundle);
-//                    startActivity(mintent);
-//                }
-//
-//                else {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials!" , Toast.LENGTH_SHORT);
-//                    toast.show();
-//                }
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
