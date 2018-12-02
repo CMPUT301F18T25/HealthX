@@ -21,7 +21,7 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
     private final int PROBLEM = 0;
     private final int RECORD = 1;
     private ViewHolder vh;
-
+    ProblemList mProblemlist = ProblemList.getInstance();
     public ProblemRecordAdapter(List<Object> results) {
         this.results = results;
     }
@@ -79,7 +79,9 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                         Bundle bundle = new Bundle();
                         bundle.putString("Title",toView.getTitle());
                         bundle.putString("Description",toView.getDescription());
-
+                        String problemid = toView.getId();
+                        int problemListPosition = mProblemlist.getPositionByProblemId(problemid);
+                        Log.d("IVANLIM", String.valueOf(problemListPosition));
                         ///////////////////////////////
                         /// Date OR STRING
                         ///////////////////////////////////
