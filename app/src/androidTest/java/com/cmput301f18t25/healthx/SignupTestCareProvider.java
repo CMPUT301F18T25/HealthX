@@ -1,13 +1,17 @@
+/*
+ *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ *
+ */
+
 package com.cmput301f18t25.healthx;
 
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
-
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.robotium.solo.Solo;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -15,9 +19,9 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class SignupTest extends ActivityTestRule<Login>{
+public class SignupTestCareProvider extends ActivityTestRule<Login>{
 
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
 
@@ -30,7 +34,7 @@ public class SignupTest extends ActivityTestRule<Login>{
     private Solo solo;
 
 
-    public SignupTest() {
+    public SignupTestCareProvider() {
         super(Login.class);
     }
 
@@ -64,13 +68,13 @@ public class SignupTest extends ActivityTestRule<Login>{
         EditText email = (EditText) solo.getView(R.id.input_email);
         EditText phone = (EditText) solo.getView(R.id.input_phone);
 
-        RadioButton patient_btn = (RadioButton) solo.getView(R.id.radio_patient);
+        RadioButton doctor_btn = (RadioButton) solo.getView(R.id.radio_provider);
 
         solo.enterText(id,test_username);
         solo.enterText(name,test_name);
         solo.enterText(email,test_email);
         solo.enterText(phone,test_phone_number);
-        solo.clickOnView(patient_btn);
+        solo.clickOnView(doctor_btn);
 
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
@@ -83,9 +87,10 @@ public class SignupTest extends ActivityTestRule<Login>{
         EditText log_id = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(log_id,test_username);
+        solo.wait(wait_time);
         solo.clickOnView(solo.getView(R.id.btn_login));
 
-        boolean next_view3 = solo.waitForActivity(ViewProblemList.class);
+        boolean next_view3 = solo.waitForActivity(ViewPatientList.class);
         assertTrue("did not log in",next_view3);
         assertTrue("toast not shown",solo.waitForText(test_name,1,wait_time));
 
