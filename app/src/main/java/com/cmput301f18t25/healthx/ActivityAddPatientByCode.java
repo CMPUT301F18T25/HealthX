@@ -21,6 +21,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
     EditText mUserCode;
     String doctorID;
     User cPatient;
+    User cUser;
     ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
     ArrayList<RequestCode> requestCodes2 = new ArrayList<RequestCode>();
     RequestCode requestCode;
@@ -73,14 +74,18 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
             requestCodes = requestCodeTask.execute(userCode).get();
             requestCode = requestCodes.get(0);
             String patientUsername = requestCode.getUsername();
-            Log.d("here", patientUsername);
+
             if (!(requestCode == null)){
 
                 try {
+
                     ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
                     cPatient = getUserTask.execute(patientUsername).get();
-                    Log.d("here", cPatient.getUsername());
-                    if(!(cPatient == null)){
+
+                    ElasticSearchUserController.CheckPatientTask checkPatientTask = new ElasticSearchUserController.CheckPatientTask();
+                    cUser = checkPatientTask.execute(cPatient.getUsername()).get();
+
+                    if(cUser.getStatus().equals("")){
 
                         cPatient.setDoctorID(doctorID);
                         ElasticSearchUserController.AddPatientTask addPatientTask = new ElasticSearchUserController.AddPatientTask();
@@ -98,6 +103,10 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         setResult(10,intent);
                         Log.i("CWei", "finished adding");
                         finish();
+
+                    }else{
+                        Toast toast = Toast.makeText(getApplicationContext(), "Patient Already Added" , Toast.LENGTH_SHORT);
+                        toast.show();
 
                     }
                 }catch (InterruptedException e){

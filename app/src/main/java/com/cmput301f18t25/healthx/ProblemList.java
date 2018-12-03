@@ -21,7 +21,7 @@ public class ProblemList {
     private static User user;
 
     /**
-     Static method that creates instance of Singleton ProblemListclass
+     * Static method that creates instance of Singleton ProblemListclass
      */
     public static ProblemList getInstance() {
         if (instance == null) {
@@ -31,10 +31,7 @@ public class ProblemList {
         return instance;
     }
 
-    /**
-     * Returns problem at a given index
-     * @param index - index of problem you want to return
-     * */
+
 
     private ProblemList() {
         problemArray = new ArrayList<Problem>();
@@ -42,7 +39,7 @@ public class ProblemList {
     }
 
 
-    public  ArrayList<Problem> getProblemArray() {
+    public ArrayList<Problem> getProblemArray() {
         sortArray();
         return problemArray;
     }
@@ -53,7 +50,7 @@ public class ProblemList {
         sortArray();
     }
 
-    public  User getUser() {
+    public User getUser() {
         return user;
     }
 
@@ -63,18 +60,21 @@ public class ProblemList {
 
     /**
      * Adds a problem to ProblemList
+     *
      * @param problem problem to be added
-     * */
-    public  void addToProblemList(Problem problem) {
+     */
+    public void addToProblemList(Problem problem) {
         //Problem  newProblem = new Problem(problem.getTitle(), problem.getDescription(), problem.getDate());
         problemArray.add(problem);
         sortArray();
     }
+
     /**
      * Edits a problem in ProblemList
-     * @param e the new edited problem to insert into list
+     *
+     * @param e     the new edited problem to insert into list
      * @param index the index of problem you wish to edit
-     * */
+     */
     // Edits a specific problem -- Note the function takes the index of the old problem and a new problem object
     public void EditProblem(int index, Problem e) {
         problemArray.set(index, e);
@@ -83,23 +83,26 @@ public class ProblemList {
 
     /**
      * Returns number of problems in ProblemList
-     * */
+     */
     public int getListCount() {
         return problemArray.size();
     }
 
     /**
      * Returns problem at a given index
+     *
      * @param index index of problem you want to return
-     * */
+     */
     public Problem getElementByIndex(int index) {
         return problemArray.get(index);
 
     }
+
     /**
      * Removes problem at a given index
+     *
      * @param index index of problem you want to remove
-     * */
+     */
     public void removeProblemFromList(int index) {
         problemArray.remove(index);
         sortArray();
@@ -108,7 +111,7 @@ public class ProblemList {
 
     /**
      * Sorts array by date from recent to least recent
-     * */
+     */
     public void sortArray() {
         Collections.sort(problemArray, new Comparator<Problem>() {
             @Override
@@ -160,4 +163,13 @@ public class ProblemList {
         return problemArray.get(problemPosition).recordArray.get(recordPosition);
     }
 
+    public int getPositionByProblemId(String id) {
+        for (int i = 0; i < problemArray.size(); i++) {
+            if (problemArray.get(i).getId().compareTo(id) == 0) {
+                return i;
+            }
+        }
+       return -1;
+    }
 }
+

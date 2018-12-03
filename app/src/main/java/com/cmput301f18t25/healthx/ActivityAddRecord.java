@@ -4,15 +4,17 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
+
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -22,25 +24,38 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+
 import android.widget.ImageView;
+
 import android.widget.Toast;
 
+import com.google.common.collect.ArrayTable;
+
+import java.io.File;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
+import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
 
 public class ActivityAddRecord extends AppCompatActivity {
-    Bitmap recordPhoto;
+
+    ArrayList<String> imageURIs;
     LocationListener listener;
     LocationManager lm;
     Double longitude;
     Double latitude;
     String problemID;
     boolean isDoctor;
+    Button  geoloc;
     int position;
+    Uri imageFileUri;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
 
@@ -53,9 +68,20 @@ public class ActivityAddRecord extends AppCompatActivity {
         problemID = bundle.getString("ProblemID");
         isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
+        Log.d("IVANLIM",String.valueOf(position));
+        imageURIs = new ArrayList<>(10);
+        initializeLocationManager();
         setGeoLocation();
-    }
+        geoloc = (Button) findViewById(R.id.record_geolocation);
+        geoloc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setGeoLocation();
+                //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+            }
+        });
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
@@ -94,7 +120,16 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
+            //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
+            if (latitude == null){
+                Log.d("location","still null");
+            }
             setGeoLocation();
+//            if (latitude == null) {
+//                setGeoLocation();
+//                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
+//
+//            }
 //            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
 //            mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
@@ -106,8 +141,10 @@ public class ActivityAddRecord extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
 //                finish();
             } else {
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
+                //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
                 newRecord.setCPComment(isDoctor);
+                mProblemList.addRecord(position,newRecord);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
@@ -131,42 +168,56 @@ public class ActivityAddRecord extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1) {
-
-            ImageView imageView = findViewById(R.id.view_photo);
-            byte[] byteArray = data.getByteArrayExtra("image");
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-
-            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 1000, 1000, true);
-            Drawable drawable = new BitmapDrawable(bitmapScaled);
-            imageView.setImageDrawable(drawable);
-
-            imageView.setImageBitmap(bitmap);
-
-
-            recordPhoto = bitmap;
-
-        }else{
-            Toast.makeText(ActivityAddRecord.this,"Unable To Set Photo To Record",Toast.LENGTH_LONG).show();
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                ImageView imagePhoto = findViewById(R.id.view_photo);
+                imagePhoto.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
+                imageURIs.add(imageFileUri.getPath());
+            }else{
+                Log.d("UWW", "Rip");
+            }
         }
     }
 
+
     public void addPhoto(View view){
 
-        Intent photoIntent = new Intent(this, ActivityAddPhoto.class);
-        startActivityForResult(photoIntent, 1);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+      
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        Log.d("UWU", imageFilePath);
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
     }
+
 
     public void setGeoLocation() {
         lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
         listener = new LocationListener() {
+
             @Override
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
 
             }
 
@@ -209,6 +260,12 @@ public class ActivityAddRecord extends AppCompatActivity {
             if(ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                 lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
             }
+        }
+    }
+    private void initializeLocationManager() {
+        if (lm == null) {
+            Log.d("Ajay","init lm");
+            lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
     }
 

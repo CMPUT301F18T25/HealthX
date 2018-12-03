@@ -81,6 +81,10 @@ public class OfflineBehaviour {
                 deleteRecordTask.execute((Record) obj);
 
             }
+            else if (action.compareTo("SignUp") == 0 && obj.getClass() == User.class) {
+                ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
+                addUserTask.execute((User) obj);
+            }
 //            else if (action.compareTo("EDIT") == 0 && obj.getClass() == Problem.class) {
 //
 //            }

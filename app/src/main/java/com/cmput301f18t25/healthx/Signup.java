@@ -16,15 +16,19 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Signup extends AppCompatActivity {
 
+    private OfflineSave offlineSave;
+    OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
+    ProblemList mProblemList = ProblemList.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        offlineSave = new OfflineSave(this);
 
         final EditText id_textView = findViewById(R.id.input_id);
         final EditText name_textView = findViewById(R.id.input_name);
@@ -45,20 +49,30 @@ public class Signup extends AppCompatActivity {
                 String email = email_textView.getText().toString();
                 String phone = phone_textView.getText().toString();
                 // Check if app is connected to a network.
+                // first check if the user is in the table
+                // in no then  add, else prompt the user to enter something else
+                // else create a new user and save it into the file system
+                User user = new User(name,id,phone,email,status,"None");
+                user.setId(UUID.randomUUID().toString());
+                offlineSave.saveUserToFile(user); // save user into file
+                // check if we have connectivity
                 ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                 if (null == activeNetwork) {
+                    // no connectivity
+                    offlineBehaviour.addItem(user, "SignUp"); // query it for elastic search to add it to elastic search
                     Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                    // save user into the file ..
                 } else {
-                    User user = new User(name,id,phone,email,status,"None");
                     ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
                     addUserTask.execute(user);
 //                        createUser(UserName);
 //                        saveUsernameInFile(UserName); // save username for auto login
 //                    Intent intent = new Intent(Signup.this, Login.class);
 //                    startActivity(intent);
-                    finish();
+//                    finish();
                 }
+                toViewProblem(user);
             }
 
         });
@@ -82,6 +96,32 @@ public class Signup extends AppCompatActivity {
 //        return true;
 //    }
 
+    public void toViewProblem(User user) {
+        if (user.getStatus().equals("Patient")){
+            mProblemList.setUser(user);
+            Bundle bundle = new Bundle();
+            bundle.putString("id",user.getUsername());
+
+
+            Intent intent = new Intent(this, ViewProblemList.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+            Intent mintent = new Intent(this, ViewProblemList.class);
+            mintent.putExtras(bundle);
+            startActivity(mintent);
+        }
+        else if (user.getStatus().equals("Care Provider")){
+
+            Bundle bundle = new Bundle();
+            bundle.putString("id",user.getUsername());
+            Intent mintent = new Intent(this, ViewPatientList.class);
+            mintent.putExtras(bundle);
+            startActivity(mintent);
+        }
+
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -95,6 +135,18 @@ public class Signup extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public boolean checkIfValid(String username) {
+        if (username.length() < 8) {
+            Toast toast = Toast.makeText(this,"Userid Too Short",  Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+
+        }
+        return true;
+        // now implement if hits == 0 for elastic search;
     }
 
 }

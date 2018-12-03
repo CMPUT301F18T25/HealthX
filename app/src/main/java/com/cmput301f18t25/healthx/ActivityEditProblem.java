@@ -2,19 +2,22 @@ package com.cmput301f18t25.healthx;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -26,8 +29,13 @@ public class ActivityEditProblem extends AppCompatActivity {
     String description;
     String dateString;
     String userId;
+    String frontBodyPhoto;
+    String backBodyPhoto;
+    String frontBodyLocation;
+    String backBodyLocation;
     Problem oldProblem;
-    int problemPositon;
+    Problem newProblem;
+    int problemPosition;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
@@ -42,18 +50,32 @@ public class ActivityEditProblem extends AppCompatActivity {
         EditText title_textView = findViewById(R.id.title_input);
         DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
         EditText description_textView = findViewById(R.id.description_input);
+
+        TextView frontTextview = findViewById(R.id.front_textview);
+        TextView backTextview = findViewById(R.id.back_textview);
+        ImageView frontView = findViewById(R.id.view_front);
+        ImageView backView = findViewById(R.id.view_back);
+
         oldProblem = (Problem) bundle.getSerializable("problem");
         title = oldProblem.getTitle();
         description = oldProblem.getDescription();
         dateString = oldProblem.getDate();
-        userId = oldProblem.getId();
-        problemPositon = bundle.getInt("position");
+        userId = oldProblem.getUserId();
+        frontBodyPhoto = oldProblem.getFrontPhoto();
+        backBodyPhoto = oldProblem.getBackPhoto();
+        frontBodyLocation = oldProblem.frontBodyLocation;
+        backBodyLocation = oldProblem.backBodyLocation;
+
+        problemPosition = bundle.getInt("position");
         title_textView.setText(title);
         description_textView.setText(description);
         dateStarted_textView.updateDate(Integer.valueOf(dateString.substring(0, 4)),
                 Integer.valueOf(dateString.substring(5, 7)) - 1,
                 Integer.valueOf(dateString.substring(8, 10)));
-
+        frontTextview.setText(frontBodyLocation);
+        backTextview.setText(backBodyLocation);
+        frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
+        backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
 
     }
 
@@ -116,17 +138,35 @@ public class ActivityEditProblem extends AppCompatActivity {
             } else {
 
                 Bundle bundle = getIntent().getExtras();
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+
+
+                String pID = oldProblem.getId();
+
+                //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
-                ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
+                String frontPhoto = oldProblem.getFrontPhoto();
+                String backPhoto = oldProblem.getBackPhoto();
+                String frontBodyLocation = oldProblem.getFrontBodyLocation();
+                String backBodyLocation = oldProblem.getBackBodyLocation();
+                mProblemList.removeProblemFromList(problemPosition);
+
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontPhoto,backPhoto,frontBodyLocation,backBodyLocation);
+                newProblem.setId(pID);
+
+                ElasticSearchProblemController.UpdateProblemTask updateProblemTask = new ElasticSearchProblemController.UpdateProblemTask();
+                updateProblemTask.execute(newProblem);
+                mProblemList.addToProblemList(newProblem);
+
+                Log.d("CWei",oldProblem.getId()+ " "+oldProblem.getTitle());
+                Log.d("CWei",newProblem.getId()+ " "+newProblem.getTitle());
+
                 try {
-                    addProblemTask.execute(newProblem).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
                 }
+
                 Intent intent = new Intent();
                 setResult(10,intent);
                 finish();
@@ -140,5 +180,6 @@ public class ActivityEditProblem extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
 
 }
