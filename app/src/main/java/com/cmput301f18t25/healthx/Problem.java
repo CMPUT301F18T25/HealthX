@@ -15,19 +15,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 
-/**
- * This is the entity class for the problem object.
- *
- * @author Dhrub
- * @author Ivan
- * @author Cecilia
- * @author Aida
- * @author Ajay
- * @author Sandy
- * @version 1.0
- *
- */
-
 public class Problem implements Serializable{
     protected String title;
     protected String description;
@@ -125,17 +112,9 @@ public class Problem implements Serializable{
         return this.recordArray;
     }
 
-    /**
-     * adds Record
-     * @param item Record to be added
-     * */
     public void addRecord(Record item){
         recordArray.add(item);
     }
-    /**
-     * deletes Record given
-     * @param item Record to be deleted
-     * */
     public void deleteRecord(Record item){
         for (int i=0; i<recordArray.size();i++){
             Record object = recordArray.get(i);

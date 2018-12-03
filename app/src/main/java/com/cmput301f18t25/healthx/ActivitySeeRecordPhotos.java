@@ -24,14 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
 
-/**
- * This is the activity that presents all the photos for a record to the user.
- *
- *
- * @author Ajay
- * @version 1.0
- *
- */
 public class ActivitySeeRecordPhotos extends AppCompatActivity {
     ViewPager viewPager;
     protected ArrayList<Drawable> images = new ArrayList<>();

@@ -26,14 +26,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * This is the intent test for sign up
- *
- * @author Aida
- * @version 1.0
- *
- */
-
 public class SignupTest extends ActivityTestRule<Login>{
 
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);

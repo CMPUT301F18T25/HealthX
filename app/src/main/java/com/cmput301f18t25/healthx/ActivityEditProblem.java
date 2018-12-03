@@ -47,16 +47,6 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-/**
- * This is the activity that allows the user to edit an existing problem.
- *
- * @author Ivan
- * @author Dhruba
- * @author Cecilia
- * @version 1.0
- *
- */
-
 public class ActivityEditProblem extends AppCompatActivity {
     String title;
     String description;
@@ -122,25 +112,12 @@ public class ActivityEditProblem extends AppCompatActivity {
         backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
 
     }
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item text view to switch to add patient by code
-     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -234,12 +211,6 @@ public class ActivityEditProblem extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
-
-    /**
-     * directs the user to edit the photo
-     *
-     * @param view
-     */
 
     public void addBodyLocationPhotoFront(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

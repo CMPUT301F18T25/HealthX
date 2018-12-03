@@ -26,13 +26,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * This is the intent test for editing record
- *
- * @author Aida
- * @version 1.0
- *
- */
 public class EditProfileTest extends ActivityTestRule<Login> {
     public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(3);
     public String test_name = "name"+RandomStringUtils.randomAlphanumeric(3);

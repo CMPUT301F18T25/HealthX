@@ -39,18 +39,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.List;
 
-/**
- * This is the activity that allows the user to navigate the record list for a problem
- *
- * @author Ivan
- * @author Dhruba
- * @author Cecilia
- * @author Aida
- * @author Ajay
- * @version 1.0
- *
- */
-
 public class ViewRecordList extends AppCompatActivity implements Serializable {
 
     private RecyclerView rRecyclerView;

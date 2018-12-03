@@ -28,16 +28,6 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-/**
- * This is the activity that allows the user to sign up.
- *
- * @author Cecilia
- * @author Dhruba
- * @author Aida
- * @version 1.0
- *
- */
-
 public class Signup extends AppCompatActivity {
 
     private OfflineSave offlineSave;
@@ -143,9 +133,6 @@ public class Signup extends AppCompatActivity {
 //        return true;
 //    }
 
-    /**
-     * after sign up, we directs the user to his problem list
-     * */
     public void toViewProblem(User user) {
         if (user.getStatus().equals("Patient")){
             mProblemList.setUser(user);
