@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -58,6 +59,7 @@ public class ActivityEditProblem extends AppCompatActivity {
     TextView backTextview;
     ImageView frontView;
     ImageView backView;
+    Button edit;
 
 
 
@@ -77,6 +79,7 @@ public class ActivityEditProblem extends AppCompatActivity {
         backTextview = findViewById(R.id.back_textview);
         frontView = findViewById(R.id.view_front);
         backView = findViewById(R.id.view_back);
+        edit = findViewById(R.id.editPhoto);
 
         oldProblem = (Problem) bundle.getSerializable("problem");
         title = oldProblem.getTitle();
@@ -84,6 +87,9 @@ public class ActivityEditProblem extends AppCompatActivity {
         dateString = oldProblem.getDate();
         userId = oldProblem.getUserId();
         frontBodyPhoto = oldProblem.getFrontPhoto();
+        if (frontBodyPhoto != null){
+            edit.setVisibility(View.VISIBLE);
+        }
 //        Log.d("Sandy 301", frontBodyPhoto);
         backBodyPhoto = oldProblem.getBackPhoto();
         frontBodyLocation = oldProblem.frontBodyLocation;
@@ -282,7 +288,6 @@ public class ActivityEditProblem extends AppCompatActivity {
             backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
         } else if (requestCode == 3){
 
-            // Idk how to save it as a uri tho sandyyy ur on ur own
             byte[] byteArray = data.getByteArrayExtra("result");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 3500, 3000, false);
