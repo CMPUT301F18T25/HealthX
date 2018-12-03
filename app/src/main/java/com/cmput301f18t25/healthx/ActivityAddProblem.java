@@ -43,6 +43,17 @@ import java.util.UUID;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
+/**
+ * This is the activity that allows the user to add a problem, with body photo and body location.
+ *
+ * @author Dhruba
+ * @author Ivan
+ * @author Sandy
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
+
 public class ActivityAddProblem extends AppCompatActivity {
 
     private ProblemList mProblemList = ProblemList.getInstance();
@@ -63,6 +74,7 @@ public class ActivityAddProblem extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT = 100;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK = 101;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +86,12 @@ public class ActivityAddProblem extends AppCompatActivity {
         frontView = findViewById(R.id.view_front);
         backView = findViewById(R.id.view_back);
     }
+
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
