@@ -112,6 +112,13 @@
                 <Button
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/editPhoto"
+                    android:text="Edit Photo"
+                    android:onClick="Editphoto"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:id="@+id/bodyPhotoBack"
                     android:text="Add Back Body Photo"
                     android:onClick="addBodyLocationPhotoBack"

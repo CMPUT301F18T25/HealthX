@@ -21,6 +21,7 @@ public class ActivityBodyLocation extends AppCompatActivity {
     String frontBodyLocation;
     String backBodyLocation;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
