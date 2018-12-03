@@ -90,6 +90,7 @@ public class Login extends AppCompatActivity {
             // load from user table
             User u = mUserList.getUserByUsername(userId);
             if (u != null) {
+                mProblemList.setUser(u);
                 mUserList.setPreviousUser(u);
                CheckUser(u);
             }
@@ -106,6 +107,7 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 mUserList.setPreviousUser(user);
                 CheckUser(user);
+                mProblemList.setUser(user);
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {

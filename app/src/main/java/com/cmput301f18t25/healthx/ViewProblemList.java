@@ -71,21 +71,34 @@ public class ViewProblemList extends AppCompatActivity
         String id = bundle.getString("id");
         String email = bundle.getString("email");
         User user = null;
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+//        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         String userId = mProblemList.getUser().getId();
         if (offlineSave.checkNetworkStatus()) {
-//            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
 
                 Log.d("IVANLIM", userId);
                 problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
                 mProblemList.setProblemArray(problemList);
+                try {
+                    user = getUserTask.execute(id,email).get();
+                    if (user.getStatus().equals("Care Provider")){
+                        isDoctor = true;
+                    }
+
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
             }catch (Exception ignored){
             }
         }
         else {
             offlineSave.loadProblemList(userId);
             problemList = mProblemList.getProblemArray();
+            user = mProblemList.getUser();
         }
 
         mRecyclerView = findViewById(R.id.recycler_list);
@@ -128,17 +141,6 @@ public class ViewProblemList extends AppCompatActivity
                 ));
             }
         };
-        try {
-            user = getUserTask.execute(id,email).get();
-            if (user.getStatus().equals("Care Provider")){
-                isDoctor = true;
-            }
-
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
         TextView Uid = (TextView) header.findViewById(R.id.user_id);
         Uid.setText(id);

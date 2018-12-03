@@ -116,7 +116,9 @@ public class OfflineSave {
             Gson gson = new Gson();
             Type prob = new TypeToken<ArrayList<Problem>>(){}.getType();
             allproblems = gson.fromJson(bufferedReader,prob);
+            Log.d("IVANLIM", allproblems.toString());
             ArrayList<Problem> sortedProblems = getProblemsByUserID(userId, allproblems);
+            Log.d("IVANLIM", "loadProblemList: " + sortedProblems.toString());
             problemList.setProblemArray(sortedProblems);
             fis.close();
         } catch (FileNotFoundException e) {
@@ -131,6 +133,7 @@ public class OfflineSave {
         ArrayList<Problem> sortedProbs = new ArrayList<>();
         for (Problem p: problems) {
             if (p.getId().compareTo(userId) == 0) {
+                Log.d("IVANLIM", p.getTitle());
                 sortedProbs.add(p);
             }
         }
