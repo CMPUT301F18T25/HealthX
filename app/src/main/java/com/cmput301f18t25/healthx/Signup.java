@@ -16,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Signup extends AppCompatActivity {
 
@@ -52,6 +53,7 @@ public class Signup extends AppCompatActivity {
                 // in no then  add, else prompt the user to enter something else
                 // else create a new user and save it into the file system
                 User user = new User(name,id,phone,email,status,"None");
+                user.setId(UUID.randomUUID().toString());
                 offlineSave.saveUserToFile(user); // save user into file
                 // check if we have connectivity
                 ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -133,6 +135,18 @@ public class Signup extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public boolean checkIfValid(String username) {
+        if (username.length() < 8) {
+            Toast toast = Toast.makeText(this,"Userid Too Short",  Toast.LENGTH_SHORT);
+            toast.show();
+            return false;
+
+        }
+        return true;
+        // now implement if hits == 0 for elastic search;
     }
 
 }
