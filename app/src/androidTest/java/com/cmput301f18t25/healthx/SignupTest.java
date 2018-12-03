@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -16,10 +17,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class SignupTest extends ActivityTestRule<Signup>{
+public class SignupTest extends ActivityTestRule<Login>{
 
-    public String test_name = "name";
-    public String test_username = "usrname";
+    public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
+
+    // make a dif username each time we test it, so we're not mixing up users
+    public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(3);
     public String test_phone_number = "1234567890";
     public String test_email = "user@email.com";
 
@@ -27,12 +30,12 @@ public class SignupTest extends ActivityTestRule<Signup>{
 
 
     public SignupTest() {
-        super(Signup.class);
+        super(Login.class);
     }
 
     @Rule
-    public ActivityTestRule<Signup> activityTestRule =
-            new ActivityTestRule<>(Signup.class);
+    public ActivityTestRule<Login> activityTestRule =
+            new ActivityTestRule<>(Login.class);
 
 
     @Before
@@ -48,6 +51,9 @@ public class SignupTest extends ActivityTestRule<Signup>{
 
     @Test
     public void testSignupPatient() throws Exception {
+
+        solo.assertCurrentActivity("wrong activity",Login.class);
+        solo.clickOnView(solo.getView(R.id.link_signup));
 
         solo.assertCurrentActivity("wrong activity", Signup.class);
 
@@ -69,17 +75,19 @@ public class SignupTest extends ActivityTestRule<Signup>{
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        boolean next_view = solo.waitForActivity(Login.class, 3000);
-        assertTrue(next_view);
+        boolean next_view = solo.waitForActivity(Login.class);
+        assertTrue("did not go to login page",next_view);
 
         solo.goBack();
+        solo.assertCurrentActivity("did not go back", Signup.class);
+
 
         solo.clickOnView(doctor_btn);
 
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        boolean next_view2 = solo.waitForActivity(Login.class, 3000);
+        boolean next_view2 = solo.waitForActivity(Login.class);
         assertTrue("did not go to login page",next_view2);
 
         // test successful signup by logging in

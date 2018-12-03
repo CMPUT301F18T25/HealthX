@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.List;
 
-public class ViewRecordList extends AppCompatActivity {
+public class ViewRecordList extends AppCompatActivity implements Serializable {
 
     private RecyclerView rRecyclerView;
     private RecyclerView.Adapter rAdapter;
@@ -205,11 +206,18 @@ public class ViewRecordList extends AppCompatActivity {
         else if (id == R.id.map_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
             toast.show();
+            Intent intent = new Intent(getApplicationContext(), MapViewActivity.class);
+            intent.putExtra("Records", recordList);
+            startActivity(intent);
 
         }
         else if (id == R.id.slideShow_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View Slide Show" , Toast.LENGTH_SHORT);
             toast.show();
+
+            Intent intent = new Intent(getApplicationContext(),SlideShow.class);
+            intent.putExtra("Records",recordList);
+            startActivity(intent);
 //=======
 //        //noinspection SimplifiableIfStatement
 //
@@ -246,6 +254,5 @@ public class ViewRecordList extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }

@@ -1,5 +1,8 @@
 package com.cmput301f18t25.healthx;
 
+
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -10,8 +13,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,15 +26,18 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCallback {
+public class ViewCurrentRecord extends AppCompatActivity implements Serializable,OnMapReadyCallback, View.OnClickListener {
 
 
     GoogleMap myMap;
     MapFragment mapFragment;
     private double longitude;
     private double latitude;
+    Record theRecord;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,31 +45,17 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-//        Bundle bundle = null;
-        Record theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
-//        String title = bundle.getString("Title");
-//        String comment = bundle.getString("Comment");
-//        String date = bundle.getString("Date");
+        theRecord = (Record) this.getIntent().getSerializableExtra("Record");
         String title = theRecord.getTitle();
         String date = theRecord.getDate();
         String comment = theRecord.getComment();
+        final ArrayList<String> images = theRecord.getImageURIs();
         longitude = theRecord.getLongitude();
+
         latitude = theRecord.getLatitude();
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
         mapFragment.getMapAsync(this);
 
-
-//        ElasticSearchRecordController.GetRecordsTask getRecordTask = new ElasticSearchRecordController.GetRecordsTask();
-//        Record record = null;
-//        try {
-//            record = getRecordTask.execute(title,comment,date).get();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
 
         TextView rtitle = findViewById(R.id.record_title);
         rtitle.setText(title);
@@ -70,16 +64,26 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         TextView rcomment = findViewById(R.id.record_comment);
         rcomment.setText(comment);
 
-//        ImageView recordPhotoView = findViewById(R.id.RecordPhoto1);
-//        Bitmap recordPhoto = theRecord.getImage();
-//        Drawable drawable = new BitmapDrawable(recordPhoto);
-//        recordPhotoView.setImageDrawable(drawable);
+        Button photos = (Button) findViewById(R.id.SeePhoto);
+        photos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (images.size() == 0) {
+                    Toast.makeText(getApplicationContext(), "No Photos for Record", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), theRecord.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), ActivitySeeRecordPhotos.class);
+                    intent.putExtra("Record", theRecord);
+                    startActivity(intent);
+                }
 
-
+            }
+        });
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
         myMap = googleMap;
         myMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         try {
@@ -98,6 +102,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(placeLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
 
+
     }
 
     @Override
@@ -111,6 +116,16 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    public void onClick(View v){
+        switch(v.getId()){
+            case R.id.SeePhoto: {
+                Intent intent = new Intent(getApplicationContext(),ActivitySeeRecordPhotos.class);
+                intent.putExtra("Record", theRecord);
+                startActivity(intent);
+            }
+        }
     }
 
 }

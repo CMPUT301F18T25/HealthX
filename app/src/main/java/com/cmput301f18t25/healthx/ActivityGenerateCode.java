@@ -33,19 +33,14 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
         Bundle bundle = this.getIntent().getExtras();
         String Bid = bundle.getString("id");
-        String Bemail = bundle.getString("email");
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         try {
-            user = getUserTask.execute(Bid,Bemail).get();
+            user = getUserTask.execute(Bid).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-        code_output.setText(user.getCode());
-
 
     }
 
