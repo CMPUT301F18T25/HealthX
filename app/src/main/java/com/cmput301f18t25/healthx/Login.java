@@ -88,16 +88,25 @@ public class Login extends AppCompatActivity {
 
     }
 
+    /** switch to login by code
+     * @param view
+     * */
     public void toCodeLogin(View view) {
         Intent intent = new Intent(this, CodeLogin.class);
         startActivity(intent);
     }
 
+    /** switch to sign up
+     * @param view
+     * */
     public void toSignUp(View view) {
         Intent intent = new Intent(this, Signup.class);
         startActivity(intent);
     }
 
+    /** validates the credentials, if valid, goes to the problem list / patient list.
+     * @param view
+     * */
     public void toViewProblem(View view) {
         String userId = userIdTextView.getText().toString();
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -138,6 +147,11 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    /** check the status of the user to determine the next intent
+     * either directs to the care provider's patient list
+     * or the patient's problem list
+     * @param user
+     * */
 
     public void CheckUser(User user) {
         if (user.getStatus().equals("Patient")){

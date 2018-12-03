@@ -143,6 +143,9 @@ public class Signup extends AppCompatActivity {
 //        return true;
 //    }
 
+    /**
+     * after sign up, we directs the user to his problem list
+     * */
     public void toViewProblem(User user) {
         if (user.getStatus().equals("Patient")){
             mProblemList.setUser(user);

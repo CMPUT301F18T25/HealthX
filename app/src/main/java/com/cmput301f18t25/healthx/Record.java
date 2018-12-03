@@ -46,7 +46,7 @@ public class Record  implements Serializable {
     public void setCPComment(boolean CPComment) {
         this.CPComment = CPComment;
     }
-
+    /** @param CPComment boolean indicates whether it is CP comment or not */
     protected boolean CPComment;
 
     public Record(String record_title, String record_comment, Double latitude, Double longitude, ArrayList<String> imageURIs, String date, String problemID){
@@ -59,7 +59,7 @@ public class Record  implements Serializable {
      * @param longitude the longitude from geolocation of user
      * @param image the bitmap of the photo taken by the user for a record
      * @param date the date created the user selected for the record
-     *
+     * @param problemID the problem id to link the problem with the record
      */
 
         this.title = record_title;

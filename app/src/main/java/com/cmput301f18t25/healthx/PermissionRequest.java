@@ -29,6 +29,9 @@ public class PermissionRequest {
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
+    /**
+     * verify the user's permission
+     * */
     public static void verifyPermission(Activity activity) {
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 

@@ -47,7 +47,11 @@ import io.searchbox.core.SearchResult;
 public class ElasticSearchUserController {
     private static JestDroidClient client;
 
-    // adds user to elasticsearch
+    /**
+     *
+     * add the user to the user table
+     *
+     */
     public static class AddUserTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -86,6 +90,11 @@ public class ElasticSearchUserController {
             return null;
         }
     }
+    /**
+     *
+     * get a user from the user table
+     *
+     */
 
     public static class GetUserTask extends AsyncTask<String, Void, User> {
         @Override
@@ -130,6 +139,12 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     *
+     * add a request code associated with the user
+     *
+     */
+
     public static class AddRequestCodeTask extends AsyncTask<RequestCode, Void, Void> {
 
         @Override
@@ -157,6 +172,12 @@ public class ElasticSearchUserController {
 
     }
 
+    /**
+     *
+     * delete a request code.
+     *
+     */
+
     public static class DeleteRequestCodeTask extends AsyncTask<RequestCode, Void, Void> {
 
         @Override
@@ -175,7 +196,11 @@ public class ElasticSearchUserController {
 
     }
 
-
+    /**
+     *
+     * get the request code by user name
+     *
+     */
     public static class GetRequestCodeTask extends AsyncTask<String, Void, ArrayList<RequestCode>> {
         @Override
         protected ArrayList<RequestCode> doInBackground(String... params) {
@@ -208,6 +233,12 @@ public class ElasticSearchUserController {
 
     }
 
+    /**
+     *
+     * update user profile
+     *
+     */
+
     public static class UpdateUserTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -232,6 +263,12 @@ public class ElasticSearchUserController {
 
     }
 
+    /**
+     *
+     * delete a user account
+     *
+     */
+
     public static class DeleteUserTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -250,6 +287,11 @@ public class ElasticSearchUserController {
 
     }
 
+    /**
+     *
+     * before adding the patient to the doctor's list, we validate if the patient is assigned to a doctor already.
+     *
+     */
     public static class CheckPatientTask extends AsyncTask<String, Void, User> {
         @Override
         protected User doInBackground(String... users) {
@@ -291,6 +333,11 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     *
+     * check patient by request code
+     *
+     */
     public static class CheckPatientTaskRequestCode extends AsyncTask<String, Void, ArrayList<RequestCode>> {
         @Override
         protected ArrayList<RequestCode> doInBackground(String... users) {
@@ -324,6 +371,11 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     *
+     * get the care provider's patient list
+     *
+     */
 
     public static class GetPatientsTask extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
@@ -364,6 +416,11 @@ public class ElasticSearchUserController {
 
     }
 
+    /**
+     *
+     * assign a patient to the doctor
+     *
+     */
     public static class AddPatientTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -400,6 +457,11 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     *
+     * add patient by request code
+     *
+     */
     public static class AddPatientRequestCodeTask extends AsyncTask<RequestCode, Void, Void> {
 
         @Override
@@ -437,6 +499,11 @@ public class ElasticSearchUserController {
         }
     }
 
+    /**
+     *
+     * delete a patient
+     *
+     */
     public static class DeletePatientTask extends AsyncTask<User, Void, Void> {
         // TODO: shall we get rid of email for this query too?
 

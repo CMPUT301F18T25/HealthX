@@ -60,6 +60,9 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
         return vh;
 
     }
+    /**
+     * set text to corresponding recycler view item
+     * */
 
     @Override
     public void onBindViewHolder(ProblemListAdapter.ViewHolder holder, final int position) {

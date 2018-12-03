@@ -44,6 +44,7 @@ public class User {
      * @param user_phoneNumber the phone number of the user
      * @param user_email the email address of the user
      * @param user_status the status of the user is either a patient or care provider
+     * @param reminderFrequency the reminder frequency
      */
     public User(String name, String user_name, String user_phoneNumber, String user_email, String user_status, String reminderFrequency){
         this.name = name;

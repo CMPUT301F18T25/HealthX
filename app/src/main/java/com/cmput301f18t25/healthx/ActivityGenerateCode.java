@@ -77,6 +77,12 @@ public class ActivityGenerateCode extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * When click on the button, use the library to generate a short code
+     * and set it to the text view
+     *
+     * @param view generate code button
+     */
     public void generateCode(View view) {
 
         code_output = (TextView) findViewById(R.id.code_output);

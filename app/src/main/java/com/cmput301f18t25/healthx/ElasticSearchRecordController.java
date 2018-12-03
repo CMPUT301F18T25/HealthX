@@ -44,7 +44,11 @@ import static com.cmput301f18t25.healthx.ElasticSearchProblemController.setClien
 public class ElasticSearchRecordController {
     private static JestDroidClient client;
 
-    // adds record to elasticsearch
+    /**
+     *
+     * add a record to the record table
+     *
+     */
     public static class AddRecordTask extends AsyncTask<Record, Void, Void> {
 
         @Override
@@ -82,6 +86,12 @@ public class ElasticSearchRecordController {
 
         }
     }
+
+    /**
+     *
+     * get the record list based on the problem id
+     *
+     */
     public static class GetRecordsTask extends AsyncTask<String, Void, ArrayList<Record>> {
         @Override
         protected ArrayList<Record> doInBackground(String... params) {
@@ -122,7 +132,11 @@ public class ElasticSearchRecordController {
         }
 
     }
-
+    /**
+     *
+     * search in the records table
+     *
+     */
     public static class SearchRecordsTask extends AsyncTask<String, Void, ArrayList<Record>> {
         @Override
         protected ArrayList<Record> doInBackground(String... params) {
@@ -171,6 +185,11 @@ public class ElasticSearchRecordController {
 
     }
 
+    /**
+     *
+     * delete a record from the record table
+     *
+     */
     public static class DeleteRecordTask extends AsyncTask<Record, Void, Void> {
 
         @Override
@@ -188,7 +207,11 @@ public class ElasticSearchRecordController {
         }
 
     }
-
+    /**
+     *
+     * update an existing record
+     *
+     */
     public static class UpdateRecordTask extends AsyncTask<Record, Void, Void> {
 
         @Override

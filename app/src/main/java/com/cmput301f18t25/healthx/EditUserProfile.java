@@ -95,6 +95,8 @@ public class EditUserProfile extends AppCompatActivity {
 
         return true;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -112,6 +114,7 @@ public class EditUserProfile extends AppCompatActivity {
 //            startActivity(intent);
         }
         if (id == R.id.save_button) {
+            /** if finish editing, we update the user info*/
             Bundle bundle = null;
             bundle = this.getIntent().getExtras();
             String Bid = bundle.getString("id");

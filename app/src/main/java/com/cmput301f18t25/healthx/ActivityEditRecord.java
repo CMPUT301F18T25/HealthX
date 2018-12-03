@@ -136,7 +136,7 @@ public class ActivityEditRecord extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // if clicked the save button,
+        /** if clicked the save button*/
         if (id == android.R.id.home) {
             if (id == android.R.id.home) {
                 Intent intent = new Intent();
@@ -164,14 +164,11 @@ public class ActivityEditRecord extends AppCompatActivity {
             String recordComment = comment_textView.getText().toString();
             setGeoLocation();
 
-            // Check if app is connected to a network.
+            /** Check if app is connected to a network */
 
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
             newRecord.setId(oldRecord.getId());
 
-            //Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
-
-            //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
@@ -226,6 +223,11 @@ public class ActivityEditRecord extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get the user's permission of using camera and add a photo
+     *
+     * @param view
+     */
     public void addPhoto(View view){
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -257,6 +259,10 @@ public class ActivityEditRecord extends AppCompatActivity {
 
     }
 
+    /**
+     * Get the user's permission of location services and set the geo-location
+     *
+     */
     public void setGeoLocation() {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

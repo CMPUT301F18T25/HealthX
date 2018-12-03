@@ -111,6 +111,7 @@ public class ActivitySearch extends AppCompatActivity  {
 
                     switch (searchType.toString()) {
                         case "Geo-location":
+                            /** search by geo location */
                             try {
                                 String latitude = latitudeView.getText().toString();
                                 String longitude = longitudeView.getText().toString();
@@ -149,7 +150,9 @@ public class ActivitySearch extends AppCompatActivity  {
                                 e.printStackTrace();
                             }
                             break;
+
                         case "Body Location":
+                            /** search by geo location */
                             try {
                                 String bodyLocation = bodyLocationView.getText().toString();
 
@@ -170,6 +173,7 @@ public class ActivitySearch extends AppCompatActivity  {
 
                             break;
                         default:
+                            /** search by keywords */
                             try {
                                 problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword).get();
 

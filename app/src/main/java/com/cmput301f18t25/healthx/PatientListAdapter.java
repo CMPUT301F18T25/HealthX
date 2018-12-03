@@ -61,6 +61,9 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
     }
 
+    /**
+     * set text to corresponding recycler view item
+     * */
     @Override
     public void onBindViewHolder(PatientListAdapter.ViewHolder holder, final int position) {
 

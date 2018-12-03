@@ -21,12 +21,10 @@ import java.util.ArrayList;
  *
  */
 
-// singleton for offline
 public class UserList {
     private static  UserList instance;
     private static ArrayList<User> userlist;
     public static User previousUser;
-
 
     public static UserList getInstance() {
         if (instance == null) {

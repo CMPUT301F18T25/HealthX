@@ -88,6 +88,9 @@ public class OfflineSave {
         }
 
     }
+    /**
+     * add user to offline storage
+     * */
 
     public void saveUserToFile(User user) {
         loadUsersFile();
@@ -107,7 +110,9 @@ public class OfflineSave {
         }
 //        loadUserFromFile();
     }
-
+    /**
+     * load the user's problem list from local
+     * */
     public void loadTheProblemList() {
         try {
             FileInputStream fis = mContext.openFileInput(PROBLEMLISTFILENAME);

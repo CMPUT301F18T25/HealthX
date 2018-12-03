@@ -46,7 +46,11 @@ import io.searchbox.core.SearchResult;
 public class ElasticSearchProblemController {
     private static JestDroidClient client;
 
-    // adds problem to elasticsearch
+    /**
+     *
+     * add a problem to the problem table, and assign a unique problem id to it.
+     *
+     */
     public static class AddProblemTask extends AsyncTask<Problem, Void, Void> {
 
         @Override
@@ -90,6 +94,12 @@ public class ElasticSearchProblemController {
     }
 
 
+    /**
+     *
+     * update an exisiting problem
+     *
+     */
+
     public static class UpdateProblemTask extends AsyncTask<Problem, Void, Void> {
 
         @Override
@@ -114,7 +124,11 @@ public class ElasticSearchProblemController {
 
     }
 
-
+    /**
+     *
+     * get the problem list by user id
+     *
+     */
     public static class GetProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
         @Override
         protected ArrayList<Problem> doInBackground(String... params) {
@@ -151,6 +165,11 @@ public class ElasticSearchProblemController {
 
     }
 
+    /**
+     *
+     * search in the problem table
+     *
+     */
     public static class SearchProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
         @Override
         protected ArrayList<Problem> doInBackground(String... params) {
@@ -188,6 +207,11 @@ public class ElasticSearchProblemController {
 
     }
 
+    /**
+     *
+     * search problem by problem id
+     *
+     */
     public static class SearchProblemsFromRecordsTask extends AsyncTask<ArrayList<Record>, Void, ArrayList<Problem>> {
         @Override
         protected ArrayList<Problem> doInBackground(ArrayList<Record>... params) {
@@ -220,6 +244,11 @@ public class ElasticSearchProblemController {
         }
     }
 
+    /**
+     *
+     * delete a problem from the problem table
+     *
+     */
     public static class DeleteProblemTask extends AsyncTask<Problem, Void, Void> {
 
         @Override

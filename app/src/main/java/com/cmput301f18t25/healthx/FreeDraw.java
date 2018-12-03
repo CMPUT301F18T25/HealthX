@@ -203,6 +203,7 @@ public class FreeDraw extends View {
         return bmp;
     }
 
+    /** erase */
     public void clear(){
         setDrawingCacheEnabled(false);
         // don't forget that one and the match below,
@@ -218,6 +219,10 @@ public class FreeDraw extends View {
 
     public Bitmap saveDrawing()
     {
+        /** NOTE that's an incredibly useful trick for cropping/resizing squares
+         * while handling all memory problems etc
+         * http://stackoverflow.com/a/17733530/294884
+         * you can now save the bitmap to a file, or display it in an ImageView: */
         Bitmap userBitmap = getDrawingCache();
         // don't forget to clear it (see above) or you just get duplicates
 
@@ -226,11 +231,7 @@ public class FreeDraw extends View {
                 ThumbnailUtils.extractThumbnail(userBitmap, 500, 500);
 
         return  userBitmap;
-        // NOTE that's an incredibly useful trick for cropping/resizing squares
-        // while handling all memory problems etc
-        // http://stackoverflow.com/a/17733530/294884
 
-        // you can now save the bitmap to a file, or display it in an ImageView:
 
 //        ImageView testArea = findViewById(R.id.testview);
 //

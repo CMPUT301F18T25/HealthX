@@ -54,16 +54,31 @@ public class CodeLogin extends AppCompatActivity {
         userCodeTextView = findViewById(R.id.loginUserCode);
     }
 
+    /**
+     * go back to login by id
+     *
+     * @param view generate code button
+     */
     public void toMainLogin(View view) {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
+    /**
+     * go to sign up
+     *
+     * @param view generate code button
+     */
     public void toSignUp(View view) {
         Intent intent = new Intent(this, Signup.class);
         startActivity(intent);
     }
 
+    /**
+     * validate the credentials and go to the problem list / patient list
+     *
+     * @param view generate code button
+     */
     public void toViewProblemCode(View view) {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -117,10 +132,6 @@ public class CodeLogin extends AppCompatActivity {
             catch (InterruptedException e) {
                 e.printStackTrace();
             }
-//                        createUser(UserName);
-//                        saveUsernameInFile(UserName); // save username for auto login
-//            Intent intent = new Intent(Signup.this, Login.class);
-//            startActivity(intent);
 
         }
         }
