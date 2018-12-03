@@ -3,6 +3,7 @@ package com.cmput301f18t25.healthx;
 import android.graphics.PointF;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+import android.view.Display;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
@@ -94,8 +95,14 @@ public class EditProfileTest extends ActivityTestRule<Login> {
 
         // click on edit profile button
 
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnView(solo.getView(R.id.nav_edit));
+        Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        float xStart = 0 ;
+        float xEnd = width / 2;
+        solo.drag(xStart, xEnd, height / 2, height / 2, 10);
+        solo.clickOnText("Edit");
+
         boolean next_view3 = solo.waitForActivity(EditUserProfile.class,5000);
         assertTrue("did not go to edit profile",next_view3);
 
