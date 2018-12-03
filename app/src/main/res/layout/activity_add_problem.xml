@@ -114,7 +114,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/editPhoto"
-                    android:text="Edit Photo"
+                    android:visibility="invisible"
+                    android:text="Edit Front Photo"
                     android:onClick="Editphoto"/>
 
                 <Button
@@ -124,6 +125,15 @@
                     android:text="Add Back Body Photo"
                     android:onClick="addBodyLocationPhotoBack"
                     />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editBackPhoto"
+                    android:visibility="invisible"
+                    android:text="Edit Back Photo"
+                    android:onClick="EditBackphoto"/>
+
                 <ImageView
                     android:id="@+id/view_back"
                     android:layout_gravity="center"
