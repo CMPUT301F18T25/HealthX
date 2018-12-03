@@ -45,17 +45,16 @@ public class ViewCurrentRecord extends AppCompatActivity implements Serializable
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
+        theRecord = (Record) this.getIntent().getSerializableExtra("Record");
         String title = theRecord.getTitle();
         String date = theRecord.getDate();
         String comment = theRecord.getComment();
-        final ArrayList <String>  images = theRecord.getImageURIs();
+        final ArrayList<String> images = theRecord.getImageURIs();
         longitude = theRecord.getLongitude();
 
         latitude = theRecord.getLatitude();
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
         mapFragment.getMapAsync(this);
-
 
 
         TextView rtitle = findViewById(R.id.record_title);
@@ -70,9 +69,8 @@ public class ViewCurrentRecord extends AppCompatActivity implements Serializable
             @Override
             public void onClick(View v) {
                 if (images.size() == 0) {
-                    Toast.makeText(getApplicationContext(),"No Photos for Record",Toast.LENGTH_SHORT).show();
-                }
-                else{
+                    Toast.makeText(getApplicationContext(), "No Photos for Record", Toast.LENGTH_SHORT).show();
+                } else {
                     Toast.makeText(getApplicationContext(), theRecord.getTitle(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), ActivitySeeRecordPhotos.class);
                     intent.putExtra("Record", theRecord);
@@ -81,7 +79,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements Serializable
 
             }
         });
-
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
 

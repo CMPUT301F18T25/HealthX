@@ -98,7 +98,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/RecordPhoto1"
+                android:id="@+id/SeePhoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/view_record_photo"
