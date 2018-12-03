@@ -96,6 +96,7 @@ public class ActivityEditRecord extends AppCompatActivity {
         try {
             if (oldRecord.getImageURIs().size() != 0) {
                 oldURIs = oldRecord.getImageURIs();
+                Log.d("here", oldURIs.get(0));
                 imageURIs.addAll(oldURIs);
             }
 
@@ -114,6 +115,7 @@ public class ActivityEditRecord extends AppCompatActivity {
                 Integer.valueOf(dateString.substring(8, 10)));
 
         if (imageURIs.size() > 0) {
+            Log.d("here", "image is setting");
             imagePhoto.setImageDrawable(Drawable.createFromPath(imageURIs.get(0)));
         }
 

@@ -48,6 +48,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        offline.synchronizeWithElasticSearch();
         offlineSave = new OfflineSave(this);
 
         setSupportActionBar(toolbar);
