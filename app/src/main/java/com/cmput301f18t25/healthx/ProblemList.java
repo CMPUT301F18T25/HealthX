@@ -54,8 +54,8 @@ public class ProblemList {
         return user;
     }
 
-    public void setUser(User user) {
-        ProblemList.user = user;
+    public void setUser(User u) {
+        ProblemList.user = u;
     }
 
     /**
