@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,7 +28,7 @@ public class ActivityEditProblem extends AppCompatActivity {
     String userId;
     Problem oldProblem;
     Problem newProblem;
-    int problemPositon;
+    int problemPosition;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
 
@@ -48,7 +49,7 @@ public class ActivityEditProblem extends AppCompatActivity {
         dateString = oldProblem.getDate();
         //userId = oldProblem.getId();
         userId = oldProblem.getUserId();
-        problemPositon = bundle.getInt("position");
+        problemPosition = bundle.getInt("position");
         title_textView.setText(title);
         description_textView.setText(description);
         dateStarted_textView.updateDate(Integer.valueOf(dateString.substring(0, 4)),
@@ -124,13 +125,19 @@ public class ActivityEditProblem extends AppCompatActivity {
                 //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
+                String frontPhoto = oldProblem.getFrontPhoto();
+                String backPhoto = oldProblem.getBackPhoto();
+                String frontBodyLocation = oldProblem.getFrontBodyLocation();
+                String backBodyLocation = oldProblem.getBackBodyLocation();
+                mProblemList.removeProblemFromList(problemPosition);
 
-
-                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontPhoto,backPhoto,frontBodyLocation,backBodyLocation);
                 newProblem.setId(pID);
+
                 ElasticSearchProblemController.UpdateProblemTask updateProblemTask = new ElasticSearchProblemController.UpdateProblemTask();
                 updateProblemTask.execute(newProblem);
                 mProblemList.addToProblemList(newProblem);
+
                 Log.d("CWei",oldProblem.getId()+ " "+oldProblem.getTitle());
                 Log.d("CWei",newProblem.getId()+ " "+newProblem.getTitle());
 
