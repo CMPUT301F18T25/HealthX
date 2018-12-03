@@ -47,6 +47,9 @@ public class ViewProblemList extends AppCompatActivity
     TextView Uname;
     TextView Uemail;
     TextView Uphone;
+    String userId;
+    User user;
+
 
 
 
@@ -75,9 +78,15 @@ public class ViewProblemList extends AppCompatActivity
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
         String email = bundle.getString("email");
-        User user = null;
+
 //        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        String userId = mProblemList.getUser().getId();
+        try {
+            userId = mProblemList.getUser().getId();
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         if (offlineSave.checkNetworkStatus()) {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
@@ -147,15 +156,17 @@ public class ViewProblemList extends AppCompatActivity
                 ));
             }
         };
+ if (user != null) {
+     Uid = (TextView) header.findViewById(R.id.user_id);
+     Uid.setText(id);
+     Uname = (TextView)header.findViewById(R.id.user_name);
+     Uname.setText(user.getName());
+     Uemail = (TextView)header.findViewById(R.id.user_email);
+     Uemail.setText(user.getEmail());
+     Uphone = (TextView)header.findViewById(R.id.user_phone);
+     Uphone.setText(user.getPhoneNumber());
+ }
 
-        Uid = (TextView) header.findViewById(R.id.user_id);
-        Uid.setText(id);
-        Uname = (TextView)header.findViewById(R.id.user_name);
-        Uname.setText(user.getName());
-        Uemail = (TextView)header.findViewById(R.id.user_email);
-        Uemail.setText(user.getEmail());
-        Uphone = (TextView)header.findViewById(R.id.user_phone);
-        Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

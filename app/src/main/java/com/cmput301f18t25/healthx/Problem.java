@@ -80,7 +80,7 @@ public class Problem implements Serializable{
     }
 
     public String getFrontPhoto() {
-        return frontPhoto;
+        return this.frontPhoto;
     }
 
     public void setFrontPhoto(String frontPhoto) {
@@ -88,7 +88,7 @@ public class Problem implements Serializable{
     }
 
     public String getBackPhoto() {
-        return backPhoto;
+        return this.backPhoto;
     }
 
     public void setBackPhoto(String backPhoto) {

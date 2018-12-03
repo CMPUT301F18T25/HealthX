@@ -2,6 +2,8 @@ package com.cmput301f18t25.healthx;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -62,6 +64,7 @@ public class ActivityEditProblem extends AppCompatActivity {
         dateString = oldProblem.getDate();
         userId = oldProblem.getUserId();
         frontBodyPhoto = oldProblem.getFrontPhoto();
+//        Log.d("Sandy 301", frontBodyPhoto);
         backBodyPhoto = oldProblem.getBackPhoto();
         frontBodyLocation = oldProblem.frontBodyLocation;
         backBodyLocation = oldProblem.backBodyLocation;
@@ -75,6 +78,7 @@ public class ActivityEditProblem extends AppCompatActivity {
         frontTextview.setText(frontBodyLocation);
         backTextview.setText(backBodyLocation);
         frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
+//        frontView.setImageBitmap(BitmapFactory.decodeFile(frontBodyPhoto));
         backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
 
     }
@@ -182,4 +186,11 @@ public class ActivityEditProblem extends AppCompatActivity {
     }
 
 
+    public void Editphoto(View view) {
+//        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
+        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
+//        intent.putExtra("bitmap",bitmap);
+        intent.putExtra("path",frontBodyPhoto);
+        startActivityForResult(intent,3);
+    }
 }

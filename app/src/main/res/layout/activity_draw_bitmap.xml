@@ -12,7 +12,7 @@
     android:layout_height="match_parent"
     tools:context=".DrawBitmap">
 
-    <view class="com.cmput301f18t25.healthx.DrawBitmap$DrawingView"
+    <com.cmput301f18t25.healthx.FreeDraw
         android:id="@+id/draw"
         android:layout_width="match_parent"
         android:layout_height="332dp"
