@@ -1,12 +1,16 @@
+/*
+ *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ *
+ */
+
 package com.cmput301f18t25.healthx;
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
-
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.robotium.solo.Solo;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -14,10 +18,10 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 
-public class LoginTest extends ActivityTestRule<Signup>{
+public class LoginTestCareProvider extends ActivityTestRule<Signup>{
 
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
 
@@ -28,7 +32,7 @@ public class LoginTest extends ActivityTestRule<Signup>{
     private Solo solo;
 
 
-    public LoginTest() {
+    public LoginTestCareProvider() {
         super(Signup.class);
     }
 
@@ -51,7 +55,7 @@ public class LoginTest extends ActivityTestRule<Signup>{
     @Test
     public void testLogin() throws Exception {
 
-        // make a new account
+        // create new account
 
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
@@ -64,18 +68,18 @@ public class LoginTest extends ActivityTestRule<Signup>{
         EditText email = (EditText) solo.getView(R.id.input_email);
         EditText phone = (EditText) solo.getView(R.id.input_phone);
 
-        RadioButton patient_btn = (RadioButton) solo.getView(R.id.radio_patient);
+        RadioButton doc_btn = (RadioButton) solo.getView(R.id.radio_provider);
 
         solo.enterText(id,test_username);
         solo.enterText(name,test_name);
         solo.enterText(email,test_email);
         solo.enterText(phone,test_phone_number);
-        solo.clickOnView(patient_btn);
+        solo.clickOnView(doc_btn);
 
         solo.clickOnView(solo.getView(R.id.btn_signup));
-        assertTrue("not logged in",solo.waitForActivity(ViewProblemList.class, 3000));
 
         // log out and back in
+
         solo.clickOnActionBarHomeButton();
         solo.clickOnView(solo.getView(R.id.nav_logout));
 
@@ -91,7 +95,7 @@ public class LoginTest extends ActivityTestRule<Signup>{
         solo.enterText(user_id,test_username);
         solo.clickOnView(solo.getView(R.id.btn_login));
 
-        boolean next_view = solo.waitForActivity(ViewProblemList.class, 3000);
+        boolean next_view = solo.waitForActivity(ViewPatientList.class, 3000);
         assertTrue("not logged in",next_view);
 
     }

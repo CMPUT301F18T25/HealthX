@@ -1,17 +1,19 @@
+/*
+ *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ *
+ */
+
 package com.cmput301f18t25.healthx;
 
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
-
 import android.util.Log;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
+import com.robotium.solo.Solo;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -20,15 +22,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class AddProblemTest extends ActivityTestRule<Login> {
+public class DeleteProblemTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
@@ -48,7 +49,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public AddProblemTest() {
+    public DeleteProblemTest() {
         super(Login.class);
     }
 
@@ -71,8 +72,6 @@ public class AddProblemTest extends ActivityTestRule<Login> {
     @Test
     public void testAddProblem() throws Exception {
 
-        // first make a new account
-
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
         assertTrue("wrong activity", solo.waitForActivity(Signup.class));
@@ -91,7 +90,6 @@ public class AddProblemTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        // commented this out bc signup used to redirect to login but now logs in immediately
         /*assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
         // log in
@@ -125,8 +123,6 @@ public class AddProblemTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.save_button));
         assertTrue("did not go to problem list",solo.waitForActivity(ViewProblemList.class));
 
-        // make sure the problem can be seen on the screen
-
         assertTrue("problem not shown",solo.waitForText(test_title,1,5000,true));
         assertTrue("problem desc not shown",solo.waitForText(test_description,1,5000,true));
 
@@ -139,6 +135,10 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
 
         assertTrue("date not shown",solo.waitForText(Pattern.quote(display_date),1,5000,true));
+
+        // now delete the problem
+
+        
 
     }
 }

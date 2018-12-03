@@ -4,6 +4,7 @@ public class RequestCode {
 
     protected String username;
     protected String user_code;
+    private String doctorID;
 
     /**
      * Creates an instance of User with getter and setters for the parameters
@@ -14,6 +15,7 @@ public class RequestCode {
     public RequestCode(String user_name, String user_code){
         this.username = user_name;
         this.user_code = user_code;
+
     }
 
 
@@ -31,6 +33,15 @@ public class RequestCode {
 
     public void setCode(String code) {
         this.user_code = code;
+    }
+
+
+    public String getDoctorID() {
+        return doctorID;
+    }
+
+    public void setDoctorID(String doctorID) {
+        this.doctorID = doctorID;
     }
 
 

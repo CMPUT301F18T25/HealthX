@@ -203,6 +203,9 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         else if (id == R.id.map_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
             toast.show();
+            Intent intent = new Intent(getApplicationContext(), MapViewActivity.class);
+            intent.putExtra("Records", recordList);
+            startActivity(intent);
 
         }
         else if (id == R.id.slideShow_button){
