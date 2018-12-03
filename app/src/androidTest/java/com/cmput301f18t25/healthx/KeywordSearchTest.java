@@ -12,7 +12,6 @@ import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.robotium.solo.Solo;
 
@@ -28,10 +27,9 @@ import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class DeleteProblemTest extends ActivityTestRule<Login> {
+public class KeywordSearchTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
@@ -39,7 +37,7 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
     public String test_email = test_username+"@email.com";
 
     // make a dif title each time we test it, so we're not mixing up problems
-    public String test_title = "title"+RandomStringUtils.randomAlphabetic(3);
+    public String keyword_search = "searchResult"+RandomStringUtils.randomAlphabetic(3);
     public String test_description = "description of problem"+RandomStringUtils.randomAlphabetic(3);
     Random random = new Random();
     public Integer test_year = random.nextInt(2018-1970) + 1970;
@@ -51,7 +49,7 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public DeleteProblemTest() {
+    public KeywordSearchTest() {
         super(Login.class);
     }
 
@@ -72,7 +70,9 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddProblem() throws Exception {
+    public void testKeySearch() throws Exception {
+
+        // first make a new account
 
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
@@ -92,6 +92,7 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
+        // commented this out bc signup used to redirect to login but now logs in immediately
         /*assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
         // log in
@@ -116,7 +117,7 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
         DatePicker date = (DatePicker) solo.getView(R.id.dateStarted_input);
         EditText description = (EditText) solo.getView(R.id.description_input);
 
-        solo.enterText(title,test_title);
+        solo.enterText(title,keyword_search);
         solo.setDatePicker(date, test_year,test_month,test_day);
         solo.enterText(description,test_description);
 
@@ -125,7 +126,25 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.save_button));
         assertTrue("did not go to problem list",solo.waitForActivity(ViewProblemList.class));
 
-        assertTrue("problem not shown",solo.waitForText(test_title,1,5000,true));
+        // make sure the problem can be seen on the screen
+
+        assertTrue("problem not shown",solo.waitForText(keyword_search,1,5000,true));
+
+        // choose to search by keyword
+
+        solo.clickOnView(solo.getView(R.id.action_search));
+        assertTrue("did not go to search",solo.waitForActivity(ActivitySearch.class));
+        assertTrue(solo.isSpinnerTextSelected("Keyword"));
+
+        // Enter keyword and hit enter
+
+        EditText keyword = (EditText) solo.getView(R.id.search_text);
+        solo.enterText(keyword,keyword_search);
+        solo.sendKey(solo.ENTER);
+
+        // chek that the problem we searched for showed up
+
+        assertTrue("problem not shown",solo.waitForText(keyword_search,1,5000,true));
         assertTrue("problem desc not shown",solo.waitForText(test_description,1,5000,true));
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -135,36 +154,7 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
         String display_date = simpleDateFormat.format(to_show);
         Log.i("date",display_date + "    " + test_year +" "+ test_month+" " + test_day);
 
-
         assertTrue("date not shown",solo.waitForText(Pattern.quote(display_date),1,5000,true));
-
-        // now delete the problem
-
-        // drag it left
-        // source: https://stackoverflow.com/a/24664731
-
-        int fromX, toX, fromY, toY;
-        int[] location = new int[2];
-
-        TextView problem_title = solo.getText(test_title);
-        problem_title.getLocationInWindow(location);
-
-        fromX = location[0] + 100;
-        fromY = location[1];
-
-        toX = location[0];
-        toY = fromY;
-
-        solo.drag(fromX, toX, fromY, toY, 10);
-
-        // click delete
-        solo.clickOnScreen(fromX+700,fromY);
-
-        // now check that the problem is gone
-
-        assertFalse("problem not gone",solo.waitForText(test_title,1,5000,true));
-        assertFalse("problem desc not gone",solo.waitForText(test_description,1,5000,true));
-        assertFalse("date not gone",solo.waitForText(Pattern.quote(display_date),1,5000,true));
 
 
     }

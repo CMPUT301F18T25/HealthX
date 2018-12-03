@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class DeleteProblemTest extends ActivityTestRule<Login> {
+public class EditProblemTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
@@ -51,7 +51,7 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public DeleteProblemTest() {
+    public EditProblemTest() {
         super(Login.class);
     }
 
@@ -157,15 +157,31 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
 
         solo.drag(fromX, toX, fromY, toY, 10);
 
-        // click delete
-        solo.clickOnScreen(fromX+700,fromY);
+        // click edit
+        solo.clickOnScreen(fromX+300,fromY);
+        assertTrue("did not go to edit problem",solo.waitForActivity(ActivityEditProblem.class));
 
-        // now check that the problem is gone
+        // now change a field
 
-        assertFalse("problem not gone",solo.waitForText(test_title,1,5000,true));
-        assertFalse("problem desc not gone",solo.waitForText(test_description,1,5000,true));
-        assertFalse("date not gone",solo.waitForText(Pattern.quote(display_date),1,5000,true));
+        EditText title2 = (EditText) solo.getView(R.id.title_input);
+        DatePicker date2 = (DatePicker) solo.getView(R.id.dateStarted_input);
 
+        solo.enterText(title2,test_title+"edited");
+        solo.setDatePicker(date2, test_year,test_month,test_day+1);
+
+        // save
+
+        solo.clickOnView(solo.getView(R.id.save_button));
+        assertTrue("did not go to problem list",solo.waitForActivity(ViewProblemList.class));
+
+        // check it changed
+
+        assertTrue("new problem title not shown",solo.waitForText(test_title+"edited",1,5000,true));
+        cal.set(test_year, test_month, test_day+1);
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date to_show2 = cal.getTime();
+        String display_date2 = simpleDateFormat2.format(to_show2);
+        assertTrue("date not edited",solo.waitForText(Pattern.quote(display_date2),1,5000,true));
 
     }
 }
