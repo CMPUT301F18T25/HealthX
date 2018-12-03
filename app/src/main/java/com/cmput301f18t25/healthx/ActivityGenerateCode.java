@@ -54,9 +54,7 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Intent intent = new Intent();
-            setResult(10,intent);
-            Log.i("CWei", "finished");
+
             finish();
         }
         return super.onOptionsItemSelected(item);
