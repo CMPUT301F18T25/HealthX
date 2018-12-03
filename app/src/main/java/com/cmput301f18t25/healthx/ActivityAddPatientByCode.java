@@ -20,6 +20,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
     Button mAddButton;
     EditText mUserCode;
     String doctorID;
+    User cPatient;
     ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
     ArrayList<RequestCode> requestCodes2 = new ArrayList<RequestCode>();
     RequestCode requestCode;
@@ -78,17 +79,14 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
             String patientUsername = requestCode.getUsername();
 
             if (!(requestCode == null)){
-                ElasticSearchUserController.CheckPatientTaskRequestCode checkPatientTask = new ElasticSearchUserController.CheckPatientTaskRequestCode();
 
-                try {
+                ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+                cPatient = getUserTask.execute(patientUsername).get();
 
-                    // Im assuming you should be querying based off the username not request code so thats also why it didnt work
-                    requestCodes2 = checkPatientTask.execute(patientUsername).get();
-                    RequestCode requestCode2 = requestCodes2.get(0);
+                    if (!(cPatient == null)){
+                        try {
 
-                    if (!(requestCode2 == null)){
-                        requestCode.setDoctorID(doctorID);
-
+                            cPatient.setDoctorID(doctorID);
 
                         ElasticSearchUserController.AddPatientRequestCodeTask patientRequestCodeTask = new ElasticSearchUserController.AddPatientRequestCodeTask();
                         patientRequestCodeTask.execute(requestCode);
@@ -105,18 +103,18 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         setResult(10,intent);
                         Log.i("CWei", "finished adding");
                         finish();
-                    }
-                    else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "This patient is already signed!" , Toast.LENGTH_SHORT);
-                        toast.show();
-                    }
-                }catch (ExecutionException e) {
+                    } catch (ExecutionException e) {
                     e.printStackTrace();
 
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                    else {
+                        Toast toast = Toast.makeText(getApplicationContext(), "This patient is already signed!" , Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+
             }
             else {
                 Log.i("wtf????","wtf");
