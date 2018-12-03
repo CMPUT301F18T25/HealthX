@@ -10,6 +10,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
 import android.view.Display;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -22,11 +23,15 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.regex.Pattern;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.internal.matchers.text.ValuePrinter.print;
 
-public class AddPatientByCodeTest extends ActivityTestRule<Login> {
+public class DeletePatientTest extends ActivityTestRule<Login> {
     //patient info
     public String testPatientUsername = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String testPatientName = "name"+RandomStringUtils.randomAlphabetic(3);
@@ -60,7 +65,7 @@ public class AddPatientByCodeTest extends ActivityTestRule<Login> {
         solo.drag(xStart, xEnd, height / 2, height / 2, 10);
         return;
     }
-    public AddPatientByCodeTest() {
+    public DeletePatientTest() {
         super(Login.class);
     }
 
@@ -81,7 +86,7 @@ public class AddPatientByCodeTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void TestAddPatientByCode () throws Exception {
+    public void testDeletePatient() throws Exception {
         //Sign up Patient
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
@@ -100,24 +105,14 @@ public class AddPatientByCodeTest extends ActivityTestRule<Login> {
         solo.clickOnView(patient_btn);
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
+
         solo.waitForActivity(ViewProblemList.class);
-        //Open Sidebar and Gen code
-        swipeToRight(solo);
-        solo.clickOnText("Generate share code");
-        //solo.setNavigationDrawer(Solo.OPENED);
-        //solo.clickOnActionBarHomeButton();
-        //solo.clickOnView(solo.getView(R.id.nav_code));
-        solo.waitForActivity(ActivityGenerateCode.class);
-        solo.clickOnView(solo.getView(R.id.btn_generate));
 
-        TextView output_view = (TextView) solo.getView(R.id.code_output);
-        String code = output_view.getText().toString();
-        Log.d("CDE",code);
-        solo.goBack();
 
-        //Logout Patient
+        //Log out Patient
         swipeToRight(solo);
         solo.clickOnText("Log out");
+        assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
         // Sign up CP
         solo.clickOnView(solo.getView(R.id.link_signup));
@@ -136,33 +131,17 @@ public class AddPatientByCodeTest extends ActivityTestRule<Login> {
         solo.clickOnView(cp_btn);
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
-        // log in CP
-
-        /*
-        EditText id_input = (EditText) solo.getView(R.id.loginUserID);
-
-        solo.enterText(id_input,testProviderUsername);
-        solo.wait(wait_time);
-        solo.clickOnView(solo.getView(R.id.btn_login));
-
-        */
-        assertTrue("did not log in",solo.waitForActivity(ViewPatientList.class));
-
-        // choose to add a Patient
-
         solo.clickOnView(solo.getView(R.id.fab));
         assertTrue("did not go to add problem",solo.waitForActivity(ActivityAddPatient.class));
 
-        // click on add by code
+        // fill in patient id
+        EditText addPatient_id = (EditText) solo.getView(R.id.userIdText);
 
-        solo.clickOnView(solo.getView(R.id.link_add_code));
-        EditText addPatient_code = (EditText) solo.getView(R.id.code_input);
-        solo.enterText(addPatient_code,code);
+        solo.enterText(addPatient_id,testPatientUsername);
 
         // Add patient and go to patient list
 
-        solo.clickOnView(solo.getView(R.id.btnAddPatientbyCode));
-
+        solo.clickOnView(solo.getView(R.id.btnAddPatient));
 
         assertTrue("did not go back to Patient list",solo.waitForActivity(ViewPatientList.class));
         assertTrue("Patient name not shown",solo.waitForText(testPatientName,1,5000,true));
@@ -170,5 +149,29 @@ public class AddPatientByCodeTest extends ActivityTestRule<Login> {
         assertTrue("Patient name not shown",solo.waitForText(testPatientEmail,1,5000,true));
         assertTrue("Patient name not shown",solo.waitForText(testPatientPhoneNumber,1,5000,true));
 
+        // now delete the problem
+
+        // drag it left
+        // source: https://stackoverflow.com/a/24664731
+
+        int fromX, toX, fromY, toY;
+        int[] location = new int[2];
+
+        TextView problem_title = solo.getText(test_title);
+        problem_title.getLocationInWindow(location);
+
+        fromX = location[0] + 100;
+        fromY = location[1];
+
+        toX = location[0];
+        toY = fromY;
+
+        solo.drag(fromX, toX, fromY, toY, 10);
+
+        // click delete
+        solo.clickOnScreen(fromX+700,fromY);
+
+        assertFalse("patient not gone",solo.waitForText(testPatientUsername,1,5000,true));
     }
+
 }

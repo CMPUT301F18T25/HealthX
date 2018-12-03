@@ -11,6 +11,7 @@ import android.support.test.rule.ActivityTestRule;
 import com.robotium.solo.Solo;
 
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ import java.util.Random;
 import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
+import static org.mockito.internal.matchers.text.ValuePrinter.print;
 
 public class AddPatientByIdTest extends ActivityTestRule<Login> {
     //patient info
@@ -57,8 +59,28 @@ public class AddPatientByIdTest extends ActivityTestRule<Login> {
     public int wait_time = 3000; // 3 seconds
 
     private Solo solo;
+    public void printAllViews() {
+        ArrayList<View> allViews = solo.getCurrentViews();
+        print("Total Views:" + allViews.size());
+        for (View vView : allViews) {
+            if (vView.getVisibility() == View.VISIBLE) {
+                Log.d("Ajay","View : " + vView.toString() + "View ID: "
+                        + vView.getId() + " Value:"
+                        + vView.getClass().getName().toString()
+                        + " Visibility:" + vView.getVisibility());
+            }
+        }
+    }
 
-
+    private void swipeToRight(Solo solo) {
+        Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        float xStart = 0;
+        float xEnd = width / 2;
+        solo.drag(xStart, xEnd, height / 2, height / 2, 10);
+        return;
+    }
     public AddPatientByIdTest() {
         super(Login.class);
     }
@@ -99,30 +121,13 @@ public class AddPatientByIdTest extends ActivityTestRule<Login> {
         solo.clickOnView(patient_btn);
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
-        /*
-        assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
-        //Login Patient
-        EditText id_input = (EditText) solo.getView(R.id.loginUserID);
+        solo.waitForActivity(ViewProblemList.class);
 
-        solo.enterText(id_input,testPatientUsername);
-        solo.wait(wait_time);
-        solo.clickOnView(solo.getView(R.id.btn_login));
-
-        assertTrue("did not log in",solo.waitForActivity(ViewProblemList.class))
-        */
-
-        //Open Sidebar and Gen code
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnView(solo.getView(R.id.nav_code));
-        solo.waitForActivity(ActivityGenerateCode.class);
-
-        TextView output_view = (TextView) solo.getView(R.id.code_output);
-        String code = output_view.getText().toString();
 
         //Log out Patient
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnView(solo.getView(R.id.nav_logout));
+        swipeToRight(solo);
+        solo.clickOnText("Log out");
         assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
         // Sign up CP
@@ -141,19 +146,6 @@ public class AddPatientByIdTest extends ActivityTestRule<Login> {
         solo.enterText(cp_phone,testProviderPhoneNumber);
         solo.clickOnView(cp_btn);
         solo.clickOnView(solo.getView(R.id.btn_signup));
-        /*
-        // log in CP
-
-        //EditText id_input = (EditText) solo.getView(R.id.loginUserID);
-
-        solo.enterText(id_input,testProviderUsername);
-        solo.wait(wait_time);
-        solo.clickOnView(solo.getView(R.id.btn_login));
-
-
-        assertTrue("did not log in",solo.waitForActivity(ViewPatientList.class));
-        */
-        // choose to add a Patient
 
         solo.clickOnView(solo.getView(R.id.fab));
         assertTrue("did not go to add problem",solo.waitForActivity(ActivityAddPatient.class));
@@ -174,4 +166,5 @@ public class AddPatientByIdTest extends ActivityTestRule<Login> {
         assertTrue("Patient name not shown",solo.waitForText(testPatientPhoneNumber,1,5000,true));
 
     }
+
 }
