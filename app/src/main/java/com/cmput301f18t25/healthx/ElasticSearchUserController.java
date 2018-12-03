@@ -428,7 +428,6 @@ public class ElasticSearchUserController {
         protected Void doInBackground(User... patients) {
             verifySettings();
             //String query = "{\"query\" : { \"match\" : { \"user\" : \"" + records[0].getId() + "\"}}}";
-            //String query = "{ \"query\" : { \"match\" :  { \"doctorID\" : \""+ "AWdN0d3BrOXHRTUxDl1l" + "\"}}}";
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +

@@ -49,8 +49,8 @@ public class EditUserProfile extends AppCompatActivity {
 
 
         Spinner freq = (Spinner) findViewById(R.id.frequency_menu);
-        //String userFreq = user.getReminderFrequency();
-        String userFreq = "None";
+        String userFreq = user.getReminderFrequency();
+        //String userFreq = "None";
         List<String> freqList =  new ArrayList<String>();
         freqList.add(userFreq);
         String[] FreqList_all = getResources().getStringArray(R.array.frequency);
@@ -120,8 +120,9 @@ public class EditUserProfile extends AppCompatActivity {
             String status = user.getStatus();
 
             //user.setReminderFrequency(frequency);
-            User newUser = new User(ENAME,Bid,EPHONE,EEMAIL,user.getStatus(),user.getReminderFrequency());
+            User newUser = new User(ENAME,Bid,EPHONE,EEMAIL,status,frequency);
             newUser.setId(user.getId());
+            Log.d("CWei",user.getId());
             ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
             deleteUserTask.execute(user);
 

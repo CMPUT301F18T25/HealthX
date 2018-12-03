@@ -47,6 +47,9 @@ public class ViewProblemList extends AppCompatActivity
     TextView Uname;
     TextView Uemail;
     TextView Uphone;
+    String userId;
+    User user;
+
 
 
 
@@ -75,9 +78,15 @@ public class ViewProblemList extends AppCompatActivity
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
         String email = bundle.getString("email");
-        User user = null;
+
 //        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-        String userId = mProblemList.getUser().getId();
+        try {
+            userId = mProblemList.getUser().getId();
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
         if (offlineSave.checkNetworkStatus()) {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
@@ -147,15 +156,17 @@ public class ViewProblemList extends AppCompatActivity
                 ));
             }
         };
+ if (user != null) {
+     Uid = (TextView) header.findViewById(R.id.user_id);
+     Uid.setText(id);
+     Uname = (TextView)header.findViewById(R.id.user_name);
+     Uname.setText(user.getName());
+     Uemail = (TextView)header.findViewById(R.id.user_email);
+     Uemail.setText(user.getEmail());
+     Uphone = (TextView)header.findViewById(R.id.user_phone);
+     Uphone.setText(user.getPhoneNumber());
+ }
 
-        Uid = (TextView) header.findViewById(R.id.user_id);
-        Uid.setText(id);
-        Uname = (TextView)header.findViewById(R.id.user_name);
-        Uname.setText(user.getName());
-        Uemail = (TextView)header.findViewById(R.id.user_email);
-        Uemail.setText(user.getEmail());
-        Uphone = (TextView)header.findViewById(R.id.user_phone);
-        Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -172,36 +183,36 @@ public class ViewProblemList extends AppCompatActivity
             }
         });
 
-//        String frequency = user.getReminderFrequency();
-////
-////        Log.d("CWei", frequency+"freq");
-////        if (!frequency.equals("None")){
-////            Calendar calendar = Calendar.getInstance();
-////            calendar.set(Calendar.HOUR_OF_DAY,18);
-////            calendar.set(Calendar.MINUTE,5);
-////            calendar.set(Calendar.SECOND,40);
+        String frequency = user.getReminderFrequency();
 
-        ////
-////            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
-////            Intent intent = new Intent(this, Notification_receiver.class);
-////            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-////            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-////
-////            if (frequency.equals("Everyday")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////            else if (frequency.equals("Every week")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////            else if (frequency.equals("Every month")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////
-////        }
+        Log.d("CWei", frequency+"freq");
+        if (!frequency.equals("None")){
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,9);
+            calendar.set(Calendar.MINUTE,0);
+            calendar.set(Calendar.SECOND,0);
+
+
+            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
+            Intent intent = new Intent(this, Notification_receiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
+            if (frequency.equals("Everyday")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every week")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every month")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+
+        }
 
     }
 
