@@ -121,7 +121,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
             newRecord.setCPComment(isDoctor);
             mProblemList.addRecord(position,newRecord);
-//            save.saveRecordsToProblem();
+            save.saveRecordsToProblem(mProblemList.getElementByIndex(position));
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
