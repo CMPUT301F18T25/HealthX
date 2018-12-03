@@ -292,7 +292,7 @@ public class ActivityEditProblem extends AppCompatActivity {
 //            String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
 //            File folderF = new File(folder);
 //            if (!folderF.exists()) {
-//                folderF.mkdir();
+//                folderF.mkdir();/
 //            }
 //
 //            try {
@@ -310,6 +310,7 @@ public class ActivityEditProblem extends AppCompatActivity {
 //            imageFileUri = Uri.fromFile(imageFile);
 
         }
+        
     }
     public void Editphoto(View view) {
 //        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
