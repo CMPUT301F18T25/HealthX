@@ -12,38 +12,28 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
-
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import java.util.ArrayList;
 
-public class SlideShow extends AppCompatActivity {
+public class ActivitySeeRecordPhotos extends AppCompatActivity {
     ViewPager viewPager;
     protected ArrayList<Drawable> images = new ArrayList<>();
-    ArrayList<Record> recordList;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_slide_show);
-
-        recordList = (ArrayList<Record>) getIntent().getSerializableExtra("Records");
-        Log.d("Num Records:",String.valueOf(recordList.size()));
-        for(int pos= 0; pos<recordList.size(); pos++){
-            Record record = recordList.get(pos);
-            ArrayList<String> imageList= record.getImageURIs();
-            for(int x= 0; x<imageList.size(); x++){
-                Log.d("Sandy 301","Reached");
-                String image_path = imageList.get(x);
-                Drawable drawable = Drawable.createFromPath(image_path);
-                images.add(drawable);
-        }
-
-        }
-
+        Record record = (Record) getIntent().getSerializableExtra("Record");
+        ArrayList<String> imageList= record.getImageURIs();
+        for(int x= 0; x<imageList.size(); x++){
+            String image_path = imageList.get(x);
+            Drawable drawable = Drawable.createFromPath(image_path);
+            images.add(drawable);
+         }
         viewPager = (ViewPager) findViewById(R.id.slideShow);
         SlideShowAdapter slideShowAdapter = new SlideShowAdapter(this,images);
-
         viewPager.setAdapter(slideShowAdapter);
     }
 }

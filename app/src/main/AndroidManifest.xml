@@ -83,8 +83,11 @@
             android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA" />
 
         <activity android:name=".SlideShow" />
-        <activity android:name=".ActivityBodyLocation" />
+
+        <activity android:name=".ActivityBodyLocation"></activity>
+        <activity android:name=".ActivitySeeRecordPhotos"></activity>
         <activity android:name=".DrawBitmap"></activity>
+
     </application>
 
 </manifest>
