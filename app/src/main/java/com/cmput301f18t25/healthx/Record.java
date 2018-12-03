@@ -17,7 +17,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-
+/**
+ * This is the entity class for the record object.
+ *
+ * @author Dhrub
+ * @author Ivan
+ * @author Cecilia
+ * @author Aida
+ * @author Ajay
+ * @version 1.0
+ *
+ */
 public class Record  implements Serializable {
 
     protected String title;

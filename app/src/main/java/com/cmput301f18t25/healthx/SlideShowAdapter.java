@@ -22,7 +22,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-
+/**
+ * This is the adapter for the slide show.
+ *
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 public class SlideShowAdapter extends PagerAdapter {
 
     private Context mcontext;

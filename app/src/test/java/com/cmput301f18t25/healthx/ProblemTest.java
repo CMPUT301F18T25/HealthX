@@ -21,7 +21,11 @@ import java.util.Date;
 import static org.junit.Assert.*;
 
 /**
- * Unit tests for the Problem class
+ * This is the unit test for problem class
+ *
+ * @author Aida
+ * @version 1.0
+ *
  */
 
 

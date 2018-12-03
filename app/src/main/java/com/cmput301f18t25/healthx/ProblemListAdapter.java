@@ -28,6 +28,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This is the adapter for the problem recycler view.
+ *
+ * @author Ivan
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.ViewHolder> {
 
     // private ProblemList mProblemList = ProblemList.getInstance();

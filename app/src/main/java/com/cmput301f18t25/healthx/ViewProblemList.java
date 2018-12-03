@@ -45,6 +45,17 @@ import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Delete;
 
+/**
+ * This is the activity that allows the user to navigate their problems.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @author Aida
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 public class ViewProblemList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;

@@ -4,6 +4,12 @@
  */
 
 package com.cmput301f18t25.healthx;
-
+/**
+ * This class is used for offline mode
+ *
+ * @author Dhruba
+ * @version 1.0
+ *
+ */
 public class LoadObjects {
 }

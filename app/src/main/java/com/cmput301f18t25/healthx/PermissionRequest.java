@@ -14,6 +14,14 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 
+/**
+ * This is the class that requests user's permission for storage.
+ *
+ * @author Ivan
+ * @version 1.0
+ *
+ */
+
 public class PermissionRequest {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static String[] PERMISSION_STORAGE = {

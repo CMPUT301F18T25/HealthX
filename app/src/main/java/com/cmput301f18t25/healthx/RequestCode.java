@@ -9,6 +9,14 @@
  */
 package com.cmput301f18t25.healthx;
 
+/**
+ * This is the entity class for the request code object.
+ *
+ * @author Ajay
+ * @version 1.0
+ *
+ */
+
 public class RequestCode {
 
     protected String username;

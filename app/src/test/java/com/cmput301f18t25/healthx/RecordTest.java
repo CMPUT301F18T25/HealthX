@@ -22,7 +22,11 @@ import android.graphics.Picture;
 import java.util.Date;
 
 /**
- * Unit tests for the Record class
+ * This is the unit test for record class
+ *
+ * @author Aida
+ * @version 1.0
+ *
  */
 
 public class RecordTest {

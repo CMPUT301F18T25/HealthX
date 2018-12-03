@@ -22,6 +22,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+/**
+ * This is the class to free draw and erase
+ *
+ *
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 
 
 public class FreeDraw extends View {

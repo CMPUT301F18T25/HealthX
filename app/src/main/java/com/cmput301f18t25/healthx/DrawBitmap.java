@@ -24,6 +24,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+/**
+ * This is the class to draw bitmap
+ *
+ *
+ * @author Sandy
+ * @version 1.0
+ *
+ */
+
 public class DrawBitmap extends AppCompatActivity {
 
     FreeDraw dv;

@@ -34,7 +34,14 @@ import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
 /**
- * Handling elasticsearch user related queries - UTILIZED THESE RESOURCES TO HELP ME
+ * This is the elasticSearch controller for problem
+ *
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
  */
 
 public class ElasticSearchUserController {

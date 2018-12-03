@@ -14,6 +14,14 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * This is the unit test for request code class
+ *
+ * @author Aida
+ * @version 1.0
+ *
+ */
+
 public class RequestCodeTest {
 
     public String test_username = "usrname";

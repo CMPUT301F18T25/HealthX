@@ -21,8 +21,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * USE CASE: As a patient, I want to add or edit problems and records while off the network,
- * and have these changes synchronized once I regain connectivity.
+ * This is the activity that handles offline behaviour.
+ *
+ * @author Dhruba
+ * @version 1.0
+ *
  */
 
 public class OfflineBehaviour {

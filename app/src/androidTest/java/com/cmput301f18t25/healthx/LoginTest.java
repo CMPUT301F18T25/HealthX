@@ -23,7 +23,13 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-
+/**
+ * This is the intent test for login
+ *
+ * @author Aida
+ * @version 1.0
+ *
+ */
 public class LoginTest extends ActivityTestRule<Login>{
 
     public String test_username = "usrname";

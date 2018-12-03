@@ -15,7 +15,11 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Unit tests for the User class
+ * This is the unit test for user class
+ *
+ * @author Aida
+ * @version 1.0
+ *
  */
 
 public class UserTest {

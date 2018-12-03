@@ -28,6 +28,16 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This is the activity that allows the user to sign up.
+ *
+ * @author Cecilia
+ * @author Dhruba
+ * @author Aida
+ * @version 1.0
+ *
+ */
+
 public class Signup extends AppCompatActivity {
 
     private OfflineSave offlineSave;
@@ -58,18 +68,23 @@ public class Signup extends AppCompatActivity {
                 String id = id_textView.getText().toString();
                 String email = email_textView.getText().toString();
                 String phone = phone_textView.getText().toString();
-                // Check if app is connected to a network.
-                // first check if the user is in the table
-                // in no then  add, else prompt the user to enter something else
-                // else create a new user and save it into the file system
+                /**  Check if app is connected to a network.
+                 * first check if the user is in the table
+                 * in no then  add, else prompt the user to enter something else
+                 * else create a new user and save it into the file system
+                 **/
                 User user = new User(name,id,phone,email,status,"None");
                 user.setId(UUID.randomUUID().toString());
-                offlineSave.saveUserToFile(user); // save user into file
-                // check if we have connectivity
+                /**  save user into file
+                 */
+                offlineSave.saveUserToFile(user);
+                /**  check if we have connectivity
+                 */
                 ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
                 NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
                 if (null == activeNetwork) {
-                    // no connectivity
+                    /**  no connectivity
+                     */
                     offlineBehaviour.addItem(user, "SignUp"); // query it for elastic search to add it to elastic search
                     Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
                     // save user into the file ..

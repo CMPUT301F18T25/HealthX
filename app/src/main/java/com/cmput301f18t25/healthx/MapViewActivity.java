@@ -29,6 +29,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.zip.Inflater;
 
+/**
+ * This is the activity that uses google map to show the location of the record.
+ *
+ * @author Dhruba
+ * @version 1.0
+ *
+ */
+
 public class MapViewActivity extends AppCompatActivity implements OnMapReadyCallback{
 
     GoogleMap myMap;

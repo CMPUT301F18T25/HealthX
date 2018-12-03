@@ -12,6 +12,15 @@
 package com.cmput301f18t25.healthx;
 
 import java.util.ArrayList;
+
+/**
+ * This is the userList singleton for offline login
+ *
+ * @author Dhrub
+ * @version 1.0
+ *
+ */
+
 // singleton for offline
 public class UserList {
     private static  UserList instance;

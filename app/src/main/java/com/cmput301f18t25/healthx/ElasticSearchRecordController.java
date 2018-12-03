@@ -31,6 +31,16 @@ import io.searchbox.core.SearchResult;
 
 import static com.cmput301f18t25.healthx.ElasticSearchProblemController.setClient;
 
+/**
+ * This is the elasticSearch controller for record
+ *
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ElasticSearchRecordController {
     private static JestDroidClient client;
 
