@@ -40,38 +40,18 @@ public class ViewCurrentRecord extends AppCompatActivity implements Serializable
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-
-//        Bundle bundle = null;
-
-//        String title = bundle.getString("Title");
-//        String comment = bundle.getString("Comment");
-//        String date = bundle.getString("Date");
         theRecord  = (Record) this.getIntent().getSerializableExtra("Record");
         String title = theRecord.getTitle();
         String date = theRecord.getDate();
         String comment = theRecord.getComment();
         final ArrayList <String>  images = theRecord.getImageURIs();
         longitude = theRecord.getLongitude();
-//        if longitude == null:
-//            longitude = 0;
 
         latitude = theRecord.getLatitude();
-//        if latitude == null:
-//            latitude = 0;
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.RecordMap);
         mapFragment.getMapAsync(this);
 
 
-//        ElasticSearchRecordController.GetRecordsTask getRecordTask = new ElasticSearchRecordController.GetRecordsTask();
-//        Record record = null;
-//        try {
-//            record = getRecordTask.execute(title,comment,date).get();
-//        } catch (ExecutionException e) {
-//            e.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
 
         TextView rtitle = findViewById(R.id.record_title);
         rtitle.setText(title);

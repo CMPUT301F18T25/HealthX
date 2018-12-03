@@ -69,7 +69,6 @@ public class ActivityAddRecord extends AppCompatActivity {
         isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
         Log.d("IVANLIM",String.valueOf(position));
-//        Log.d("IVANLIM", mProblemList.getElementByIndex(position).getTitle());
         imageURIs = new ArrayList<>(10);
         initializeLocationManager();
         setGeoLocation();
@@ -212,9 +211,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
     public void setGeoLocation() {
         lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-//        if (lm == null){
-//            lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-//        }
         listener = new LocationListener() {
 
             @Override
@@ -267,21 +263,12 @@ public class ActivityAddRecord extends AppCompatActivity {
         }
     }
     private void initializeLocationManager() {
-        //Log.e(TAG, "initializeLocationManager - LOCATION_INTERVAL: "+ LOCATION_INTERVAL + " LOCATION_DISTANCE: " + LOCATION_DISTANCE);
         if (lm == null) {
             Log.d("Ajay","init lm");
             lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
     }
 
-//    @Override
-//    public void onClick(View v){
-//        switch(v.getId()){
-//            case R.id.record_geolocation: {
-//               setGeoLocation();
-//            }
-//        }
-//    }
 
 
 }
