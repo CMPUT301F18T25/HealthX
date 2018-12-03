@@ -9,6 +9,7 @@ package com.cmput301f18t25.healthx;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
+import android.view.Display;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -33,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 public class DeleteRecordTest extends ActivityTestRule<Login> {
 
-    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
+    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(4);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
     public String test_phone_number = "7867890876";
     public String test_email = test_username+"@email.com";
@@ -181,24 +182,27 @@ public class DeleteRecordTest extends ActivityTestRule<Login> {
 
         TextView problem_title = solo.getText(test_title);
         problem_title.getLocationInWindow(location);
+        Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
 
-        fromX = location[0] + 100;
+        fromX = location[0] + width - 100;
         fromY = location[1];
 
         toX = location[0];
         toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 10);
-
+        solo.sleep(2000);
         // click delete
-        solo.clickOnScreen(fromX+700,fromY);
+        solo.clickOnScreen(toX+width-200,fromY);
         solo.sleep(wait_time);
 
         // now check that the problem is gone
 
-        assertFalse("record not gone",solo.waitForText(test_title_record,1,5000,true));
-        assertFalse("rec desc not gone",solo.waitForText(test_description_record,1,5000,true));
-        assertFalse("date not gone",solo.waitForText(Pattern.quote(display_date),1,5000,true));
+        assertFalse("record not gone",solo.waitForText(test_title_record,1,5000,true,true));
+        assertFalse("rec desc not gone",solo.waitForText(test_description_record,1,5000,true,true));
+        assertFalse("date not gone",solo.waitForText(Pattern.quote(display_date),1,1000,true,true));
 
 
 

@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class EditProfileTest extends ActivityTestRule<Login> {
-    public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(3);
+    public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(4);
     public String test_name = "name"+RandomStringUtils.randomAlphanumeric(3);
     public String test_email = "email@patient.com";
     public String test_phone_number = "2344321456";
