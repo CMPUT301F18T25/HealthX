@@ -12,6 +12,7 @@ package com.cmput301f18t25.healthx;
 import android.graphics.PointF;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
+import android.view.Display;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
@@ -58,6 +59,8 @@ public class EditProfileTest extends ActivityTestRule<Login> {
     @Test
     public void testEdit() throws Exception {
 
+        // make a new account
+
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
 
@@ -81,8 +84,9 @@ public class EditProfileTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
+        // commented this out bc signup used to redirect to login but now logs in immediately
 
-        boolean next_view = solo.waitForActivity(Login.class);
+        /*boolean next_view = solo.waitForActivity(Login.class);
         assertTrue(next_view);
 
 
@@ -92,7 +96,7 @@ public class EditProfileTest extends ActivityTestRule<Login> {
         EditText log_id = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(log_id,test_username);
-        solo.clickOnView(solo.getView(R.id.btn_login));
+        solo.clickOnView(solo.getView(R.id.btn_login));*/
 
         boolean next_view2 = solo.waitForActivity(ViewProblemList.class);
         assertTrue("did not log in",next_view2);
@@ -100,8 +104,14 @@ public class EditProfileTest extends ActivityTestRule<Login> {
 
         // click on edit profile button
 
-        solo.clickOnActionBarHomeButton();
-        solo.clickOnView(solo.getView(R.id.nav_edit));
+        Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+        float xStart = 0 ;
+        float xEnd = width / 2;
+        solo.drag(xStart, xEnd, height / 2, height / 2, 10);
+        solo.clickOnText("Edit");
+
         boolean next_view3 = solo.waitForActivity(EditUserProfile.class,5000);
         assertTrue("did not go to edit profile",next_view3);
 

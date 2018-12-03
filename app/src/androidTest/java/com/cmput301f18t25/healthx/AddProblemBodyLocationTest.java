@@ -1,26 +1,20 @@
 /*
- * Class Name: AddProblemTest
+ *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  *
- * Version: Version 1.0
- *
- * Date : December 3, 2018
- *
- * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
+
 package com.cmput301f18t25.healthx;
 
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
-
 import android.util.Log;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
+import com.robotium.solo.Solo;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -29,15 +23,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class AddProblemTest extends ActivityTestRule<Login> {
+public class AddProblemBodyLocationTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
@@ -57,7 +50,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public AddProblemTest() {
+    public AddProblemBodyLocationTest() {
         super(Login.class);
     }
 
@@ -78,7 +71,7 @@ public class AddProblemTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddProblem() throws Exception {
+    public void testAddBodyLoc() throws Exception {
 
         // first make a new account
 
@@ -128,6 +121,67 @@ public class AddProblemTest extends ActivityTestRule<Login> {
         solo.enterText(title,test_title);
         solo.setDatePicker(date, test_year,test_month,test_day);
         solo.enterText(description,test_description);
+
+        // choose to add body loc
+        solo.clickOnView(solo.getView(R.id.record_photo));
+        assertTrue("did not go to add body loc",solo.waitForActivity(ActivityBodyLocation.class));
+
+
+        ImageView doll = (ImageView) solo.getView(R.id.body_image);
+        int width = doll.getMeasuredWidth();
+        int height = doll.getMeasuredHeight();
+
+        // check that body locations are accurate for front
+
+        solo.clickOnScreen((float) ((0.34*width)-0.001),(float) ((0.58*height)-0.001));
+        assertTrue("Front Left Arm not shown",solo.searchText("Front Left Arm",true));
+
+        solo.clickOnScreen((float) ((width)-0.001),(float) ((0.58*height)-0.001));
+        assertTrue("Front Right Arm not shown",solo.searchText("Front Right Arm",true));
+
+        solo.clickOnScreen((float) ((0.75*width)-0.001),(float) ((0.356*height)-0.001));
+        assertTrue("Head not shown",solo.searchText("Head",true));
+
+        solo.clickOnScreen((float) ((0.67*width)-0.001),(float) ((0.58*height)-0.001));
+        assertTrue("Chest not shown",solo.searchText("Chest",true));
+
+        solo.clickOnScreen((float) ((0.5*width)-0.001),(float) ((0.974*height)-0.001));
+        assertTrue("Front Left Leg not shown",solo.searchText("Front Left Leg",true));
+
+        solo.clickOnScreen((float) ((0.973*width)-0.001),(float) ((0.974*height)-0.001));
+        assertTrue("Front Right Leg not shown",solo.searchText("Front Right Leg",true));
+
+        solo.clickOnScreen((float) ((0.81*width)-0.001),(float) ((0.974*height)-0.001));
+        assertTrue("Waist not shown",solo.searchText("Waist",true));
+
+        // check that body locations are accurate for back
+        solo.clickOnView(solo.getView(R.id.changeBodyViewButton));
+
+        solo.clickOnScreen((float) ((0.34*width)-0.001),(float) ((0.58*height)-0.001));
+        assertTrue("Back Left Arm not shown",solo.searchText("Back Left Arm",true));
+
+        solo.clickOnScreen((float) ((width)-0.001),(float) ((0.58*height)-0.001));
+        assertTrue("Back Right Arm not shown",solo.searchText("Back Right Arm",true));
+
+        solo.clickOnScreen((float) ((0.75*width)-0.001),(float) ((0.356*height)-0.001));
+        assertTrue("Head not shown",solo.searchText("Head",true));
+
+        solo.clickOnScreen((float) ((0.67*width)-0.001),(float) ((0.58*height)-0.001));
+        assertTrue("Back not shown",solo.searchText("Back",true));
+
+        solo.clickOnScreen((float) ((0.5*width)-0.001),(float) ((0.974*height)-0.001));
+        assertTrue("Back Left Leg not shown",solo.searchText("Back Left Leg",true));
+
+        solo.clickOnScreen((float) ((0.973*width)-0.001),(float) ((0.974*height)-0.001));
+        assertTrue("Back Right Leg not shown",solo.searchText("Back Right Leg",true));
+
+        solo.clickOnScreen((float) ((0.81*width)-0.001),(float) ((0.974*height)-0.001));
+        assertTrue("Butt not shown",solo.searchText("Butt",true));
+
+        // save body location
+        solo.clickOnView(solo.getView(R.id.saveBodyButton));
+        assertTrue("did not go to problem add",solo.waitForActivity(ActivityAddProblem.class));
+        assertTrue(solo.searchText("Butt",1,true));
 
         // save problem and go to problem list
 

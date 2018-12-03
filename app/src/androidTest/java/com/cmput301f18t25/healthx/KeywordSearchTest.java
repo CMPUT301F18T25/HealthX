@@ -1,26 +1,19 @@
 /*
- * Class Name: AddRecordTest
+ *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  *
- * Version: Version 1.0
- *
- * Date : December 3, 2018
- *
- * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
+
 package com.cmput301f18t25.healthx;
 
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
-
 import android.util.Log;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
+import com.robotium.solo.Solo;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -29,27 +22,23 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-public class AddRecordTest extends ActivityTestRule<Login> {
+public class KeywordSearchTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
-    public String test_phone_number = "7867890876";
+    public String test_phone_number = "5467658769";
     public String test_email = test_username+"@email.com";
 
     // make a dif title each time we test it, so we're not mixing up problems
-    public String test_title = "title"+RandomStringUtils.randomAlphabetic(3);
-    public String test_title_record = "title"+RandomStringUtils.randomAlphabetic(3);
+    public String keyword_search = "searchResult"+RandomStringUtils.randomAlphabetic(3);
     public String test_description = "description of problem"+RandomStringUtils.randomAlphabetic(3);
-    public String test_description_record = "description of problem"+RandomStringUtils.randomAlphabetic(3);
-
     Random random = new Random();
     public Integer test_year = random.nextInt(2018-1970) + 1970;
     public Integer test_month = random.nextInt(12-1) + 1;
@@ -60,7 +49,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public AddRecordTest() {
+    public KeywordSearchTest() {
         super(Login.class);
     }
 
@@ -81,7 +70,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddRecord() throws Exception {
+    public void testKeySearch() throws Exception {
 
         // first make a new account
 
@@ -101,10 +90,10 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         solo.enterText(phone,test_phone_number);
         solo.clickOnView(patient_btn);
         solo.clickOnView(solo.getView(R.id.btn_signup));
-        solo.sleep(wait_time);
+
 
         // commented this out bc signup used to redirect to login but now logs in immediately
-        /*assertTrue("did not go to login", solo.waitForActivity(Login.class,5000));
+        /*assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
         // log in
 
@@ -128,7 +117,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         DatePicker date = (DatePicker) solo.getView(R.id.dateStarted_input);
         EditText description = (EditText) solo.getView(R.id.description_input);
 
-        solo.enterText(title,test_title);
+        solo.enterText(title,keyword_search);
         solo.setDatePicker(date, test_year,test_month,test_day);
         solo.enterText(description,test_description);
 
@@ -137,34 +126,26 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.save_button));
         assertTrue("did not go to problem list",solo.waitForActivity(ViewProblemList.class));
 
-        // click on the problem
+        // make sure the problem can be seen on the screen
 
-        assertTrue("problem title not shown",solo.waitForText(test_title,1,5000,true));
-        solo.clickOnText(test_title,1,true);
-        assertTrue(solo.waitForText("View "+test_title));
-        assertTrue("did not go to record list",solo.waitForActivity(ViewRecordList.class));
+        assertTrue("problem not shown",solo.waitForText(keyword_search,1,5000,true));
 
-        // choose to add a record
-        solo.clickOnView(solo.getView(R.id.fab));
-        assertTrue("did not go to add record",solo.waitForActivity(ActivityAddRecord.class));
+        // choose to search by keyword
 
-        EditText record_title_in = (EditText) solo.getView(R.id.record_title);
-        DatePicker record_date_in = (DatePicker) solo.getView(R.id.recordDate);
-        EditText record_description_in = (EditText) solo.getView(R.id.record_comment);
+        solo.clickOnView(solo.getView(R.id.action_search));
+        assertTrue("did not go to search",solo.waitForActivity(ActivitySearch.class));
+        assertTrue(solo.isSpinnerTextSelected("Keyword"));
 
-        solo.enterText(record_title_in,test_title_record);
-        solo.setDatePicker(record_date_in,test_year,test_month,test_day);
-        solo.enterText(record_description_in,test_description_record);
+        // Enter keyword and hit enter
 
-        // save record and go to record list
+        EditText keyword = (EditText) solo.getView(R.id.search_text);
+        solo.enterText(keyword,keyword_search);
+        solo.sendKey(solo.ENTER);
 
-        solo.clickOnView(solo.getView(R.id.save_button));
-        assertTrue("did not go to record list",solo.waitForActivity(ViewRecordList.class));
+        // chek that the problem we searched for showed up
 
-        // make sure record is visible
-
-        assertTrue("record title not shown",solo.waitForText(test_title_record,1,5000,true));
-        assertTrue("rec desc not shown",solo.waitForText(test_description_record,1,5000,true));
+        assertTrue("problem not shown",solo.waitForText(keyword_search,1,5000,true));
+        assertTrue("problem desc not shown",solo.waitForText(test_description,1,5000,true));
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
@@ -173,11 +154,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         String display_date = simpleDateFormat.format(to_show);
         Log.i("date",display_date + "    " + test_year +" "+ test_month+" " + test_day);
 
-
-        assertTrue("rec date not shown",solo.waitForText(Pattern.quote(display_date),1,5000,true));
-
-
-
+        assertTrue("date not shown",solo.waitForText(Pattern.quote(display_date),1,5000,true));
 
 
     }

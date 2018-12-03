@@ -1,26 +1,20 @@
 /*
- * Class Name: AddRecordTest
+ *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  *
- * Version: Version 1.0
- *
- * Date : December 3, 2018
- *
- * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
+
 package com.cmput301f18t25.healthx;
 
 
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
-import com.robotium.solo.Solo;
-
 import android.util.Log;
-import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.robotium.solo.Solo;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.After;
@@ -29,15 +23,15 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import java.util.regex.Pattern;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class AddRecordTest extends ActivityTestRule<Login> {
+public class EditRecordTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
@@ -60,7 +54,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public AddRecordTest() {
+    public EditRecordTest() {
         super(Login.class);
     }
 
@@ -81,7 +75,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddRecord() throws Exception {
+    public void testEditRecord() throws Exception {
 
         // first make a new account
 
@@ -177,8 +171,58 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         assertTrue("rec date not shown",solo.waitForText(Pattern.quote(display_date),1,5000,true));
 
 
+        // now delete it
+
+        // drag it left
+        // source: https://stackoverflow.com/a/24664731
+
+        int fromX, toX, fromY, toY;
+        int[] location = new int[2];
+
+        TextView problem_title = solo.getText(test_title);
+        problem_title.getLocationInWindow(location);
+
+        fromX = location[0] + 100;
+        fromY = location[1];
+
+        toX = location[0];
+        toY = fromY;
+
+        solo.drag(fromX, toX, fromY, toY, 10);
+
+        // click edit
+        if (solo.searchText("Edit")){
+            Log.i("true","true");
+        }
+        else{
+            Log.i("false","false");
+        }
+        solo.clickOnScreen(fromX+300,fromY);
 
 
+        assertTrue("did not go to edit record",solo.waitForActivity(ActivityEditRecord.class));
+
+        // now change a field
+
+        EditText record_title_in2 = (EditText) solo.getView(R.id.record_title);
+        DatePicker record_date_in2 = (DatePicker) solo.getView(R.id.recordDate);
+
+        solo.enterText(record_title_in2,test_title_record+"edited");
+        solo.setDatePicker(record_date_in2,test_year,test_month,test_day+1);
+
+        // save
+
+        solo.clickOnView(solo.getView(R.id.save_button));
+        assertTrue("did not go to rec list",solo.waitForActivity(ViewRecordList.class));
+
+        // check it changed
+
+        assertTrue("new problem title not shown",solo.waitForText(test_title_record+"edited",1,5000,true));
+        cal.set(test_year, test_month, test_day+1);
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date to_show2 = cal.getTime();
+        String display_date2 = simpleDateFormat2.format(to_show2);
+        assertTrue("date not edited",solo.waitForText(Pattern.quote(display_date2),1,5000,true));
 
     }
 }
