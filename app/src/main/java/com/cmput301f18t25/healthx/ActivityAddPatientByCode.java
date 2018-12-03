@@ -69,30 +69,24 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
         String userCode = mUserCode.getText().toString();
         ElasticSearchUserController.GetRequestCodeTask requestCodeTask = new ElasticSearchUserController.GetRequestCodeTask();
-
         try {
-
-            // Have to declare global requestCodes Arrays
             requestCodes = requestCodeTask.execute(userCode).get();
-
             requestCode = requestCodes.get(0);
             String patientUsername = requestCode.getUsername();
 
             if (!(requestCode == null)){
 
-                ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-                cPatient = getUserTask.execute(patientUsername).get();
+                try {
+                    ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+                    cPatient = getUserTask.execute(patientUsername).get();
+                    if(!(cPatient == null)){
 
-                    if (!(cPatient == null)){
-                        try {
-
-                            cPatient.setDoctorID(doctorID);
-
+                        cPatient.setDoctorID(doctorID);
                         ElasticSearchUserController.AddPatientRequestCodeTask patientRequestCodeTask = new ElasticSearchUserController.AddPatientRequestCodeTask();
                         patientRequestCodeTask.execute(requestCode);
-
                         Toast toast = Toast.makeText(getApplicationContext(), "You have added "+requestCode.getUsername() , Toast.LENGTH_SHORT);
                         toast.show();
+
                         try {
                             Thread.sleep(1000);                 //1000 milliseconds is one second.
                         } catch(InterruptedException ex) {
@@ -103,34 +97,27 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         setResult(10,intent);
                         Log.i("CWei", "finished adding");
                         finish();
-                    } catch (ExecutionException e) {
-                    e.printStackTrace();
 
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                    else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "This patient is already signed!" , Toast.LENGTH_SHORT);
-                        toast.show();
                     }
+                }catch (InterruptedException e){
 
-            }
-            else {
-                Log.i("wtf????","wtf");
-                Toast toast = Toast.makeText(getApplicationContext(), "Invalid code!!", Toast.LENGTH_SHORT);
+                    e.printStackTrace();
+
+                }
+
+
+            }else {
+                Toast toast = Toast.makeText(getApplicationContext(), "This patient is already signed!" , Toast.LENGTH_SHORT);
                 toast.show();
             }
 
-        } catch (ExecutionException e) {
+
+        }catch (ExecutionException e) {
+
             e.printStackTrace();
-        } catch (IndexOutOfBoundsException e){
-            Log.i("wtf????","wtf222");
-            Toast toast = Toast.makeText(getApplicationContext(), "Invalid Code!" , Toast.LENGTH_SHORT);
-            toast.show();
-        } catch (InterruptedException e) {
+        }catch (InterruptedException e){
             e.printStackTrace();
         }
-
     }
+
 }
