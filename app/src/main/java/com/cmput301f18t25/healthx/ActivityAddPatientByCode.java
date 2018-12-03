@@ -104,7 +104,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         finish();
 
                     }else{
-                        Toast toast = Toast.makeText(getApplicationContext(), "Patient Already Added" , Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), "Patient is already signed!" , Toast.LENGTH_SHORT);
                         toast.show();
 
                     }
@@ -116,7 +116,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
 
             }else {
-                Toast toast = Toast.makeText(getApplicationContext(), "This patient is already signed!" , Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "Code invalid!!!" , Toast.LENGTH_SHORT);
                 toast.show();
             }
 

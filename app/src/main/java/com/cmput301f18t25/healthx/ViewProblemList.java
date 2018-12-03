@@ -172,36 +172,36 @@ public class ViewProblemList extends AppCompatActivity
             }
         });
 
-//        String frequency = user.getReminderFrequency();
-////
-////        Log.d("CWei", frequency+"freq");
-////        if (!frequency.equals("None")){
-////            Calendar calendar = Calendar.getInstance();
-////            calendar.set(Calendar.HOUR_OF_DAY,18);
-////            calendar.set(Calendar.MINUTE,5);
-////            calendar.set(Calendar.SECOND,40);
+        String frequency = user.getReminderFrequency();
 
-        ////
-////            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
-////            Intent intent = new Intent(this, Notification_receiver.class);
-////            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-////            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-////            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-////
-////            if (frequency.equals("Everyday")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////            else if (frequency.equals("Every week")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////            else if (frequency.equals("Every month")){
-////                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
-////
-////            }
-////
-////        }
+        Log.d("CWei", frequency+"freq");
+        if (!frequency.equals("None")){
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,9);
+            calendar.set(Calendar.MINUTE,0);
+            calendar.set(Calendar.SECOND,0);
+
+
+            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
+            Intent intent = new Intent(this, Notification_receiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
+            if (frequency.equals("Everyday")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every week")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every month")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+
+        }
 
     }
 
