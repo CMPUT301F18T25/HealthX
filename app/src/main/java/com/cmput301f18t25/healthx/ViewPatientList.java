@@ -131,7 +131,17 @@ public class ViewPatientList extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("CWei", "OAR called");
-        if(resultCode == 15)
+        if (resultCode == 10){
+            try {
+                patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
+            }catch (Exception e){
+
+            }
+            mAdapter = new PatientListAdapter(patientList,this.getIntent());
+            mRecyclerView.setAdapter(mAdapter);
+
+        }
+        else if(resultCode == 15)
         {   Log.d("CWei", "executed");
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             Bundle newBundle = data.getExtras();

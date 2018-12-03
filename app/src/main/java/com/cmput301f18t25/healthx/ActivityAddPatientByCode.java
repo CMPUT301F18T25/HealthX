@@ -101,7 +101,6 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         //Intent intent = new Intent(this,ViewPatientList.class);
                         Intent intent = new Intent();
                         setResult(10,intent);
-                        Log.i("CWei", "finished adding");
                         finish();
 
                     }else{
