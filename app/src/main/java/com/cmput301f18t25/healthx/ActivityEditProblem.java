@@ -282,12 +282,12 @@ public class ActivityEditProblem extends AppCompatActivity {
             backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
         }
 
-    public void Editphoto(View view) {
-//        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
-        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
-//        intent.putExtra("bitmap",bitmap);
-        intent.putExtra("path",frontBodyPhoto);
-        startActivityForResult(intent,3);
+//    public void Editphoto(View view) {
+////        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
+//        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
+////        intent.putExtra("bitmap",bitmap);
+//        intent.putExtra("path",frontBodyPhoto);
+//        startActivityForResult(intent,3);
 
     }
 }
