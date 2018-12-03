@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -46,9 +47,13 @@ public class ElasticSearchProblemController {
                         Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
-                            Log.d("CWei","added");
+
                             if (!result2.isSucceeded()) {
                                 Log.i("Error", "doInBackground: error");
+                            }
+                            else{
+                                Log.d("CWei","problem added");
+                                Log.d("CWei",problem.getUserId());
                             }
                         } catch (Exception e) {
                             Log.i("Error", "The application failed to build and send the tweets");
@@ -64,6 +69,32 @@ public class ElasticSearchProblemController {
         }
 
     }
+
+
+    public static class UpdateProblemTask extends AsyncTask<Problem, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Problem... problems) {
+            setClient();
+            for (Problem problem : problems){
+                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
+
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    }
+                }
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
+            }
+            return null;
+
+        }
+
+    }
+
 
     public static class GetProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
         @Override
@@ -84,6 +115,7 @@ public class ElasticSearchProblemController {
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
+                    Collections.sort(problems,Problem.RecDateComparator);
                     Log.d("CWei", String.valueOf(problemList.size()));
                     Log.d("IVANLIM", String.valueOf(problemList.size()));
                 }

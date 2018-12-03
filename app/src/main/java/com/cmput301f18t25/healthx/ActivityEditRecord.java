@@ -123,6 +123,7 @@ public class ActivityEditRecord extends AppCompatActivity {
 
             // Check if app is connected to a network.
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+            newRecord.setId(oldRecord.getId());
             //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -143,10 +144,13 @@ public class ActivityEditRecord extends AppCompatActivity {
                 finish();
             } else {
 //                offline.synchronizeWithElasticSearch();
-                ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
-                addRecordTask.execute(newRecord);
+
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
+
+
+                ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
+                addRecordTask.execute(newRecord);
                 try {
                     Thread.sleep(1000);                 //1000 milliseconds is one second.
                 } catch(InterruptedException ex) {

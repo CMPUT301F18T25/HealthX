@@ -124,8 +124,8 @@ public class EditUserProfile extends AppCompatActivity {
             ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
             deleteUserTask.execute(user);
 
-            ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
-            addUserTask.execute(newUser);
+            ElasticSearchUserController.UpdateUserTask updateUserTask = new ElasticSearchUserController.UpdateUserTask();
+            updateUserTask.execute(newUser);
 
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
             Bundle newBundle = new Bundle();

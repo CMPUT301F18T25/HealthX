@@ -47,7 +47,8 @@ public class ActivityEditProblem extends AppCompatActivity {
         title = oldProblem.getTitle();
         description = oldProblem.getDescription();
         dateString = oldProblem.getDate();
-        userId = oldProblem.getId();
+        //userId = oldProblem.getId();
+        userId = oldProblem.getUserId();
         problemPositon = bundle.getInt("position");
         title_textView.setText(title);
         description_textView.setText(description);
@@ -117,14 +118,19 @@ public class ActivityEditProblem extends AppCompatActivity {
             } else {
 
                 Bundle bundle = getIntent().getExtras();
-                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
-                ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
-                addProblemTask.execute(newProblem);
 
-
+                String pID = oldProblem.getId();
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
 
+
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+                newProblem.setId(pID);
+                ElasticSearchProblemController.UpdateProblemTask updateProblemTask = new ElasticSearchProblemController.UpdateProblemTask();
+                updateProblemTask.execute(newProblem);
+                mProblemList.addToProblemList(newProblem);
+                Log.d("CWei",oldProblem.getId()+ " "+oldProblem.getTitle());
+                Log.d("CWei",newProblem.getId()+ " "+newProblem.getTitle());
 
                 try {
                     Thread.sleep(1000);                 //1000 milliseconds is one second.

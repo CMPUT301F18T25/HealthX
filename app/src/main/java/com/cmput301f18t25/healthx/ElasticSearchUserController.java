@@ -118,26 +118,25 @@ public class ElasticSearchUserController {
     public static class UpdateUserTask extends AsyncTask<User, Void, Void> {
 
         @Override
-        protected Void doInBackground(User... search_parameters) {
+        protected Void doInBackground(User... users) {
             verifySettings();
+            for (User user : users){
+                Index index = new Index.Builder(user).index("cmput301f18t25test").type("usernew2").build();
 
-            User user = search_parameters[0];
-            String userId = user.getId();
-
-            Index index = new Index.Builder(user).index("cmput301f18t25test").type("user").id(userId).build();
-
-
-            try {
-                DocumentResult result = client.execute(index);
-                if (!result.isSucceeded()) {
-                    Log.i("Error", "Elasticsearch was not able to update mood.");
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    }
                 }
-            } catch (Exception e) {
-                Log.i("Error", "The application failed to build and send mood.");
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
             }
-
             return null;
+
         }
+
     }
 
     public static class DeleteUserTask extends AsyncTask<User, Void, Void> {
