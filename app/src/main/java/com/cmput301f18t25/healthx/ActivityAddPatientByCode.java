@@ -73,18 +73,19 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
             requestCodes = requestCodeTask.execute(userCode).get();
             requestCode = requestCodes.get(0);
             String patientUsername = requestCode.getUsername();
-
+            Log.d("here", patientUsername);
             if (!(requestCode == null)){
 
                 try {
                     ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
                     cPatient = getUserTask.execute(patientUsername).get();
+                    Log.d("here", cPatient.getUsername());
                     if(!(cPatient == null)){
 
                         cPatient.setDoctorID(doctorID);
-                        ElasticSearchUserController.AddPatientRequestCodeTask patientRequestCodeTask = new ElasticSearchUserController.AddPatientRequestCodeTask();
-                        patientRequestCodeTask.execute(requestCode);
-                        Toast toast = Toast.makeText(getApplicationContext(), "You have added "+requestCode.getUsername() , Toast.LENGTH_SHORT);
+                        ElasticSearchUserController.AddPatientTask addPatientTask = new ElasticSearchUserController.AddPatientTask();
+                        addPatientTask.execute(cPatient);
+                        Toast toast = Toast.makeText(getApplicationContext(), "You have added "+cPatient.getUsername() , Toast.LENGTH_SHORT);
                         toast.show();
 
                         try {
