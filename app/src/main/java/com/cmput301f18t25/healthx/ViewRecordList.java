@@ -164,6 +164,8 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
                                 Intent intent = new Intent(ViewRecordList.this, ActivityEditRecord.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("record", record);
+                                bundle.putInt("position",position);
+                                bundle.putInt("recordPositon",pos);
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, 10);
 

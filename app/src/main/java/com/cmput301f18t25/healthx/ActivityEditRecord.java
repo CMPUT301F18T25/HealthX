@@ -59,8 +59,9 @@ public class ActivityEditRecord extends AppCompatActivity {
     String dateString;
     String problemId;
     Record oldRecord;
-    ArrayList<String> imageURIs = new ArrayList<String>(10);
-    ArrayList<String> oldURIs = new ArrayList<>(10);
+    ArrayList<String> imageURIs;
+    ArrayList<String> oldURIs;
+
     Uri imageFileUri;
     ImageView imagePhoto;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -76,6 +77,8 @@ public class ActivityEditRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        imageURIs = new ArrayList<>(10);
+        oldURIs= new ArrayList<>(10);
 
         Bundle bundle = this.getIntent().getExtras();
 
@@ -89,8 +92,18 @@ public class ActivityEditRecord extends AppCompatActivity {
         comment = oldRecord.getComment();
         dateString = oldRecord.getDate();
         problemId = oldRecord.getProblemID();
-        oldURIs = oldRecord.getImageURIs();
-        imageURIs.addAll(oldURIs);
+
+        try {
+            if (oldRecord.getImageURIs().size() != 0) {
+                oldURIs = oldRecord.getImageURIs();
+                imageURIs.addAll(oldURIs);
+            }
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+
         problemPosition = bundle.getInt("position");
         recordPostion = bundle.getInt("recordPositon");
 
@@ -100,7 +113,9 @@ public class ActivityEditRecord extends AppCompatActivity {
                 Integer.valueOf(dateString.substring(5, 7)) - 1,
                 Integer.valueOf(dateString.substring(8, 10)));
 
-        imagePhoto.setImageDrawable(Drawable.createFromPath(imageURIs.get(0)));
+        if (imageURIs.size() > 0) {
+            imagePhoto.setImageDrawable(Drawable.createFromPath(imageURIs.get(0)));
+        }
 
     }
 
@@ -153,8 +168,8 @@ public class ActivityEditRecord extends AppCompatActivity {
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-                mProblemList.removeRecord(problemPosition, recordPostion);
-                mProblemList.addRecord(problemPosition, newRecord);
+//                mProblemList.removeRecord(problemPosition, recordPostion);
+//                mProblemList.addRecord(problemPosition, newRecord);
                 offline.addItem(oldRecord, "DELETE");
                 offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
