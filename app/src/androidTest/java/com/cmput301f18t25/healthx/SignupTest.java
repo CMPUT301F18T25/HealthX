@@ -31,7 +31,7 @@ public class SignupTest extends ActivityTestRule<Login>{
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
 
     // make a dif username each time we test it, so we're not mixing up users
-    public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(3);
+    public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(4);
     public String test_phone_number = "1234567890";
     public String test_email = "user@email.com";
     public int wait_time = 3000;
