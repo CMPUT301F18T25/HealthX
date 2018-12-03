@@ -107,6 +107,7 @@
                     />
                 <ImageView
                     android:id="@+id/view_front"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
                 <Button
@@ -125,6 +126,7 @@
                     />
                 <ImageView
                     android:id="@+id/view_back"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
                 <Button
