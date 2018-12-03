@@ -75,8 +75,8 @@ public class SignupTest extends ActivityTestRule<Login>{
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        boolean next_view = solo.waitForActivity(Login.class);
-        /*assertTrue("did not go to login page",next_view);
+        /*boolean next_view = solo.waitForActivity(Login.class);
+        assertTrue("did not go to login page",next_view);
 
         // test successful signup by logging in
 

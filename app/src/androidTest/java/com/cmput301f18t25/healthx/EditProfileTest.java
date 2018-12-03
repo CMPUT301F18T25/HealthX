@@ -49,6 +49,8 @@ public class EditProfileTest extends ActivityTestRule<Login> {
     @Test
     public void testEdit() throws Exception {
 
+        // make a new account
+
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
 
@@ -72,8 +74,9 @@ public class EditProfileTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
+        // commented this out bc signup used to redirect to login but now logs in immediately
 
-        boolean next_view = solo.waitForActivity(Login.class);
+        /*boolean next_view = solo.waitForActivity(Login.class);
         assertTrue(next_view);
 
 
@@ -83,7 +86,7 @@ public class EditProfileTest extends ActivityTestRule<Login> {
         EditText log_id = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(log_id,test_username);
-        solo.clickOnView(solo.getView(R.id.btn_login));
+        solo.clickOnView(solo.getView(R.id.btn_login));*/
 
         boolean next_view2 = solo.waitForActivity(ViewProblemList.class);
         assertTrue("did not log in",next_view2);

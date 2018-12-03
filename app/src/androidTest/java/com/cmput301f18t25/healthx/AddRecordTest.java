@@ -94,7 +94,7 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.btn_signup));
         solo.sleep(wait_time);
 
-
+        // commented this out bc signup used to redirect to login but now logs in immediately
         /*assertTrue("did not go to login", solo.waitForActivity(Login.class,5000));
 
         // log in
@@ -128,12 +128,14 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.save_button));
         assertTrue("did not go to problem list",solo.waitForActivity(ViewProblemList.class));
 
+        // click on the problem
+
         assertTrue("problem title not shown",solo.waitForText(test_title,1,5000,true));
         solo.clickOnText(test_title,1,true);
         assertTrue(solo.waitForText("View "+test_title));
         assertTrue("did not go to record list",solo.waitForActivity(ViewRecordList.class));
 
-
+        // choose to add a record
         solo.clickOnView(solo.getView(R.id.fab));
         assertTrue("did not go to add record",solo.waitForActivity(ActivityAddRecord.class));
 
@@ -149,6 +151,8 @@ public class AddRecordTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.save_button));
         assertTrue("did not go to record list",solo.waitForActivity(ViewRecordList.class));
+
+        // make sure record is visible
 
         assertTrue("record title not shown",solo.waitForText(test_title_record,1,5000,true));
         assertTrue("rec desc not shown",solo.waitForText(test_description_record,1,5000,true));

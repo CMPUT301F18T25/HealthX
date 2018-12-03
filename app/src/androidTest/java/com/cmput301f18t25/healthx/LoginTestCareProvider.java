@@ -55,6 +55,8 @@ public class LoginTestCareProvider extends ActivityTestRule<Signup>{
     @Test
     public void testLogin() throws Exception {
 
+        // create new account
+
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
 
@@ -75,6 +77,11 @@ public class LoginTestCareProvider extends ActivityTestRule<Signup>{
         solo.clickOnView(doc_btn);
 
         solo.clickOnView(solo.getView(R.id.btn_signup));
+
+        // log out and back in
+
+        solo.clickOnActionBarHomeButton();
+        solo.clickOnView(solo.getView(R.id.nav_logout));
 
 
         assertTrue(solo.waitForActivity(Login.class));
