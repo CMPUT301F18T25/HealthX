@@ -57,6 +57,15 @@ import java.util.Date;
 import java.util.List;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
+/**
+ * This is the activity that allows the user to edit an existing record.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 
 public class ActivityEditRecord extends AppCompatActivity {
 

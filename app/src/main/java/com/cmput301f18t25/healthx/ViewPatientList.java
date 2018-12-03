@@ -33,6 +33,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+/**
+ * This is the activity that allows the care provider to navigate their list of patients
+ *
+ * @author Cecilia
+ * @author Aida
+ * @version 1.0
+ *
+ */
 public class ViewPatientList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;

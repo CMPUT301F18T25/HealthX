@@ -24,6 +24,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+/**
+ * This is the adapter for the search result.
+ *
+ * @author Ivan
+ * @version 1.0
+ *
+ */
+
 
 public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdapter.ViewHolder> {
 

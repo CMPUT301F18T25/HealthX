@@ -28,6 +28,15 @@ import io.searchbox.core.Get;
 
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This is the activity that allows the user to login with a generated short code.
+ *
+ *
+ * @author Aida
+ * @author Dhruba
+ * @version 1.0
+ *
+ */
 public class CodeLogin extends AppCompatActivity {
 
     EditText userCodeTextView;

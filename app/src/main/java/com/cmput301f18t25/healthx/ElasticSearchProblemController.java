@@ -31,7 +31,16 @@ import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
-
+/**
+ * This is the elasticSearch controller for problem
+ *
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ElasticSearchProblemController {
     private static JestDroidClient client;
 

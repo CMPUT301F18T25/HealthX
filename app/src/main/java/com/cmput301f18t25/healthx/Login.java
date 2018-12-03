@@ -29,6 +29,18 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Get;
+/**
+ * This is the activity that handles login with userId, along with the option to login by a short code.
+ *
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @author Aida
+ * @version 1.0
+ *
+ */
+
 
 public class Login extends AppCompatActivity {
 

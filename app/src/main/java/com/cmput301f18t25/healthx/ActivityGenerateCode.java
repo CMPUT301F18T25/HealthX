@@ -23,11 +23,19 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.concurrent.ExecutionException;
+/**
+ * This is the activity that allows the user to generate a short code.
+ *
+ * @author Aida
+ * @version 1.0
+ *
+ */
 public class ActivityGenerateCode extends AppCompatActivity {
 
     Button generate_btn;
     TextView code_output;
     User user = null;
+
 
 
     @Override

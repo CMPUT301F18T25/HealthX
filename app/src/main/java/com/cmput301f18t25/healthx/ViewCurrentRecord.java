@@ -39,6 +39,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+/**
+ * This is the activity that allows the user to view a current record.
+ *
+ * @author Dhrub
+ * @author Cecilia
+ * @author Ajay
+ * @version 1.0
+ *
+ */
 public class ViewCurrentRecord extends AppCompatActivity implements Serializable,OnMapReadyCallback, View.OnClickListener {
 
 

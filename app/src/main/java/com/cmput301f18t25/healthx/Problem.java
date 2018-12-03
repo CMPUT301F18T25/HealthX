@@ -14,7 +14,18 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-
+/**
+ * This is the entity class for the problem object.
+ *
+ * @author Dhrub
+ * @author Ivan
+ * @author Cecilia
+ * @author Aida
+ * @author Ajay
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 public class Problem implements Serializable{
     protected String title;
     protected String description;

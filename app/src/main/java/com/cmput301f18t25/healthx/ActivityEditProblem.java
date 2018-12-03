@@ -48,6 +48,15 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
+/**
+ * This is the activity that allows the user to edit an existing problem.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ActivityEditProblem extends AppCompatActivity {
     String title;
     String description;

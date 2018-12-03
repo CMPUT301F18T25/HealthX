@@ -28,6 +28,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+/**
+ * This is the activity that handles offline save.
+ *
+ * @author Dhruba
+ * @version 1.0
+ *
+ */
 
 public class OfflineSave {
 

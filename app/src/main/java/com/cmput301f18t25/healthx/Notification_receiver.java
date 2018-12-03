@@ -26,6 +26,13 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
+/**
+ * This is the notification receiver that handler notification
+ *
+ * @author Filip Vujovic
+ * @version 1.0
+ *
+ */
 
 public class Notification_receiver extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)

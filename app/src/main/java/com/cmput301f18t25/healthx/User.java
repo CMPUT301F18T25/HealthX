@@ -10,6 +10,17 @@
 
 
 package com.cmput301f18t25.healthx;
+/**
+ * This is the entity class for the user object.
+ *
+ * @author Dhrub
+ * @author Ivan
+ * @author Cecilia
+ * @author Aida
+ * @author Ajay
+ * @version 1.0
+ *
+ */
 public class User {
 
     protected String name;

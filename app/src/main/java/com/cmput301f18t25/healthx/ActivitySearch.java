@@ -27,6 +27,14 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+/**
+ * This is the activity that allows the user to search by keyword/bodylocation/geolocation.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @version 1.0
+ *
+ */
 
 public class ActivitySearch extends AppCompatActivity  {
     private RecyclerView sRecyclerView;

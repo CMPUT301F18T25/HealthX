@@ -15,6 +15,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * This is the entity class for the problemList singleton.
+ *
+ * @author Dhrub
+ * @author Cecilia
+ * @author Aida
+ * @author Ajay
+ * @version 1.0
+ *
+ */
+
 public class ProblemList {
     private static ProblemList instance;
 
