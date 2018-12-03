@@ -2,6 +2,7 @@ package com.cmput301f18t25.healthx;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -26,6 +29,10 @@ public class ActivityEditProblem extends AppCompatActivity {
     String description;
     String dateString;
     String userId;
+    String frontBodyPhoto;
+    String backBodyPhoto;
+    String frontBodyLocation;
+    String backBodyLocation;
     Problem oldProblem;
     Problem newProblem;
     int problemPosition;
@@ -43,19 +50,32 @@ public class ActivityEditProblem extends AppCompatActivity {
         EditText title_textView = findViewById(R.id.title_input);
         DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
         EditText description_textView = findViewById(R.id.description_input);
+
+        TextView frontTextview = findViewById(R.id.front_textview);
+        TextView backTextview = findViewById(R.id.back_textview);
+        ImageView frontView = findViewById(R.id.view_front);
+        ImageView backView = findViewById(R.id.view_back);
+
         oldProblem = (Problem) bundle.getSerializable("problem");
         title = oldProblem.getTitle();
         description = oldProblem.getDescription();
         dateString = oldProblem.getDate();
-        //userId = oldProblem.getId();
         userId = oldProblem.getUserId();
+        frontBodyPhoto = oldProblem.getFrontPhoto();
+        backBodyPhoto = oldProblem.getBackPhoto();
+        frontBodyLocation = oldProblem.frontBodyLocation;
+        backBodyLocation = oldProblem.backBodyLocation;
+
         problemPosition = bundle.getInt("position");
         title_textView.setText(title);
         description_textView.setText(description);
         dateStarted_textView.updateDate(Integer.valueOf(dateString.substring(0, 4)),
                 Integer.valueOf(dateString.substring(5, 7)) - 1,
                 Integer.valueOf(dateString.substring(8, 10)));
-
+        frontTextview.setText(frontBodyLocation);
+        backTextview.setText(backBodyLocation);
+        frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
+        backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
 
     }
 
