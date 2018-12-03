@@ -1,3 +1,14 @@
+/*
+ * Class Name: ActivityEditRecord
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.Manifest;
@@ -46,7 +57,15 @@ import java.util.List;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-
+/**
+ * This is the activity that allows the user to edit an existing record.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ActivityEditRecord extends AppCompatActivity {
     String recordPhoto;
     private LocationManager locationManager;
@@ -96,13 +115,23 @@ public class ActivityEditRecord extends AppCompatActivity {
                 Integer.valueOf(dateString.substring(8, 10)));
 
     }
-
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
-
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();

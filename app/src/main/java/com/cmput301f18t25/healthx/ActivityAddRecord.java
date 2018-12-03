@@ -1,3 +1,14 @@
+/*
+ * Class Name: ActivityAddRecord
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.Manifest;
@@ -42,7 +53,17 @@ import java.util.Date;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-
+/**
+ * This is the activity that allows the user to add a record, with geo-location and photos.
+ *
+ * @author Dhruba
+ * @author Ivan
+ * @author Aida
+ * @author Ajay
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ActivityAddRecord extends AppCompatActivity {
 
     ArrayList<String> imageURIs;
@@ -85,20 +106,33 @@ public class ActivityAddRecord extends AppCompatActivity {
         });
 
     }
+
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     */
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // if clicked the save button,
         if (id == android.R.id.home) {
-//            Intent intent = new Intent(this, ViewRecordList.class);
-//            startActivity(intent);
+
             Intent intent = new Intent();
             setResult(10,intent);
             Log.i("CWei", "back");
@@ -117,8 +151,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String recordDate = format.format(selected);
-
-//            Toast.makeText(getApplicationContext(), recordDate, Toast.LENGTH_SHORT).show();
 
 
             String recordTitle = title_textView.getText().toString();
@@ -171,6 +203,15 @@ public class ActivityAddRecord extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
+    /**
+     * Comes back to the current activity
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -186,6 +227,11 @@ public class ActivityAddRecord extends AppCompatActivity {
         }
     }
 
+    /**
+     * Handles button click for adding photos
+     *
+     * @param view
+     */
 
     public void addPhoto(View view){
 
