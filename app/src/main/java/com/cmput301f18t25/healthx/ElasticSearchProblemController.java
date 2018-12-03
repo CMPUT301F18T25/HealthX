@@ -115,7 +115,7 @@ public class ElasticSearchProblemController {
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
-                    Collections.sort(problems,Problem.RecDateComparator);
+                   // Collections.sort(problems,Problem.RecDateComparator);
                     Log.d("CWei", String.valueOf(problemList.size()));
                     Log.d("IVANLIM", String.valueOf(problemList.size()));
                 }
