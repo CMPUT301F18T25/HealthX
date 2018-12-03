@@ -17,7 +17,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class EditProfileTest extends ActivityTestRule<Signup> {
+public class EditProfileTest extends ActivityTestRule<Login> {
     public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(3);
     public String test_name = "name"+RandomStringUtils.randomAlphanumeric(3);
     public String test_email = "email@patient.com";
@@ -27,12 +27,12 @@ public class EditProfileTest extends ActivityTestRule<Signup> {
 
 
     public EditProfileTest() {
-        super(Signup.class);
+        super(Login.class);
     }
 
     @Rule
-    public ActivityTestRule<Signup> activityTestRule =
-            new ActivityTestRule<>(Signup.class);
+    public ActivityTestRule<Login> activityTestRule =
+            new ActivityTestRule<>(Login.class);
 
 
     @Before
@@ -48,6 +48,9 @@ public class EditProfileTest extends ActivityTestRule<Signup> {
 
     @Test
     public void testEdit() throws Exception {
+
+        solo.assertCurrentActivity("wrong activity",Login.class);
+        solo.clickOnView(solo.getView(R.id.link_signup));
 
 
         solo.assertCurrentActivity("wrong activity", Signup.class);
@@ -70,7 +73,7 @@ public class EditProfileTest extends ActivityTestRule<Signup> {
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        boolean next_view = solo.waitForActivity(Login.class, 3000);
+        boolean next_view = solo.waitForActivity(Login.class);
         assertTrue(next_view);
 
 
@@ -82,15 +85,15 @@ public class EditProfileTest extends ActivityTestRule<Signup> {
         solo.enterText(log_id,test_username);
         solo.clickOnView(solo.getView(R.id.btn_login));
 
-        boolean next_view2 = solo.waitForActivity(ViewProblemList.class, 3000);
+        boolean next_view2 = solo.waitForActivity(ViewProblemList.class);
         assertTrue("did not log in",next_view2);
-        assertTrue("toast not shown",solo.waitForText(test_name,1,3000));
+        assertTrue("toast not shown",solo.waitForText(test_name,1,5000));
 
         // click on edit profile button
 
         solo.clickOnActionBarHomeButton();
         solo.clickOnView(solo.getView(R.id.nav_edit));
-        boolean next_view3 = solo.waitForActivity(EditUserProfile.class,3000);
+        boolean next_view3 = solo.waitForActivity(EditUserProfile.class,5000);
         assertTrue("did not go to edit profile",next_view3);
 
         // make sure current data shown
@@ -124,14 +127,14 @@ public class EditProfileTest extends ActivityTestRule<Signup> {
 
         solo.clickOnButton(R.id.save_button);
         solo.assertCurrentActivity("wrong activity", ViewProblemList.class);
-        assertTrue("toast not shown",solo.waitForText("Profile Edited",1,3000));
+        assertTrue("toast not shown",solo.waitForText("Profile Edited",1,5000));
 
 
         // check that fields were changed
 
         solo.clickOnActionBarHomeButton();
         solo.clickOnView(solo.getView(R.id.nav_edit));
-        boolean next_view4 = solo.waitForActivity(EditUserProfile.class,3000);
+        boolean next_view4 = solo.waitForActivity(EditUserProfile.class);
         assertTrue("did not go to edit profile",next_view4);
 
 
@@ -146,7 +149,7 @@ public class EditProfileTest extends ActivityTestRule<Signup> {
         solo.clickOnActionBarHomeButton();
         solo.clickOnView(solo.getView(R.id.nav_logout));
 
-        boolean next_view5 = solo.waitForActivity(Login.class,3000);
+        boolean next_view5 = solo.waitForActivity(Login.class);
         assertTrue("did not go to login",next_view5);
 
         EditText username = (EditText) solo.getView(R.id.loginUserID);
@@ -155,7 +158,7 @@ public class EditProfileTest extends ActivityTestRule<Signup> {
         solo.clickOnView(solo.getView(R.id.btn_login));
 
 
-        boolean next_view6 = solo.waitForActivity(ViewProblemList.class, 3000);
+        boolean next_view6 = solo.waitForActivity(ViewProblemList.class);
         assertTrue("did not log in",next_view6);
         assertTrue("toast not shown",solo.waitForText(new_name,1,3000));
 
