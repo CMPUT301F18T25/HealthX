@@ -26,17 +26,6 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 
-/**
- * This is the activity that allows the care provider to add a patient by patient's id, along with the option to
- * add by a short code provided by the patient
- *
- *
- * @author Cecilia
- * @author Aida
- * @version 1.0
- *
- */
-
 public class ActivityAddPatient extends AppCompatActivity {
 
     Button mAddButton;
@@ -54,13 +43,6 @@ public class ActivityAddPatient extends AppCompatActivity {
 
     }
 
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item text view to switch to add patient by code
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -74,12 +56,6 @@ public class ActivityAddPatient extends AppCompatActivity {
     }
 
 
-    /**
-     * switch to add patient by code
-     *
-     * @param view text view to switch to add patient by code
-     */
-
     public void toCodeAdd(View view) {
         Intent intent = new Intent(this, ActivityAddPatientByCode.class);
         Bundle inBundle = new Bundle();
@@ -88,11 +64,6 @@ public class ActivityAddPatient extends AppCompatActivity {
         startActivity(intent);
     }
 
-    /**
-     * switch to add patient by code
-     *
-     * @param view button to add patient
-     */
     public void addPatient(View view) {
         mUserText = (EditText) findViewById(R.id.userIdText);
 

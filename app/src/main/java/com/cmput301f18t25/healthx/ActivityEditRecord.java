@@ -58,15 +58,6 @@ import java.util.List;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-/**
- * This is the activity that allows the user to edit an existing record.
- *
- * @author Ivan
- * @author Dhruba
- * @author Cecilia
- * @version 1.0
- *
- */
 public class ActivityEditRecord extends AppCompatActivity {
 
     private LocationManager locationManager;
@@ -137,23 +128,11 @@ public class ActivityEditRecord extends AppCompatActivity {
         }
 
     }
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item text view to switch to add patient by code
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -240,11 +219,6 @@ public class ActivityEditRecord extends AppCompatActivity {
         }
     }
 
-    /**
-     * Get the user's permission of using camera and add a photo
-     *
-     * @param view
-     */
     public void addPhoto(View view){
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -276,10 +250,6 @@ public class ActivityEditRecord extends AppCompatActivity {
 
     }
 
-    /**
-     * Get the user's permission of location services and set the geo-location
-     *
-     */
     public void setGeoLocation() {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

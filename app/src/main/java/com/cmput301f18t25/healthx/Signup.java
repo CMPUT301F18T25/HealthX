@@ -38,8 +38,6 @@ import java.util.concurrent.ExecutionException;
  *
  */
 
-
-
 public class Signup extends AppCompatActivity {
 
     private OfflineSave offlineSave;
@@ -121,9 +119,11 @@ public class Signup extends AppCompatActivity {
         });
     }
 
+
     /**
      * after sign up, we directs the user to his problem list
      * */
+
     public void toViewProblem(User user) {
         mUserList.setPreviousUser(user);
         if (user.getStatus().equals("Patient")){

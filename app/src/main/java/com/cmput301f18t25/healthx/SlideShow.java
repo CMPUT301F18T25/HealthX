@@ -21,15 +21,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-/**
- * This is the activity that allows the user to navigate their saved photos for records/problems.
- *
- * @author Ivan
- * @author Sandy
- * @author Ajay
- * @version 1.0
- *
- */
 public class SlideShow extends AppCompatActivity {
     ViewPager viewPager;
     protected ArrayList<Drawable> images = new ArrayList<>();

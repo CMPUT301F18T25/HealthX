@@ -37,14 +37,6 @@ import java.util.regex.Pattern;
 
 import static org.junit.Assert.*;
 
-/**
- * This is the intent test for adding problem
- *
- * @author Aida
- * @version 1.0
- *
- */
-
 public class AddProblemTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
@@ -88,6 +80,8 @@ public class AddProblemTest extends ActivityTestRule<Login> {
     @Test
     public void testAddProblem() throws Exception {
 
+        // first make a new account
+
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
         assertTrue("wrong activity", solo.waitForActivity(Signup.class));
@@ -106,15 +100,16 @@ public class AddProblemTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        assertTrue("did not go to login", solo.waitForActivity(Login.class));
+        // commented this out bc signup used to redirect to login but now logs in immediately
+        /*assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
         // log in
 
         EditText id_input = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(id_input,test_username);
-        solo.wait(wait_time);
-        solo.clickOnView(solo.getView(R.id.btn_login));
+        solo.sleep(wait_time);
+        solo.clickOnView(solo.getView(R.id.btn_login));*/
 
 
         assertTrue("did not log in",solo.waitForActivity(ViewProblemList.class));
@@ -138,6 +133,8 @@ public class AddProblemTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.save_button));
         assertTrue("did not go to problem list",solo.waitForActivity(ViewProblemList.class));
+
+        // make sure the problem can be seen on the screen
 
         assertTrue("problem not shown",solo.waitForText(test_title,1,5000,true));
         assertTrue("problem desc not shown",solo.waitForText(test_description,1,5000,true));

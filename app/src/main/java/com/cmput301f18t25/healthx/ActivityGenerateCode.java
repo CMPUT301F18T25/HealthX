@@ -23,13 +23,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.concurrent.ExecutionException;
-/**
- * This is the activity that allows the user to generate a short code.
- *
- * @author Aida
- * @version 1.0
- *
- */
 public class ActivityGenerateCode extends AppCompatActivity {
 
     Button generate_btn;
@@ -74,12 +67,6 @@ public class ActivityGenerateCode extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * When click on the button, use the library to generate a short code
-     * and set it to the text view
-     *
-     * @param view generate code button
-     */
     public void generateCode(View view) {
 
         code_output = (TextView) findViewById(R.id.code_output);
@@ -89,6 +76,11 @@ public class ActivityGenerateCode extends AppCompatActivity {
         RequestCode requestCode = new RequestCode(user.getUsername(),new_code);
         ElasticSearchUserController.AddRequestCodeTask addRequestCodeTask = new ElasticSearchUserController.AddRequestCodeTask();
         addRequestCodeTask.execute(requestCode);
+//        try {
+//            Thread.sleep(1000);                 //1000 milliseconds is one second.
+//        } catch(InterruptedException ex) {
+//            Thread.currentThread().interrupt();
+//        }
 
     }
 }

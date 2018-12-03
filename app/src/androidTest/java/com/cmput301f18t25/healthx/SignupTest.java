@@ -26,14 +26,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * This is the intent test for sign up
- *
- * @author Aida
- * @version 1.0
- *
- */
-
 public class SignupTest extends ActivityTestRule<Login>{
 
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
@@ -42,6 +34,7 @@ public class SignupTest extends ActivityTestRule<Login>{
     public String test_username = "usrname"+RandomStringUtils.randomAlphanumeric(3);
     public String test_phone_number = "1234567890";
     public String test_email = "user@email.com";
+    public int wait_time = 3000;
 
     private Solo solo;
 
@@ -81,7 +74,6 @@ public class SignupTest extends ActivityTestRule<Login>{
         EditText phone = (EditText) solo.getView(R.id.input_phone);
 
         RadioButton patient_btn = (RadioButton) solo.getView(R.id.radio_patient);
-        RadioButton doctor_btn = (RadioButton) solo.getView(R.id.radio_provider);
 
         solo.enterText(id,test_username);
         solo.enterText(name,test_name);
@@ -92,31 +84,19 @@ public class SignupTest extends ActivityTestRule<Login>{
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        boolean next_view = solo.waitForActivity(Login.class);
+        /*boolean next_view = solo.waitForActivity(Login.class);
         assertTrue("did not go to login page",next_view);
-
-        solo.goBack();
-        solo.assertCurrentActivity("did not go back", Signup.class);
-
-
-        solo.clickOnView(doctor_btn);
-
-        solo.clickOnView(solo.getView(R.id.btn_signup));
-
-
-        boolean next_view2 = solo.waitForActivity(Login.class);
-        assertTrue("did not go to login page",next_view2);
 
         // test successful signup by logging in
 
         EditText log_id = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(log_id,test_username);
-        solo.clickOnView(solo.getView(R.id.btn_login));
+        solo.clickOnView(solo.getView(R.id.btn_login));*/
 
-        boolean next_view3 = solo.waitForActivity(ViewProblemList.class, 3000);
+        boolean next_view3 = solo.waitForActivity(ViewProblemList.class);
         assertTrue("did not log in",next_view3);
-        assertTrue("toast not shown",solo.waitForText(test_name,1,3000));
+        assertTrue("toast not shown",solo.waitForText(test_name,1,wait_time));
 
 
 

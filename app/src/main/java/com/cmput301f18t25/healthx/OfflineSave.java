@@ -28,13 +28,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-/**
- * This is the activity that handles offline save.
- *
- * @author Dhruba
- * @version 1.0
- *
- */
 
 public class OfflineSave {
 
@@ -82,9 +75,6 @@ public class OfflineSave {
         }
 
     }
-    /**
-     * add user to offline storage
-     * */
 
     public void saveUserToFile(User user) {
         loadUsersFile();
@@ -104,9 +94,6 @@ public class OfflineSave {
         }
 
     }
-    /**
-     * load the user's problem list from local
-     * */
     public void loadTheProblemList() {
         try {
             FileInputStream fis = mContext.openFileInput(PROBLEMLISTFILENAME);

@@ -36,15 +36,6 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 
-/**
- * This is the activity that allows the care provider to navigate patient's problem.
- *
- *
- * @author Cecilia
- * @version 1.0
- *
- */
-
 public class ActivityViewPatientProblem extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;

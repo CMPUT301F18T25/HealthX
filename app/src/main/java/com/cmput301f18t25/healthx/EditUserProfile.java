@@ -25,16 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-/**
- * This is the activity that allows the user to edit his profile.
- *
- *
- * @author Cecilia
- * @author Ivan
- * @author Aida
- * @version 1.0
- *
- */
 public class EditUserProfile extends AppCompatActivity {
 
     @Override

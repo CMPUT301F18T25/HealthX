@@ -20,14 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 
-/**
- * This is the activity that handles offline behaviour.
- *
- * @author Dhruba
- * @version 1.0
- *
- */
-
 public class OfflineBehaviour {
 
     private static OfflineBehaviour instance;

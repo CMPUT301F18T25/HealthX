@@ -14,14 +14,6 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * This is the unit test for user class
- *
- * @author Aida
- * @version 1.0
- *
- */
-
 public class UserTest {
 
     public String test_name = "name";

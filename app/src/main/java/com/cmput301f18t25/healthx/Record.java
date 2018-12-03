@@ -17,17 +17,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-/**
- * This is the entity class for the record object.
- *
- * @author Dhrub
- * @author Ivan
- * @author Cecilia
- * @author Aida
- * @author Ajay
- * @version 1.0
- *
- */
 public class Record  implements Serializable {
 
     protected String title;
@@ -46,7 +35,6 @@ public class Record  implements Serializable {
     public void setCPComment(boolean CPComment) {
         this.CPComment = CPComment;
     }
-    /** @param CPComment boolean indicates whether it is CP comment or not */
     protected boolean CPComment;
 
     public Record(String record_title, String record_comment, Double latitude, Double longitude, ArrayList<String> imageURIs, String date, String problemID){
@@ -72,92 +60,45 @@ public class Record  implements Serializable {
         this.problemID = problemID;
 
     }
-    /**
-     * sets Comment
-     * @param comment comment to be added*/
     public void setComment(String comment) {
         this.comment = comment;
     }
-    /**
-     * sets Title
-     * @param title title to be added*/
     public void setTitle(String title){
         this.title = title;
     }
-    /**
-     * returns Comment
-     * */
     public String getComment() {
         return comment;
     }
-    /**
-     * returns Title
-     * */
     public String getTitle() {
         return title;
     }
-    /**
-     * sets Date
-     * @param newDate date to set
-     * */
     public void setDate(String newDate){
         this.date = newDate;
     }
-    /**
-     * returns date
-     * */
     public String getDate(){
         return this.date;
     }
-    /**
-     * returns Latitude
-     * */
     public Double getLatitude() {
         return latitude;
     }
-    /**
-     * returns Longitude
-     * */
     public Double getLongitude() {
         return longitude;
     }
-    /**
-     * sets Latitude
-     * @param latitude latitude you want to set
-     * */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
-    /**
-     * sets Longitude
-     * @param longitude longitude you want to set
-     * */
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
-    /**
-     * sets image
-     * @param image image you want to set
-     * */
     public void setImageURIs(ArrayList<String> imageURIs){
         this.imageURIs = imageURIs;
     }
-    /**
-     * returns image
-     * */
     public ArrayList<String> getImageURIs(){
         return this.imageURIs;
     }
-    /**
-     * gets Id
-     * */
     public String getId(){
         return this.id;
     }
-    /**
-     * sets Id
-     * @param Id Id you want to set
-     * */
     public void setId(String id){
         this.id = id;
     }

@@ -29,16 +29,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * This is the adapter for the record recycler view.
- *
- * @author Ivan
- * @author Cecilia
- * @author Dhruba
- * @author Ajay
- * @version 1.0
- *
- */
 public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> implements Serializable {
 
 

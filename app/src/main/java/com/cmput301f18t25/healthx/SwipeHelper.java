@@ -41,13 +41,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-/**
- * This is the swipe helper that helps the swipeable recycler view.
- *
- * @author Wenxi Zeng
- * @version 1.0
- *
- */
 public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     public static final int BUTTON_WIDTH = 300;

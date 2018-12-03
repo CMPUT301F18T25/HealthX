@@ -24,16 +24,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-/**
- * This is the adapter for the patient recycler view.
- *
- * @author Dhrub
- * @author Ivan
- * @author Cecilia
- * @version 1.0
- *
- */
-
 
 public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.ViewHolder> {
 
@@ -60,9 +50,6 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
     }
 
-    /**
-     * set text to corresponding recycler view item
-     * */
     @Override
     public void onBindViewHolder(PatientListAdapter.ViewHolder holder, final int position) {
 
