@@ -30,7 +30,11 @@ public class ActivitySearch extends AppCompatActivity  {
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ArrayList<Record> recordList = new ArrayList<Record>();
     private ArrayList<Object> searchResults = new ArrayList<>();
+    private ArrayList<Problem> userProblems = new ArrayList<>();
+    private ArrayList<Record> userRecords = new ArrayList<>();
     private Object searchType;
+    ProblemList probSingleton = ProblemList.getInstance();
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +42,7 @@ public class ActivitySearch extends AppCompatActivity  {
         setContentView(R.layout.activity_search);
         getSupportActionBar().hide();
         final Spinner searchSpin = findViewById(R.id.search_spin);
-
+        userId = probSingleton.getUser().getId();
 
         ArrayAdapter<CharSequence> spinAdp = ArrayAdapter.createFromResource(this,
                 R.array.searchOptions, android.R.layout.simple_spinner_item);
@@ -106,8 +110,23 @@ public class ActivitySearch extends AppCompatActivity  {
                                         uniqueProblems.add(problemList.get(i));
                                     }
                                 }
-                                searchResults.addAll(uniqueProblems);
-                                searchResults.addAll(recordList);
+
+                                for (int i = 0; i < uniqueProblems.size(); i++){
+                                    if(uniqueProblems.get(i).getUserId().equals(userId)){
+                                        userProblems.add(uniqueProblems.get(i));
+                                    }
+                                }
+
+                                for (int i = 0; i < recordList.size(); i++){
+                                    for (int j = 0; j < userProblems.size(); i++) {
+                                        if (recordList.get(i).getProblemID().equals(userProblems.get(j).getId())){
+                                            userRecords.add(recordList.get(i));
+                                        }
+                                    }
+                                }
+
+                                searchResults.addAll(userProblems);
+                                searchResults.addAll(userRecords);
 
 
                             } catch (ExecutionException e) {
@@ -119,9 +138,15 @@ public class ActivitySearch extends AppCompatActivity  {
                         case "Body Location":
                             try {
                                 String bodyLocation = bodyLocationView.getText().toString();
-                                
+
                                 problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword, bodyLocation).get();
-                                searchResults.addAll(problemList);
+                                for (int i = 0; i < problemList.size(); i++){
+                                    if (problemList.get(i).getUserId().equals(userId)){
+                                        userProblems.add(problemList.get(i));
+                                    }
+                                }
+
+                                searchResults.addAll(userProblems);
 
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
@@ -133,9 +158,24 @@ public class ActivitySearch extends AppCompatActivity  {
                         default:
                             try {
                                 problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword).get();
+
+                                for (int i = 0; i < problemList.size(); i++){
+                                    if (problemList.get(i).getUserId().equals(userId)){
+                                        userProblems.add(problemList.get(i));
+                                    }
+                                }
+
                                 recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword).get();
-                                searchResults.addAll(problemList);
-                                searchResults.addAll(recordList);
+                                for (int i = 0; i < recordList.size(); i++){
+                                    for (int j = 0; j < probSingleton.getProblemArray().size(); j++){
+                                        if (recordList.get(i).getProblemID().equals(probSingleton.getElementByIndex(j).getId())){
+                                            userRecords.add(recordList.get(i));
+                                        }
+                                    }
+
+                                }
+                                searchResults.addAll(userProblems);
+                                searchResults.addAll(userRecords);
 
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
