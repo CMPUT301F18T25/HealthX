@@ -93,11 +93,63 @@
                         android:maxLength="300"
                         android:padding="10dp"
                         android:ems="10"
-                        android:hint="Up to 300 characters"
+                        android:hint="@string/up_to_300_characters"
                         android:inputType="textMultiLine" />
 
-                </android.support.design.widget.TextInputLayout>
 
+                </android.support.design.widget.TextInputLayout>
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bodyPhotoFront"
+                    android:text="Add Front Body Photo"
+                    android:onClick="addBodyLocationPhotoFront"
+                    />
+                <ImageView
+                    android:id="@+id/view_front"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editPhoto"
+                    android:text="Edit Photo"
+                    android:onClick="Editphoto"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/bodyPhotoBack"
+                    android:text="Add Back Body Photo"
+                    android:onClick="addBodyLocationPhotoBack"
+                    />
+                <ImageView
+                    android:id="@+id/view_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/record_photo"
+                    android:text="@string/add_body_location"
+                    android:onClick="addBodyLocation"
+                    />
+
+                <TextView
+                    android:id="@+id/front_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:text="@string/front_body_location_not_set"
+                    android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/back_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="30dp"
+                    android:text= "@string/back_body_location_not_set"
+                    android:textSize="16sp" />
 
             </LinearLayout>
         </ScrollView>

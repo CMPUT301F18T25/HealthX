@@ -22,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import io.searchbox.core.Get;
 
 
+
 public class Login extends AppCompatActivity {
 //
 //    TextInputEditText userIdTextView;
@@ -30,7 +31,9 @@ public class Login extends AppCompatActivity {
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
 
-//    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private  OfflineSave offSave;
+    private UserList mUserList = UserList.getInstance();
 
 
     @Override
@@ -40,6 +43,30 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
         userIdTextView = findViewById(R.id.loginUserID);
+        offSave = new OfflineSave(getApplicationContext());
+//        User user  = offSave.loadUserFromFile();
+//        if (user != null) {
+//            userIdTextView.setText(user.getUsername());
+//        }
+        if (mUserList.getPreviousUser() != null) {
+            userIdTextView.setText(mUserList.getPreviousUser().getUsername());
+        } else {
+            User user = offSave.loadUserFromFile();
+            if (user != null) {
+                userIdTextView.setText(user.getUsername());
+            }
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mUserList.getPreviousUser() != null) {
+            userIdTextView.setText(mUserList.getPreviousUser().getUsername());
+        }
+
+
     }
 
     public void toCodeLogin(View view) {
@@ -53,45 +80,34 @@ public class Login extends AppCompatActivity {
     }
 
     public void toViewProblem(View view) {
-
+        String userId = userIdTextView.getText().toString();
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
-            Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+            // if null, we grab the userlist array, and check if the username is in the list,
+            // if it is we have to load the users problems and records
+            // return the user
+            // load from user table
+            User u = mUserList.getUserByUsername(userId);
+            if (u != null) {
+                mProblemList.setUser(u);
+                mUserList.setPreviousUser(u);
+               CheckUser(u);
+            }
+            else {
+                Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials & Offline!" , Toast.LENGTH_SHORT);
+                toast.show();
+            }
+
+
         } else {
-//            User user = new User(name,id,phone,email,status);
-            String userId = userIdTextView.getText().toString();
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
                 user = getUserTask.execute(userId).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
-                if (user.getStatus().equals("Patient")){
-                    mProblemList.setUser(user);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id",user.getUsername());
-
-
-                    Intent intent = new Intent(this, ViewProblemList.class);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-
-                    Intent mintent = new Intent(this, ViewProblemList.class);
-                    mintent.putExtras(bundle);
-                    startActivity(mintent);
-                }
-                else if (user.getStatus().equals("Care Provider")){
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("id",user.getUsername());
-                    Intent mintent = new Intent(this, ViewPatientList.class);
-                    mintent.putExtras(bundle);
-                    startActivity(mintent);
-                }
-
-                else {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials!" , Toast.LENGTH_SHORT);
-                    toast.show();
-                }
+                mUserList.setPreviousUser(user);
+                CheckUser(user);
+                mProblemList.setUser(user);
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -102,6 +118,36 @@ public class Login extends AppCompatActivity {
         }
     }
 
+
+    public void CheckUser(User user) {
+        if (user.getStatus().equals("Patient")){
+            mProblemList.setUser(user);
+            Bundle bundle = new Bundle();
+            bundle.putString("id",user.getUsername());
+
+
+            Intent intent = new Intent(this, ViewProblemList.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+            Intent mintent = new Intent(this, ViewProblemList.class);
+            mintent.putExtras(bundle);
+            startActivity(mintent);
+        }
+        else if (user.getStatus().equals("Care Provider")){
+
+            Bundle bundle = new Bundle();
+            bundle.putString("id",user.getUsername());
+            Intent mintent = new Intent(this, ViewPatientList.class);
+            mintent.putExtras(bundle);
+            startActivity(mintent);
+        }
+
+        else {
+            Toast toast = Toast.makeText(getApplicationContext(), "Invalid Credentials!" , Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 }
 
 

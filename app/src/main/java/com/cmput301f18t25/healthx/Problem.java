@@ -7,18 +7,32 @@ package com.cmput301f18t25.healthx;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Problem implements Serializable{
     protected String title;
     protected String description;
     protected String date;
+    protected String frontBodyLocation;
+    protected String backBodyLocation;
+    protected String frontPhoto;
+    protected String backPhoto;
     protected ArrayList<Record> recordArray;
-    protected Integer count;
     protected String id;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     protected String userId; // not the username
 
-    public Problem(String problemTitle, String problemDescription, String problemDate, String userId){
+
+    public Problem(String problemTitle, String problemDescription, String problemDate, String userId, String frontPhoto, String backPhoto, String frontBodyLocation, String backBodyLocation){
 
         /**
          * Creates an instance of Problem with getter and setters for the parameters
@@ -34,6 +48,10 @@ public class Problem implements Serializable{
         this.date = problemDate;
         this.id = "";
         this.userId = userId;
+        this.frontBodyLocation = frontBodyLocation;
+        this.backBodyLocation = backBodyLocation;
+        this.frontPhoto = frontPhoto;
+        this.backPhoto = backPhoto;
         this.recordArray = new ArrayList<Record>();
     }
 
@@ -61,6 +79,30 @@ public class Problem implements Serializable{
         return this.date;
     }
 
+    public String getFrontPhoto() {
+        return frontPhoto;
+    }
+
+    public void setFrontPhoto(String frontPhoto) {
+        this.frontPhoto = frontPhoto;
+    }
+
+    public String getBackPhoto() {
+        return backPhoto;
+    }
+
+    public void setBackPhoto(String backPhoto) {
+        this.backPhoto = backPhoto;
+    }
+
+    public void setFrontBodyLocation(String frontBodyLocation){ this.frontBodyLocation = frontBodyLocation; }
+
+    public String getFrontBodyLocation() { return this.frontBodyLocation; }
+
+    public void setBackBodyLocation(String backBodyLocation){ this.backBodyLocation = backBodyLocation; }
+
+    public String getBackBodyLocation() { return this.backBodyLocation; }
+
     public ArrayList<Record> getRecordArray() {
         return this.recordArray;
     }
@@ -84,10 +126,16 @@ public class Problem implements Serializable{
             }
         }
     }
+    public static Comparator<Problem> RecDateComparator = new Comparator<Problem>() {
 
-    public Integer getCount() {
-        return recordArray.size();
-    }
+        public int compare(Problem problem1, Problem problem2) {
+            String Date1 = problem1.getDate();
+            String Date2 = problem2.getDate();
+
+            //ascending order
+            return Date1.compareTo(Date2);
+        }};
+
     public String getId(){
         return this.id;
     }

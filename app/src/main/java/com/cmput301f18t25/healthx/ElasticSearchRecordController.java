@@ -9,6 +9,7 @@ import com.searchly.jestdroid.JestDroidClient;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.searchbox.client.JestResult;
@@ -18,6 +19,8 @@ import io.searchbox.core.DocumentResult;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
+
+import static com.cmput301f18t25.healthx.ElasticSearchProblemController.setClient;
 
 public class ElasticSearchRecordController {
     private static JestDroidClient client;
@@ -45,7 +48,7 @@ public class ElasticSearchRecordController {
                             if (!result2.isSucceeded()) {
                                 Log.i("Error", "doInBackground: error");
                             }else {
-                                Log.d("CWei", "doInBackground: successed addrecord ");
+                                Log.d("CWei", record.getProblemID());
                             }
                         } catch (Exception e) {
                             Log.i("Error", "The application failed to build and send the tweets");
@@ -84,6 +87,7 @@ public class ElasticSearchRecordController {
                     List<Record> recordList;
                     recordList = result.getSourceAsObjectList(Record.class);
                     records.addAll(recordList);
+                    Collections.sort(records,Record.RecDateComparator);
                     Log.d("CWei", String.valueOf(recordList.size()));
 
                 }
@@ -120,11 +124,6 @@ public class ElasticSearchRecordController {
                 Double maxLongitude = Double.valueOf(params[2]) + longitudeRange;
 
                 query = "{\"query\" : { \"bool\" : { \"must\": [ { \"range\": { \"latitude\" : { \"gte\" : " + minLatitude + ", \"lte\" : " + maxLatitude + " } } },{ \"range\": { \"longitude\": { \"gte\" : " + minLongitude + ", \"lte\": " + maxLongitude + " } } },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" +  "\", \"fields\" : [\"title\" , \"comment\"]} }]} }}";
-
-            } else if (params.length == 2){
-
-                String bodyLocation = params[1];
-                query = "{\"query\" : { \"match\" : { \"bodyLocation\" : \"" + bodyLocation + "\"}}}";
 
             } else {
 
@@ -170,6 +169,32 @@ public class ElasticSearchRecordController {
         }
 
     }
+
+    public static class UpdateRecordTask extends AsyncTask<Record, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Record... records) {
+            setClient();
+            for (Record record : records){
+                Index index = new Index.Builder(record).index("cmput301f18t25test").type("newRecord3").build();
+
+                try {
+                    DocumentResult result1 = client.execute(index);
+                    if (!result1.isSucceeded()) {
+                        Log.i("Error", "Elasticsearch was not able to add problem.");
+                    }
+                }
+                catch (Exception e){
+                    Log.i("Error", "The application failed to build and send the tweets");
+                }
+            }
+            return null;
+
+        }
+
+    }
+
+
     public static void clientSet() {
         if (client == null) {
 

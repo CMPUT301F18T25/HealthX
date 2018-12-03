@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="5dp"
+    android:paddingLeft="16dp"
+    android:background="@drawable/bg_view"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:orientation="vertical"
+    tools:context=".ActivityBodyLocation">
+
+    <ImageView
+        android:id="@+id/body_image"
+        android:src="@drawable/mappedhuman"
+        android:layout_gravity="center"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/body_image_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_below="@+id/body_image"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_marginTop="25sp"
+        android:textSize="32sp"
+        android:paddingBottom="10dp"
+        />
+    <Button
+        android:id="@+id/changeBodyViewButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:text="@string/switch_to_back_view"
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/body_image_textview"/>
+    <Button
+        android:id="@+id/saveBodyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:onClick="saveBodyLocations"
+        android:text="@string/save"
+        android:textColor="@color/white"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/changeBodyViewButton"/>
+
+
+</RelativeLayout>
