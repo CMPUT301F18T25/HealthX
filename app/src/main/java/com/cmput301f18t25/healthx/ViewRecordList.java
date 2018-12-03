@@ -40,6 +40,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
     private int position;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private OfflineSave offlineSave;
 
 
     @Override
@@ -47,6 +48,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        offlineSave = new OfflineSave(this);
 
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -67,12 +69,23 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
 
             }
         });
-        try {
-            recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
-            for(Record record: recordList){
-                mProblemList.addRecord(position, record);
+
+        if (offlineSave.checkNetworkStatus()) {
+            try {
+                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+                for(Record record: recordList){
+                    mProblemList.addRecord(position, record);
+                }
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
+
+        }
+        else {
+            Log.d("IVANLIM", "onCreate: " + mProblemList.getRecordList(position).toString());
+            recordList.addAll(mProblemList.getRecordList(position));
+        }
+
 //=======
 //                Bundle bundle = new Bundle();
 //                bundle.putString("ProblemID",problemId);
@@ -120,7 +133,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
 
 
 //        offline.synchronizeWithElasticSearch();
-        }
+
         rRecyclerView = findViewById(R.id.recycler_list);
         rRecyclerView.setHasFixedSize(true);
 
@@ -171,12 +184,29 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         Log.d("CWei", "OAR called");
         if(resultCode == 10)
         {
-            try {
-                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
-                //Log.d("CWei", String.valueOf(recordList.size()));
+//            try {
+//                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+//                //Log.d("CWei", String.valueOf(recordList.size()));
+//
+//            } catch (Exception e) {
+//
+//            }
 
-            } catch (Exception e) {
 
+            if (offlineSave.checkNetworkStatus()) {
+                try {
+                    recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+                    for(Record record: recordList){
+                        mProblemList.addRecord(position, record);
+                    }
+                } catch (Exception e) {
+
+                }
+
+            }
+            else {
+                Log.d("IVANLIM", "onactivityresult: " + mProblemList.getRecordList(position).toString());
+                recordList.addAll(mProblemList.getRecordList(position));
             }
             rAdapter = new RecordListAdapter(recordList);
             rRecyclerView.setAdapter(rAdapter);

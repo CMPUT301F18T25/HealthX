@@ -142,4 +142,12 @@ public class Problem implements Serializable{
     public void setId(String id){
         this.id = id;
     }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 }
