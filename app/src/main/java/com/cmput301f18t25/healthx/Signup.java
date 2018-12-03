@@ -28,11 +28,22 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This is the activity that allows the user to sign up.
+ *
+ * @author Cecilia
+ * @author Dhruba
+ * @author Aida
+ * @version 1.0
+ *
+ */
+
 public class Signup extends AppCompatActivity {
 
     private OfflineSave offlineSave;
     OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
     ProblemList mProblemList = ProblemList.getInstance();
+    UserList mUserList = UserList.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -134,6 +145,7 @@ public class Signup extends AppCompatActivity {
 //    }
 
     public void toViewProblem(User user) {
+        mUserList.setPreviousUser(user);
         if (user.getStatus().equals("Patient")){
             mProblemList.setUser(user);
             Bundle bundle = new Bundle();

@@ -32,6 +32,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -68,6 +69,8 @@ public class ActivityEditProblem extends AppCompatActivity {
     TextView backTextview;
     ImageView frontView;
     ImageView backView;
+    Button edit;
+    Button editBack;
 
 
 
@@ -87,6 +90,8 @@ public class ActivityEditProblem extends AppCompatActivity {
         backTextview = findViewById(R.id.back_textview);
         frontView = findViewById(R.id.view_front);
         backView = findViewById(R.id.view_back);
+        edit = findViewById(R.id.editPhoto);
+        editBack = findViewById(R.id.editBackPhoto);
 
         oldProblem = (Problem) bundle.getSerializable("problem");
         title = oldProblem.getTitle();
@@ -94,8 +99,14 @@ public class ActivityEditProblem extends AppCompatActivity {
         dateString = oldProblem.getDate();
         userId = oldProblem.getUserId();
         frontBodyPhoto = oldProblem.getFrontPhoto();
+        if (frontBodyPhoto != null){
+            edit.setVisibility(View.VISIBLE);
+        }
 //        Log.d("Sandy 301", frontBodyPhoto);
         backBodyPhoto = oldProblem.getBackPhoto();
+        if (backBodyPhoto != null){
+            editBack.setVisibility(View.VISIBLE);
+        }
         frontBodyLocation = oldProblem.frontBodyLocation;
         backBodyLocation = oldProblem.backBodyLocation;
 
@@ -289,7 +300,6 @@ public class ActivityEditProblem extends AppCompatActivity {
             backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
         } else if (requestCode == 3){
 
-            // Idk how to save it as a uri tho sandyyy ur on ur own
             byte[] byteArray = data.getByteArrayExtra("result");
             Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
             Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 3500, 3000, false);
@@ -316,16 +326,30 @@ public class ActivityEditProblem extends AppCompatActivity {
 //            File imageFile = new File(folder,imageFilePath);
 //            imageFileUri = Uri.fromFile(imageFile);
 
+        }else if (requestCode == 4){
+            byte[] byteArray = data.getByteArrayExtra("result");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 3500, 3000, false);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            backView.setImageDrawable(drawable);
         }
         
     }
 
     public void Editphoto(View view) {
+
 //        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
         Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
 //        intent.putExtra("bitmap",bitmap);
         intent.putExtra("path",frontBodyPhoto);
         startActivityForResult(intent,3);
 
+    }
+
+    public void EditBackphoto(View view) {
+        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
+//        intent.putExtra("bitmap",bitmap);
+        intent.putExtra("path",backBodyPhoto);
+        startActivityForResult(intent,4);
     }
 }

@@ -62,9 +62,7 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Intent intent = new Intent();
-            setResult(10,intent);
-            Log.i("CWei", "finished");
+
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -76,7 +74,6 @@ public class ActivityGenerateCode extends AppCompatActivity {
         String new_code = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(3,7));
         code_output.setText(new_code);
 
-        //RequestCode requestCode = new RequestCode(user.getName(),new_code);
         RequestCode requestCode = new RequestCode(user.getUsername(),new_code);
         ElasticSearchUserController.AddRequestCodeTask addRequestCodeTask = new ElasticSearchUserController.AddRequestCodeTask();
         addRequestCodeTask.execute(requestCode);

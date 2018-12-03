@@ -221,6 +221,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
                 Log.d("IVANLIM", "onactivityresult: " + mProblemList.getRecordList(position).toString());
                 recordList.addAll(mProblemList.getRecordList(position));
             }
+//            mProblemList.getRecordList(position);
             rAdapter = new RecordListAdapter(recordList);
             rRecyclerView.setAdapter(rAdapter);
         }
