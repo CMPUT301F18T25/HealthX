@@ -9,6 +9,7 @@ package com.cmput301f18t25.healthx;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
+import android.view.Display;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -148,17 +149,28 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
 
         TextView problem_title = solo.getText(test_title);
         problem_title.getLocationInWindow(location);
+        Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
 
-        fromX = location[0] + 100;
+        fromX = location[0] + width - 100;
         fromY = location[1];
 
         toX = location[0];
         toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 10);
+        solo.sleep(2000);
+        if (solo.searchText("Edit")){
+            Log.i("shown","shown");
+        }
+        else{
+            Log.i("shown","not");
+
+        }
 
         // click delete
-        solo.clickOnScreen(fromX+700,fromY);
+        solo.clickOnScreen(toX+width-200,fromY);
 
         // now check that the problem is gone
 
