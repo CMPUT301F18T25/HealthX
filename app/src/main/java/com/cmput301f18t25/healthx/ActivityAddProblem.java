@@ -38,6 +38,7 @@ public class ActivityAddProblem extends AppCompatActivity {
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
     public String problemFrontBodyLocation;
+    OfflineSave offlineSave;
     public String problemBackBodyLocation;
     public String problemFrontPhoto;
     public String problemBackPhoto;
@@ -47,6 +48,7 @@ public class ActivityAddProblem extends AppCompatActivity {
     ImageView frontView;
     ImageView backView;
 
+
     Uri imageFileUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT = 100;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK = 101;
@@ -54,6 +56,7 @@ public class ActivityAddProblem extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        offlineSave = new OfflineSave(this);
         setContentView(R.layout.activity_add_problem);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         frontTextview = findViewById(R.id.front_textview);
@@ -110,16 +113,17 @@ public class ActivityAddProblem extends AppCompatActivity {
 //            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
 //            mProblemList.addToProblemList(newProblem);
 //            OfflineBehaviour offline = new OfflineBehaviour();
-
+            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId(), problemFrontPhoto, problemBackPhoto, problemFrontBodyLocation, problemBackBodyLocation);
+            mProblemList.addToProblemList(newProblem);
+            offlineSave.saveProblemListToFile(newProblem);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
 //                newProblem.setId(UUID.randomUUID().toString()); // set a random id
-//                offline.addItem(newProblem, "ADD");
-//                finish();
+                offline.addItem(newProblem, "ADD");
+                finish();
             } else {
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId(), problemFrontPhoto, problemBackPhoto, problemFrontBodyLocation, problemBackBodyLocation);
                 //Bundle bundle = getIntent().getExtras();
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
@@ -223,4 +227,9 @@ public class ActivityAddProblem extends AppCompatActivity {
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK);
 
     }
+
+//    public void Editphoto(View view) {
+//        Intent intent = new Intent(ActivityAddProblem.this,DrawBitmap.class);
+//        startActivity(intent);
+//    }
 }

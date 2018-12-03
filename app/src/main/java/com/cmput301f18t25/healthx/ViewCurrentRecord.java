@@ -1,7 +1,11 @@
 package com.cmput301f18t25.healthx;
 
+
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,7 +81,6 @@ public class ViewCurrentRecord extends AppCompatActivity implements Serializable
 
             }
         });
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {

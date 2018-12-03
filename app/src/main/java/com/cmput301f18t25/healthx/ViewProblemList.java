@@ -41,13 +41,20 @@ public class ViewProblemList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
+    OfflineSave offlineSave;
     private boolean isDoctor;
+    TextView Uid;
+    TextView Uname;
+    TextView Uemail;
+    TextView Uphone;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_recycler);
+        offlineSave = new OfflineSave(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -68,18 +75,37 @@ public class ViewProblemList extends AppCompatActivity
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
         String email = bundle.getString("email");
-        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         User user = null;
-        try {
+//        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+        String userId = mProblemList.getUser().getId();
+        if (offlineSave.checkNetworkStatus()) {
+            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            try {
 
-            String userId = mProblemList.getUser().getId();
-            Log.d("IVANLIM", userId);
-            problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-            mProblemList.setProblemArray(problemList);
-        }catch (Exception e){
+                Log.d("IVANLIM", userId);
+                problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
+                mProblemList.setProblemArray(problemList);
+                try {
+                    user = getUserTask.execute(id,email).get();
+                    if (user.getStatus().equals("Care Provider")){
+                        isDoctor = true;
+                    }
 
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
+            }catch (Exception ignored){
+            }
         }
+        else {
+            offlineSave.loadProblemList(userId);
+            problemList = mProblemList.getProblemArray();
+            user = mProblemList.getUser();
+        }
+
         mRecyclerView = findViewById(R.id.recycler_list);
         mRecyclerView.setHasFixedSize(true);
 
@@ -112,6 +138,7 @@ public class ViewProblemList extends AppCompatActivity
                                 Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("problem", problem);
+
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent,10);
 
@@ -120,25 +147,14 @@ public class ViewProblemList extends AppCompatActivity
                 ));
             }
         };
-        try {
-            user = getUserTask.execute(id,email).get();
-            if (user.getStatus().equals("Care Provider")){
-                isDoctor = true;
-            }
 
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        TextView Uid = (TextView) header.findViewById(R.id.user_id);
+        Uid = (TextView) header.findViewById(R.id.user_id);
         Uid.setText(id);
-        TextView Uname = (TextView)header.findViewById(R.id.user_name);
+        Uname = (TextView)header.findViewById(R.id.user_name);
         Uname.setText(user.getName());
-        TextView Uemail = (TextView)header.findViewById(R.id.user_email);
+        Uemail = (TextView)header.findViewById(R.id.user_email);
         Uemail.setText(user.getEmail());
-        TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
+        Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
@@ -199,16 +215,37 @@ public class ViewProblemList extends AppCompatActivity
         if(resultCode == 10)
         {   //Log.d("CWei", "why");
             try {
-
                 String userId = mProblemList.getUser().getId();
                 problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-                mProblemList.setProblemArray(problemList);
+//                mProblemList.setProblemArray(problemList);
             }catch (Exception e){
 
             }
             //Log.d("CWei", "not");
-            mAdapter = new ProblemListAdapter(problemList,isDoctor);
+            mAdapter = new ProblemListAdapter(mProblemList.getProblemArray(),isDoctor);
             mRecyclerView.setAdapter(mAdapter);
+        }
+        if(resultCode == 15)
+        {   Log.d("CWei", "executed");
+            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            Bundle newBundle = data.getExtras();
+            String id = newBundle.getString("username");
+            Log.d("CWei", id);
+            String email = newBundle.getString("email");
+            try {
+                User user = getUserTask.execute(id,email).get();
+                Log.d("CWei", user.getName());
+                Uid.setText(id);
+                Uname.setText(user.getName());
+                Uemail.setText(user.getEmail());
+                Uphone.setText(user.getPhoneNumber());
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -284,7 +321,7 @@ public class ViewProblemList extends AppCompatActivity
 
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent,15);
         } else if (id == R.id.nav_logout) {
             //finish();
             Intent intent = new Intent(this, Login.class);

@@ -152,6 +152,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("record", record);
                                 intent.putExtras(bundle);
+                                startActivityForResult(intent, 10);
 
                             }
 
