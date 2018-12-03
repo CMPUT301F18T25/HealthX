@@ -133,7 +133,7 @@ public class ActivitySearch extends AppCompatActivity  {
                                 }
 
                                 for (int i = 0; i < recordList.size(); i++){
-                                    for (int j = 0; j < userProblems.size(); i++) {
+                                    for (int j = 0; j < userProblems.size(); j++) {
                                         if (recordList.get(i).getProblemID().equals(userProblems.get(j).getId())){
                                             userRecords.add(recordList.get(i));
                                         }

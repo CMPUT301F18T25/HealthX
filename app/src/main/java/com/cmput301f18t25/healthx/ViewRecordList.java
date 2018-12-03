@@ -70,6 +70,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        offline.synchronizeWithElasticSearch();
         offlineSave = new OfflineSave(this);
 
         setSupportActionBar(toolbar);
@@ -186,6 +187,8 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
                                 Intent intent = new Intent(ViewRecordList.this, ActivityEditRecord.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("record", record);
+                                bundle.putInt("position",position);
+                                bundle.putInt("recordPositon",pos);
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, 10);
 
@@ -258,8 +261,15 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         else if (id == R.id.map_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
             toast.show();
+            ArrayList<Record> withoutCpRecords = new ArrayList<>();
+            for (Record r : recordList) {
+                Log.d("IVANLIM", String.valueOf(r.isCPComment()));
+                if (!r.isCPComment()) {
+                    withoutCpRecords.add(r);
+                }
+            }
             Intent intent = new Intent(getApplicationContext(), MapViewActivity.class);
-            intent.putExtra("Records", recordList);
+            intent.putExtra("Records", withoutCpRecords);
             startActivity(intent);
 
         }

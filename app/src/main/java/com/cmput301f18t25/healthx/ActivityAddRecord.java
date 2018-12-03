@@ -93,7 +93,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         position = bundle.getInt("Position");
 //        Log.d("IVANLIM", "onCreate: " + String.valueOf(position));
         Log.d("IVANLIM",String.valueOf(position));
-        imageURIs = new ArrayList<>(10);
+        imageURIs = new ArrayList<String>(10);
         initializeLocationManager();
         setGeoLocation();
         geoloc = (Button) findViewById(R.id.record_geolocation);
@@ -218,7 +218,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                ImageView imagePhoto = findViewById(R.id.view_photo);
+                ImageView imagePhoto = findViewById(R.id.view_record_photo);
                 imagePhoto.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
                 imageURIs.add(imageFileUri.getPath());
             }else{
