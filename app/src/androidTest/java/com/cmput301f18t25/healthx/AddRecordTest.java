@@ -81,7 +81,6 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         boolean next_view4 = solo.waitForActivity(ViewProblemList.class,3000);
         assertTrue(next_view4);
 
-        //
-        solo.clickOnView(solo.getView(R.id.save_button));
+        solo.clickOnText(test_title,0,true);
     }
 }

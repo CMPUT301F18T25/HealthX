@@ -61,22 +61,28 @@ public class ActivityAddPatient extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void toCodeAdd(View view) {
+        Intent intent = new Intent(this, ActivityAddPatientByCode.class);
+        Bundle inBundle = new Bundle();
+        inBundle.putString("doctorID",doctorID);
+        intent.putExtras(inBundle);
+        startActivity(intent);
+    }
+
     public void addPatient(View view) {
         mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
-        mEmailText = (EditText) findViewById(R.id.userEmailText);
 
         String userId = mUserText.getText().toString();
-        String userEmail = mEmailText.getText().toString();
-        Log.i("CWei", userId+" "+userEmail);
+        Log.i("CWei", userId);
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         try {
 
-            User user = getUserTask.execute(userId,userEmail).get();
+            User user = getUserTask.execute(userId).get();
             if (!user.getStatus().equals("")){
                 ElasticSearchUserController.CheckPatientTask checkPatientTask = new ElasticSearchUserController.CheckPatientTask();
                 try {
 
-                    User user2 = checkPatientTask.execute(userId, userEmail).get();
+                    User user2 = checkPatientTask.execute(userId).get();
                     if (user2.getStatus().equals("")){
                         user.setDoctorID(doctorID);
                         ElasticSearchUserController.AddPatientTask addPatientTask = new ElasticSearchUserController.AddPatientTask();

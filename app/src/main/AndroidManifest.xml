@@ -76,6 +76,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCbVVSnOusB2KyC3EvSqbSGy00bZVosEvo" />
 
+
         <receiver android:name=".Notification_receiver" />
 
         <meta-data
@@ -88,6 +89,7 @@
         <activity android:name=".ActivitySeeRecordPhotos"></activity>
         <activity android:name=".DrawBitmap"></activity>
 
+        <activity android:name=".ActivityAddPatientByCode"></activity>
     </application>
 
 </manifest>
