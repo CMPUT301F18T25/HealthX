@@ -39,6 +39,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +49,7 @@ import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
 
 public class ActivityEditRecord extends AppCompatActivity {
-    String recordPhoto;
+
     private LocationManager locationManager;
     Location location;
     double longitude;
@@ -58,8 +59,10 @@ public class ActivityEditRecord extends AppCompatActivity {
     String dateString;
     String problemId;
     Record oldRecord;
-    ArrayList<String> imageURIs;
+    ArrayList<String> imageURIs = new ArrayList<String>(10);
+    ArrayList<String> oldURIs = new ArrayList<>(10);
     Uri imageFileUri;
+    ImageView imagePhoto;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     int problemPosition;
@@ -79,13 +82,15 @@ public class ActivityEditRecord extends AppCompatActivity {
         EditText title_textView = findViewById(R.id.record_title);
         EditText comment_textView = findViewById(R.id.record_comment);
         DatePicker recordDate_T = findViewById(R.id.recordDate);
-
+        imagePhoto = findViewById(R.id.view_record_photo);
 
         oldRecord = (Record) bundle.getSerializable("record");
         title = oldRecord.getTitle();
         comment = oldRecord.getComment();
         dateString = oldRecord.getDate();
         problemId = oldRecord.getProblemID();
+        oldURIs = oldRecord.getImageURIs();
+        imageURIs.addAll(oldURIs);
         problemPosition = bundle.getInt("position");
         recordPostion = bundle.getInt("recordPositon");
 
@@ -94,6 +99,8 @@ public class ActivityEditRecord extends AppCompatActivity {
         recordDate_T.updateDate(Integer.valueOf(dateString.substring(0, 4)),
                 Integer.valueOf(dateString.substring(5, 7)) - 1,
                 Integer.valueOf(dateString.substring(8, 10)));
+
+        imagePhoto.setImageDrawable(Drawable.createFromPath(imageURIs.get(0)));
 
     }
 
@@ -190,9 +197,8 @@ public class ActivityEditRecord extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                ImageView imagePhoto = findViewById(R.id.view_photo);
                 imagePhoto.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
-                recordPhoto = imageFileUri.getPath();
+                imageURIs.add(imageFileUri.getPath());
             }
         }
     }
