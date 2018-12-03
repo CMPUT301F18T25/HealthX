@@ -68,6 +68,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         problemID = bundle.getString("ProblemID");
         isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
+//        Log.d("IVANLIM", "onCreate: " + String.valueOf(position));
         Log.d("IVANLIM",String.valueOf(position));
 //        Log.d("IVANLIM", mProblemList.getElementByIndex(position).getTitle());
         imageURIs = new ArrayList<>(10);
@@ -118,19 +119,21 @@ public class ActivityAddRecord extends AppCompatActivity {
             // Check if app is connected to a network.
 //            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
-
+            newRecord.setCPComment(isDoctor);
+            mProblemList.addRecord(position,newRecord);
+//            save.saveRecordsToProblem();
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
             if (null == activeNetwork) {
                 offlineBehaviour.addItem(newRecord, "ADD");
-                save.saveRecordsToProblem();
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                setResult(10,intent);
                 finish();
 
             } else {
-                newRecord.setCPComment(isDoctor);
-                mProblemList.addRecord(position,newRecord);
+
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 

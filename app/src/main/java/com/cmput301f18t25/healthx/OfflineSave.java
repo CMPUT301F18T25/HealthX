@@ -194,6 +194,7 @@ public class OfflineSave {
 
     public void saveRecordsToProblem() {
         try {
+            loadTheProblemList();
             FileOutputStream fos = mContext.openFileOutput(PROBLEMLISTFILENAME, Context.MODE_PRIVATE);
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
