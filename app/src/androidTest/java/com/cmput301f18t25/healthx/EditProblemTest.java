@@ -9,6 +9,7 @@ package com.cmput301f18t25.healthx;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
+import android.view.Display;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -33,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 public class EditProblemTest extends ActivityTestRule<Login> {
 
-    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
+    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(4);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
     public String test_phone_number = "5467658769";
     public String test_email = test_username+"@email.com";
@@ -148,23 +149,26 @@ public class EditProblemTest extends ActivityTestRule<Login> {
 
         TextView problem_title = solo.getText(test_title);
         problem_title.getLocationInWindow(location);
+        Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
 
-        fromX = location[0] + 100;
+        fromX = location[0] + width - 100;
         fromY = location[1];
 
         toX = location[0];
         toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 10);
-
-        // click edit
-        solo.clickOnScreen(fromX+300,fromY);
+        solo.sleep(2000);
+        solo.clickOnScreen(toX+width-500,fromY);
         assertTrue("did not go to edit problem",solo.waitForActivity(ActivityEditProblem.class));
 
         // now change a field
-
         EditText title2 = (EditText) solo.getView(R.id.title_input);
         DatePicker date2 = (DatePicker) solo.getView(R.id.dateStarted_input);
+
+        solo.clearEditText(title2);
 
         solo.enterText(title2,test_title+"edited");
         solo.setDatePicker(date2, test_year,test_month,test_day+1);

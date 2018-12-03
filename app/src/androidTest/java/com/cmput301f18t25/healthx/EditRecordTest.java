@@ -9,6 +9,7 @@ package com.cmput301f18t25.healthx;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.util.Log;
+import android.view.Display;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -33,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 public class EditRecordTest extends ActivityTestRule<Login> {
 
-    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
+    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(4);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
     public String test_phone_number = "7867890876";
     public String test_email = test_username+"@email.com";
@@ -182,22 +183,19 @@ public class EditRecordTest extends ActivityTestRule<Login> {
         TextView problem_title = solo.getText(test_title);
         problem_title.getLocationInWindow(location);
 
-        fromX = location[0] + 100;
+        Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();
+        int height = display.getHeight();
+
+        fromX = location[0] + width - 100;
         fromY = location[1];
 
         toX = location[0];
         toY = fromY;
 
         solo.drag(fromX, toX, fromY, toY, 10);
-
-        // click edit
-        if (solo.searchText("Edit")){
-            Log.i("true","true");
-        }
-        else{
-            Log.i("false","false");
-        }
-        solo.clickOnScreen(fromX+300,fromY);
+        solo.sleep(2000);
+        solo.clickOnScreen(toX+width-400,fromY);
 
 
         assertTrue("did not go to edit record",solo.waitForActivity(ActivityEditRecord.class));
@@ -207,6 +205,7 @@ public class EditRecordTest extends ActivityTestRule<Login> {
         EditText record_title_in2 = (EditText) solo.getView(R.id.record_title);
         DatePicker record_date_in2 = (DatePicker) solo.getView(R.id.recordDate);
 
+        solo.clearEditText(record_title_in2);
         solo.enterText(record_title_in2,test_title_record+"edited");
         solo.setDatePicker(record_date_in2,test_year,test_month,test_day+1);
 

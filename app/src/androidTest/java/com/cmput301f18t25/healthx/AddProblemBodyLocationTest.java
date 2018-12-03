@@ -32,7 +32,7 @@ import static org.junit.Assert.assertTrue;
 
 public class AddProblemBodyLocationTest extends ActivityTestRule<Login> {
 
-    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
+    public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(4);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
     public String test_phone_number = "5467658769";
     public String test_email = test_username+"@email.com";
