@@ -121,11 +121,6 @@ public class ElasticSearchRecordController {
 
                 query = "{\"query\" : { \"bool\" : { \"must\": [ { \"range\": { \"latitude\" : { \"gte\" : " + minLatitude + ", \"lte\" : " + maxLatitude + " } } },{ \"range\": { \"longitude\": { \"gte\" : " + minLongitude + ", \"lte\": " + maxLongitude + " } } },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" +  "\", \"fields\" : [\"title\" , \"comment\"]} }]} }}";
 
-            } else if (params.length == 2){
-
-                String bodyLocation = params[1];
-                query = "{\"query\" : { \"match\" : { \"bodyLocation\" : \"" + bodyLocation + "\"}}}";
-
             } else {
 
                 query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"comment\"]}}}";

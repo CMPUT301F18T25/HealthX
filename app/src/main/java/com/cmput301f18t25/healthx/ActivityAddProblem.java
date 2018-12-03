@@ -2,9 +2,14 @@ package com.cmput301f18t25.healthx;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,14 +19,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
+
+import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
 public class ActivityAddProblem extends AppCompatActivity {
 
@@ -30,8 +40,17 @@ public class ActivityAddProblem extends AppCompatActivity {
     public String problemFrontBodyLocation;
     OfflineSave offlineSave;
     public String problemBackBodyLocation;
+    public String problemFrontPhoto;
+    public String problemBackPhoto;
+
     TextView frontTextview;
     TextView backTextview;
+    ImageView frontView;
+    ImageView backView;
+
+    Uri imageFileUri;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT = 100;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +60,8 @@ public class ActivityAddProblem extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         frontTextview = findViewById(R.id.front_textview);
         backTextview = findViewById(R.id.back_textview);
+        frontView = findViewById(R.id.view_front);
+        backView = findViewById(R.id.view_back);
     }
 
 
@@ -136,6 +157,12 @@ public class ActivityAddProblem extends AppCompatActivity {
             frontTextview.setText(problemFrontBodyLocation);
             backTextview.setText(problemBackBodyLocation);
 
+        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT){
+            problemFrontPhoto = imageFileUri.getPath();
+            frontView.setImageDrawable(Drawable.createFromPath(problemFrontPhoto));
+        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK){
+            problemBackPhoto = imageFileUri.getPath();
+            backView.setImageDrawable(Drawable.createFromPath(problemBackPhoto));
         }
     }
 
@@ -143,6 +170,60 @@ public class ActivityAddProblem extends AppCompatActivity {
     public void addBodyLocation(View view) {
         Intent intent = new Intent(ActivityAddProblem.this, ActivityBodyLocation.class);
         startActivityForResult(intent, 2);
+
+    }
+
+    public void addBodyLocationPhotoFront(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT);
+
+    }
+
+    public void addBodyLocationPhotoBack(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK);
 
     }
 }

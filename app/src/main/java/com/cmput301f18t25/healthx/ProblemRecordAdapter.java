@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
     private final int PROBLEM = 0;
     private final int RECORD = 1;
     private ViewHolder vh;
-
+    ProblemList mProblemlist = ProblemList.getInstance();
     public ProblemRecordAdapter(List<Object> results) {
         this.results = results;
     }
@@ -73,17 +74,20 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
                         Problem toView = (Problem) results.get(position);
                         Bundle bundle = new Bundle();
-                        bundle.putString("Title",toView.getTitle());
-                        bundle.putString("Description",toView.getDescription());
-
+//                        bundle.putString("Title",toView.getTitle());
+//                        bundle.putString("Description",toView.getDescription());
+                        String problemid = toView.getId();
+                        int problemListPosition = mProblemlist.getPositionByProblemId(problemid);
+                        Log.d("Problemlistpos", String.valueOf(problemListPosition));
+                        bundle.putString("ProblemID", problemid);
+                        bundle.putInt("Position", problemListPosition);
                         ///////////////////////////////
                         /// Date OR STRING
                         ///////////////////////////////////
 
-                        bundle.putString("Date",toView.getDate());
+//                        bundle.putString("Date",toView.getDate());
 
                         // CHANGE ACTIVITY CLASS
                         Intent intent = new Intent(v.getContext(), ViewRecordList.class);
@@ -97,6 +101,8 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                 break;
 
             case RECORD:
+                Log.d("IVANLIM", "RECORD " + String.valueOf(position));
+
                 Record record = (Record) results.get(position);
                 holder.rTitle.setText(record.getTitle());
                 holder.rComment.setText(record.getComment());
@@ -106,14 +112,17 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
                     public void onClick(View v) {
 
                         Record toView = (Record) results.get(position);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("Title",toView.getTitle());
-                        bundle.putString("Comment",toView.getComment());
-                        bundle.putString("Date", toView.getDate());
+//                        Bundle bundle = new Bundle();
+//
+//                        bundle.putString("Title",toView.getTitle());
+//                        bundle.putString("Comment",toView.getComment());
+//                        bundle.putString("Date", toView.getDate());
+
 
                         // CHANGE ACTIVITY CLASS
                         Intent intent = new Intent(v.getContext(), ViewCurrentRecord.class);
-                        intent.putExtras(bundle);
+//                        intent.putExtras(bundle);
+                        intent.putExtra("Record",toView );
                         v.getContext().startActivity(intent);
                         Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
 
