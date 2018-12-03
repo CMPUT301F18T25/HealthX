@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -166,13 +167,11 @@ public class ActivityEditProblem extends AppCompatActivity {
                 //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
-                String frontPhoto = oldProblem.getFrontPhoto();
-                String backPhoto = oldProblem.getBackPhoto();
                 String frontBodyLocation = oldProblem.getFrontBodyLocation();
                 String backBodyLocation = oldProblem.getBackBodyLocation();
                 mProblemList.removeProblemFromList(problemPosition);
 
-                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontPhoto,backPhoto,frontBodyLocation,backBodyLocation);
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontBodyPhoto,backBodyPhoto,frontBodyLocation,backBodyLocation);
                 newProblem.setId(pID);
 
                 ElasticSearchProblemController.UpdateProblemTask updateProblemTask = new ElasticSearchProblemController.UpdateProblemTask();
@@ -268,26 +267,33 @@ public class ActivityEditProblem extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 2) {
+        if (requestCode == 2) {
             frontBodyLocation = data.getStringExtra("front");
             backBodyLocation = data.getStringExtra("back");
             frontTextview.setText(frontBodyLocation);
             backTextview.setText(backBodyLocation);
 
-        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT){
+        } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT) {
             frontBodyPhoto = imageFileUri.getPath();
             frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
-        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK){
+        } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK) {
             backBodyPhoto = imageFileUri.getPath();
             backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
-        }
+        } else if (requestCode == 3){
+//          frontBodyPhoto = data.getStringExtra("result");
+            Intent intent = this.getIntent();
+            String uri = intent.getStringExtra("result");
+            Uri myuri = Uri.parse(uri);
+            frontView.setImageDrawable(Drawable.createFromPath(uri));
 
-//    public void Editphoto(View view) {
-////        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
-//        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
-////        intent.putExtra("bitmap",bitmap);
-//        intent.putExtra("path",frontBodyPhoto);
-//        startActivityForResult(intent,3);
+        }
+    }
+    public void Editphoto(View view) {
+//        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
+        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
+//        intent.putExtra("bitmap",bitmap);
+        intent.putExtra("path",frontBodyPhoto);
+        startActivityForResult(intent,3);
 
     }
 }
