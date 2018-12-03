@@ -25,17 +25,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/clear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:text="Clear"
-        app:layout_constraintTop_toBottomOf="@+id/draw"
-        tools:layout_editor_absoluteX="71dp" />
+    <!--<Button-->
+        <!--android:id="@+id/clear"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="Clear"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/draw"-->
+        <!--tools:layout_editor_absoluteX="71dp" />-->
 
     <Button
         android:id="@+id/save"
@@ -45,22 +45,23 @@
         android:layout_centerVertical="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:text="Save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clear" />
+        app:layout_constraintTop_toBottomOf="@+id/draw"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/testview"
-        android:layout_width="186dp"
-        android:layout_height="143dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/save"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:layout_constraintVertical_bias="1.0" />
 
 </android.support.constraint.ConstraintLayout>

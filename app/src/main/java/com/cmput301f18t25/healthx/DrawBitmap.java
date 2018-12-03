@@ -58,7 +58,7 @@ public class DrawBitmap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_draw_bitmap);
-        clear = findViewById(R.id.clear);
+//        clear = findViewById(R.id.clear);
         save = findViewById(R.id.save);
         imageView = findViewById(R.id.testview);
 
@@ -91,13 +91,13 @@ public class DrawBitmap extends AppCompatActivity {
 
 
 
-        clear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("SANDY 301","idgaf");
-                dv.clear();
-            }
-        });
+//        clear.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d("SANDY 301","idgaf");
+//                dv.clear();
+//            }
+//        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
