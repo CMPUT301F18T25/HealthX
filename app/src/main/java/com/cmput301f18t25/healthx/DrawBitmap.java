@@ -34,15 +34,6 @@ import java.lang.reflect.Method;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-/**
- * This is the class to draw bitmap
- *
- *
- * @author Sandy
- * @version 1.0
- *
- */
-
 public class DrawBitmap extends AppCompatActivity {
 
     FreeDraw dv;

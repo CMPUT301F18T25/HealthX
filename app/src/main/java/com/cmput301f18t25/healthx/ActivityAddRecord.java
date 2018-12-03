@@ -53,17 +53,6 @@ import java.util.Date;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-/**
- * This is the activity that allows the user to add a record, with geo-location and photos.
- *
- * @author Dhruba
- * @author Ivan
- * @author Aida
- * @author Ajay
- * @author Cecilia
- * @version 1.0
- *
- */
 public class ActivityAddRecord extends AppCompatActivity {
 
     ArrayList<String> imageURIs;
@@ -107,25 +96,11 @@ public class ActivityAddRecord extends AppCompatActivity {
 
     }
 
-    /**
-     * Inflate the menu; this adds items to the action bar if it is present.
-     *
-     * @param menu
-     */
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
-
-    /**
-     * Handle action bar item clicks here. The action bar will
-     * automatically handle clicks on the Home/Up button, so long
-     * as you specify a parent activity in AndroidManifest.xml.
-     *
-     * @param item text view to switch to add patient by code
-     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -204,14 +179,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
     }
 
-    /**
-     * Comes back to the current activity
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -226,12 +193,6 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
-
-    /**
-     * Handles button click for adding photos
-     *
-     * @param view
-     */
 
     public void addPhoto(View view){
 

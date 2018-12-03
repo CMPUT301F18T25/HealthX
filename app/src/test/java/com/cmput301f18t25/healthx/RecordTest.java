@@ -21,14 +21,6 @@ import android.graphics.Picture;
 
 import java.util.Date;
 
-/**
- * This is the unit test for record class
- *
- * @author Aida
- * @version 1.0
- *
- */
-
 public class RecordTest {
 
     public String test_title = "title";

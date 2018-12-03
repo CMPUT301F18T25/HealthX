@@ -16,14 +16,6 @@ import java.util.Date;
 
 import static org.junit.Assert.*;
 
-/**
- * This is the unit test for problemList class
- *
- * @author Aida
- * @version 1.0
- *
- */
-
 public class ProblemListTest {
 
     public String test_title = "title";

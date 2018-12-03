@@ -22,14 +22,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-/**
- * This is the class to free draw and erase
- *
- *
- * @author Sandy
- * @version 1.0
- *
- */
 
 
 public class FreeDraw extends View {
@@ -203,7 +195,6 @@ public class FreeDraw extends View {
         return bmp;
     }
 
-    /** erase */
     public void clear(){
         setDrawingCacheEnabled(false);
         // don't forget that one and the match below,

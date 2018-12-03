@@ -28,16 +28,6 @@ import io.searchbox.core.Get;
 
 import java.util.concurrent.ExecutionException;
 
-/**
- * This is the activity that allows the user to login with a generated short code.
- *
- *
- * @author Aida
- * @author Dhruba
- * @version 1.0
- *
- */
-
 public class CodeLogin extends AppCompatActivity {
 
     EditText userCodeTextView;
@@ -54,31 +44,16 @@ public class CodeLogin extends AppCompatActivity {
         userCodeTextView = findViewById(R.id.loginUserCode);
     }
 
-    /**
-     * go back to login by id
-     *
-     * @param view generate code button
-     */
     public void toMainLogin(View view) {
         Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 
-    /**
-     * go to sign up
-     *
-     * @param view generate code button
-     */
     public void toSignUp(View view) {
         Intent intent = new Intent(this, Signup.class);
         startActivity(intent);
     }
 
-    /**
-     * validate the credentials and go to the problem list / patient list
-     *
-     * @param view generate code button
-     */
     public void toViewProblemCode(View view) {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
