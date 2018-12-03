@@ -80,7 +80,7 @@
 
         <activity android:name=".SlideShow" />
         <activity android:name=".ActivityBodyLocation"></activity>
-
+        <activity android:name=".ActivitySeeRecordPhotos"></activity>
     </application>
 
 </manifest>

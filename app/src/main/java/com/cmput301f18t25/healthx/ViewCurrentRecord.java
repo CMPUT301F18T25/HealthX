@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,10 +21,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class ViewCurrentRecord extends AppCompatActivity implements Serializable,OnMapReadyCallback, View.OnClickListener {
 
 
     GoogleMap myMap;
@@ -47,7 +50,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         String title = theRecord.getTitle();
         String date = theRecord.getDate();
         String comment = theRecord.getComment();
-        ArrayList <String> images = theRecord.getImageURIs();
+        final ArrayList <String>  images = theRecord.getImageURIs();
         longitude = theRecord.getLongitude();
 //        if longitude == null:
 //            longitude = 0;
@@ -76,10 +79,29 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         rtime.setText(date);
         TextView rcomment = findViewById(R.id.record_comment);
         rcomment.setText(comment);
+
+        Button photos = (Button) findViewById(R.id.SeePhoto);
+        photos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (images.size() == 0) {
+                    Toast.makeText(getApplicationContext(),"No Photos for Record",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), theRecord.getTitle(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), ActivitySeeRecordPhotos.class);
+                    intent.putExtra("Record", theRecord);
+                    startActivity(intent);
+                }
+
+            }
+        });
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+
         myMap = googleMap;
         myMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         try {
@@ -97,6 +119,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         googleMap.addMarker(new MarkerOptions().position(placeLocation));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(placeLocation));
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(10), 1000, null);
+
 
     }
 
@@ -117,9 +140,7 @@ public class ViewCurrentRecord extends AppCompatActivity implements OnMapReadyCa
         switch(v.getId()){
             case R.id.SeePhoto: {
                 Intent intent = new Intent(getApplicationContext(),ActivitySeeRecordPhotos.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("Record", theRecord);
-                intent.putExtras(bundle);
+                intent.putExtra("Record", theRecord);
                 startActivity(intent);
             }
         }

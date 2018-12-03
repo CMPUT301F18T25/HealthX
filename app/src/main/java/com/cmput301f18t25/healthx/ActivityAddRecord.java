@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -51,6 +52,7 @@ public class ActivityAddRecord extends AppCompatActivity {
     Double latitude;
     String problemID;
     boolean isDoctor;
+    Button  geoloc;
     int position;
     Uri imageFileUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
@@ -69,9 +71,18 @@ public class ActivityAddRecord extends AppCompatActivity {
         Log.d("IVANLIM",String.valueOf(position));
 //        Log.d("IVANLIM", mProblemList.getElementByIndex(position).getTitle());
         imageURIs = new ArrayList<>(10);
+        initializeLocationManager();
         setGeoLocation();
-    }
+        geoloc = (Button) findViewById(R.id.record_geolocation);
+        geoloc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setGeoLocation();
+                //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+            }
+        });
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
@@ -110,7 +121,16 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
+            //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
+            if (latitude == null){
+                Log.d("location","still null");
+            }
             setGeoLocation();
+//            if (latitude == null) {
+//                setGeoLocation();
+//                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
+//
+//            }
 //            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
 //            mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
@@ -122,6 +142,7 @@ public class ActivityAddRecord extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
 //                finish();
             } else {
+                //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
                 Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
                 newRecord.setCPComment(isDoctor);
                 mProblemList.addRecord(position,newRecord);
@@ -191,13 +212,16 @@ public class ActivityAddRecord extends AppCompatActivity {
 
     public void setGeoLocation() {
         lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
-
+//        if (lm == null){
+//            lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+//        }
         listener = new LocationListener() {
+
             @Override
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
 
             }
 
@@ -242,6 +266,14 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
+    private void initializeLocationManager() {
+        //Log.e(TAG, "initializeLocationManager - LOCATION_INTERVAL: "+ LOCATION_INTERVAL + " LOCATION_DISTANCE: " + LOCATION_DISTANCE);
+        if (lm == null) {
+            Log.d("Ajay","init lm");
+            lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        }
+    }
+
 //    @Override
 //    public void onClick(View v){
 //        switch(v.getId()){
