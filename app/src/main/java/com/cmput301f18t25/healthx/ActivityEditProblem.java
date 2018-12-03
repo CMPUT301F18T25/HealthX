@@ -49,6 +49,11 @@ public class ActivityEditProblem extends AppCompatActivity {
     Uri imageFileUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT = 100;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK = 101;
+    TextView frontTextview;
+    TextView backTextview;
+    ImageView frontView;
+    ImageView backView;
+
 
 
 
@@ -63,10 +68,10 @@ public class ActivityEditProblem extends AppCompatActivity {
         DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
         EditText description_textView = findViewById(R.id.description_input);
 
-        TextView frontTextview = findViewById(R.id.front_textview);
-        TextView backTextview = findViewById(R.id.back_textview);
-        ImageView frontView = findViewById(R.id.view_front);
-        ImageView backView = findViewById(R.id.view_back);
+        frontTextview = findViewById(R.id.front_textview);
+        backTextview = findViewById(R.id.back_textview);
+        frontView = findViewById(R.id.view_front);
+        backView = findViewById(R.id.view_back);
 
         oldProblem = (Problem) bundle.getSerializable("problem");
         title = oldProblem.getTitle();
@@ -249,4 +254,27 @@ public class ActivityEditProblem extends AppCompatActivity {
     }
 
 
+    public void addBodyLocation(View view) {
+        Intent intent = new Intent(ActivityEditProblem.this, ActivityBodyLocation.class);
+        startActivityForResult(intent, 2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 2) {
+            frontBodyLocation = data.getStringExtra("front");
+            backBodyLocation = data.getStringExtra("back");
+            frontTextview.setText(frontBodyLocation);
+            backTextview.setText(backBodyLocation);
+
+        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT){
+            frontBodyPhoto = imageFileUri.getPath();
+            frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
+        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK){
+            backBodyPhoto = imageFileUri.getPath();
+            backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
+        }
+    }
 }
