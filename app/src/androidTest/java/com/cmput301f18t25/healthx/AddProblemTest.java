@@ -89,15 +89,15 @@ public class AddProblemTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.btn_signup));
 
 
-        assertTrue("did not go to login", solo.waitForActivity(Login.class));
+        /*assertTrue("did not go to login", solo.waitForActivity(Login.class));
 
         // log in
 
         EditText id_input = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(id_input,test_username);
-        solo.wait(wait_time);
-        solo.clickOnView(solo.getView(R.id.btn_login));
+        solo.sleep(wait_time);
+        solo.clickOnView(solo.getView(R.id.btn_login));*/
 
 
         assertTrue("did not log in",solo.waitForActivity(ViewProblemList.class));

@@ -76,14 +76,14 @@ public class SignupTest extends ActivityTestRule<Login>{
 
 
         boolean next_view = solo.waitForActivity(Login.class);
-        assertTrue("did not go to login page",next_view);
+        /*assertTrue("did not go to login page",next_view);
 
         // test successful signup by logging in
 
         EditText log_id = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(log_id,test_username);
-        solo.clickOnView(solo.getView(R.id.btn_login));
+        solo.clickOnView(solo.getView(R.id.btn_login));*/
 
         boolean next_view3 = solo.waitForActivity(ViewProblemList.class);
         assertTrue("did not log in",next_view3);

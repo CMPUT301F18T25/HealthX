@@ -87,7 +87,7 @@ public class SignupTestCareProvider extends ActivityTestRule<Login>{
         EditText log_id = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(log_id,test_username);
-        solo.wait(wait_time);
+        solo.sleep(wait_time);
         solo.clickOnView(solo.getView(R.id.btn_login));
 
         boolean next_view3 = solo.waitForActivity(ViewPatientList.class);

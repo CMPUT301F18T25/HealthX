@@ -92,18 +92,18 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         solo.enterText(phone,test_phone_number);
         solo.clickOnView(patient_btn);
         solo.clickOnView(solo.getView(R.id.btn_signup));
-        solo.wait(wait_time);
+        solo.sleep(wait_time);
 
 
-        assertTrue("did not go to login", solo.waitForActivity(Login.class));
+        /*assertTrue("did not go to login", solo.waitForActivity(Login.class,5000));
 
         // log in
 
         EditText id_input = (EditText) solo.getView(R.id.loginUserID);
 
         solo.enterText(id_input,test_username);
-        solo.wait(wait_time);
-        solo.clickOnView(solo.getView(R.id.btn_login));
+        solo.sleep(wait_time);
+        solo.clickOnView(solo.getView(R.id.btn_login));*/
 
 
         assertTrue("did not log in",solo.waitForActivity(ViewProblemList.class));
@@ -138,8 +138,8 @@ public class AddRecordTest extends ActivityTestRule<Login> {
         assertTrue("did not go to add record",solo.waitForActivity(ActivityAddRecord.class));
 
         EditText record_title_in = (EditText) solo.getView(R.id.record_title);
-        DatePicker record_date_in = (DatePicker) solo.getView(R.id.dateStarted_input);
-        EditText record_description_in = (EditText) solo.getView(R.id.description_input);
+        DatePicker record_date_in = (DatePicker) solo.getView(R.id.recordDate);
+        EditText record_description_in = (EditText) solo.getView(R.id.record_comment);
 
         solo.enterText(record_title_in,test_title_record);
         solo.setDatePicker(record_date_in,test_year,test_month,test_day);
