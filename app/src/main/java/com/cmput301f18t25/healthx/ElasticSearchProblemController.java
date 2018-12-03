@@ -138,8 +138,12 @@ public class ElasticSearchProblemController {
             setClient();
             ArrayList<Problem> problems = new ArrayList<Problem>();
             String keyword = params[0];
-            String query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"description\"]}}}";
-
+            String query;
+            if (params.length == 2){
+                query = "{\"query\" : { \"bool\" : { \"must\": [{ \"query_string\" : { \"query\" : \"" + "*" + params[1] + "*" + "\", \"fields\" : [\"frontBodyLocation\" , \"backBodyLocation\"]} },{ \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\" , \"fields\" : [\"title\" , \"description\"]} }] } }}";
+            }else {
+                query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"description\"]}}}";
+            }
             Search search = new Search.Builder(query)
                     .addIndex("cmput301f18t25test")
                     .addType("newProblem2")

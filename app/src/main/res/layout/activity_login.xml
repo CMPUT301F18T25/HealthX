@@ -27,8 +27,7 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginTop="40dp"
             android:id="@+id/loginUserID"
             android:hint="User ID"
             android:inputType="text" />
@@ -47,15 +46,7 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
         <!--android:inputType="text" />-->
         <!--</android.support.design.widget.TextInputLayout>-->
 
-        <!-- Email Label -->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:id="@+id/loginEmail"
-            android:inputType="textEmailAddress"
-            android:hint="Email" />
+
 
         <!--<android.support.design.widget.TextInputLayout-->
             <!--android:layout_width="match_parent"-->

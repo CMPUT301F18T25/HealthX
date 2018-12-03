@@ -19,7 +19,7 @@ public class Record  implements Serializable {
     protected String comment;
     protected Double longitude;
     protected Double latitude;
-    protected Bitmap image;
+    protected ArrayList<String> imageURIs;
     protected String date;
     protected String id;
     protected String problemID; // problemId specifies the feild at which the record is associated with a problem
@@ -34,25 +34,24 @@ public class Record  implements Serializable {
 
     protected boolean CPComment;
 
-
-    public Record(String record_title,String record_comment, Double latitude, Double longitude, Bitmap image, String date, String problemID){
-        /**
-         * Creates an instance of Record with getter and setters for the parameters
-         *
-         * @param record_title the title the user entered for the record
-         * @param record_comment the comment the user entered for the record
-         * @param latitude the latitude from geolocation of user
-         * @param longitude the longitude from geolocation of user
-         * @param image the bitmap of the photo taken by the user for a record
-         * @param date the date created the user selected for the record
-         *
-         */
+    public Record(String record_title, String record_comment, Double latitude, Double longitude, ArrayList<String> imageURIs, String date, String problemID){
+    /**
+     * Creates an instance of Record with getter and setters for the parameters
+     *
+     * @param record_title the title the user entered for the record
+     * @param record_comment the comment the user entered for the record
+     * @param latitude the latitude from geolocation of user
+     * @param longitude the longitude from geolocation of user
+     * @param image the bitmap of the photo taken by the user for a record
+     * @param date the date created the user selected for the record
+     *
+     */
 
         this.title = record_title;
         this.comment = record_comment;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.image = image;
+        this.imageURIs = imageURIs;
         this.date = date;
         this.id = "";
         this.problemID = problemID;
@@ -125,14 +124,14 @@ public class Record  implements Serializable {
      * sets image
      * @param image image you want to set
      * */
-    public void setImage(Bitmap image){
-        this.image = image;
+    public void setImageURIs(ArrayList<String> imageURIs){
+        this.imageURIs = imageURIs;
     }
     /**
      * returns image
      * */
-    public Bitmap getImage(){
-        return this.image;
+    public ArrayList<String> getImageURIs(){
+        return this.imageURIs;
     }
     /**
      * gets Id

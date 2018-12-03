@@ -18,6 +18,7 @@ public class User {
     protected String status;
 
     protected String reminderFrequency;
+    protected String code;
 
     /**
      * Creates an instance of User with getter and setters for the parameters
@@ -36,6 +37,21 @@ public class User {
         this.status = user_status;
         this.id = "";
         this.reminderFrequency = reminderFrequency;
+
+    }
+
+    public User() {
+
+    }
+
+    public void setUser(User u) {
+        this.name = u.getName();
+        this.username = u.getUsername();
+        this.phoneNumber = u.getPhoneNumber();
+        this.email = u.getEmail();
+        this.status = u.getStatus();
+        this.id = u.getId();
+        this.reminderFrequency = u.getReminderFrequency();
     }
     /**
      * Clones user, is required for elastic search
@@ -104,15 +120,23 @@ public class User {
         return this.reminderFrequency;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 }

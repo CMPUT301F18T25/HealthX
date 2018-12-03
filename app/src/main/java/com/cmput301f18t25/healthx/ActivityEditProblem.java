@@ -6,15 +6,14 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
+
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
@@ -119,7 +118,10 @@ public class ActivityEditProblem extends AppCompatActivity {
 
                 Bundle bundle = getIntent().getExtras();
 
+
                 String pID = oldProblem.getId();
+
+                //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
 
@@ -151,5 +153,6 @@ public class ActivityEditProblem extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
 
 }

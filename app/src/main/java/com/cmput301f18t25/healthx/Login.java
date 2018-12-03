@@ -27,11 +27,11 @@ public class Login extends AppCompatActivity {
 //    TextInputEditText userIdTextView;
 //    TextInputEditText emailtextView;
     EditText userIdTextView;
-    EditText emailtextView;
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
 
-//    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private  OfflineSave offSave;
 
 
     @Override
@@ -41,7 +41,11 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
         userIdTextView = findViewById(R.id.loginUserID);
-        emailtextView = findViewById(R.id.loginEmail);
+        offSave = new OfflineSave(getApplicationContext());
+        User user  = offSave.loadUserFromFile();
+        if (user != null) {
+            userIdTextView.setText(user.getUsername());
+        }
     }
 
     public void toCodeLogin(View view) {
@@ -60,32 +64,32 @@ public class Login extends AppCompatActivity {
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
             Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+            // load from user table
         } else {
 //            User user = new User(name,id,phone,email,status);
             String userId = userIdTextView.getText().toString();
-            String email = emailtextView.getText().toString();
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
-                user = getUserTask.execute(userId,email).get();
+                user = getUserTask.execute(userId).get();
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 if (user.getStatus().equals("Patient")){
                     mProblemList.setUser(user);
                     Bundle bundle = new Bundle();
                     bundle.putString("id",user.getUsername());
-                    bundle.putString("email",user.getEmail());
+
+
+                    Intent intent = new Intent(this, ViewProblemList.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 
                     Intent mintent = new Intent(this, ViewProblemList.class);
                     mintent.putExtras(bundle);
                     startActivity(mintent);
                 }
                 else if (user.getStatus().equals("Care Provider")){
-//=======
-//                if (!user.getStatus().equals("")) {
-//                    mProblemList.setUser(user);
-//>>>>>>> master
+
                     Bundle bundle = new Bundle();
                     bundle.putString("id",user.getUsername());
-                    bundle.putString("email",user.getEmail());
                     Intent mintent = new Intent(this, ViewPatientList.class);
                     mintent.putExtras(bundle);
                     startActivity(mintent);
