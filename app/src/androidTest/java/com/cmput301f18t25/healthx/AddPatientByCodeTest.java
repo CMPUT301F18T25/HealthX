@@ -163,7 +163,6 @@ public class AddPatientByCodeTest extends ActivityTestRule<Login> {
 
         solo.clickOnView(solo.getView(R.id.btnAddPatientbyCode));
 
-
         assertTrue("did not go back to Patient list",solo.waitForActivity(ViewPatientList.class));
         assertTrue("Patient name not shown",solo.waitForText(testPatientName,1,5000,true));
         assertTrue("Patient not shown",solo.waitForText(testPatientUsername,1,5000,true));
