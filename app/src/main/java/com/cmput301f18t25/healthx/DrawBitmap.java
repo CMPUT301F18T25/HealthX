@@ -13,15 +13,22 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.lang.reflect.Method;
+
+import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
 public class DrawBitmap extends AppCompatActivity {
 
@@ -86,15 +93,20 @@ public class DrawBitmap extends AppCompatActivity {
                 Log.d("SANDY 301",userBitmap.toString());
                 Log.d("SANDY 301","Bitmap Saved");
 
+
+
+
+
 //                ImageView imageView = findViewById(R.id.testview);
                 imageView.setImageBitmap( userBitmap );
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                userBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                String path = MediaStore.Images.Media.insertImage(getApplicationContext().getContentResolver(), userBitmap, "Title", null);
-                Uri newPath = Uri.parse(path);
-                Log.d("UWU", newPath.toString());
+                //String temp = Base64.encodeToString(byteArray, Base64.DEFAULT);
+
                 Intent returnIntent = new Intent();
-                returnIntent.putExtra("result", newPath.toString());
+                //Log.d("UWU", temp);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                userBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                returnIntent.putExtra("result", byteArray);
                 setResult(1, returnIntent);
                 finish();
 

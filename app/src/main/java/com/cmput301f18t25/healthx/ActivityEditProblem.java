@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -238,7 +240,6 @@ public class ActivityEditProblem extends AppCompatActivity {
         if (!folderF.exists()) {
             folderF.mkdir();
         }
-
         try {
             Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
             m.invoke(null);
@@ -280,11 +281,33 @@ public class ActivityEditProblem extends AppCompatActivity {
             backBodyPhoto = imageFileUri.getPath();
             backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
         } else if (requestCode == 3){
-//          frontBodyPhoto = data.getStringExtra("result");
-            Intent intent = this.getIntent();
-            String uri = intent.getStringExtra("result");
-            Uri myuri = Uri.parse(uri);
-            frontView.setImageDrawable(Drawable.createFromPath(uri));
+
+            // Idk how to save it as a uri tho sandyyy ur on ur own
+            byte[] byteArray = data.getByteArrayExtra("result");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 3500, 3000, false);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            frontView.setImageDrawable(drawable);
+
+//            String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+//            File folderF = new File(folder);
+//            if (!folderF.exists()) {
+//                folderF.mkdir();
+//            }
+//
+//            try {
+//                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+//                m.invoke(null);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            verifyPermission(this);
+//
+//            String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+//            File imageFile = new File(folder,imageFilePath);
+//            imageFileUri = Uri.fromFile(imageFile);
 
         }
     }
