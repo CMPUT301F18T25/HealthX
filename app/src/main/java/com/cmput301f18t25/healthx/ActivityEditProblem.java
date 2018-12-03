@@ -191,6 +191,6 @@ public class ActivityEditProblem extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
 //        intent.putExtra("bitmap",bitmap);
         intent.putExtra("path",frontBodyPhoto);
-        startActivity(intent);
+        startActivityForResult(intent,3);
     }
 }
