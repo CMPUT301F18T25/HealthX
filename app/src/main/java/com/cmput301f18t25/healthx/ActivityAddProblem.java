@@ -47,6 +47,7 @@ public class ActivityAddProblem extends AppCompatActivity {
     ImageView frontView;
     ImageView backView;
 
+
     Uri imageFileUri;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT = 100;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK = 101;
@@ -223,4 +224,9 @@ public class ActivityAddProblem extends AppCompatActivity {
         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK);
 
     }
+
+//    public void Editphoto(View view) {
+//        Intent intent = new Intent(ActivityAddProblem.this,DrawBitmap.class);
+//        startActivity(intent);
+//    }
 }
