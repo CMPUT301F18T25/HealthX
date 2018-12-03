@@ -3,6 +3,7 @@ package com.cmput301f18t25.healthx;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,19 +33,14 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
         Bundle bundle = this.getIntent().getExtras();
         String Bid = bundle.getString("id");
-        String Bemail = bundle.getString("email");
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         try {
-            user = getUserTask.execute(Bid,Bemail).get();
+            user = getUserTask.execute(Bid).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-        code_output.setText(user.getCode());
-
 
     }
 
@@ -58,11 +54,10 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            Bundle bundle = null;
-            bundle = this.getIntent().getExtras();
-            Intent intent = new Intent(this, ViewProblemList.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "finished");
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

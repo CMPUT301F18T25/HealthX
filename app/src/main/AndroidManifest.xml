@@ -7,9 +7,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- Access the storage for photos -->
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="false" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <!--
@@ -21,6 +23,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     -->notification
     <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/launcher"
@@ -51,7 +54,7 @@
             android:name=".ViewRecordList"
             android:label="ViewRecord"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MapViewActivity"/>
+        <activity android:name=".MapViewActivity" />
         <activity android:name=".ActivityEditProblem" />
         <activity android:name=".EditUserProfile" />
         <activity android:name=".ActivityGenerateCode" />
@@ -59,28 +62,34 @@
         <activity android:name=".ActivityAddProblem" />
         <activity android:name=".ActivityAddRecord" />
         <activity android:name=".ActivityEditRecord" />
-        <activity android:name=".ViewPatientList"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".ActivityAddPatient" />
-        <activity android:name=".ActivityViewPatientProblem"
-            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
-            android:name=".ViewCurrentRecord"></activity>
-        <activity android:name=".SlideShow"></activity>
+            android:name=".ViewPatientList"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ActivityAddPatient" />
+        <activity
+            android:name=".ActivityViewPatientProblem"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ViewCurrentRecord" />
+        <activity android:name=".SlideShow" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA"/>
-        <receiver android:name=".Notification_receiver"/>
+            android:value="AIzaSyCbVVSnOusB2KyC3EvSqbSGy00bZVosEvo" />
 
+
+        <receiver android:name=".Notification_receiver" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA" />
+            android:value="AIzaSyCbVVSnOusB2KyC3EvSqbSGy00bZVosEvo" />
 
         <activity android:name=".SlideShow" />
-        <activity android:name=".ActivityBodyLocation"></activity>
 
+        <activity android:name=".ActivityBodyLocation"></activity>
+        <activity android:name=".ActivitySeeRecordPhotos"></activity>
+        <activity android:name=".DrawBitmap"></activity>
+
+        <activity android:name=".ActivityAddPatientByCode"></activity>
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package com.cmput301f18t25.healthx;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ public class EditUserProfile extends AppCompatActivity {
 
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
+        assert (bundle != null);
         String id = bundle.getString("id");
         String email = bundle.getString("email");
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
@@ -47,7 +49,8 @@ public class EditUserProfile extends AppCompatActivity {
 
 
         Spinner freq = (Spinner) findViewById(R.id.frequency_menu);
-        String userFreq = user.getReminderFrequency();
+        //String userFreq = user.getReminderFrequency();
+        String userFreq = "None";
         List<String> freqList =  new ArrayList<String>();
         freqList.add(userFreq);
         String[] FreqList_all = getResources().getStringArray(R.array.frequency);
@@ -97,7 +100,7 @@ public class EditUserProfile extends AppCompatActivity {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             User user = null;
             try {
-                user = getUserTask.execute(Bid,Bemail).get();
+                user = getUserTask.execute(Bid).get();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             } catch (InterruptedException e) {
@@ -114,14 +117,30 @@ public class EditUserProfile extends AppCompatActivity {
             String EPHONE = Ephone.getText().toString();
             TextView Eemail = (TextView)findViewById(R.id.edit_email);
             String EEMAIL = Eemail.getText().toString();
+            String status = user.getStatus();
 
-            user.setEmail(EEMAIL);
-            user.setName(ENAME);
-            user.setReminderFrequency(frequency);
-            user.setPhoneNumber(EPHONE);
+            //user.setReminderFrequency(frequency);
+            User newUser = new User(ENAME,Bid,EPHONE,EEMAIL,user.getStatus(),user.getReminderFrequency());
+            newUser.setId(user.getId());
+            ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
+            deleteUserTask.execute(user);
+
             ElasticSearchUserController.UpdateUserTask updateUserTask = new ElasticSearchUserController.UpdateUserTask();
-            updateUserTask.execute(user);
+            updateUserTask.execute(newUser);
+
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
+            Bundle newBundle = new Bundle();
+//            newBundle.putString("email",newUser.getEmail());
+            newBundle.putString("username",newUser.getUsername());
+            try {
+                Thread.sleep(1000);                 //1000 milliseconds is one second.
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+            Intent intent = new Intent();
+            intent.putExtras(newBundle);
+            setResult(15,intent);
+            Log.i("CWei", "finished updating");
             finish();
 
             return true;

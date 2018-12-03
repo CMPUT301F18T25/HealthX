@@ -43,6 +43,11 @@ public class ViewProblemList extends AppCompatActivity
     private ProblemList mProblemList = ProblemList.getInstance();
     OfflineSave offlineSave;
     private boolean isDoctor;
+    TextView Uid;
+    TextView Uname;
+    TextView Uemail;
+    TextView Uphone;
+
 
 
     @Override
@@ -133,6 +138,7 @@ public class ViewProblemList extends AppCompatActivity
                                 Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("problem", problem);
+
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent,10);
 
@@ -142,13 +148,13 @@ public class ViewProblemList extends AppCompatActivity
             }
         };
 
-        TextView Uid = (TextView) header.findViewById(R.id.user_id);
+        Uid = (TextView) header.findViewById(R.id.user_id);
         Uid.setText(id);
-        TextView Uname = (TextView)header.findViewById(R.id.user_name);
+        Uname = (TextView)header.findViewById(R.id.user_name);
         Uname.setText(user.getName());
-        TextView Uemail = (TextView)header.findViewById(R.id.user_email);
+        Uemail = (TextView)header.findViewById(R.id.user_email);
         Uemail.setText(user.getEmail());
-        TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
+        Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.patient));
@@ -219,6 +225,27 @@ public class ViewProblemList extends AppCompatActivity
             mAdapter = new ProblemListAdapter(mProblemList.getProblemArray(),isDoctor);
             mRecyclerView.setAdapter(mAdapter);
         }
+        if(resultCode == 15)
+        {   Log.d("CWei", "executed");
+            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            Bundle newBundle = data.getExtras();
+            String id = newBundle.getString("username");
+            Log.d("CWei", id);
+            try {
+                User user = getUserTask.execute(id).get();
+                Log.d("CWei", user.getName());
+                Uid.setText(id);
+                Uname.setText(user.getName());
+                Uemail.setText(user.getEmail());
+                Uphone.setText(user.getPhoneNumber());
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
 
@@ -271,29 +298,24 @@ public class ViewProblemList extends AppCompatActivity
         } else if (id == R.id.nav_code) {
             Bundle obundle = null;
             obundle = this.getIntent().getExtras();
-            String Oid = obundle.getString("id");
-            String Oemail = obundle.getString("email");
-
             Bundle bundle = new Bundle();
             bundle.putAll(obundle);
             Intent intent = new Intent(this, ActivityGenerateCode.class);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent,10);
 
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
             obundle = this.getIntent().getExtras();
             String Oid = obundle.getString("id");
-            String Oemail = obundle.getString("email");
 
             Bundle bundle = new Bundle();
             bundle.putString("id",Oid);
-            bundle.putString("email",Oemail);
 
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent,15);
         } else if (id == R.id.nav_logout) {
             //finish();
             Intent intent = new Intent(this, Login.class);

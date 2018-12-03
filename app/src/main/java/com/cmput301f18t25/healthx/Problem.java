@@ -7,6 +7,7 @@ package com.cmput301f18t25.healthx;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Problem implements Serializable{
@@ -19,6 +20,15 @@ public class Problem implements Serializable{
     protected String backPhoto;
     protected ArrayList<Record> recordArray;
     protected String id;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     protected String userId; // not the username
 
 
@@ -116,6 +126,15 @@ public class Problem implements Serializable{
             }
         }
     }
+    public static Comparator<Problem> RecDateComparator = new Comparator<Problem>() {
+
+        public int compare(Problem problem1, Problem problem2) {
+            String Date1 = problem1.getDate();
+            String Date2 = problem2.getDate();
+
+            //ascending order
+            return Date1.compareTo(Date2);
+        }};
 
     public String getId(){
         return this.id;

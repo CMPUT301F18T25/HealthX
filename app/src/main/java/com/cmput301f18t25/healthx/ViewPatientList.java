@@ -31,6 +31,10 @@ public class ViewPatientList extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<User> patientList = new ArrayList<User>();
     private String doctorID;
+    TextView Uid;
+    TextView Uname;
+    TextView Uemail;
+    TextView Uphone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +56,23 @@ public class ViewPatientList extends AppCompatActivity
         Bundle bundle = null;
         bundle = this.getIntent().getExtras();
         String id = bundle.getString("id");
-        String email = bundle.getString("email");
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         User user = null;
         try {
-            user = getUserTask.execute(id,email).get();
+            user = getUserTask.execute(id).get();
         } catch (ExecutionException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        TextView Uid = (TextView) header.findViewById(R.id.user_id);
+        Uid = (TextView) header.findViewById(R.id.user_id);
         Uid.setText(id);
-        TextView Uname = (TextView)header.findViewById(R.id.user_name);
+        Uname = (TextView)header.findViewById(R.id.user_name);
         Uname.setText(user.getName());
-        TextView Uemail = (TextView)header.findViewById(R.id.user_email);
+        Uemail = (TextView)header.findViewById(R.id.user_email);
         Uemail.setText(user.getEmail());
-        TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
+        Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
@@ -128,17 +131,36 @@ public class ViewPatientList extends AppCompatActivity
     {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d("CWei", "OAR called");
-        if(resultCode == 10)
-        {
+        if (resultCode == 10){
             try {
                 patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
-                Log.d("CWei", String.valueOf(patientList.size()));
-
-            } catch (Exception e) {
+            }catch (Exception e){
 
             }
-            mAdapter = new PatientListAdapter(patientList, this.getIntent());
+            mAdapter = new PatientListAdapter(patientList,this.getIntent());
             mRecyclerView.setAdapter(mAdapter);
+
+        }
+        else if(resultCode == 15)
+        {   Log.d("CWei", "executed");
+            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            Bundle newBundle = data.getExtras();
+            String id = newBundle.getString("username");
+            Log.d("CWei", id);
+            try {
+                User user = getUserTask.execute(id).get();
+                Log.d("CWei", user.getName());
+                Uid.setText(id);
+                Uname.setText(user.getName());
+                Uemail.setText(user.getEmail());
+                Uphone.setText(user.getPhoneNumber());
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -185,9 +207,32 @@ public class ViewPatientList extends AppCompatActivity
 
         } else if (id == R.id.nav_map) {
 
-        } else if (id == R.id.nav_edit) {
-            Intent intent = new Intent(this, EditUserProfile.class);
+        } else if (id == R.id.nav_code) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+            String Oid = obundle.getString("id");
+            String Oemail = obundle.getString("email");
+
+            Bundle bundle = new Bundle();
+            bundle.putAll(obundle);
+            Intent intent = new Intent(this, ActivityGenerateCode.class);
+            intent.putExtras(bundle);
             startActivity(intent);
+
+        } else if (id == R.id.nav_edit) {
+            Bundle obundle = null;
+            obundle = this.getIntent().getExtras();
+            String Oid = obundle.getString("id");
+            //String Oemail = obundle.getString("email");
+
+            Bundle bundle = new Bundle();
+            bundle.putString("id",Oid);
+            //bundle.putString("email",Oemail);
+
+            Intent intent = new Intent(this, EditUserProfile.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent,15);
+
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);

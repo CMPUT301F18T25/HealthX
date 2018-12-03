@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.io.Serializable;
@@ -28,7 +29,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.List;
 
-public class ViewRecordList extends AppCompatActivity {
+public class ViewRecordList extends AppCompatActivity implements Serializable {
 
     private RecyclerView rRecyclerView;
     private RecyclerView.Adapter rAdapter;
@@ -164,6 +165,7 @@ public class ViewRecordList extends AppCompatActivity {
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("record", record);
                                 intent.putExtras(bundle);
+                                startActivityForResult(intent, 10);
 
                             }
 
@@ -226,16 +228,26 @@ public class ViewRecordList extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "finished");
             finish();
         }
         else if (id == R.id.map_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
             toast.show();
+            Intent intent = new Intent(getApplicationContext(), MapViewActivity.class);
+            intent.putExtra("Records", recordList);
+            startActivity(intent);
 
         }
         else if (id == R.id.slideShow_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View Slide Show" , Toast.LENGTH_SHORT);
             toast.show();
+
+            Intent intent = new Intent(getApplicationContext(),SlideShow.class);
+            intent.putExtra("Records",recordList);
+            startActivity(intent);
 //=======
 //        //noinspection SimplifiableIfStatement
 //
@@ -272,6 +284,5 @@ public class ViewRecordList extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 }
