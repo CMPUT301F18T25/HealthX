@@ -239,8 +239,15 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         else if (id == R.id.map_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
             toast.show();
+            ArrayList<Record> withoutCpRecords = new ArrayList<>();
+            for (Record r : recordList) {
+                Log.d("IVANLIM", String.valueOf(r.isCPComment()));
+                if (!r.isCPComment()) {
+                    withoutCpRecords.add(r);
+                }
+            }
             Intent intent = new Intent(getApplicationContext(), MapViewActivity.class);
-            intent.putExtra("Records", recordList);
+            intent.putExtra("Records", withoutCpRecords);
             startActivity(intent);
 
         }
