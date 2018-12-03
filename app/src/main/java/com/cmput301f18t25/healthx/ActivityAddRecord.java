@@ -83,7 +83,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 //        Log.d("IVANLIM", "onCreate: " + String.valueOf(position));
         Log.d("IVANLIM",String.valueOf(position));
         imageURIs = new ArrayList<String>(10);
-        initializeLocationManager();
         setGeoLocation();
         geoloc = (Button) findViewById(R.id.record_geolocation);
         geoloc.setOnClickListener(new View.OnClickListener() {
