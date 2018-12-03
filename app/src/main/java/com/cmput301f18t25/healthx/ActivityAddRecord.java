@@ -56,11 +56,13 @@ public class ActivityAddRecord extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
+    private OfflineSave save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
+        save = new OfflineSave(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = this.getIntent().getExtras();
         problemID = bundle.getString("ProblemID");
@@ -105,7 +107,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String recordDate = format.format(selected);
 
-            Toast.makeText(getApplicationContext(), recordDate, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), recordDate, Toast.LENGTH_SHORT).show();
 
 
             String recordTitle = title_textView.getText().toString();
@@ -115,14 +117,18 @@ public class ActivityAddRecord extends AppCompatActivity {
 //            mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
 //            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
+
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
             if (null == activeNetwork) {
-//                offlineBehaviour.addItem(newRecord, "ADD");
+                offlineBehaviour.addItem(newRecord, "ADD");
+                save.saveRecordsToProblem();
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-//                finish();
+                finish();
+
             } else {
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
                 newRecord.setCPComment(isDoctor);
                 mProblemList.addRecord(position,newRecord);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
@@ -197,7 +203,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
 
             }
 

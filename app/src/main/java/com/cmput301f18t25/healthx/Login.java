@@ -104,6 +104,7 @@ public class Login extends AppCompatActivity {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
                 user = getUserTask.execute(userId).get();
+                offSave.saveUserToFile(user);
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 mUserList.setPreviousUser(user);
                 CheckUser(user);

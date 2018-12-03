@@ -131,9 +131,11 @@ public class OfflineSave {
 
     private ArrayList<Problem> getProblemsByUserID(String userId, ArrayList<Problem> problems) {
         ArrayList<Problem> sortedProbs = new ArrayList<>();
+        Log.d("IDKKK", "LETSOGOO");
+        Log.d("IDKKK", userId);
         for (Problem p: problems) {
-            if (p.getId().compareTo(userId) == 0) {
-                Log.d("IVANLIM", p.getTitle());
+            Log.d("IDKKK", p.getId());
+            if (p.getUserId().compareTo(userId) == 0) {
                 sortedProbs.add(p);
             }
         }
@@ -188,5 +190,20 @@ public class OfflineSave {
 //        } else {
 //            return null;
 //        }
+    }
+
+    public void saveRecordsToProblem() {
+        try {
+            FileOutputStream fos = mContext.openFileOutput(PROBLEMLISTFILENAME, Context.MODE_PRIVATE);
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(allproblems, bufferedWriter);
+            bufferedWriter.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
