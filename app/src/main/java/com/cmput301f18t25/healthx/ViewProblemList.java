@@ -90,7 +90,6 @@ public class ViewProblemList extends AppCompatActivity
         String id = bundle.getString("id");
         String email = bundle.getString("email");
 
-//        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         try {
             userId = mProblemList.getUser().getId();
 
@@ -184,46 +183,43 @@ public class ViewProblemList extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Bundle bundle = null;
-                //bundle = ViewProblemList.this.getIntent().getExtras();
-                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
 
-                //intent.putExtras(bundle);
+                Intent intent = new Intent(ViewProblemList.this, ActivityAddProblem.class);
 
                 startActivityForResult(intent,10);
             }
         });
 
-//        String frequency = user.getReminderFrequency();
-//
-//        Log.d("CWei", frequency+"freq");
-//        if (!frequency.equals("None")){
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.set(Calendar.HOUR_OF_DAY,9);
-//            calendar.set(Calendar.MINUTE,0);
-//            calendar.set(Calendar.SECOND,0);
-//
-//
-//            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
-//            Intent intent = new Intent(this, Notification_receiver.class);
-//            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
-//            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-//            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-//
-//            if (frequency.equals("Everyday")){
-//                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
-//
-//            }
-//            else if (frequency.equals("Every week")){
-//                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
-//
-//            }
-//            else if (frequency.equals("Every month")){
-//                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
-//
-//            }
-//
-//        }
+        String frequency = user.getReminderFrequency();
+
+        Log.d("CWei", frequency+"freq");
+        if (!frequency.equals("None")){
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY,9);
+            calendar.set(Calendar.MINUTE,0);
+            calendar.set(Calendar.SECOND,0);
+
+
+            if (calendar.getTime().compareTo(new Date()) < 0) calendar.add(Calendar.DAY_OF_MONTH, 1);
+            Intent intent = new Intent(this, Notification_receiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(),100,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+
+            if (frequency.equals("Everyday")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every week")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),7 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+            else if (frequency.equals("Every month")){
+                alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),30 * 24 * 60 * 60 * 1000,pendingIntent);
+
+            }
+
+        }
 
     }
 
@@ -231,31 +227,29 @@ public class ViewProblemList extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("CWei", "OAR called");
-        Log.d("CWei", String.valueOf(resultCode));
-//        ProblemList mProblemList = ProblemList.getInstance();
+
+
         if(resultCode == 10)
-        {   //Log.d("CWei", "why");
+        {
             try {
                 String userId = mProblemList.getUser().getId();
                 problemList = new ElasticSearchProblemController.GetProblemsTask().execute(userId).get();
-//                mProblemList.setProblemArray(problemList);
+
             }catch (Exception e){
 
             }
-            //Log.d("CWei", "not");
+
             mAdapter = new ProblemListAdapter(mProblemList.getProblemArray(),isDoctor);
             mRecyclerView.setAdapter(mAdapter);
         }
         if(resultCode == 15)
-        {   Log.d("CWei", "executed");
+        {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             Bundle newBundle = data.getExtras();
             String id = newBundle.getString("username");
-            Log.d("CWei", id);
+
             try {
                 User user = getUserTask.execute(id).get();
-                Log.d("CWei", user.getName());
                 Uid.setText(id);
                 Uname.setText(user.getName());
                 Uemail.setText(user.getEmail());
@@ -312,8 +306,7 @@ public class ViewProblemList extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_map) {
-//            Intent intent = new Intent(this, MapViewActivity.class);
-//            startActivity(intent);
+
             Toast toast = Toast.makeText(this, "Please Select a Problem to enable Map View", Toast.LENGTH_LONG);
             toast.show();
 
@@ -339,7 +332,7 @@ public class ViewProblemList extends AppCompatActivity
             intent.putExtras(bundle);
             startActivityForResult(intent,15);
         } else if (id == R.id.nav_logout) {
-            //finish();
+
             Intent intent = new Intent(this, Login.class);
             startActivity(intent);
 

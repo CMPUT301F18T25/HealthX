@@ -31,6 +31,13 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+/**
+ * This is the activity that allows the user to add body locations for a problem.
+ *
+ * @author Ivan
+ * @version 1.0
+ *
+ */
 public class ActivityBodyLocation extends AppCompatActivity {
 
     String frontBodyLocation;
@@ -44,6 +51,9 @@ public class ActivityBodyLocation extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+    /**
+     * Calculate the coordinates and get the corresponding body location.
+     */
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -119,6 +129,11 @@ public class ActivityBodyLocation extends AppCompatActivity {
             }
         });
     }
+    /**
+     * save the clicked body location
+     * @param view
+     */
+
 
     public void saveBodyLocations(View view){
 
@@ -129,6 +144,13 @@ public class ActivityBodyLocation extends AppCompatActivity {
         finish();
 
     }
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -140,12 +162,8 @@ public class ActivityBodyLocation extends AppCompatActivity {
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(100,intent);
-            Log.i("CWei", "finished");
             finish();
-//            Bundle bundle = this.getIntent().getExtras();
-//            Intent intent = new Intent(this, ViewProblemList.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
+
         }
         return super.onOptionsItemSelected(item);
 

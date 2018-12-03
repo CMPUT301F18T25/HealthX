@@ -53,6 +53,17 @@ import java.util.Date;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
+/**
+ * This is the activity that allows the user to add a record, with geo-location and photos.
+ *
+ * @author Dhruba
+ * @author Ivan
+ * @author Aida
+ * @author Ajay
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ActivityAddRecord extends AppCompatActivity {
 
     ArrayList<String> imageURIs;
@@ -80,27 +91,38 @@ public class ActivityAddRecord extends AppCompatActivity {
         problemID = bundle.getString("ProblemID");
         isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
-//        Log.d("IVANLIM", "onCreate: " + String.valueOf(position));
-        Log.d("IVANLIM",String.valueOf(position));
+
         imageURIs = new ArrayList<String>(10);
-        initializeLocationManager();
         setGeoLocation();
         geoloc = (Button) findViewById(R.id.record_geolocation);
         geoloc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setGeoLocation();
-                //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+
             }
         });
 
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
+
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -110,11 +132,9 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             Intent intent = new Intent();
             setResult(10,intent);
-            Log.i("CWei", "back");
             finish();
         }
         if (id == R.id.save_button) {
-            Log.d("CWei", "onOptionsItemSelected: clicked save button");
 
             EditText title_textView = findViewById(R.id.record_title);
             EditText comment_textView = findViewById(R.id.record_comment);
@@ -126,24 +146,11 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String recordDate = format.format(selected);
-
-
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
-            //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
-            if (latitude == null){
-                Log.d("location","still null");
-            }
+
             setGeoLocation();
-//            if (latitude == null) {
-//                setGeoLocation();
-//                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
-//
-//            }
-//            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
-//            mProblemList.addToRecordToProblem(position,newRecord);
-            // Check if app is connected to a network.
-//            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
+
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
             newRecord.setCPComment(isDoctor);
             mProblemList.addRecord(position,newRecord);
@@ -170,7 +177,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 setResult(10,intent);
-                Log.i("CWei", "finished adding");
                 finish();
             }
 
@@ -215,7 +221,6 @@ public class ActivityAddRecord extends AppCompatActivity {
         verifyPermission(this);
 
         String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
-        Log.d("UWU", imageFilePath);
         File imageFile = new File(folder,imageFilePath);
         imageFileUri = Uri.fromFile(imageFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
@@ -231,7 +236,6 @@ public class ActivityAddRecord extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-
 
             }
 
@@ -276,12 +280,14 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
+
     private void initializeLocationManager() {
         if (lm == null) {
-            Log.d("Ajay","init lm");
+
             lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
     }
+
 
 
 

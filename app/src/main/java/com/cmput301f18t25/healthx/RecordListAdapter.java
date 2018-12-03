@@ -31,7 +31,7 @@ import java.util.List;
 
 public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ViewHolder> implements Serializable {
 
-    // private ProblemList mProblemList = ProblemList.getInstance();
+
 
     public Context ctx;
     private List<Record> records;
@@ -47,8 +47,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
         // CHANGE LAYOUT
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recordlist_cardview, parent, false);
         ViewHolder vh = new ViewHolder(v);
-        //v.setBackgroundColor(Color.BLACK                                                                                                                                                                                                                );
-        // vh.itemView.setBackgroundColor(Color.BLACK);
+
 
 
         return vh;
@@ -57,7 +56,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
 
     @Override
     public void onBindViewHolder(RecordListAdapter.ViewHolder holder, final int position) {
-        //holder.itemView.setBackgroundColor(Color.BLACK);
+
         holder.rTitle.setText(records.get(position).getTitle());
         holder.rComment.setText(records.get(position).getComment());
         holder.rTimestamp.setText(records.get(position).getDate());
@@ -65,25 +64,18 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Vi
         if (records.get(position).isCPComment()){
             String color_string = "#c3b1e2";
             int myColor = Color.parseColor(color_string);
-            //oneRecord.setBackgroundColor(myColor);
+
             holder.oneRecord.setBackgroundColor(myColor);
-//            holder.itemView.setBackgroundColor(Color.BLACK);
+
        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Record toView = records.get(position);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("Title",toView.getTitle());
-//                bundle.putString("Comment",toView.getComment());
-//                bundle.putString("Date", toView.getDate());
-                //Log.d("position",position);
-                //Log.d("Record",toView.title);
-                //Log.d("context",v.getContext());
-                // CHANGE ACTIVITY CLASS
+
                 Intent intent = new Intent(v.getContext(), ViewCurrentRecord.class);
-//              intent.putExtras(bundle);
+
                 intent.putExtra("Record",toView);
                 v.getContext().startActivity(intent);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();

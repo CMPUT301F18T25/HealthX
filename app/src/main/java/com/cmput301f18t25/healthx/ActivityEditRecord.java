@@ -106,7 +106,6 @@ public class ActivityEditRecord extends AppCompatActivity {
         try {
             if (oldRecord.getImageURIs().size() != 0) {
                 oldURIs = oldRecord.getImageURIs();
-                Log.d("here", oldURIs.get(0));
                 imageURIs.addAll(oldURIs);
             }
 
@@ -125,7 +124,6 @@ public class ActivityEditRecord extends AppCompatActivity {
                 Integer.valueOf(dateString.substring(8, 10)));
 
         if (imageURIs.size() > 0) {
-            Log.d("here", "image is setting");
             imagePhoto.setImageDrawable(Drawable.createFromPath(imageURIs.get(0)));
         }
 
@@ -144,7 +142,6 @@ public class ActivityEditRecord extends AppCompatActivity {
             if (id == android.R.id.home) {
                 Intent intent = new Intent();
                 setResult(10,intent);
-                Log.i("CWei", "finished");
                 finish();
             }
         }
@@ -175,22 +172,19 @@ public class ActivityEditRecord extends AppCompatActivity {
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-//                mProblemList.removeRecord(problemPosition, recordPostion);
-//                mProblemList.addRecord(problemPosition, newRecord);
+
                 offline.addItem(oldRecord, "DELETE");
                 offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
                 try {
-                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                    Thread.sleep(1000);
                 } catch(InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
                 Intent intent = new Intent();
                 setResult(10,intent);
-                Log.i("CWei", "finished adding");
                 finish();
             } else {
-//                offline.synchronizeWithElasticSearch();
 
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
@@ -199,13 +193,13 @@ public class ActivityEditRecord extends AppCompatActivity {
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
                 try {
-                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                    Thread.sleep(1000);
                 } catch(InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
                 Intent intent = new Intent();
                 setResult(10,intent);
-                Log.i("CWei", "finished adding");
+
                 finish();
             }
 
@@ -267,11 +261,7 @@ public class ActivityEditRecord extends AppCompatActivity {
             if (location != null){
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                Log.d("SANDY 301", String.valueOf(longitude));
-                Log.d("SANDY 301", String.valueOf(latitude));
-            }
-            else{
-                Log.d("SANDY 301","NO LOCATION");
+
             }
 
         }

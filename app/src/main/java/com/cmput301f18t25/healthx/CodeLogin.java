@@ -60,7 +60,7 @@ public class CodeLogin extends AppCompatActivity {
         if (null == activeNetwork) {
             Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
         } else {
-//          User user = new User(name,id,phone,email,status);
+
             String userCode = userCodeTextView.getText().toString();
             ElasticSearchUserController.GetRequestCodeTask getRequestCodeTask = new ElasticSearchUserController.GetRequestCodeTask();
             try {
@@ -72,10 +72,8 @@ public class CodeLogin extends AppCompatActivity {
                 if (!(requestCode == null)) {
                     String username = requestCode.getUsername();
 
-                    Log.d("here", username);
                     ElasticSearchUserController.GetUserTask userTask = new ElasticSearchUserController.GetUserTask();
                     User user = userTask.execute(username).get();
-                    Log.d("heree", user.getName());
                     Toast.makeText(getApplicationContext(), user.getName(), Toast.LENGTH_LONG).show();
                     if (!user.getStatus().equals("")) {
                         mProblemList.setUser(user);

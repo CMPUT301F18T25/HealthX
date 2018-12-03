@@ -68,7 +68,6 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         position = bundle.getInt("Position");
 
 
-        //isDoctor = bundle.getBoolean("isDoctor");
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +75,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
                 Intent intent = new Intent(ViewRecordList.this, ActivityAddRecord.class);
                 intent.putExtras(bundle); // pass the problemid to the addactivity
                 startActivityForResult(intent, 10);
-                //startActivityForResult(intent, 1);
+
 
             }
         });
@@ -93,64 +92,17 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
 
         }
         else {
-            Log.d("IVANLIM", "onCreate: " + mProblemList.getRecordList(position).toString());
+
             recordList.addAll(mProblemList.getRecordList(position));
         }
 
-//=======
-//                Bundle bundle = new Bundle();
-//                bundle.putString("ProblemID",problemId);
-//                bundle.putInt("Position", position);
-//                intent.putExtras(bundle); // pass the problemid to the addactivity
-//                startActivity(intent);
-//            }
-//        });
-//
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
-//
-//        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-//        navigationView.setNavigationItemSelectedListener(this);
-//
-//        ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-//        if (activeNetwork == null) {
-//            recordList = mProblemList.getRecordList(position);
-//        } else  {
-//            offline.synchronizeWithElasticSearch();
-//            try {
-//                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
-//            } catch (ExecutionException e) {
-//                e.printStackTrace();
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            Log.d("IVANLIM", "recordlist: " + String.valueOf(recordList.size()));
-//            mProblemList.addRecordListToProblem(position, recordList);
-//        }
-//
-//
-//
-//
-//    }
-//
-//    @Override
-//    protected void onStart(){
-//        super.onStart();
-//>>>>>>> master
-
-
-//        offline.synchronizeWithElasticSearch();
 
         rRecyclerView = findViewById(R.id.recycler_list);
         rRecyclerView.setHasFixedSize(true);
 
         rLayoutManager = new LinearLayoutManager(this);
         rRecyclerView.setLayoutManager(rLayoutManager);
-//            rAdapter = new RecordListAdapter(mProblemList.getRecordList(position));
+
         rAdapter = new RecordListAdapter(recordList);
         rRecyclerView.setAdapter(rAdapter);
         SwipeHelper swipeHelper = new SwipeHelper(this, rRecyclerView) {
@@ -194,17 +146,9 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("CWei", "OAR called");
+
         if(resultCode == 10)
         {
-//            try {
-//                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
-//                //Log.d("CWei", String.valueOf(recordList.size()));
-//
-//            } catch (Exception e) {
-//
-//            }
-
 
             if (offlineSave.checkNetworkStatus()) {
                 try {
@@ -218,10 +162,10 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
 
             }
             else {
-                Log.d("IVANLIM", "onactivityresult: " + mProblemList.getRecordList(position).toString());
+
                 recordList.addAll(mProblemList.getRecordList(position));
             }
-//            mProblemList.getRecordList(position);
+
             rAdapter = new RecordListAdapter(recordList);
             rRecyclerView.setAdapter(rAdapter);
         }
@@ -252,7 +196,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
             toast.show();
             ArrayList<Record> withoutCpRecords = new ArrayList<>();
             for (Record r : recordList) {
-                Log.d("IVANLIM", String.valueOf(r.isCPComment()));
+
                 if (!r.isCPComment()) {
                     withoutCpRecords.add(r);
                 }
@@ -269,39 +213,9 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
             Intent intent = new Intent(getApplicationContext(),SlideShow.class);
             intent.putExtra("Records",recordList);
             startActivity(intent);
-//=======
-//        //noinspection SimplifiableIfStatement
-//
-//        return super.onOptionsItemSelected(item);
-//    }
-//
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if (id == R.id.nav_view) {
-//            // Handle the camera action
-//        } else if (id == R.id.nav_slideshow) {
-//
-//        } else if (id == R.id.nav_map) {
-//            Intent intent = new Intent(this, MapViewActivity.class);
-//            Bundle args = new Bundle();
-//            args.putSerializable("RecordList", (Serializable) recordList);
-//            intent.putExtra("BUNDLE",args);
-//            startActivity(intent);
-//
-//        } else if (id == R.id.nav_edit) {
-//            Intent intent = new Intent(this, EditUserProfile.class);
-//            startActivity(intent);
-//        } else if (id == R.id.nav_logout) {
-//>>>>>>> master
-        //noinspection SimplifiableIfStatement
-
+            
         }
 
-        //noinspection SimplifiableIfStatement
 
         return super.onOptionsItemSelected(item);
     }

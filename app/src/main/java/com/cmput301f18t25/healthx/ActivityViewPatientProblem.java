@@ -11,11 +11,9 @@
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -34,10 +32,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.concurrent.ExecutionException;
 
-import io.searchbox.core.Delete;
 
 public class ActivityViewPatientProblem extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -122,8 +119,7 @@ public class ActivityViewPatientProblem extends AppCompatActivity
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            //String userId = mProblemList.getUser().getId();
-            //Log.d("IVANLIM", userId);
+
             LinearLayout card = findViewById(R.id.OnePatient);
             String color_string = "#c3b1e2";
             int myColor = Color.parseColor(color_string);
@@ -168,18 +164,16 @@ public class ActivityViewPatientProblem extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("CWei", "OAR called");
-        Log.d("CWei", String.valueOf(resultCode));
-//        ProblemList mProblemList = ProblemList.getInstance();
+
+
         if(resultCode == 15)
-        {   Log.d("CWei", "executed");
+        {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             Bundle newBundle = data.getExtras();
             String id = newBundle.getString("username");
-            Log.d("CWei", id);
+
             try {
                 User user = getUserTask.execute(id).get();
-                Log.d("CWei", user.getName());
                 Uid.setText(id);
                 Uname.setText(user.getName());
                 Uemail.setText(user.getEmail());

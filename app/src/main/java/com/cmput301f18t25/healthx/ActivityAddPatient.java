@@ -25,14 +25,20 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
-
+/**
+ * This is the activity that allows the care provider to add a patient by patient's id, along with the option to
+ * add by a short code provided by the patient
+ *
+ *
+ * @author Cecilia
+ * @author Aida
+ * @version 1.0
+ *
+ */
 public class ActivityAddPatient extends AppCompatActivity {
 
-
-    private String userID;
     Button mAddButton;
     EditText mUserText;
-    EditText mEmailText;
     String doctorID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,21 +52,31 @@ public class ActivityAddPatient extends AppCompatActivity {
 
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        // if clicked the save button,
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(10,intent);
-            Log.i("CWei", "finished");
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**
+     * switch to add patient by code
+     *
+     * @param view text view to switch to add patient by code
+     */
 
     public void toCodeAdd(View view) {
         Intent intent = new Intent(this, ActivityAddPatientByCode.class);
@@ -70,11 +86,15 @@ public class ActivityAddPatient extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * switch to add patient by code
+     *
+     * @param view button to add patient
+     */
     public void addPatient(View view) {
-        mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
+        mUserText = (EditText) findViewById(R.id.userIdText);
 
         String userId = mUserText.getText().toString();
-        Log.i("CWei", userId);
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         try {
 
@@ -92,14 +112,13 @@ public class ActivityAddPatient extends AppCompatActivity {
                         Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
                         toast.show();
                         try {
-                            Thread.sleep(1000);                 //1000 milliseconds is one second.
+                            Thread.sleep(1000);
                         } catch(InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
-                        //Intent intent = new Intent(this,ViewPatientList.class);
                         Intent intent = new Intent();
                         setResult(10,intent);
-                        Log.i("CWei", "finished adding");
+
                         finish();
                     }
                     else {

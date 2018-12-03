@@ -24,17 +24,25 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This is the activity that allows the care provider to add a patient by a short code, along with the option
+ * to switch by to add by id
+ *
+ * @author Aida
+ * @author Ivan
+ * @version 1.0
+ *
+ */
+
 public class ActivityAddPatientByCode extends AppCompatActivity {
 
 
-    private String userCode;
     Button mAddButton;
     EditText mUserCode;
     String doctorID;
     User cPatient;
     User cUser;
     ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
-    ArrayList<RequestCode> requestCodes2 = new ArrayList<RequestCode>();
     RequestCode requestCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,22 +57,31 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        // if clicked the save button,
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(10,intent);
-            //Log.i("CWei", "finished");
             finish();
         }
         return super.onOptionsItemSelected(item);
     }
 
 
+    /**
+     * switch to add patient by id
+     *
+     * @param view text view to switch to add patient by code
+     */
     public void toMainAdd(View view) {
         Intent intent = new Intent(this, ActivityAddPatient.class);
         Bundle inBundle = new Bundle();
@@ -72,6 +89,15 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
         intent.putExtras(inBundle);
         startActivity(intent);
     }
+
+    /**
+     * add patient by code
+     *
+     * @param view on click listener for button to add patient
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @see ElasticSearchUserController
+     */
 
     public void addPatientByCode(View view) {
 
@@ -103,11 +129,11 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         toast.show();
 
                         try {
-                            Thread.sleep(1000);                 //1000 milliseconds is one second.
+                            Thread.sleep(1000);
                         } catch(InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
-                        //Intent intent = new Intent(this,ViewPatientList.class);
+
                         Intent intent = new Intent();
                         setResult(10,intent);
                         finish();

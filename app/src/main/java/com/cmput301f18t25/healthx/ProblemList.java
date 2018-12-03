@@ -17,7 +17,7 @@ import java.util.Comparator;
 
 public class ProblemList {
     private static ProblemList instance;
-//    private static final ProblemList ourInstance = new ProblemList();
+
 
     private static ArrayList<Problem> problemArray;
     private static User user;
@@ -58,7 +58,7 @@ public class ProblemList {
     }
 
     public void addToProblemList(Problem problem) {
-        //Problem  newProblem = new Problem(problem.getTitle(), problem.getDescription(), problem.getDate());
+
         problemArray.add(problem);
         sortArray();
     }

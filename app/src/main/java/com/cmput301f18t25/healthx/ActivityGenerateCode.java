@@ -62,7 +62,6 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-
             finish();
         }
         return super.onOptionsItemSelected(item);
