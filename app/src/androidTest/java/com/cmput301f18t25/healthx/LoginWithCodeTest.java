@@ -54,7 +54,7 @@ public class LoginWithCodeTest extends ActivityTestRule<Login>{
     }
 
     @Test
-    public void testLogin() throws Exception {
+    public void testLoginCode() throws Exception {
 
         // make a new account
 

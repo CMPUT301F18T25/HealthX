@@ -55,7 +55,7 @@ public class SignupTestCareProvider extends ActivityTestRule<Login>{
     }
 
     @Test
-    public void testSignupPatient() throws Exception {
+    public void testSignupCP() throws Exception {
 
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));

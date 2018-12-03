@@ -53,7 +53,7 @@ public class LoginTestCareProvider extends ActivityTestRule<Login>{
     }
 
     @Test
-    public void testLogin() throws Exception {
+    public void testLoginCP() throws Exception {
 
         // create new account
 
