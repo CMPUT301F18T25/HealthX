@@ -119,6 +119,7 @@ public class ActivitySearch extends AppCompatActivity  {
                         case "Body Location":
                             try {
                                 String bodyLocation = bodyLocationView.getText().toString();
+                                
                                 problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword, bodyLocation).get();
                                 searchResults.addAll(problemList);
 
