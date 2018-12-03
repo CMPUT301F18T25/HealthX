@@ -89,8 +89,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
                 bundle.putString("ProblemID", toView.getId());
                 bundle.putBoolean("isDoctor",isDoctor);
                 bundle.putInt("Position", position);
-//                int pos =
-                // CHANGE ACTIVITY CLASS
+
                 Intent intent = new Intent(v.getContext(), ViewRecordList.class);
                 intent.putExtras(bundle);
 

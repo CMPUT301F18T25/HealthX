@@ -74,10 +74,7 @@ public class UserList {
             return previousUser;
         }
     }
-//
-//    public User getLastUser() {
-//        return userlist.get(userlist.size()-1);
-//    }
+
 
 
 

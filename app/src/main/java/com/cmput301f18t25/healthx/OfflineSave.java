@@ -50,10 +50,7 @@ public class OfflineSave {
         this.allproblems = new ArrayList<>();
     }
 
-//    public void LoadFiles() {
-//        loadUsersFile();
-//        loadProblemListFile();
-//    }
+
 
     public void loadUsersFile() {
         try {
@@ -71,9 +68,6 @@ public class OfflineSave {
 
     }
 
-//    public void loadProblemListFile() {
-//
-//    }
 
     // function that checks network status. Returns True if network exists, false if not.
     public boolean checkNetworkStatus() {
@@ -81,7 +75,7 @@ public class OfflineSave {
         assert cm != null;
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
-//            Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+
             return false;
         } else {
             return true;
@@ -102,13 +96,13 @@ public class OfflineSave {
             gson.toJson(userList.getUserlist(), bufferedWriter);
             bufferedWriter.flush();
             fos.close();
-            Log.d("Dhruba", "saveUserToFile: success");
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        loadUserFromFile();
+
     }
     /**
      * load the user's problem list from local
@@ -136,9 +130,7 @@ public class OfflineSave {
             Gson gson = new Gson();
             Type prob = new TypeToken<ArrayList<Problem>>(){}.getType();
             allproblems = gson.fromJson(bufferedReader,prob);
-            Log.d("IVANLIM", allproblems.toString());
             ArrayList<Problem> sortedProblems = getProblemsByUserID(userId, allproblems);
-            Log.d("IVANLIM", "loadProblemList: " + sortedProblems.toString());
             problemList.setProblemArray(sortedProblems);
             fis.close();
         } catch (FileNotFoundException e) {
@@ -151,10 +143,9 @@ public class OfflineSave {
 
     private ArrayList<Problem> getProblemsByUserID(String userId, ArrayList<Problem> problems) {
         ArrayList<Problem> sortedProbs = new ArrayList<>();
-        Log.d("IDKKK", "LETSOGOO");
-        Log.d("IDKKK", userId);
+
         for (Problem p: problems) {
-            Log.d("IDKKK", p.getId());
+
             if (p.getUserId().compareTo(userId) == 0) {
                 sortedProbs.add(p);
             }
@@ -180,9 +171,7 @@ public class OfflineSave {
     }
 
     public User loadUserFromFile() {
-//        ArrayList<User> userArrayList = new ArrayList<>();
-//        User newuser = new User();
-//        newuser.setStatus("null");
+
         try {
             FileInputStream fis = mContext.openFileInput(USRFILENAME);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(fis));
@@ -190,7 +179,7 @@ public class OfflineSave {
             Type user = new TypeToken<ArrayList<User>>(){}.getType();
             ArrayList<User> userdata = gson.fromJson(bufferedReader, user);
             userList.SetUserList(userdata);
-//            newuser.setUser((User) gson.fromJson(bufferedReader, user));
+
             fis.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -198,18 +187,13 @@ public class OfflineSave {
             e.printStackTrace();
         }
         if (userList.getUserlist().size() != 0) {
-//            userList.setPreviousUser(userList.getUserlist().get(userList.getUserlist().size()-1));
+
             return userList.getUserlist().get(userList.getUserlist().size()-1);
         }
         else {
             return null;
         }
 
-//        if ("null".compareTo(newuser.getStatus()) != 0) {
-//            return newuser;
-//        } else {
-//            return null;
-//        }
     }
 
     public void saveRecordsToProblem(Problem problem) {

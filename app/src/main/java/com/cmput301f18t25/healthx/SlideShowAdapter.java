@@ -36,17 +36,14 @@ public class SlideShowAdapter extends PagerAdapter {
 
     private ArrayList<Drawable> newList;
     protected Bitmap bitmap;
-//    private Integer [] images = {R.drawable.test1, R.drawable.test2,R.drawable.test3};
+
 
     public SlideShowAdapter(Context mcontext, ArrayList<Drawable> alist) {
         this.mcontext = mcontext;
         this.newList =  alist;
     }
 
-//    @Override
-//    public int getCount() {
-//        return images.length;
-//    }
+
 
         @Override
     public int getCount() {
@@ -65,7 +62,7 @@ public class SlideShowAdapter extends PagerAdapter {
         View view = layoutInflater.inflate(R.layout.slideshow_customlayout, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView2);
 
-//        imageView.setImageResource(images[position]);
+
         imageView.setImageDrawable(newList.get(position));
 
         ViewPager vp = (ViewPager) container;

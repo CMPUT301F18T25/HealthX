@@ -43,9 +43,7 @@ import io.searchbox.core.Get;
  */
 
 public class Login extends AppCompatActivity {
-//
-//    TextInputEditText userIdTextView;
-//    TextInputEditText emailtextView;
+
     EditText userIdTextView;
     private User user;
     private ProblemList mProblemList = ProblemList.getInstance();
@@ -63,10 +61,7 @@ public class Login extends AppCompatActivity {
         getSupportActionBar().hide();
         userIdTextView = findViewById(R.id.loginUserID);
         offSave = new OfflineSave(getApplicationContext());
-//        User user  = offSave.loadUserFromFile();
-//        if (user != null) {
-//            userIdTextView.setText(user.getUsername());
-//        }
+
         if (mUserList.getPreviousUser() != null) {
             userIdTextView.setText(mUserList.getPreviousUser().getUsername());
         } else {
@@ -112,10 +107,7 @@ public class Login extends AppCompatActivity {
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         if (null == activeNetwork) {
-            // if null, we grab the userlist array, and check if the username is in the list,
-            // if it is we have to load the users problems and records
-            // return the user
-            // load from user table
+
             User u = mUserList.getUserByUsername(userId);
             if (u != null) {
                 mProblemList.setUser(u);

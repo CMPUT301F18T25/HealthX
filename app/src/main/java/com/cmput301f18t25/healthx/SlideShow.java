@@ -42,12 +42,12 @@ public class SlideShow extends AppCompatActivity {
         setContentView(R.layout.activity_slide_show);
 
         recordList = (ArrayList<Record>) getIntent().getSerializableExtra("Records");
-        Log.d("Num Records:",String.valueOf(recordList.size()));
+
         for(int pos= 0; pos<recordList.size(); pos++){
             Record record = recordList.get(pos);
             ArrayList<String> imageList= record.getImageURIs();
             for(int x= 0; x<imageList.size(); x++){
-                Log.d("Sandy 301","Reached");
+
                 String image_path = imageList.get(x);
                 Drawable drawable = Drawable.createFromPath(image_path);
                 images.add(drawable);

@@ -33,7 +33,7 @@ public class OfflineBehaviour {
     private static OfflineBehaviour instance;
     private LinkedList<Object> objectQueue = new LinkedList<>();
     private LinkedList<String> objectAction = new LinkedList<>();
-    // object can be either probelm or record
+    // object can be either problem or record
 
     public static OfflineBehaviour getInstance() {
         if (instance == null) {
@@ -70,7 +70,7 @@ public class OfflineBehaviour {
         for (int index= 0; index < objectQueue.size(); index++) {
             Object obj = objectQueue.get(index);
             String action = objectAction.get(index);
-            Log.d("synchRecord", "synchronizeWithElasticSearch: " + action);
+
 
             if (action.compareTo("ADD") == 0 && obj.getClass() == Problem.class) {
                 // call elasticsearch for problemAdd
@@ -79,7 +79,7 @@ public class OfflineBehaviour {
 
             }
             else if (action.compareTo("ADD") == 0 && obj.getClass() == Record.class) {
-                Log.d("synchRecord", "synchronizeWithElasticSearch: " + obj.getClass());
+
                 ElasticSearchRecordController.AddRecordTask addrecord = new ElasticSearchRecordController.AddRecordTask();
                 addrecord.execute((Record) obj);
 
@@ -98,12 +98,7 @@ public class OfflineBehaviour {
                 ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
                 addUserTask.execute((User) obj);
             }
-//            else if (action.compareTo("EDIT") == 0 && obj.getClass() == Problem.class) {
-//
-//            }
-//            else if (action.compareTo("EDIT") == 0 && obj.getClass() == Record.class) {
-//
-//            }
+
         }
 
         objectQueue.clear();

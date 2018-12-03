@@ -48,7 +48,6 @@ public class MapViewActivity extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_view);
         Intent intent = getIntent();
-//        Bundle args = intent.getBundleExtra("BUNDLE");
         records = (ArrayList<Record>) intent.getSerializableExtra("Records");
 
 

@@ -69,7 +69,7 @@ public class EditUserProfile extends AppCompatActivity {
 
         Spinner freq = (Spinner) findViewById(R.id.frequency_menu);
         String userFreq = user.getReminderFrequency();
-        //String userFreq = "None";
+
         List<String> freqList =  new ArrayList<String>();
         freqList.add(userFreq);
         String[] FreqList_all = getResources().getStringArray(R.array.frequency);
@@ -107,11 +107,7 @@ public class EditUserProfile extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
             finish();
-//            Bundle bundle = null;
-//            bundle = this.getIntent().getExtras();
-//            Intent intent = new Intent(this, ViewProblemList.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
+
         }
         if (id == R.id.save_button) {
             /** if finish editing, we update the user info*/
@@ -144,7 +140,6 @@ public class EditUserProfile extends AppCompatActivity {
             //user.setReminderFrequency(frequency);
             User newUser = new User(ENAME,Bid,EPHONE,EEMAIL,status,frequency);
             newUser.setId(user.getId());
-            Log.d("CWei",user.getId());
             ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
             deleteUserTask.execute(user);
 
@@ -153,17 +148,17 @@ public class EditUserProfile extends AppCompatActivity {
 
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
             Bundle newBundle = new Bundle();
-//            newBundle.putString("email",newUser.getEmail());
+
             newBundle.putString("username",newUser.getUsername());
             try {
-                Thread.sleep(1000);                 //1000 milliseconds is one second.
+                Thread.sleep(1000);
             } catch(InterruptedException ex) {
                 Thread.currentThread().interrupt();
             }
             Intent intent = new Intent();
             intent.putExtras(newBundle);
             setResult(15,intent);
-            Log.i("CWei", "finished updating");
+
             finish();
 
             return true;

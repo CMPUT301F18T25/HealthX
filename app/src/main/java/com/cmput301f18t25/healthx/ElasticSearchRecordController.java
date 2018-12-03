@@ -56,7 +56,7 @@ public class ElasticSearchRecordController {
             clientSet();
             String recordID;
             for (Record record : records){
-                Index index = new Index.Builder(record).index("cmput301f18t25test").type("records").build();
+                Index index = new Index.Builder(record).index("cmput301f18t25").type("records").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -65,13 +65,11 @@ public class ElasticSearchRecordController {
                     } else {
                         recordID = result1.getId();
                         record.setId(recordID);
-                        Index index1 = new Index.Builder(record).index("cmput301f18t25test").type("newRecord3").build();
+                        Index index1 = new Index.Builder(record).index("cmput301f18t25").type("newRecord3").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
                                 Log.i("Error", "doInBackground: error");
-                            }else {
-                                Log.d("CWei", record.getProblemID());
                             }
                         } catch (Exception e) {
                             Log.i("Error", "The application failed to build and send the tweets");
@@ -99,30 +97,26 @@ public class ElasticSearchRecordController {
             clientSet();
             ArrayList<Record> records = new ArrayList<Record>();
 
-            // SHOULD CHANGE TO DYNAMIC SIZE
             String query = "{\n" + "\"from\" : 0, \"size\": 100,\n" +
                     "    \"query\": {\n" +
                     "                \"match\" : {\"problemID\": \""+ params[0] + "\" }\n"  +  " }\n}\n";
 
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
 
                     .addType("newRecord3")
                     .build();
             try {
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
-                    Log.d("IVANLIM", "doInBackground: RECORD SUCESS");
                     List<Record> recordList;
                     recordList = result.getSourceAsObjectList(Record.class);
                     records.addAll(recordList);
                     Collections.sort(records,Record.RecDateComparator);
-                    Log.d("CWei", String.valueOf(recordList.size()));
+
 
                 }
-                else {
-                    Log.d("IVANLIM", "doInBackground: RECORD ELSe");
-                }
+
 
             } catch (IOException e) {
                 Log.d("Error", "Error in searching records");
@@ -147,10 +141,8 @@ public class ElasticSearchRecordController {
             if (params.length == 3){
 
                 // APPROXIMATELY WITHIN A 5 KM RANGE
-
                 Double longitudeRange = (2.5 / (111.320 * Math.toDegrees(Math.cos(Math.toRadians(Double.valueOf(params[1]))))));
 
-                Log.d("UWU" , longitudeRange.toString());
                 Double minLatitude = Double.valueOf(params[1]) - 0.025;
                 Double minLongitude = Double.valueOf(params[2]) - longitudeRange;
                 Double maxLatitude = Double.valueOf(params[1]) + 0.025;
@@ -165,7 +157,7 @@ public class ElasticSearchRecordController {
             }
 
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
                     .addType("newRecord3")
                     .build();
             try {
@@ -196,7 +188,7 @@ public class ElasticSearchRecordController {
         protected Void doInBackground(Record... records) {
             clientSet();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + records[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newRecord3").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25").addType("newRecord3").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {
@@ -218,7 +210,7 @@ public class ElasticSearchRecordController {
         protected Void doInBackground(Record... records) {
             setClient();
             for (Record record : records){
-                Index index = new Index.Builder(record).index("cmput301f18t25test").type("newRecord3").build();
+                Index index = new Index.Builder(record).index("cmput301f18t25").type("newRecord3").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);

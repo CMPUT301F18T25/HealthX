@@ -114,37 +114,12 @@ public class Signup extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-
-
-//                        createUser(UserName);
-//                        saveUsernameInFile(UserName); // save username for auto login
-//                    Intent intent = new Intent(Signup.this, Login.class);
-//                    startActivity(intent);
-//                    finish();
                 }
 
             }
 
         });
     }
-
-//    private boolean validUser(String username) {
-//        ArrayList<User> userList = new ArrayList<User>();
-//        ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
-//        getUserTask.execute(username);
-//
-//        try {
-//            userList = getUserTask.get();
-//        } catch (Exception e) {
-//            Log.i("Error", "Error getting users out of async object");
-//        }
-//
-//        if (userList.size() == 0) {
-//            return false;
-//        }
-//
-//        return true;
-//    }
 
     /**
      * after sign up, we directs the user to his problem list

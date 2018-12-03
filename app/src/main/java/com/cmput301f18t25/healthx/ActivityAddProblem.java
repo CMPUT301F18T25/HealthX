@@ -115,12 +115,7 @@ public class ActivityAddProblem extends AppCompatActivity {
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(10,intent);
-            Log.i("CWei", "finished");
             finish();
-//            Bundle bundle = this.getIntent().getExtras();
-//            Intent intent = new Intent(this, ViewProblemList.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
         }
         if (id == R.id.save_button) {
 
@@ -138,10 +133,7 @@ public class ActivityAddProblem extends AppCompatActivity {
             String problemDate = format.format(selected);
             String problemDescription = description_textView.getText().toString();
 
-//            // Check if app is connected to a network.
-//            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId());
-//            mProblemList.addToProblemList(newProblem);
-//            OfflineBehaviour offline = new OfflineBehaviour();
+
             Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId(), problemFrontPhoto, problemBackPhoto, problemFrontBodyLocation, problemBackBodyLocation);
             newProblem.setId(UUID.randomUUID().toString()); // might need to get rid of this haha
             mProblemList.addToProblemList(newProblem);
@@ -150,22 +142,20 @@ public class ActivityAddProblem extends AppCompatActivity {
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-//                newProblem.setId(UUID.randomUUID().toString()); // set a random id
+
                 offline.addItem(newProblem, "ADD");
                 finish();
             } else {
-                //Bundle bundle = getIntent().getExtras();
                 Toast.makeText(this,problemDate,Toast.LENGTH_LONG).show();
                 ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
                 addProblemTask.execute(newProblem);
                 try {
-                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                    Thread.sleep(1000);
                 } catch(InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
                 Intent intent = new Intent();
                 setResult(10,intent);
-                Log.i("CWei", "finished adding");
                 finish();
 
             }
@@ -282,8 +272,5 @@ public class ActivityAddProblem extends AppCompatActivity {
 
     }
 
-//    public void Editphoto(View view) {
-//        Intent intent = new Intent(ActivityAddProblem.this,DrawBitmap.class);
-//        startActivity(intent);
-//    }
+
 }

@@ -112,7 +112,7 @@ public class ActivityEditProblem extends AppCompatActivity {
         if (frontBodyPhoto != null){
             edit.setVisibility(View.VISIBLE);
         }
-//        Log.d("Sandy 301", frontBodyPhoto);
+
         backBodyPhoto = oldProblem.getBackPhoto();
         if (backBodyPhoto != null){
             editBack.setVisibility(View.VISIBLE);
@@ -129,7 +129,6 @@ public class ActivityEditProblem extends AppCompatActivity {
         frontTextview.setText(frontBodyLocation);
         backTextview.setText(backBodyLocation);
         frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
-//        frontView.setImageBitmap(BitmapFactory.decodeFile(frontBodyPhoto));
         backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
 
     }
@@ -161,20 +160,15 @@ public class ActivityEditProblem extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        // if clicked the save button,
+
         if (id == android.R.id.home) {
-//<<<<<<< HEAD
+
             if (id == android.R.id.home) {
                 Intent intent = new Intent();
                 setResult(10,intent);
                 finish();
             }
-//=======
-//            Bundle bundle = this.getIntent().getExtras();
-//            Intent intent = new Intent(this, ViewProblemList.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
-//>>>>>>> master
+
         }
         if (id == R.id.save_button) {
 
@@ -190,18 +184,14 @@ public class ActivityEditProblem extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String problemDate = format.format(selected);
             String problemDescription = description_textView.getText().toString();
-//            Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
 
             // Check if app is connected to a network.
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-//                mProblemList.removeProblemFromList(problemPositon);
-////                mProblemList.addToProblemList(newProblem);
-////                offline.addItem(oldProblem, "DELETE");
-////                offline.addItem(newProblem, "ADD");
+
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-//                finish();
+
             } else {
 
                 Bundle bundle = getIntent().getExtras();
@@ -209,7 +199,6 @@ public class ActivityEditProblem extends AppCompatActivity {
 
                 String pID = oldProblem.getId();
 
-                //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
                 String frontBodyLocation = oldProblem.getFrontBodyLocation();
@@ -223,11 +212,9 @@ public class ActivityEditProblem extends AppCompatActivity {
                 updateProblemTask.execute(newProblem);
                 mProblemList.addToProblemList(newProblem);
 
-                Log.d("CWei",oldProblem.getId()+ " "+oldProblem.getTitle());
-                Log.d("CWei",newProblem.getId()+ " "+newProblem.getTitle());
 
                 try {
-                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                    Thread.sleep(1000);
                 } catch(InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
@@ -335,25 +322,6 @@ public class ActivityEditProblem extends AppCompatActivity {
             Drawable drawable = new BitmapDrawable(bitmapScaled);
             frontView.setImageDrawable(drawable);
 
-//            String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
-//            File folderF = new File(folder);
-//            if (!folderF.exists()) {
-//                folderF.mkdir();/
-//            }
-//
-//            try {
-//                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
-//                m.invoke(null);
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            verifyPermission(this);
-//
-//            String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
-//            File imageFile = new File(folder,imageFilePath);
-//            imageFileUri = Uri.fromFile(imageFile);
 
         }else if (requestCode == 4){
             byte[] byteArray = data.getByteArrayExtra("result");
@@ -366,10 +334,7 @@ public class ActivityEditProblem extends AppCompatActivity {
     }
 
     public void Editphoto(View view) {
-
-//        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
         Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
-//        intent.putExtra("bitmap",bitmap);
         intent.putExtra("path",frontBodyPhoto);
         startActivityForResult(intent,3);
 
@@ -377,7 +342,6 @@ public class ActivityEditProblem extends AppCompatActivity {
 
     public void EditBackphoto(View view) {
         Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
-//        intent.putExtra("bitmap",bitmap);
         intent.putExtra("path",backBodyPhoto);
         startActivityForResult(intent,4);
     }

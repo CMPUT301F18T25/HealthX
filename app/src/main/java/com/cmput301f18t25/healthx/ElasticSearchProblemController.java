@@ -58,7 +58,7 @@ public class ElasticSearchProblemController {
             setClient();
             String problemID;
             for (Problem problem : problems){
-                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("problems").build();
+                Index index = new Index.Builder(problem).index("cmput301f18t25").type("problems").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -67,7 +67,7 @@ public class ElasticSearchProblemController {
                     } else {
                         problemID = result1.getId();
                         problem.setId(problemID);
-                        Index index1 = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
+                        Index index1 = new Index.Builder(problem).index("cmput301f18t25").type("newProblem2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
 
@@ -106,7 +106,7 @@ public class ElasticSearchProblemController {
         protected Void doInBackground(Problem... problems) {
             setClient();
             for (Problem problem : problems){
-                Index index = new Index.Builder(problem).index("cmput301f18t25test").type("newProblem2").build();
+                Index index = new Index.Builder(problem).index("cmput301f18t25").type("newProblem2").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -137,23 +137,18 @@ public class ElasticSearchProblemController {
 
             String query = "{ \"query\" : { \"match\" :  { \"userId\" : \""+ params[0] + "\"}}}";
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
                     .addType("newProblem2")
                     .build();
             try {
-//                JestResult result = client.execute(search);
+
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
-                    Log.d("IVANLIM", "doInBackground: succeded :)");
+
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
-                   // Collections.sort(problems,Problem.RecDateComparator);
-                    Log.d("CWei", String.valueOf(problemList.size()));
-                    Log.d("IVANLIM", String.valueOf(problemList.size()));
-                }
-                else {
-                    Log.d("IVANLIM", "Else caluse: ");
+
                 }
 
             } catch (IOException e) {
@@ -183,20 +178,18 @@ public class ElasticSearchProblemController {
                 query = "{\"query\" : { \"query_string\" : { \"query\" : \"" + "*" + keyword + "*" + "\", \"fields\" : [\"title\" , \"description\"]}}}";
             }
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
                     .addType("newProblem2")
                     .build();
             try {
-//                JestResult result = client.execute(search);
+
                 JestResult result = client.execute(search);
                 if (result.isSucceeded()) {
                     List<Problem> problemList;
                     problemList = result.getSourceAsObjectList(Problem.class);
                     problems.addAll(problemList);
                 }
-                else {
-                    Log.d("IVANLIM", "Else caluse: ");
-                }
+
 
             } catch (IOException e) {
                 Log.d("Error", "Error in searching problems");
@@ -222,7 +215,7 @@ public class ElasticSearchProblemController {
                 String problemId = record.getProblemID();
                 String query = "{ \"query\" : { \"match\" :  { \"id\" : \""+ problemId + "\"}}}";
                 Search search = new Search.Builder(query)
-                        .addIndex("cmput301f18t25test")
+                        .addIndex("cmput301f18t25")
                         .addType("newProblem2")
                         .build();
                 try {
@@ -253,12 +246,12 @@ public class ElasticSearchProblemController {
 
         @Override
         protected Void doInBackground(Problem... problems) {
-            Log.d("IVANLIM", "delete ");
+
             setClient();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + problems[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newProblem2").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25").addType("newProblem2").build();
             try {
-                Log.d("IVANLIM", "delete ");
+
                 client.execute(delete);
             } catch (Exception e) {
                 Log.d("IVANLIM", "The application failed to build and send the problem in delete");
