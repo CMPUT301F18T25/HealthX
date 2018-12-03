@@ -123,8 +123,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String recordDate = format.format(selected);
-
-
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
 
@@ -216,7 +214,6 @@ public class ActivityAddRecord extends AppCompatActivity {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
 
-
             }
 
             @Override
@@ -260,12 +257,14 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
+
     private void initializeLocationManager() {
         if (lm == null) {
 
             lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         }
     }
+
 
 
 
