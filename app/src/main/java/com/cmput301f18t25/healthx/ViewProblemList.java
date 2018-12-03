@@ -146,7 +146,7 @@ public class ViewProblemList extends AppCompatActivity
                                 Problem problem = problemList.get(pos);
                                 Intent intent = new Intent(ViewProblemList.this, ActivityEditProblem.class);
                                 Bundle bundle = new Bundle();
-                                bundle.putSerializable("problem", problem);
+                                bundle.putSerializable("problem", mProblemList.getElementByIndex(pos));
 
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent,10);
