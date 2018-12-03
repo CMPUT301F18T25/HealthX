@@ -74,13 +74,13 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA" />
+            android:value="AIzaSyCbVVSnOusB2KyC3EvSqbSGy00bZVosEvo" />
 
         <receiver android:name=".Notification_receiver" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCuq3jM2ZR8YfIka_6H48_7sAnxc3GHsqA" />
+            android:value="AIzaSyCbVVSnOusB2KyC3EvSqbSGy00bZVosEvo" />
 
         <activity android:name=".SlideShow" />
 
