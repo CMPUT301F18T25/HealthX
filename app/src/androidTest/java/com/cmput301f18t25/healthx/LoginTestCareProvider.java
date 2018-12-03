@@ -21,7 +21,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 
-public class LoginTestCareProvider extends ActivityTestRule<Signup>{
+public class LoginTestCareProvider extends ActivityTestRule<Login>{
 
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
 
@@ -33,12 +33,12 @@ public class LoginTestCareProvider extends ActivityTestRule<Signup>{
 
 
     public LoginTestCareProvider() {
-        super(Signup.class);
+        super(Login.class);
     }
 
     @Rule
-    public ActivityTestRule<Signup> activityTestRule =
-            new ActivityTestRule<>(Signup.class);
+    public ActivityTestRule<Login> activityTestRule =
+            new ActivityTestRule<>(Login.class);
 
 
     @Before

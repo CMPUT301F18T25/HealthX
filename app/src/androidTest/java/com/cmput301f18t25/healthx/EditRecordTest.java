@@ -31,16 +31,19 @@ import java.util.regex.Pattern;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class DeleteProblemTest extends ActivityTestRule<Login> {
+public class EditRecordTest extends ActivityTestRule<Login> {
 
     public String test_username = "usrname"+RandomStringUtils.randomAlphabetic(3);
     public String test_name = "name"+RandomStringUtils.randomAlphabetic(3);
-    public String test_phone_number = "5467658769";
+    public String test_phone_number = "7867890876";
     public String test_email = test_username+"@email.com";
 
     // make a dif title each time we test it, so we're not mixing up problems
     public String test_title = "title"+RandomStringUtils.randomAlphabetic(3);
+    public String test_title_record = "title"+RandomStringUtils.randomAlphabetic(3);
     public String test_description = "description of problem"+RandomStringUtils.randomAlphabetic(3);
+    public String test_description_record = "description of problem"+RandomStringUtils.randomAlphabetic(3);
+
     Random random = new Random();
     public Integer test_year = random.nextInt(2018-1970) + 1970;
     public Integer test_month = random.nextInt(12-1) + 1;
@@ -51,7 +54,7 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
     private Solo solo;
 
 
-    public DeleteProblemTest() {
+    public EditRecordTest() {
         super(Login.class);
     }
 
@@ -72,7 +75,9 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddProblem() throws Exception {
+    public void testAddRecord() throws Exception {
+
+        // first make a new account
 
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));
@@ -90,9 +95,10 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
         solo.enterText(phone,test_phone_number);
         solo.clickOnView(patient_btn);
         solo.clickOnView(solo.getView(R.id.btn_signup));
+        solo.sleep(wait_time);
 
-
-        /*assertTrue("did not go to login", solo.waitForActivity(Login.class));
+        // commented this out bc signup used to redirect to login but now logs in immediately
+        /*assertTrue("did not go to login", solo.waitForActivity(Login.class,5000));
 
         // log in
 
@@ -125,8 +131,34 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
         solo.clickOnView(solo.getView(R.id.save_button));
         assertTrue("did not go to problem list",solo.waitForActivity(ViewProblemList.class));
 
-        assertTrue("problem not shown",solo.waitForText(test_title,1,5000,true));
-        assertTrue("problem desc not shown",solo.waitForText(test_description,1,5000,true));
+        // click on the problem
+
+        assertTrue("problem title not shown",solo.waitForText(test_title,1,5000,true));
+        solo.clickOnText(test_title,1,true);
+        assertTrue(solo.waitForText("View "+test_title));
+        assertTrue("did not go to record list",solo.waitForActivity(ViewRecordList.class));
+
+        // choose to add a record
+        solo.clickOnView(solo.getView(R.id.fab));
+        assertTrue("did not go to add record",solo.waitForActivity(ActivityAddRecord.class));
+
+        EditText record_title_in = (EditText) solo.getView(R.id.record_title);
+        DatePicker record_date_in = (DatePicker) solo.getView(R.id.recordDate);
+        EditText record_description_in = (EditText) solo.getView(R.id.record_comment);
+
+        solo.enterText(record_title_in,test_title_record);
+        solo.setDatePicker(record_date_in,test_year,test_month,test_day);
+        solo.enterText(record_description_in,test_description_record);
+
+        // save record and go to record list
+
+        solo.clickOnView(solo.getView(R.id.save_button));
+        assertTrue("did not go to record list",solo.waitForActivity(ViewRecordList.class));
+
+        // make sure record is visible
+
+        assertTrue("record title not shown",solo.waitForText(test_title_record,1,5000,true));
+        assertTrue("rec desc not shown",solo.waitForText(test_description_record,1,5000,true));
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
@@ -136,9 +168,10 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
         Log.i("date",display_date + "    " + test_year +" "+ test_month+" " + test_day);
 
 
-        assertTrue("date not shown",solo.waitForText(Pattern.quote(display_date),1,5000,true));
+        assertTrue("rec date not shown",solo.waitForText(Pattern.quote(display_date),1,5000,true));
 
-        // now delete the problem
+
+        // now delete it
 
         // drag it left
         // source: https://stackoverflow.com/a/24664731
@@ -157,15 +190,39 @@ public class DeleteProblemTest extends ActivityTestRule<Login> {
 
         solo.drag(fromX, toX, fromY, toY, 10);
 
-        // click delete
-        solo.clickOnScreen(fromX+700,fromY);
+        // click edit
+        if (solo.searchText("Edit")){
+            Log.i("true","true");
+        }
+        else{
+            Log.i("false","false");
+        }
+        solo.clickOnScreen(fromX+300,fromY);
 
-        // now check that the problem is gone
 
-        assertFalse("problem not gone",solo.waitForText(test_title,1,5000,true));
-        assertFalse("problem desc not gone",solo.waitForText(test_description,1,5000,true));
-        assertFalse("date not gone",solo.waitForText(Pattern.quote(display_date),1,5000,true));
+        assertTrue("did not go to edit record",solo.waitForActivity(ActivityEditRecord.class));
 
+        // now change a field
+
+        EditText record_title_in2 = (EditText) solo.getView(R.id.record_title);
+        DatePicker record_date_in2 = (DatePicker) solo.getView(R.id.recordDate);
+
+        solo.enterText(record_title_in2,test_title_record+"edited");
+        solo.setDatePicker(record_date_in2,test_year,test_month,test_day+1);
+
+        // save
+
+        solo.clickOnView(solo.getView(R.id.save_button));
+        assertTrue("did not go to rec list",solo.waitForActivity(ViewRecordList.class));
+
+        // check it changed
+
+        assertTrue("new problem title not shown",solo.waitForText(test_title_record+"edited",1,5000,true));
+        cal.set(test_year, test_month, test_day+1);
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
+        Date to_show2 = cal.getTime();
+        String display_date2 = simpleDateFormat2.format(to_show2);
+        assertTrue("date not edited",solo.waitForText(Pattern.quote(display_date2),1,5000,true));
 
     }
 }
