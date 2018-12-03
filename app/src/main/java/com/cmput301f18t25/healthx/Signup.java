@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 
 public class Signup extends AppCompatActivity {
 
@@ -64,15 +65,37 @@ public class Signup extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
                     // save user into the file ..
                 } else {
-                    ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
-                    addUserTask.execute(user);
+                    ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+                    try {
+                        User check = getUserTask.execute(id).get();
+                        if (!check.getStatus().equals("")){
+                            Toast.makeText(getApplicationContext(), "The id is already taken.", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else if (id.length() < 8){
+                            Toast.makeText(getApplicationContext(), "Your id should be more than 8 characters.", Toast.LENGTH_SHORT).show();
+
+                        }
+                        else{
+                            ElasticSearchUserController.AddUserTask addUserTask = new ElasticSearchUserController.AddUserTask();
+                            addUserTask.execute(user);
+                            toViewProblem(user);
+                        }
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+
+
 //                        createUser(UserName);
 //                        saveUsernameInFile(UserName); // save username for auto login
 //                    Intent intent = new Intent(Signup.this, Login.class);
 //                    startActivity(intent);
 //                    finish();
                 }
-                toViewProblem(user);
+
             }
 
         });
@@ -101,11 +124,6 @@ public class Signup extends AppCompatActivity {
             mProblemList.setUser(user);
             Bundle bundle = new Bundle();
             bundle.putString("id",user.getUsername());
-
-
-            Intent intent = new Intent(this, ViewProblemList.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
 
             Intent mintent = new Intent(this, ViewProblemList.class);
             mintent.putExtras(bundle);

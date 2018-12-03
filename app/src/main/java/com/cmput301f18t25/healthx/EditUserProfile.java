@@ -130,7 +130,7 @@ public class EditUserProfile extends AppCompatActivity {
 
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
             Bundle newBundle = new Bundle();
-            newBundle.putString("email",newUser.getEmail());
+//            newBundle.putString("email",newUser.getEmail());
             newBundle.putString("username",newUser.getUsername());
             try {
                 Thread.sleep(1000);                 //1000 milliseconds is one second.

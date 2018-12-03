@@ -23,7 +23,6 @@ https://sourcey.com/beautiful-android-login-and-signup-screens-with-material-des
             android:layout_marginBottom="-5dp"
             android:src="@drawable/logo" />
 
-        <!-- Password Label -->
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

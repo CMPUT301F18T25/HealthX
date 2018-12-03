@@ -114,6 +114,7 @@ public class ActivityAddProblem extends AppCompatActivity {
 //            mProblemList.addToProblemList(newProblem);
 //            OfflineBehaviour offline = new OfflineBehaviour();
             Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId(), problemFrontPhoto, problemBackPhoto, problemFrontBodyLocation, problemBackBodyLocation);
+            newProblem.setId(UUID.randomUUID().toString()); // might need to get rid of this haha
             mProblemList.addToProblemList(newProblem);
             offlineSave.saveProblemListToFile(newProblem);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);

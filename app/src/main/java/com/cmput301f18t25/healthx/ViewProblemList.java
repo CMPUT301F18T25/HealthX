@@ -231,9 +231,8 @@ public class ViewProblemList extends AppCompatActivity
             Bundle newBundle = data.getExtras();
             String id = newBundle.getString("username");
             Log.d("CWei", id);
-            String email = newBundle.getString("email");
             try {
-                User user = getUserTask.execute(id,email).get();
+                User user = getUserTask.execute(id).get();
                 Log.d("CWei", user.getName());
                 Uid.setText(id);
                 Uname.setText(user.getName());
@@ -299,25 +298,20 @@ public class ViewProblemList extends AppCompatActivity
         } else if (id == R.id.nav_code) {
             Bundle obundle = null;
             obundle = this.getIntent().getExtras();
-            String Oid = obundle.getString("id");
-            String Oemail = obundle.getString("email");
-
             Bundle bundle = new Bundle();
             bundle.putAll(obundle);
             Intent intent = new Intent(this, ActivityGenerateCode.class);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent,10);
 
 
         } else if (id == R.id.nav_edit) {
             Bundle obundle = null;
             obundle = this.getIntent().getExtras();
             String Oid = obundle.getString("id");
-            String Oemail = obundle.getString("email");
 
             Bundle bundle = new Bundle();
             bundle.putString("id",Oid);
-            bundle.putString("email",Oemail);
 
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);
