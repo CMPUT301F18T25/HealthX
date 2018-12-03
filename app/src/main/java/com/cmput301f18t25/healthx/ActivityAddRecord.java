@@ -70,7 +70,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         position = bundle.getInt("Position");
         Log.d("IVANLIM",String.valueOf(position));
         imageURIs = new ArrayList<>(10);
-        initializeLocationManager();
+        //initializeLocationManager();
         setGeoLocation();
         geoloc = (Button) findViewById(R.id.record_geolocation);
         geoloc.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +115,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String recordDate = format.format(selected);
 
-            Toast.makeText(getApplicationContext(), recordDate, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), recordDate, Toast.LENGTH_SHORT).show();
 
 
             String recordTitle = title_textView.getText().toString();
@@ -217,7 +217,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-//                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
 
             }
 
@@ -262,12 +262,12 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
-    private void initializeLocationManager() {
-        if (lm == null) {
-            Log.d("Ajay","init lm");
-            lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-        }
-    }
+//    private void initializeLocationManager() {
+//        if (lm == null) {
+//            Log.d("Ajay","init lm");
+//            lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+//        }
+//    }
 
 
 
