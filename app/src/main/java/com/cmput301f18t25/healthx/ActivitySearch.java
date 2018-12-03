@@ -119,18 +119,9 @@ public class ActivitySearch extends AppCompatActivity  {
                         case "Body Location":
                             try {
                                 String bodyLocation = bodyLocationView.getText().toString();
-                                recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword, bodyLocation).get();
-                                problemList = new ElasticSearchProblemController.SearchProblemsFromRecordsTask().execute(recordList).get();
-                                ArrayList<Problem> uniqueProblems = new ArrayList<>();
-                                ArrayList<String> uniqueProblemIds = new ArrayList<>();
-                                for (int i = 0; i < problemList.size(); i++) {
-                                    if (!uniqueProblemIds.contains(problemList.get(i).getId())) {
-                                        uniqueProblemIds.add(problemList.get(i).getId());
-                                        uniqueProblems.add(problemList.get(i));
-                                    }
-                                }
-                                searchResults.addAll(uniqueProblems);
-                                searchResults.addAll(recordList);
+                                
+                                problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword, bodyLocation).get();
+                                searchResults.addAll(problemList);
 
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
