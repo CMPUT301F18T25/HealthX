@@ -5,10 +5,13 @@
 
 package com.cmput301f18t25.healthx;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +27,8 @@ public class DrawBitmap extends AppCompatActivity {
     Button save;
     Bitmap userBitmap;
     ImageView testArea;
+    String path;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +36,36 @@ public class DrawBitmap extends AppCompatActivity {
         setContentView(R.layout.activity_draw_bitmap);
         clear = findViewById(R.id.clear);
         save = findViewById(R.id.save);
+        imageView = findViewById(R.id.testview);
+
+
+        Intent intent = getIntent();
+        path =intent.getStringExtra("path");
+        Log.d("Sandy 301",path);
+//        Uri fileuri = Uri.parse(path);
+
+//        imageView.setImageBitmap(BitmapFactory.decodeFile(path));
+//        imageView.setImageURI(fileuri);
+
+        bitmap = BitmapFactory.decodeFile(path);
+        Bitmap drawableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888,true);
+
+//        dv = new FreeDraw(this);
+
+//        dv.setmBitmap(bitmap);
+
+//        imageView.setImageBitmap(bitmap);
+
+//        dv = new FreeDraw(this,drawableBitmap);
 
         dv = (FreeDraw) findViewById(R.id.draw);
+        dv.setCanvasBitmap(drawableBitmap);
+
+
+
+
+
+
 
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +82,7 @@ public class DrawBitmap extends AppCompatActivity {
                 Log.d("SANDY 301",userBitmap.toString());
                 Log.d("SANDY 301","Bitmap Saved");
 
-                ImageView imageView = findViewById(R.id.testview);
+//                ImageView imageView = findViewById(R.id.testview);
                 imageView.setImageBitmap( userBitmap );
 
 

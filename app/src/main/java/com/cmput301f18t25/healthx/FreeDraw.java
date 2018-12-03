@@ -15,6 +15,7 @@ import android.graphics.Path;
 import android.media.ThumbnailUtils;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,7 +23,10 @@ import android.view.View;
 public class FreeDraw extends View {
 
     Bitmap mBitmap;
+    Bitmap newBitmap;
+
     Canvas mCanvas;
+    Canvas qCanvas;
     Paint mPaint;
     public int width;
     public int height;
@@ -36,6 +40,8 @@ public class FreeDraw extends View {
     public FreeDraw(Context context) {
         super(context);
         this.context = context;
+
+
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
@@ -59,7 +65,8 @@ public class FreeDraw extends View {
 
     public FreeDraw(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
+        //this.context = context;
+//        this.newBitmap = bitmap;
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -84,24 +91,35 @@ public class FreeDraw extends View {
 
     }
 
+    public void setCanvasBitmap(Bitmap bitmap) {
+        Log.d("Sandy 301", "Reached");
+
+        newBitmap = bitmap;
+//        newBitmap = Bitmap.createScaledBitmap(newBitmap, 1000, 1000, false);
+        qCanvas = new Canvas(newBitmap);
+        invalidate();
+    }
+
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         width = w;
         height = h;
-//            mBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+
+            mBitmap = Bitmap.createBitmap(newBitmap.getWidth(), newBitmap.getHeight(), Bitmap.Config.ARGB_8888);
 //            mBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.test3);
-        Bitmap newBitmap  = BitmapFactory.decodeResource(getResources(), R.drawable.test3);
-        newBitmap = Bitmap.createScaledBitmap(newBitmap, 1000, 1000, false);
-        Bitmap workingBitmap = Bitmap.createBitmap(newBitmap);
-        mBitmap= workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
-        mCanvas = new Canvas(mBitmap);
+//        newBitmap  = BitmapFactory.decodeResource(getResources(), R.drawable.test3);
+//        newBitmap = Bitmap.createScaledBitmap(newBitmap, 1000, 1000, false);
+//        Bitmap workingBitmap = Bitmap.createBitmap(newBitmap);
+//        mBitmap= workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        qCanvas = new Canvas(newBitmap);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawBitmap( mBitmap, 0, 0, mBitmapPaint);
+        canvas.drawBitmap( newBitmap, 0, 0, mBitmapPaint);
         canvas.drawPath( mPath,  mPaint);
         canvas.drawPath( circlePath,  circlePaint);
 
@@ -132,7 +150,7 @@ public class FreeDraw extends View {
         mPath.lineTo(mX, mY);
         circlePath.reset();
         // commit the path to our offscreen
-        mCanvas.drawPath(mPath,  mPaint);
+        qCanvas.drawPath(mPath,  mPaint);
         // kill this so we don't double draw
         mPath.reset();
     }
@@ -178,7 +196,7 @@ public class FreeDraw extends View {
         // don't forget that one and the match below,
         // or you just keep getting a duplicate when you save.
 
-        onSizeChanged(width, height, width, height);
+        setCanvasBitmap(newBitmap);
         invalidate();
 
         setDrawingCacheEnabled(true);
