@@ -198,6 +198,9 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "finished");
             finish();
         }
         else if (id == R.id.map_button){
