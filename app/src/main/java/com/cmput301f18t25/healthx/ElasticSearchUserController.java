@@ -1,3 +1,12 @@
+/*
+ * Class Name: ElasticSearchUserController
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.os.AsyncTask;
@@ -24,14 +33,9 @@ import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
-/**
- * Handling elasticsearch user related queries - UTILIZED THESE RESOURCES TO HELP ME
- */
-
 public class ElasticSearchUserController {
     private static JestDroidClient client;
 
-    // adds user to elasticsearch
     public static class AddUserTask extends AsyncTask<User, Void, Void> {
 
         @Override
@@ -158,7 +162,6 @@ public class ElasticSearchUserController {
         }
 
     }
-
 
     public static class GetRequestCodeTask extends AsyncTask<String, Void, ArrayList<RequestCode>> {
         @Override
@@ -308,7 +311,6 @@ public class ElasticSearchUserController {
         }
     }
 
-
     public static class GetPatientsTask extends AsyncTask<String, Void, ArrayList<User>> {
         @Override
         protected ArrayList<User> doInBackground(String... params) {
@@ -428,7 +430,6 @@ public class ElasticSearchUserController {
         protected Void doInBackground(User... patients) {
             verifySettings();
             //String query = "{\"query\" : { \"match\" : { \"user\" : \"" + records[0].getId() + "\"}}}";
-            //String query = "{ \"query\" : { \"match\" :  { \"doctorID\" : \""+ "AWdN0d3BrOXHRTUxDl1l" + "\"}}}";
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +

@@ -1,3 +1,14 @@
+/*
+ * Class Name: ActivityAddRecord
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.Manifest;
@@ -42,7 +53,6 @@ import java.util.Date;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-
 public class ActivityAddRecord extends AppCompatActivity {
 
     ArrayList<String> imageURIs;
@@ -58,19 +68,22 @@ public class ActivityAddRecord extends AppCompatActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offlineBehaviour = OfflineBehaviour.getInstance();
+    private OfflineSave save;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
+        save = new OfflineSave(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Bundle bundle = this.getIntent().getExtras();
         problemID = bundle.getString("ProblemID");
         isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
+//        Log.d("IVANLIM", "onCreate: " + String.valueOf(position));
         Log.d("IVANLIM",String.valueOf(position));
-        imageURIs = new ArrayList<>(10);
-        //initializeLocationManager();
+        imageURIs = new ArrayList<String>(10);
+        initializeLocationManager();
         setGeoLocation();
         geoloc = (Button) findViewById(R.id.record_geolocation);
         geoloc.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +95,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         });
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
@@ -92,10 +106,8 @@ public class ActivityAddRecord extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // if clicked the save button,
         if (id == android.R.id.home) {
-//            Intent intent = new Intent(this, ViewRecordList.class);
-//            startActivity(intent);
+
             Intent intent = new Intent();
             setResult(10,intent);
             Log.i("CWei", "back");
@@ -114,10 +126,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String recordDate = format.format(selected);
-
-            //Toast.makeText(getApplicationContext(), recordDate, Toast.LENGTH_SHORT).show();
-
-
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
             //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
@@ -134,17 +142,21 @@ public class ActivityAddRecord extends AppCompatActivity {
 //            mProblemList.addToRecordToProblem(position,newRecord);
             // Check if app is connected to a network.
 //            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
+            newRecord.setCPComment(isDoctor);
+            mProblemList.addRecord(position,newRecord);
+            save.saveRecordsToProblem(mProblemList.getElementByIndex(position));
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+
             if (null == activeNetwork) {
-//                offlineBehaviour.addItem(newRecord, "ADD");
+                offlineBehaviour.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
-//                finish();
+                Intent intent = new Intent();
+                setResult(10,intent);
+                finish();
+
             } else {
-                //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
-                Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
-                newRecord.setCPComment(isDoctor);
-                mProblemList.addRecord(position,newRecord);
                 ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
                 addRecordTask.execute(newRecord);
 
@@ -164,13 +176,14 @@ public class ActivityAddRecord extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                ImageView imagePhoto = findViewById(R.id.view_photo);
+                ImageView imagePhoto = findViewById(R.id.view_record_photo);
                 imagePhoto.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
                 imageURIs.add(imageFileUri.getPath());
             }else{
@@ -178,7 +191,6 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
-
 
     public void addPhoto(View view){
 
@@ -217,7 +229,6 @@ public class ActivityAddRecord extends AppCompatActivity {
             public void onLocationChanged(Location location) {
                 longitude = location.getLongitude();
                 latitude = location.getLatitude();
-                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
 
             }
 

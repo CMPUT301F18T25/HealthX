@@ -1,3 +1,12 @@
+/*
+ * Class Name: OfflineSave
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
@@ -19,7 +28,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
 
 public class OfflineSave {
 
@@ -92,7 +100,6 @@ public class OfflineSave {
         }
 //        loadUserFromFile();
     }
-
     public void loadTheProblemList() {
         try {
             FileInputStream fis = mContext.openFileInput(PROBLEMLISTFILENAME);
@@ -131,9 +138,11 @@ public class OfflineSave {
 
     private ArrayList<Problem> getProblemsByUserID(String userId, ArrayList<Problem> problems) {
         ArrayList<Problem> sortedProbs = new ArrayList<>();
+        Log.d("IDKKK", "LETSOGOO");
+        Log.d("IDKKK", userId);
         for (Problem p: problems) {
-            if (p.getId().compareTo(userId) == 0) {
-                Log.d("IVANLIM", p.getTitle());
+            Log.d("IDKKK", p.getId());
+            if (p.getUserId().compareTo(userId) == 0) {
                 sortedProbs.add(p);
             }
         }
@@ -188,5 +197,28 @@ public class OfflineSave {
 //        } else {
 //            return null;
 //        }
+    }
+
+    public void saveRecordsToProblem(Problem problem) {
+        try {
+            loadTheProblemList();
+            ArrayList<Problem> ppo = allproblems;
+            for (int i = 0; i < ppo.size(); i++) {
+                if (ppo.get(i).getId().compareTo(problem.getId())== 0) {
+                    allproblems.set(i, problem);
+                }
+            }
+
+            FileOutputStream fos = mContext.openFileOutput(PROBLEMLISTFILENAME, Context.MODE_PRIVATE);
+            BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(fos));
+            Gson gson = new Gson();
+            gson.toJson(allproblems, bufferedWriter);
+            bufferedWriter.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

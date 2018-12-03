@@ -72,7 +72,7 @@ public class EditProblemTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddProblem() throws Exception {
+    public void testEditProblem() throws Exception {
 
         solo.assertCurrentActivity("wrong activity",Login.class);
         solo.clickOnView(solo.getView(R.id.link_signup));

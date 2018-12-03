@@ -1,7 +1,17 @@
+/*
+ * Class Name: ProblemRecordAdapter
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +61,10 @@ public class ProblemRecordAdapter extends RecyclerView.Adapter<ProblemRecordAdap
             case PROBLEM:
                 View v1 = inflater.inflate(R.layout.problemlist_cardview, viewGroup, false);
                 vh = new ViewHolder(v1);
+                LinearLayout oneProblem = v1.findViewById(R.id.OneProblem);
+                String color_string = "#c3b1e2";
+                int myColor = Color.parseColor(color_string);
+                oneProblem.setBackgroundColor(myColor);
                 break;
             case RECORD:
                 View v2 = inflater.inflate(R.layout.recordlist_cardview, viewGroup, false);

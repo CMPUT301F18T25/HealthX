@@ -1,3 +1,12 @@
+/*
+ * Class Name: ElasticSearchRecordController
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.os.AsyncTask;
@@ -25,7 +34,6 @@ import static com.cmput301f18t25.healthx.ElasticSearchProblemController.setClien
 public class ElasticSearchRecordController {
     private static JestDroidClient client;
 
-    // adds record to elasticsearch
     public static class AddRecordTask extends AsyncTask<Record, Void, Void> {
 
         @Override
@@ -63,6 +71,7 @@ public class ElasticSearchRecordController {
 
         }
     }
+
     public static class GetRecordsTask extends AsyncTask<String, Void, ArrayList<Record>> {
         @Override
         protected ArrayList<Record> doInBackground(String... params) {
@@ -103,7 +112,6 @@ public class ElasticSearchRecordController {
         }
 
     }
-
     public static class SearchRecordsTask extends AsyncTask<String, Void, ArrayList<Record>> {
         @Override
         protected ArrayList<Record> doInBackground(String... params) {
@@ -169,7 +177,6 @@ public class ElasticSearchRecordController {
         }
 
     }
-
     public static class UpdateRecordTask extends AsyncTask<Record, Void, Void> {
 
         @Override

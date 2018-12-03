@@ -1,8 +1,18 @@
+/*
+ * Class Name: ActivityGenerateCode
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +23,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.concurrent.ExecutionException;
-
 public class ActivityGenerateCode extends AppCompatActivity {
 
     Button generate_btn;
@@ -53,12 +62,8 @@ public class ActivityGenerateCode extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == android.R.id.home) {
-            /*Bundle bundle = null;
-            bundle = this.getIntent().getExtras();
-            Intent intent = new Intent(this, ViewProblemList.class);
-            intent.putExtras(bundle);
-            startActivity(intent);*/
-            this.finish();
+
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -69,9 +74,14 @@ public class ActivityGenerateCode extends AppCompatActivity {
         String new_code = RandomStringUtils.randomAlphanumeric(RandomUtils.nextInt(3,7));
         code_output.setText(new_code);
 
-        RequestCode requestCode = new RequestCode(user.getName(),new_code);
+        RequestCode requestCode = new RequestCode(user.getUsername(),new_code);
         ElasticSearchUserController.AddRequestCodeTask addRequestCodeTask = new ElasticSearchUserController.AddRequestCodeTask();
         addRequestCodeTask.execute(requestCode);
+//        try {
+//            Thread.sleep(1000);                 //1000 milliseconds is one second.
+//        } catch(InterruptedException ex) {
+//            Thread.currentThread().interrupt();
+//        }
 
     }
 }

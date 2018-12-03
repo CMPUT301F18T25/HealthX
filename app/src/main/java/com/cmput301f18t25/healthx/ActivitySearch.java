@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: ActivitySearch
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -30,7 +35,11 @@ public class ActivitySearch extends AppCompatActivity  {
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ArrayList<Record> recordList = new ArrayList<Record>();
     private ArrayList<Object> searchResults = new ArrayList<>();
+    private ArrayList<Problem> userProblems = new ArrayList<>();
+    private ArrayList<Record> userRecords = new ArrayList<>();
     private Object searchType;
+    ProblemList probSingleton = ProblemList.getInstance();
+    String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +47,7 @@ public class ActivitySearch extends AppCompatActivity  {
         setContentView(R.layout.activity_search);
         getSupportActionBar().hide();
         final Spinner searchSpin = findViewById(R.id.search_spin);
-
+        userId = probSingleton.getUser().getId();
 
         ArrayAdapter<CharSequence> spinAdp = ArrayAdapter.createFromResource(this,
                 R.array.searchOptions, android.R.layout.simple_spinner_item);
@@ -93,6 +102,7 @@ public class ActivitySearch extends AppCompatActivity  {
 
                     switch (searchType.toString()) {
                         case "Geo-location":
+                            /** search by geo location */
                             try {
                                 String latitude = latitudeView.getText().toString();
                                 String longitude = longitudeView.getText().toString();
@@ -106,8 +116,23 @@ public class ActivitySearch extends AppCompatActivity  {
                                         uniqueProblems.add(problemList.get(i));
                                     }
                                 }
-                                searchResults.addAll(uniqueProblems);
-                                searchResults.addAll(recordList);
+
+                                for (int i = 0; i < uniqueProblems.size(); i++){
+                                    if(uniqueProblems.get(i).getUserId().equals(userId)){
+                                        userProblems.add(uniqueProblems.get(i));
+                                    }
+                                }
+
+                                for (int i = 0; i < recordList.size(); i++){
+                                    for (int j = 0; j < userProblems.size(); j++) {
+                                        if (recordList.get(i).getProblemID().equals(userProblems.get(j).getId())){
+                                            userRecords.add(recordList.get(i));
+                                        }
+                                    }
+                                }
+
+                                searchResults.addAll(userProblems);
+                                searchResults.addAll(userRecords);
 
 
                             } catch (ExecutionException e) {
@@ -116,12 +141,20 @@ public class ActivitySearch extends AppCompatActivity  {
                                 e.printStackTrace();
                             }
                             break;
+
                         case "Body Location":
+                            /** search by geo location */
                             try {
                                 String bodyLocation = bodyLocationView.getText().toString();
-                                
+
                                 problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword, bodyLocation).get();
-                                searchResults.addAll(problemList);
+                                for (int i = 0; i < problemList.size(); i++){
+                                    if (problemList.get(i).getUserId().equals(userId)){
+                                        userProblems.add(problemList.get(i));
+                                    }
+                                }
+
+                                searchResults.addAll(userProblems);
 
                             } catch (ExecutionException e) {
                                 e.printStackTrace();
@@ -131,11 +164,27 @@ public class ActivitySearch extends AppCompatActivity  {
 
                             break;
                         default:
+                            /** search by keywords */
                             try {
                                 problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword).get();
+
+                                for (int i = 0; i < problemList.size(); i++){
+                                    if (problemList.get(i).getUserId().equals(userId)){
+                                        userProblems.add(problemList.get(i));
+                                    }
+                                }
+
                                 recordList = new ElasticSearchRecordController.SearchRecordsTask().execute(keyword).get();
-                                searchResults.addAll(problemList);
-                                searchResults.addAll(recordList);
+                                for (int i = 0; i < recordList.size(); i++){
+                                    for (int j = 0; j < probSingleton.getProblemArray().size(); j++){
+                                        if (recordList.get(i).getProblemID().equals(probSingleton.getElementByIndex(j).getId())){
+                                            userRecords.add(recordList.get(i));
+                                        }
+                                    }
+
+                                }
+                                searchResults.addAll(userProblems);
+                                searchResults.addAll(userRecords);
 
                             } catch (ExecutionException e) {
                                 e.printStackTrace();

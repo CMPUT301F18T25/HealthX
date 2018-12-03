@@ -1,18 +1,38 @@
+/*
+ * Class Name: ActivityEditProblem
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
@@ -20,9 +40,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.lang.reflect.Method;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
+import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
 public class ActivityEditProblem extends AppCompatActivity {
     String title;
@@ -38,6 +62,17 @@ public class ActivityEditProblem extends AppCompatActivity {
     int problemPosition;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    Uri imageFileUri;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT = 100;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK = 101;
+    TextView frontTextview;
+    TextView backTextview;
+    ImageView frontView;
+    ImageView backView;
+    Button edit;
+    Button editBack;
+
+
 
 
     @Override
@@ -51,10 +86,12 @@ public class ActivityEditProblem extends AppCompatActivity {
         DatePicker dateStarted_textView = findViewById(R.id.dateStarted_input);
         EditText description_textView = findViewById(R.id.description_input);
 
-        TextView frontTextview = findViewById(R.id.front_textview);
-        TextView backTextview = findViewById(R.id.back_textview);
-        ImageView frontView = findViewById(R.id.view_front);
-        ImageView backView = findViewById(R.id.view_back);
+        frontTextview = findViewById(R.id.front_textview);
+        backTextview = findViewById(R.id.back_textview);
+        frontView = findViewById(R.id.view_front);
+        backView = findViewById(R.id.view_back);
+        edit = findViewById(R.id.editPhoto);
+        editBack = findViewById(R.id.editBackPhoto);
 
         oldProblem = (Problem) bundle.getSerializable("problem");
         title = oldProblem.getTitle();
@@ -62,7 +99,14 @@ public class ActivityEditProblem extends AppCompatActivity {
         dateString = oldProblem.getDate();
         userId = oldProblem.getUserId();
         frontBodyPhoto = oldProblem.getFrontPhoto();
+        if (frontBodyPhoto != null){
+            edit.setVisibility(View.VISIBLE);
+        }
+//        Log.d("Sandy 301", frontBodyPhoto);
         backBodyPhoto = oldProblem.getBackPhoto();
+        if (backBodyPhoto != null){
+            editBack.setVisibility(View.VISIBLE);
+        }
         frontBodyLocation = oldProblem.frontBodyLocation;
         backBodyLocation = oldProblem.backBodyLocation;
 
@@ -75,10 +119,10 @@ public class ActivityEditProblem extends AppCompatActivity {
         frontTextview.setText(frontBodyLocation);
         backTextview.setText(backBodyLocation);
         frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
+//        frontView.setImageBitmap(BitmapFactory.decodeFile(frontBodyPhoto));
         backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
 
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -145,13 +189,11 @@ public class ActivityEditProblem extends AppCompatActivity {
                 //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
-                String frontPhoto = oldProblem.getFrontPhoto();
-                String backPhoto = oldProblem.getBackPhoto();
                 String frontBodyLocation = oldProblem.getFrontBodyLocation();
                 String backBodyLocation = oldProblem.getBackBodyLocation();
                 mProblemList.removeProblemFromList(problemPosition);
 
-                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontPhoto,backPhoto,frontBodyLocation,backBodyLocation);
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontBodyPhoto,backBodyPhoto,frontBodyLocation,backBodyLocation);
                 newProblem.setId(pID);
 
                 ElasticSearchProblemController.UpdateProblemTask updateProblemTask = new ElasticSearchProblemController.UpdateProblemTask();
@@ -181,5 +223,133 @@ public class ActivityEditProblem extends AppCompatActivity {
 
     }
 
+    public void addBodyLocationPhotoFront(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT);
+
+    }
+
+    public void addBodyLocationPhotoBack(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK);
+
+    }
+
+
+    public void addBodyLocation(View view) {
+        Intent intent = new Intent(ActivityEditProblem.this, ActivityBodyLocation.class);
+        startActivityForResult(intent, 2);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2) {
+            frontBodyLocation = data.getStringExtra("front");
+            backBodyLocation = data.getStringExtra("back");
+            frontTextview.setText(frontBodyLocation);
+            backTextview.setText(backBodyLocation);
+
+        } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT) {
+            frontBodyPhoto = imageFileUri.getPath();
+            frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
+        } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK) {
+            backBodyPhoto = imageFileUri.getPath();
+            backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
+        } else if (requestCode == 3){
+
+            byte[] byteArray = data.getByteArrayExtra("result");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 3500, 3000, false);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            frontView.setImageDrawable(drawable);
+
+//            String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+//            File folderF = new File(folder);
+//            if (!folderF.exists()) {
+//                folderF.mkdir();/
+//            }
+//
+//            try {
+//                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+//                m.invoke(null);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            verifyPermission(this);
+//
+//            String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+//            File imageFile = new File(folder,imageFilePath);
+//            imageFileUri = Uri.fromFile(imageFile);
+
+        }else if (requestCode == 4){
+            byte[] byteArray = data.getByteArrayExtra("result");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 3500, 3000, false);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            backView.setImageDrawable(drawable);
+        }
+        
+    }
+
+    public void Editphoto(View view) {
+
+//        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
+        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
+//        intent.putExtra("bitmap",bitmap);
+        intent.putExtra("path",frontBodyPhoto);
+        startActivityForResult(intent,3);
+
+    }
+
+    public void EditBackphoto(View view) {
+        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
+//        intent.putExtra("bitmap",bitmap);
+        intent.putExtra("path",backBodyPhoto);
+        startActivityForResult(intent,4);
+    }
 }

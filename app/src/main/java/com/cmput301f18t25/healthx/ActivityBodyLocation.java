@@ -1,21 +1,36 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: ActivityAddRecord
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
+
 
 package com.cmput301f18t25.healthx;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class ActivityBodyLocation extends AppCompatActivity {
 
     String frontBodyLocation;
@@ -26,6 +41,7 @@ public class ActivityBodyLocation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_body_location);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -113,6 +129,29 @@ public class ActivityBodyLocation extends AppCompatActivity {
         finish();
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        int id = item.getItemId();
+
+        // if clicked the save button,
+        if (id == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(100,intent);
+            Log.i("CWei", "finished");
+            finish();
+//            Bundle bundle = this.getIntent().getExtras();
+//            Intent intent = new Intent(this, ViewProblemList.class);
+//            intent.putExtras(bundle);
+//            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
+
+
 
 
 }

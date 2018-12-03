@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: ActivityViewPatientProblem
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -42,6 +47,10 @@ public class ActivityViewPatientProblem extends AppCompatActivity
     private ArrayList<Problem> problemList = new ArrayList<Problem>();
     private ProblemList mProblemList = ProblemList.getInstance();
     private boolean isDoctor = true;
+    TextView Uid;
+    TextView Uname;
+    TextView Uemail;
+    TextView Uphone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +59,6 @@ public class ActivityViewPatientProblem extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -77,13 +85,13 @@ public class ActivityViewPatientProblem extends AppCompatActivity
             e.printStackTrace();
         }
 
-        TextView Uid = (TextView) header.findViewById(R.id.user_id);
+        Uid = (TextView) header.findViewById(R.id.user_id);
         Uid.setText(id);
-        TextView Uname = (TextView)header.findViewById(R.id.user_name);
+        Uname = (TextView)header.findViewById(R.id.user_name);
         Uname.setText(user.getName());
-        TextView Uemail = (TextView)header.findViewById(R.id.user_email);
+        Uemail = (TextView)header.findViewById(R.id.user_email);
         Uemail.setText(user.getEmail());
-        TextView Uphone = (TextView)header.findViewById(R.id.user_phone);
+        Uphone = (TextView)header.findViewById(R.id.user_phone);
         Uphone.setText(user.getPhoneNumber());
         ImageView headerImage = header.findViewById(R.id.imageView);
         headerImage.setImageDrawable(getResources().getDrawable(R.drawable.doctor));
@@ -157,6 +165,36 @@ public class ActivityViewPatientProblem extends AppCompatActivity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d("CWei", "OAR called");
+        Log.d("CWei", String.valueOf(resultCode));
+//        ProblemList mProblemList = ProblemList.getInstance();
+        if(resultCode == 15)
+        {   Log.d("CWei", "executed");
+            ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
+            Bundle newBundle = data.getExtras();
+            String id = newBundle.getString("username");
+            Log.d("CWei", id);
+            try {
+                User user = getUserTask.execute(id).get();
+                Log.d("CWei", user.getName());
+                Uid.setText(id);
+                Uname.setText(user.getName());
+                Uemail.setText(user.getEmail());
+                Uphone.setText(user.getPhoneNumber());
+
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -197,9 +235,11 @@ public class ActivityViewPatientProblem extends AppCompatActivity
             Bundle bundle = new Bundle();
             bundle.putString("id",Oid);
             bundle.putString("email",Oemail);
+
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent,15);
+
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, Login.class);
 

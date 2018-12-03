@@ -1,3 +1,13 @@
+/*
+ * Class Name: ActivityAddProblem
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
@@ -65,24 +75,18 @@ public class ActivityAddProblem extends AppCompatActivity {
         backView = findViewById(R.id.view_back);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
 
         int id = item.getItemId();
 
-        // if clicked the save button,
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(10,intent);
@@ -114,6 +118,7 @@ public class ActivityAddProblem extends AppCompatActivity {
 //            mProblemList.addToProblemList(newProblem);
 //            OfflineBehaviour offline = new OfflineBehaviour();
             Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, mProblemList.getUser().getId(), problemFrontPhoto, problemBackPhoto, problemFrontBodyLocation, problemBackBodyLocation);
+            newProblem.setId(UUID.randomUUID().toString()); // might need to get rid of this haha
             mProblemList.addToProblemList(newProblem);
             offlineSave.saveProblemListToFile(newProblem);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -137,7 +142,6 @@ public class ActivityAddProblem extends AppCompatActivity {
                 setResult(10,intent);
                 Log.i("CWei", "finished adding");
                 finish();
-//
 
             }
 
@@ -147,6 +151,7 @@ public class ActivityAddProblem extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -166,7 +171,6 @@ public class ActivityAddProblem extends AppCompatActivity {
             backView.setImageDrawable(Drawable.createFromPath(problemBackPhoto));
         }
     }
-
 
     public void addBodyLocation(View view) {
         Intent intent = new Intent(ActivityAddProblem.this, ActivityBodyLocation.class);

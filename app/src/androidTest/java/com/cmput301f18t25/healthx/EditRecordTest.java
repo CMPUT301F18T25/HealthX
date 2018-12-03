@@ -75,7 +75,7 @@ public class EditRecordTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddRecord() throws Exception {
+    public void testEditRecord() throws Exception {
 
         // first make a new account
 

@@ -1,5 +1,15 @@
+/*
+ * Class Name: ProblemListAdapter
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +18,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.ViewHolder> {
 
@@ -22,6 +35,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
     public Context ctx;
     private List<Problem> problems;
     private boolean isDoctor;
+    private ArrayList<Record> recordList = new ArrayList<Record>();
     public ProblemListAdapter(List<Problem> problems, boolean isDoctor){
 
         this.problems = problems;
@@ -41,10 +55,19 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
 
     @Override
     public void onBindViewHolder(ProblemListAdapter.ViewHolder holder, final int position) {
-
+        String problemId = problems.get(position).getId();
         holder.pTitle.setText(problems.get(position).getTitle());
         holder.pDescription.setText(problems.get(position).getDescription());
-        //holder.pCount.setText(problems.get(position).getCount());
+
+        try {
+            recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        holder.pCount.setText(String.valueOf(recordList.size()));
         holder.pDate.setText(problems.get(position).getDate());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +82,8 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
                 // CHANGE ACTIVITY CLASS
                 Intent intent = new Intent(v.getContext(), ViewRecordList.class);
                 intent.putExtras(bundle);
-                v.getContext().startActivity(intent);
+
+                ((Activity) v.getContext()).startActivityForResult(intent, 10);
                 Toast.makeText(v.getContext(), "View " + toView.getTitle(), Toast.LENGTH_SHORT).show();
 
             }
@@ -79,6 +103,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
         public TextView pDescription;
         public TextView pCount;
         public TextView pDate;
+        public LinearLayout OneProblem;
         public Context context;
 
         public ViewHolder(final View itemView) {
@@ -89,6 +114,7 @@ public class ProblemListAdapter extends RecyclerView.Adapter<ProblemListAdapter.
             pDescription = itemView.findViewById(R.id.problemDescription);
             pCount = itemView.findViewById(R.id.problemCount);
             pDate = itemView.findViewById(R.id.problemDate);
+
             itemView.setClickable(true);
 
         }

@@ -1,3 +1,14 @@
+/*
+ * Class Name: ActivityAddPatientByCode
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
@@ -40,9 +51,6 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
 
@@ -55,6 +63,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     public void toMainAdd(View view) {
         Intent intent = new Intent(this, ActivityAddPatient.class);
@@ -101,11 +110,10 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         //Intent intent = new Intent(this,ViewPatientList.class);
                         Intent intent = new Intent();
                         setResult(10,intent);
-                        Log.i("CWei", "finished adding");
                         finish();
 
                     }else{
-                        Toast toast = Toast.makeText(getApplicationContext(), "Patient Already Added" , Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(getApplicationContext(), "Patient is already signed!" , Toast.LENGTH_SHORT);
                         toast.show();
 
                     }
@@ -117,7 +125,7 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
 
 
             }else {
-                Toast toast = Toast.makeText(getApplicationContext(), "This patient is already signed!" , Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), "Code invalid!!!" , Toast.LENGTH_SHORT);
                 toast.show();
             }
 

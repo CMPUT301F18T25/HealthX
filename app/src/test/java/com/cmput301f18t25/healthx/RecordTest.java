@@ -1,8 +1,12 @@
 /*
- *  * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: RecordTest
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
-
 package com.cmput301f18t25.healthx;
 
 import android.graphics.Bitmap;
@@ -16,10 +20,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Picture;
 
 import java.util.Date;
-
-/**
- * Unit tests for the Record class
- */
 
 public class RecordTest {
 

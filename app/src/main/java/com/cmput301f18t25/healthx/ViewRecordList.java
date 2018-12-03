@@ -1,3 +1,13 @@
+/*
+ * Class Name: ViewRecordList
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
@@ -40,6 +50,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
     private int position;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    private OfflineSave offlineSave;
 
 
     @Override
@@ -47,6 +58,8 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_bar_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        offline.synchronizeWithElasticSearch();
+        offlineSave = new OfflineSave(this);
 
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -67,12 +80,23 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
 
             }
         });
-        try {
-            recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
-            for(Record record: recordList){
-                mProblemList.addRecord(position, record);
+
+        if (offlineSave.checkNetworkStatus()) {
+            try {
+                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+                for(Record record: recordList){
+                    mProblemList.addRecord(position, record);
+                }
+            } catch (Exception e) {
+
             }
-        } catch (Exception e) {
+
+        }
+        else {
+            Log.d("IVANLIM", "onCreate: " + mProblemList.getRecordList(position).toString());
+            recordList.addAll(mProblemList.getRecordList(position));
+        }
+
 //=======
 //                Bundle bundle = new Bundle();
 //                bundle.putString("ProblemID",problemId);
@@ -120,7 +144,7 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
 
 
 //        offline.synchronizeWithElasticSearch();
-        }
+
         rRecyclerView = findViewById(R.id.recycler_list);
         rRecyclerView.setHasFixedSize(true);
 
@@ -151,6 +175,8 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
                                 Intent intent = new Intent(ViewRecordList.this, ActivityEditRecord.class);
                                 Bundle bundle = new Bundle();
                                 bundle.putSerializable("record", record);
+                                bundle.putInt("position",position);
+                                bundle.putInt("recordPositon",pos);
                                 intent.putExtras(bundle);
                                 startActivityForResult(intent, 10);
 
@@ -171,13 +197,31 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         Log.d("CWei", "OAR called");
         if(resultCode == 10)
         {
-            try {
-                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
-                //Log.d("CWei", String.valueOf(recordList.size()));
+//            try {
+//                recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+//                //Log.d("CWei", String.valueOf(recordList.size()));
+//
+//            } catch (Exception e) {
+//
+//            }
 
-            } catch (Exception e) {
+
+            if (offlineSave.checkNetworkStatus()) {
+                try {
+                    recordList = new ElasticSearchRecordController.GetRecordsTask().execute(problemId).get();
+                    for(Record record: recordList){
+                        mProblemList.addRecord(position, record);
+                    }
+                } catch (Exception e) {
+
+                }
 
             }
+            else {
+                Log.d("IVANLIM", "onactivityresult: " + mProblemList.getRecordList(position).toString());
+                recordList.addAll(mProblemList.getRecordList(position));
+            }
+//            mProblemList.getRecordList(position);
             rAdapter = new RecordListAdapter(recordList);
             rRecyclerView.setAdapter(rAdapter);
         }
@@ -198,13 +242,23 @@ public class ViewRecordList extends AppCompatActivity implements Serializable {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == android.R.id.home) {
+            Intent intent = new Intent();
+            setResult(10,intent);
+            Log.i("CWei", "finished");
             finish();
         }
         else if (id == R.id.map_button){
             Toast toast = Toast.makeText(getApplicationContext(), "View map" , Toast.LENGTH_SHORT);
             toast.show();
+            ArrayList<Record> withoutCpRecords = new ArrayList<>();
+            for (Record r : recordList) {
+                Log.d("IVANLIM", String.valueOf(r.isCPComment()));
+                if (!r.isCPComment()) {
+                    withoutCpRecords.add(r);
+                }
+            }
             Intent intent = new Intent(getApplicationContext(), MapViewActivity.class);
-            intent.putExtra("Records", recordList);
+            intent.putExtra("Records", withoutCpRecords);
             startActivity(intent);
 
         }

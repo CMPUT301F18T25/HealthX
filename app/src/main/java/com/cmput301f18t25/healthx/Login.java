@@ -1,3 +1,12 @@
+/*
+ * Class Name: Login
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.app.AlarmManager;
@@ -20,8 +29,6 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Get;
-
-
 
 public class Login extends AppCompatActivity {
 //
@@ -104,6 +111,7 @@ public class Login extends AppCompatActivity {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             try {
                 user = getUserTask.execute(userId).get();
+                offSave.saveUserToFile(user);
                 Toast.makeText(getApplicationContext(), user.getName() , Toast.LENGTH_LONG).show();
                 mUserList.setPreviousUser(user);
                 CheckUser(user);
@@ -117,7 +125,6 @@ public class Login extends AppCompatActivity {
 
         }
     }
-
 
     public void CheckUser(User user) {
         if (user.getStatus().equals("Patient")){

@@ -1,3 +1,12 @@
+/*
+ * Class Name: EditUserProfile
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
@@ -49,8 +58,8 @@ public class EditUserProfile extends AppCompatActivity {
 
 
         Spinner freq = (Spinner) findViewById(R.id.frequency_menu);
-        //String userFreq = user.getReminderFrequency();
-        String userFreq = "None";
+        String userFreq = user.getReminderFrequency();
+        //String userFreq = "None";
         List<String> freqList =  new ArrayList<String>();
         freqList.add(userFreq);
         String[] FreqList_all = getResources().getStringArray(R.array.frequency);
@@ -76,6 +85,8 @@ public class EditUserProfile extends AppCompatActivity {
 
         return true;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -93,6 +104,7 @@ public class EditUserProfile extends AppCompatActivity {
 //            startActivity(intent);
         }
         if (id == R.id.save_button) {
+            /** if finish editing, we update the user info*/
             Bundle bundle = null;
             bundle = this.getIntent().getExtras();
             String Bid = bundle.getString("id");
@@ -120,8 +132,9 @@ public class EditUserProfile extends AppCompatActivity {
             String status = user.getStatus();
 
             //user.setReminderFrequency(frequency);
-            User newUser = new User(ENAME,Bid,EPHONE,EEMAIL,user.getStatus(),user.getReminderFrequency());
+            User newUser = new User(ENAME,Bid,EPHONE,EEMAIL,status,frequency);
             newUser.setId(user.getId());
+            Log.d("CWei",user.getId());
             ElasticSearchUserController.DeleteUserTask deleteUserTask = new ElasticSearchUserController.DeleteUserTask();
             deleteUserTask.execute(user);
 
@@ -130,7 +143,7 @@ public class EditUserProfile extends AppCompatActivity {
 
             Toast.makeText(this, "Profile Edited", Toast.LENGTH_SHORT).show();
             Bundle newBundle = new Bundle();
-            newBundle.putString("email",newUser.getEmail());
+//            newBundle.putString("email",newUser.getEmail());
             newBundle.putString("username",newUser.getUsername());
             try {
                 Thread.sleep(1000);                 //1000 milliseconds is one second.

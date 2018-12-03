@@ -1,4 +1,12 @@
-
+/*
+ * Class Name: ElasticSearchProblemController
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.os.AsyncTask;
@@ -27,7 +35,6 @@ import io.searchbox.core.SearchResult;
 public class ElasticSearchProblemController {
     private static JestDroidClient client;
 
-    // adds problem to elasticsearch
     public static class AddProblemTask extends AsyncTask<Problem, Void, Void> {
 
         @Override
@@ -94,7 +101,6 @@ public class ElasticSearchProblemController {
         }
 
     }
-
 
     public static class GetProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
         @Override

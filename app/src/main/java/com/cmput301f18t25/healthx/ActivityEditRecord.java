@@ -1,3 +1,14 @@
+/*
+ * Class Name: ActivityEditRecord
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.Manifest;
@@ -39,6 +50,7 @@ import android.widget.Toast;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,9 +58,8 @@ import java.util.List;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-
 public class ActivityEditRecord extends AppCompatActivity {
-    String recordPhoto;
+
     private LocationManager locationManager;
     Location location;
     double longitude;
@@ -59,7 +70,10 @@ public class ActivityEditRecord extends AppCompatActivity {
     String problemId;
     Record oldRecord;
     ArrayList<String> imageURIs;
+    ArrayList<String> oldURIs;
+
     Uri imageFileUri;
+    ImageView imagePhoto;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     int problemPosition;
@@ -73,19 +87,34 @@ public class ActivityEditRecord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_record);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        imageURIs = new ArrayList<>(10);
+        oldURIs= new ArrayList<>(10);
 
         Bundle bundle = this.getIntent().getExtras();
 
         EditText title_textView = findViewById(R.id.record_title);
         EditText comment_textView = findViewById(R.id.record_comment);
         DatePicker recordDate_T = findViewById(R.id.recordDate);
-
+        imagePhoto = findViewById(R.id.view_record_photo);
 
         oldRecord = (Record) bundle.getSerializable("record");
         title = oldRecord.getTitle();
         comment = oldRecord.getComment();
         dateString = oldRecord.getDate();
         problemId = oldRecord.getProblemID();
+
+        try {
+            if (oldRecord.getImageURIs().size() != 0) {
+                oldURIs = oldRecord.getImageURIs();
+                Log.d("here", oldURIs.get(0));
+                imageURIs.addAll(oldURIs);
+            }
+
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+
+
         problemPosition = bundle.getInt("position");
         recordPostion = bundle.getInt("recordPositon");
 
@@ -95,19 +124,22 @@ public class ActivityEditRecord extends AppCompatActivity {
                 Integer.valueOf(dateString.substring(5, 7)) - 1,
                 Integer.valueOf(dateString.substring(8, 10)));
 
-    }
+        if (imageURIs.size() > 0) {
+            Log.d("here", "image is setting");
+            imagePhoto.setImageDrawable(Drawable.createFromPath(imageURIs.get(0)));
+        }
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // if clicked the save button,
+        /** if clicked the save button*/
         if (id == android.R.id.home) {
             if (id == android.R.id.home) {
                 Intent intent = new Intent();
@@ -135,19 +167,16 @@ public class ActivityEditRecord extends AppCompatActivity {
             String recordComment = comment_textView.getText().toString();
             setGeoLocation();
 
-            // Check if app is connected to a network.
+            /** Check if app is connected to a network */
 
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
             newRecord.setId(oldRecord.getId());
 
-            //Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
-
-            //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
-                mProblemList.removeRecord(problemPosition, recordPostion);
-                mProblemList.addRecord(problemPosition, newRecord);
+//                mProblemList.removeRecord(problemPosition, recordPostion);
+//                mProblemList.addRecord(problemPosition, newRecord);
                 offline.addItem(oldRecord, "DELETE");
                 offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
@@ -190,9 +219,8 @@ public class ActivityEditRecord extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                ImageView imagePhoto = findViewById(R.id.view_photo);
                 imagePhoto.setImageDrawable(Drawable.createFromPath(imageFileUri.getPath()));
-                recordPhoto = imageFileUri.getPath();
+                imageURIs.add(imageFileUri.getPath());
             }
         }
     }

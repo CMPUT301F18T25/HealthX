@@ -75,7 +75,7 @@ public class DeleteRecordTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddRecord() throws Exception {
+    public void testDelRecord() throws Exception {
 
         // first make a new account
 

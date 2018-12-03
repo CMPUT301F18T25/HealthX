@@ -83,7 +83,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCbVVSnOusB2KyC3EvSqbSGy00bZVosEvo" />
 
-        <activity android:name=".SlideShow" />
 
         <activity android:name=".ActivityBodyLocation"></activity>
         <activity android:name=".ActivitySeeRecordPhotos"></activity>

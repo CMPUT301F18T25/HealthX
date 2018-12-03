@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: Record
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -12,7 +17,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-
 public class Record  implements Serializable {
 
     protected String title;
@@ -31,7 +35,6 @@ public class Record  implements Serializable {
     public void setCPComment(boolean CPComment) {
         this.CPComment = CPComment;
     }
-
     protected boolean CPComment;
 
     public Record(String record_title, String record_comment, Double latitude, Double longitude, ArrayList<String> imageURIs, String date, String problemID){
@@ -44,7 +47,7 @@ public class Record  implements Serializable {
      * @param longitude the longitude from geolocation of user
      * @param image the bitmap of the photo taken by the user for a record
      * @param date the date created the user selected for the record
-     *
+     * @param problemID the problem id to link the problem with the record
      */
 
         this.title = record_title;
@@ -57,92 +60,45 @@ public class Record  implements Serializable {
         this.problemID = problemID;
 
     }
-    /**
-     * sets Comment
-     * @param comment comment to be added*/
     public void setComment(String comment) {
         this.comment = comment;
     }
-    /**
-     * sets Title
-     * @param title title to be added*/
     public void setTitle(String title){
         this.title = title;
     }
-    /**
-     * returns Comment
-     * */
     public String getComment() {
         return comment;
     }
-    /**
-     * returns Title
-     * */
     public String getTitle() {
         return title;
     }
-    /**
-     * sets Date
-     * @param newDate date to set
-     * */
     public void setDate(String newDate){
         this.date = newDate;
     }
-    /**
-     * returns date
-     * */
     public String getDate(){
         return this.date;
     }
-    /**
-     * returns Latitude
-     * */
     public Double getLatitude() {
         return latitude;
     }
-    /**
-     * returns Longitude
-     * */
     public Double getLongitude() {
         return longitude;
     }
-    /**
-     * sets Latitude
-     * @param latitude latitude you want to set
-     * */
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
-    /**
-     * sets Longitude
-     * @param longitude longitude you want to set
-     * */
     public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
-    /**
-     * sets image
-     * @param image image you want to set
-     * */
     public void setImageURIs(ArrayList<String> imageURIs){
         this.imageURIs = imageURIs;
     }
-    /**
-     * returns image
-     * */
     public ArrayList<String> getImageURIs(){
         return this.imageURIs;
     }
-    /**
-     * gets Id
-     * */
     public String getId(){
         return this.id;
     }
-    /**
-     * sets Id
-     * @param Id Id you want to set
-     * */
     public void setId(String id){
         this.id = id;
     }

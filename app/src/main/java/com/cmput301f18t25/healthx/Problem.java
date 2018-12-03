@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: Problem
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -80,7 +85,7 @@ public class Problem implements Serializable{
     }
 
     public String getFrontPhoto() {
-        return frontPhoto;
+        return this.frontPhoto;
     }
 
     public void setFrontPhoto(String frontPhoto) {
@@ -88,7 +93,7 @@ public class Problem implements Serializable{
     }
 
     public String getBackPhoto() {
-        return backPhoto;
+        return this.backPhoto;
     }
 
     public void setBackPhoto(String backPhoto) {
@@ -107,17 +112,9 @@ public class Problem implements Serializable{
         return this.recordArray;
     }
 
-    /**
-     * adds Record
-     * @param item Record to be added
-     * */
     public void addRecord(Record item){
         recordArray.add(item);
     }
-    /**
-     * deletes Record given
-     * @param item Record to be deleted
-     * */
     public void deleteRecord(Record item){
         for (int i=0; i<recordArray.size();i++){
             Record object = recordArray.get(i);
@@ -142,4 +139,5 @@ public class Problem implements Serializable{
     public void setId(String id){
         this.id = id;
     }
+
 }
