@@ -26,6 +26,7 @@ public class ActivityEditProblem extends AppCompatActivity {
     String dateString;
     String userId;
     Problem oldProblem;
+    Problem newProblem;
     int problemPositon;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
@@ -45,7 +46,8 @@ public class ActivityEditProblem extends AppCompatActivity {
         title = oldProblem.getTitle();
         description = oldProblem.getDescription();
         dateString = oldProblem.getDate();
-        userId = oldProblem.getId();
+        //userId = oldProblem.getId();
+        userId = oldProblem.getUserId();
         problemPositon = bundle.getInt("position");
         title_textView.setText(title);
         description_textView.setText(description);
@@ -115,17 +117,29 @@ public class ActivityEditProblem extends AppCompatActivity {
             } else {
 
                 Bundle bundle = getIntent().getExtras();
-                Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
+
+
+                String pID = oldProblem.getId();
+
+                //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
-                ElasticSearchProblemController.AddProblemTask addProblemTask = new ElasticSearchProblemController.AddProblemTask();
+
+
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId);
+                newProblem.setId(pID);
+                ElasticSearchProblemController.UpdateProblemTask updateProblemTask = new ElasticSearchProblemController.UpdateProblemTask();
+                updateProblemTask.execute(newProblem);
+                mProblemList.addToProblemList(newProblem);
+                Log.d("CWei",oldProblem.getId()+ " "+oldProblem.getTitle());
+                Log.d("CWei",newProblem.getId()+ " "+newProblem.getTitle());
+
                 try {
-                    addProblemTask.execute(newProblem).get();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
                 }
+
                 Intent intent = new Intent();
                 setResult(10,intent);
                 finish();

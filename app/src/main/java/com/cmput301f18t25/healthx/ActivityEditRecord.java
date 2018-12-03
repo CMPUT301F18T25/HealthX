@@ -110,6 +110,9 @@ public class ActivityEditRecord extends AppCompatActivity {
         // if clicked the save button,
         if (id == android.R.id.home) {
             if (id == android.R.id.home) {
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished");
                 finish();
             }
         }
@@ -133,7 +136,12 @@ public class ActivityEditRecord extends AppCompatActivity {
             setGeoLocation();
 
             // Check if app is connected to a network.
-            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
+
+            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate,problemId);
+            newRecord.setId(oldRecord.getId());
+
+            //Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
+
             //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
@@ -143,13 +151,32 @@ public class ActivityEditRecord extends AppCompatActivity {
                 offline.addItem(oldRecord, "DELETE");
                 offline.addItem(newRecord, "ADD");
                 Toast.makeText(getApplicationContext(), "You are offline.", Toast.LENGTH_SHORT).show();
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished adding");
                 finish();
             } else {
 //                offline.synchronizeWithElasticSearch();
-                ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
-                addRecordTask.execute(newRecord);
+
                 ElasticSearchRecordController.DeleteRecordTask deleteRecordTask = new ElasticSearchRecordController.DeleteRecordTask();
                 deleteRecordTask.execute(oldRecord);
+
+
+                ElasticSearchRecordController.AddRecordTask addRecordTask = new ElasticSearchRecordController.AddRecordTask();
+                addRecordTask.execute(newRecord);
+                try {
+                    Thread.sleep(1000);                 //1000 milliseconds is one second.
+                } catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                Intent intent = new Intent();
+                setResult(10,intent);
+                Log.i("CWei", "finished adding");
                 finish();
             }
 

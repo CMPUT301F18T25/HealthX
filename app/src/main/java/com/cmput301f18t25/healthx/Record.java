@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import java.io.Serializable;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 public class Record  implements Serializable {
@@ -152,5 +153,13 @@ public class Record  implements Serializable {
     public String getProblemID(){
         return this.problemID;
     }
+    public static Comparator<Record> RecDateComparator = new Comparator<Record>() {
 
+        public int compare(Record record1, Record record2) {
+            String Date1 = record1.getDate();
+            String Date2 = record2.getDate();
+
+            //ascending order
+            return Date1.compareTo(Date2);
+        }};
 }

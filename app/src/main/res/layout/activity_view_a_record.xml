@@ -97,11 +97,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/SeePhoto"
+            <ImageView
+                android:id="@+id/RecordPhoto1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/view_record_photo" />
+                android:layout_height="wrap_content" />
+
 
 
         </LinearLayout>
