@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Environment;
+import android.os.StrictMode;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -20,9 +24,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
+
+import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
 public class ActivityEditProblem extends AppCompatActivity {
     String title;
@@ -38,6 +46,10 @@ public class ActivityEditProblem extends AppCompatActivity {
     int problemPosition;
     private ProblemList mProblemList = ProblemList.getInstance();
     private OfflineBehaviour offline = OfflineBehaviour.getInstance();
+    Uri imageFileUri;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT = 100;
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK = 101;
+
 
 
     @Override
@@ -178,6 +190,61 @@ public class ActivityEditProblem extends AppCompatActivity {
 
         }
         return super.onOptionsItemSelected(item);
+
+    }
+
+
+    public void addBodyLocationPhotoFront(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT);
+
+    }
+
+    public void addBodyLocationPhotoBack(View view) {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+        File folderF = new File(folder);
+        if (!folderF.exists()) {
+            folderF.mkdir();
+        }
+
+        try {
+            Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+            m.invoke(null);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        verifyPermission(this);
+
+        String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+        File imageFile = new File(folder,imageFilePath);
+        imageFileUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
+        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK);
 
     }
 
