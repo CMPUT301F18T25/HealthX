@@ -27,14 +27,12 @@ import java.util.concurrent.ExecutionException;
 public class ActivityAddPatientByCode extends AppCompatActivity {
 
 
-    private String userCode;
     Button mAddButton;
     EditText mUserCode;
     String doctorID;
     User cPatient;
     User cUser;
     ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
-    ArrayList<RequestCode> requestCodes2 = new ArrayList<RequestCode>();
     RequestCode requestCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +51,9 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        // if clicked the save button,
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(10,intent);
-            //Log.i("CWei", "finished");
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -103,11 +98,11 @@ public class ActivityAddPatientByCode extends AppCompatActivity {
                         toast.show();
 
                         try {
-                            Thread.sleep(1000);                 //1000 milliseconds is one second.
+                            Thread.sleep(1000);
                         } catch(InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
-                        //Intent intent = new Intent(this,ViewPatientList.class);
+
                         Intent intent = new Intent();
                         setResult(10,intent);
                         finish();

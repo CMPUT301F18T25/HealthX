@@ -123,11 +123,10 @@ public class ViewPatientList extends AppCompatActivity
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
 
-                //bundle = ViewPatientList.this.getIntent().getExtras();
                 Intent intent = new Intent(ViewPatientList.this, ActivityAddPatient.class);
                 bundle.putString("doctorID",doctorID);
                 intent.putExtras(bundle); // pass the problemid to the addactivity
-                //startActivity(intent);
+
                 startActivityForResult(intent, 10);
             }
         });
@@ -139,7 +138,6 @@ public class ViewPatientList extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("CWei", "OAR called");
         if (resultCode == 10){
             try {
                 patientList = new ElasticSearchUserController.GetPatientsTask().execute(doctorID).get();
@@ -151,14 +149,14 @@ public class ViewPatientList extends AppCompatActivity
 
         }
         else if(resultCode == 15)
-        {   Log.d("CWei", "executed");
+        {
             ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
             Bundle newBundle = data.getExtras();
             String id = newBundle.getString("username");
-            Log.d("CWei", id);
+
             try {
                 User user = getUserTask.execute(id).get();
-                Log.d("CWei", user.getName());
+
                 Uid.setText(id);
                 Uname.setText(user.getName());
                 Uemail.setText(user.getEmail());
@@ -232,11 +230,11 @@ public class ViewPatientList extends AppCompatActivity
             Bundle obundle = null;
             obundle = this.getIntent().getExtras();
             String Oid = obundle.getString("id");
-            //String Oemail = obundle.getString("email");
+
 
             Bundle bundle = new Bundle();
             bundle.putString("id",Oid);
-            //bundle.putString("email",Oemail);
+
 
             Intent intent = new Intent(this, EditUserProfile.class);
             intent.putExtras(bundle);

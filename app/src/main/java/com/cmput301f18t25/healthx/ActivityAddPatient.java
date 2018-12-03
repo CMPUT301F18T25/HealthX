@@ -28,11 +28,8 @@ import java.util.concurrent.ExecutionException;
 
 public class ActivityAddPatient extends AppCompatActivity {
 
-
-    private String userID;
     Button mAddButton;
     EditText mUserText;
-    EditText mEmailText;
     String doctorID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,12 +47,9 @@ public class ActivityAddPatient extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        // if clicked the save button,
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(10,intent);
-            Log.i("CWei", "finished");
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -71,10 +65,9 @@ public class ActivityAddPatient extends AppCompatActivity {
     }
 
     public void addPatient(View view) {
-        mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
+        mUserText = (EditText) findViewById(R.id.userIdText);
 
         String userId = mUserText.getText().toString();
-        Log.i("CWei", userId);
         ElasticSearchUserController.GetUserTask getUserTask = new ElasticSearchUserController.GetUserTask();
         try {
 
@@ -92,14 +85,13 @@ public class ActivityAddPatient extends AppCompatActivity {
                         Toast toast = Toast.makeText(getApplicationContext(), "You have added "+user.getName() , Toast.LENGTH_SHORT);
                         toast.show();
                         try {
-                            Thread.sleep(1000);                 //1000 milliseconds is one second.
+                            Thread.sleep(1000);
                         } catch(InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
-                        //Intent intent = new Intent(this,ViewPatientList.class);
                         Intent intent = new Intent();
                         setResult(10,intent);
-                        Log.i("CWei", "finished adding");
+
                         finish();
                     }
                     else {

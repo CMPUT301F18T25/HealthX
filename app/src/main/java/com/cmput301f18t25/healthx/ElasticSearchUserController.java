@@ -43,19 +43,18 @@ public class ElasticSearchUserController {
             verifySettings();
             String userid = null;
             for (User user : users) {
-                Index index = new Index.Builder(user).index("cmput301f18t25test").type("usernew1").build();
+                Index index = new Index.Builder(user).index("cmput301f18t25").type("usernew1").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
                     if (!result1.isSucceeded()) {
                         Log.i("Error", "Elasticsearch was not able to add user.");
                     }
-                    // where is the client?
+
                     else  {
                         userid = result1.getId();
-                        Log.d("IVANLIM", userid);
                         user.setId(userid);
-                        Index index1 = new Index.Builder(user).index("cmput301f18t25test").type("usernew2").build();
+                        Index index1 = new Index.Builder(user).index("cmput301f18t25").type("usernew2").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -78,7 +77,7 @@ public class ElasticSearchUserController {
     public static class GetUserTask extends AsyncTask<String, Void, User> {
         @Override
         protected User doInBackground(String... users) {
-//            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
+
             verifySettings();
             User theUser = new User("", "", "", "", "", "");
             String query = "{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}";
@@ -89,27 +88,19 @@ public class ElasticSearchUserController {
             String userId = null;
             ArrayList<User> userArray = new ArrayList<User>();
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
                     .addType("usernew2")
                     .build();
 
             try {
                 // gets result
                 SearchResult result = client.execute(search);
-//                DocumentResult docres = client.execute(search);
-//                SearchRes
                 if (result.isSucceeded()) {
-//
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);
                     userArray.addAll(userList);
                     theUser.cloneUser(userArray.get(0));
-                    Log.d("IVANLIM", theUser.getId() );
 
-
-//                    }
-                } else {
-                    Log.i("IVANLIM", "The search query failed to find any user that matched.");
                 }
             } catch (Exception e) {
                 Log.i("IVANLIM", "Something went wrong when we tried to communicate with the elasticsearch server!");
@@ -125,7 +116,7 @@ public class ElasticSearchUserController {
             verifySettings();
             String problemID;
             for (RequestCode rc : requestCodes){
-                Index index = new Index.Builder(rc).index("cmput301f18t25test").type("newReqCodes").build();
+                Index index = new Index.Builder(rc).index("cmput301f18t25").type("newReqCodes").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -151,7 +142,7 @@ public class ElasticSearchUserController {
         protected Void doInBackground(RequestCode... requestCodes) {
             verifySettings();
             String query = "{\"query\" : { \"match\" : { \"user_code\" : \"" + requestCodes[0].getCode() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("newReqCodes").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25").addType("newReqCodes").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {
@@ -171,7 +162,7 @@ public class ElasticSearchUserController {
             String query = "{ \"query\" : { \"match\" :  { \"user_code\" : \"" + params[0] + "\"}}}";
             Search search = new Search.Builder(query)
 
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
                     .addType("newReqCodes")
                     .build();
 
@@ -181,9 +172,6 @@ public class ElasticSearchUserController {
                     List<RequestCode> requestCodesList;
                     requestCodesList = result.getSourceAsObjectList(RequestCode.class);
                     requestCodes.addAll(requestCodesList);
-                }
-                else {
-                    Log.d("IVANLIM", "Else caluse: ");
                 }
 
             } catch (IOException e) {
@@ -201,7 +189,7 @@ public class ElasticSearchUserController {
         protected Void doInBackground(User... users) {
             verifySettings();
             for (User user : users){
-                Index index = new Index.Builder(user).index("cmput301f18t25test").type("usernew2").build();
+                Index index = new Index.Builder(user).index("cmput301f18t25").type("usernew2").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
@@ -225,7 +213,7 @@ public class ElasticSearchUserController {
         protected Void doInBackground(User... users) {
             verifySettings();
             String query = "{\"query\" : { \"match\" : { \"id\" : \"" + users[0].getId() + "\"}}}";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("usernew2").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25").addType("usernew2").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {
@@ -240,36 +228,30 @@ public class ElasticSearchUserController {
     public static class CheckPatientTask extends AsyncTask<String, Void, User> {
         @Override
         protected User doInBackground(String... users) {
-//            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
+
             verifySettings();
             User theUser = new User("", "", "", "", "","");
             String query ="{ \"query\" : { \"match\" :  { \"username\" : \""+ users[0] + "\"}}}";
-             //Build the query
 
             String userId = null;
             ArrayList<User> userArray = new ArrayList<User>();
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
                     .addType("myPatient")
                     .build();
 
             try {
-                // gets result
+
                 SearchResult result = client.execute(search);
-//                DocumentResult docres = client.execute(search);
-//                SearchRes
+
                 if (result.isSucceeded()) {
-//
+
                     List<User> userList;
                     userList = result.getSourceAsObjectList(User.class);
                     userArray.addAll(userList);
                     theUser.cloneUser(userArray.get(0));
-                    Log.d("IVANLIM", theUser.getId() );
 
 
-//                    }
-                } else {
-                    Log.i("IVANLIM", "The search query failed to find any user that matched.");
                 }
             } catch (Exception e) {
                 Log.i("IVANLIM", "Something went wrong when we tried to communicate with the elasticsearch server!");
@@ -281,14 +263,14 @@ public class ElasticSearchUserController {
     public static class CheckPatientTaskRequestCode extends AsyncTask<String, Void, ArrayList<RequestCode>> {
         @Override
         protected ArrayList<RequestCode> doInBackground(String... users) {
-//            "{n\"query\" : {\"term\" : { \"userID\" : \"hai\" }}}";
+
             ArrayList<RequestCode> requestCodes = new ArrayList<RequestCode>();
 
             String query = "{ \"query\" : { \"match\" :  { \"name\" : \""+ users[0] + "\"}}}";
-            //Build the query
+
 
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
                     .addType("myPatient")
                     .build();
 
@@ -299,9 +281,7 @@ public class ElasticSearchUserController {
                     requestCodesList = result.getSourceAsObjectList(RequestCode.class);
                     requestCodes.addAll(requestCodesList);
                 }
-                else {
-                    Log.d("IVANLIM", "Else caluse: ");
-                }
+
 
             } catch (IOException e) {
                 Log.d("Error", "Error in searching problems");
@@ -322,24 +302,21 @@ public class ElasticSearchUserController {
                     "                \"match\" : {\"doctorID\": \""+ params[0] + "\" }\n"  +  " }\n}\n";
 
             Search search = new Search.Builder(query)
-                    .addIndex("cmput301f18t25test")
+                    .addIndex("cmput301f18t25")
 
                     .addType("myPatient")
                     .build();
             try {
                 SearchResult result = client.execute(search);
                 if (result.isSucceeded()) {
-                    Log.d("CeciliaW", "doInBackground: patient SUCESS");
+
                     List<User> patientList;
                     patientList = result.getSourceAsObjectList(User.class);
                     patients.addAll(patientList);
-                    Log.d("CWei", String.valueOf(patients.size()));
-                    Log.d("CWei", "prted");
+
 
                 }
-                else {
-                    Log.d("CeciliaW", "doInBackground: patient ELSe");
-                }
+
 
             } catch (IOException e) {
                 Log.d("Error", "Error in searching records");
@@ -355,18 +332,16 @@ public class ElasticSearchUserController {
         @Override
         protected Void doInBackground(User... patients) {
             verifySettings();
-            String patientID;
             for (User patient : patients){
-                Index index = new Index.Builder(patient).index("cmput301f18t25test").type("patients").build();
+                Index index = new Index.Builder(patient).index("cmput301f18t25").type("patients").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
                     if (!result1.isSucceeded()) {
                         Log.i("Error", "Elasticsearch was not able to add problem.");
                     } else {
-                        //patientID = result1.getId();
-                        //patient.setId(patientID);
-                        Index index1 = new Index.Builder(patient).index("cmput301f18t25test").type("myPatient").build();
+
+                        Index index1 = new Index.Builder(patient).index("cmput301f18t25").type("myPatient").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -391,19 +366,17 @@ public class ElasticSearchUserController {
         @Override
         protected Void doInBackground(RequestCode... patients) {
             verifySettings();
-            String patientID;
+
             for (RequestCode rc : patients){
-                Index index = new Index.Builder(rc).index("cmput301f18t25test").type("patients").build();
+                Index index = new Index.Builder(rc).index("cmput301f18t25").type("patients").build();
 
                 try {
                     DocumentResult result1 = client.execute(index);
-                    Log.i("here","the fuck??");
                     if (!result1.isSucceeded()) {
                         Log.i("Error", "Elasticsearch was not able to add patient.");
                     } else {
-                        //patientID = result1.getId();
-                        //patient.setId(patientID);
-                        Index index1 = new Index.Builder(rc).index("cmput301f18t25test").type("myPatientCodes").build();
+
+                        Index index1 = new Index.Builder(rc).index("cmput301f18t25").type("myPatientCodes").build();
                         try {
                             DocumentResult result2 = client.execute(index1);
                             if (!result2.isSucceeded()) {
@@ -429,12 +402,12 @@ public class ElasticSearchUserController {
         @Override
         protected Void doInBackground(User... patients) {
             verifySettings();
-            //String query = "{\"query\" : { \"match\" : { \"user\" : \"" + records[0].getId() + "\"}}}";
+
             String query = "{\n" +
                     "    \"query\": {\n" +
                     "                \"bool\" : {\n" +
                     "\"must\" : [\n"+ "{\"match\" : {\"username\" : \""+ patients[0].getUsername()+ "\"}},\n" + "{\"match\" : {\"email\" : \""+ patients[0].getEmail()+"\"}}\n]\n}\n}\n}\n";
-            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25test").addType("myPatient").build();
+            DeleteByQuery delete = new DeleteByQuery.Builder(query).addIndex("cmput301f18t25").addType("myPatient").build();
             try {
                 client.execute(delete);
             } catch (Exception e) {

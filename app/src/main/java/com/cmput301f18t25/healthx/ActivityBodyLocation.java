@@ -140,12 +140,8 @@ public class ActivityBodyLocation extends AppCompatActivity {
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(100,intent);
-            Log.i("CWei", "finished");
             finish();
-//            Bundle bundle = this.getIntent().getExtras();
-//            Intent intent = new Intent(this, ViewProblemList.class);
-//            intent.putExtras(bundle);
-//            startActivity(intent);
+
         }
         return super.onOptionsItemSelected(item);
 

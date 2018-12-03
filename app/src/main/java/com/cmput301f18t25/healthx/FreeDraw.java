@@ -69,8 +69,7 @@ public class FreeDraw extends View {
 
     public FreeDraw(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        //this.context = context;
-//        this.newBitmap = bitmap;
+
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -96,10 +95,10 @@ public class FreeDraw extends View {
     }
 
     public void setCanvasBitmap(Bitmap bitmap) {
-        Log.d("Sandy 301", "Reached");
+
 
         newBitmap = bitmap;
-//        newBitmap = Bitmap.createScaledBitmap(newBitmap, 1000, 1000, false);
+
         qCanvas = new Canvas(newBitmap);
         invalidate();
     }
@@ -111,12 +110,8 @@ public class FreeDraw extends View {
         width = w;
         height = h;
 
-            mBitmap = Bitmap.createBitmap(newBitmap.getWidth(), newBitmap.getHeight(), Bitmap.Config.ARGB_8888);
-//            mBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.test3);
-//        newBitmap  = BitmapFactory.decodeResource(getResources(), R.drawable.test3);
-//        newBitmap = Bitmap.createScaledBitmap(newBitmap, 1000, 1000, false);
-//        Bitmap workingBitmap = Bitmap.createBitmap(newBitmap);
-//        mBitmap= workingBitmap.copy(Bitmap.Config.ARGB_8888, true);
+        mBitmap = Bitmap.createBitmap(newBitmap.getWidth(), newBitmap.getHeight(), Bitmap.Config.ARGB_8888);
+
         qCanvas = new Canvas(newBitmap);
     }
 
@@ -153,9 +148,9 @@ public class FreeDraw extends View {
     private void touch_up() {
         mPath.lineTo(mX, mY);
         circlePath.reset();
-        // commit the path to our offscreen
+
         qCanvas.drawPath(mPath,  mPaint);
-        // kill this so we don't double draw
+
         mPath.reset();
     }
 
@@ -184,8 +179,7 @@ public class FreeDraw extends View {
 
     public Bitmap getBitmap()
     {
-        //this.measure(100, 100);
-        //this.layout(0, 0, 100, 100);
+
         this.setDrawingCacheEnabled(true);
         this.buildDrawingCache();
         Bitmap bmp = Bitmap.createBitmap(this.getDrawingCache());
@@ -215,24 +209,10 @@ public class FreeDraw extends View {
          * http://stackoverflow.com/a/17733530/294884
          * you can now save the bitmap to a file, or display it in an ImageView: */
         Bitmap userBitmap = getDrawingCache();
-        // don't forget to clear it (see above) or you just get duplicates
 
-        // almost always you will want to reduce res from the very high screen res
-        userBitmap =
-                ThumbnailUtils.extractThumbnail(userBitmap, 500, 500);
+        userBitmap = ThumbnailUtils.extractThumbnail(userBitmap, 500, 500);
 
         return  userBitmap;
 
-
-//        ImageView testArea = findViewById(R.id.testview);
-//
-//        testArea.setImageBitmap( userBitmap );
-
-        // these days you often need a "byte array". for example,
-        // to save to parse.com or other cloud services
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        userBitmap.compress(Bitmap.CompressFormat.PNG, 0, baos);
-//        byte[] yourByteArray;
-//        yourByteArray = baos.toByteArray();
     }
 }

@@ -80,8 +80,7 @@ public class ActivityAddRecord extends AppCompatActivity {
         problemID = bundle.getString("ProblemID");
         isDoctor = bundle.getBoolean("isDoctor");
         position = bundle.getInt("Position");
-//        Log.d("IVANLIM", "onCreate: " + String.valueOf(position));
-        Log.d("IVANLIM",String.valueOf(position));
+
         imageURIs = new ArrayList<String>(10);
         initializeLocationManager();
         setGeoLocation();
@@ -90,7 +89,7 @@ public class ActivityAddRecord extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setGeoLocation();
-                //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -110,11 +109,9 @@ public class ActivityAddRecord extends AppCompatActivity {
 
             Intent intent = new Intent();
             setResult(10,intent);
-            Log.i("CWei", "back");
             finish();
         }
         if (id == R.id.save_button) {
-            Log.d("CWei", "onOptionsItemSelected: clicked save button");
 
             EditText title_textView = findViewById(R.id.record_title);
             EditText comment_textView = findViewById(R.id.record_comment);
@@ -128,20 +125,9 @@ public class ActivityAddRecord extends AppCompatActivity {
             String recordDate = format.format(selected);
             String recordTitle = title_textView.getText().toString();
             String recordComment = comment_textView.getText().toString();
-            //Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
-            if (latitude == null){
-                Log.d("location","still null");
-            }
+
             setGeoLocation();
-//            if (latitude == null) {
-//                setGeoLocation();
-//                Toast.makeText(getApplicationContext(),String.valueOf(latitude),Toast.LENGTH_SHORT).show();
-//
-//            }
-//            Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, recordPhoto,recordDate, problemID);
-//            mProblemList.addToRecordToProblem(position,newRecord);
-            // Check if app is connected to a network.
-//            OfflineBehaviour offlineBehaviour = new OfflineBehaviour();
+
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate, problemID);
             newRecord.setCPComment(isDoctor);
             mProblemList.addRecord(position,newRecord);
@@ -168,7 +154,6 @@ public class ActivityAddRecord extends AppCompatActivity {
 
                 Intent intent = new Intent();
                 setResult(10,intent);
-                Log.i("CWei", "finished adding");
                 finish();
             }
 
@@ -213,7 +198,6 @@ public class ActivityAddRecord extends AppCompatActivity {
         verifyPermission(this);
 
         String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
-        Log.d("UWU", imageFilePath);
         File imageFile = new File(folder,imageFilePath);
         imageFileUri = Uri.fromFile(imageFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageFileUri);
@@ -273,12 +257,14 @@ public class ActivityAddRecord extends AppCompatActivity {
             }
         }
     }
-//    private void initializeLocationManager() {
-//        if (lm == null) {
-//            Log.d("Ajay","init lm");
-//            lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-//        }
-//    }
+
+    private void initializeLocationManager() {
+        if (lm == null) {
+
+            lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        }
+    }
+
 
 
 
