@@ -93,7 +93,6 @@ public class ActivityAddRecord extends AppCompatActivity {
         position = bundle.getInt("Position");
 
         imageURIs = new ArrayList<String>(10);
-        initializeLocationManager();
         setGeoLocation();
         geoloc = (Button) findViewById(R.id.record_geolocation);
         geoloc.setOnClickListener(new View.OnClickListener() {
