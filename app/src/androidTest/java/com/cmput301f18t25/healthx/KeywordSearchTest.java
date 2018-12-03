@@ -70,7 +70,7 @@ public class KeywordSearchTest extends ActivityTestRule<Login> {
     }
 
     @Test
-    public void testAddProblem() throws Exception {
+    public void testKeySearch() throws Exception {
 
         // first make a new account
 
