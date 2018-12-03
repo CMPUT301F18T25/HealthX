@@ -1,3 +1,12 @@
+/*
+ * Class Name: PatientListAdapter
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.app.Activity;
@@ -14,6 +23,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+
+/**
+ * This is the adapter for the patient recycler view.
+ *
+ * @author Dhrub
+ * @author Ivan
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
+
 
 public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.ViewHolder> {
 
@@ -41,6 +61,9 @@ public class PatientListAdapter extends RecyclerView.Adapter<PatientListAdapter.
 
     }
 
+    /**
+     * set text to corresponding recycler view item
+     * */
     @Override
     public void onBindViewHolder(PatientListAdapter.ViewHolder holder, final int position) {
 

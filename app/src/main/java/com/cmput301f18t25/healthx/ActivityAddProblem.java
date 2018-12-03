@@ -1,3 +1,13 @@
+/*
+ * Class Name: ActivityAddProblem
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
@@ -33,6 +43,17 @@ import java.util.UUID;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
+/**
+ * This is the activity that allows the user to add a problem, with body photo and body location.
+ *
+ * @author Dhruba
+ * @author Ivan
+ * @author Sandy
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
+
 public class ActivityAddProblem extends AppCompatActivity {
 
     private ProblemList mProblemList = ProblemList.getInstance();
@@ -65,24 +86,32 @@ public class ActivityAddProblem extends AppCompatActivity {
         backView = findViewById(R.id.view_back);
     }
 
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
 
         int id = item.getItemId();
 
-        // if clicked the save button,
         if (id == android.R.id.home) {
             Intent intent = new Intent();
             setResult(10,intent);
@@ -138,7 +167,6 @@ public class ActivityAddProblem extends AppCompatActivity {
                 setResult(10,intent);
                 Log.i("CWei", "finished adding");
                 finish();
-//
 
             }
 
@@ -148,6 +176,15 @@ public class ActivityAddProblem extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
 
     }
+
+    /**
+     * Comes back to the current activity
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -168,12 +205,23 @@ public class ActivityAddProblem extends AppCompatActivity {
         }
     }
 
+    /**
+     * handles on click for the add body location button
+     *
+     * @param view
+     */
 
     public void addBodyLocation(View view) {
         Intent intent = new Intent(ActivityAddProblem.this, ActivityBodyLocation.class);
         startActivityForResult(intent, 2);
 
     }
+
+    /**
+     * handles on click for the add body location front button
+     *
+     * @param view
+     */
 
     public void addBodyLocationPhotoFront(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -202,6 +250,11 @@ public class ActivityAddProblem extends AppCompatActivity {
 
     }
 
+    /**
+     * handles on click for the add body location photo back button
+     *
+     * @param view
+     */
     public void addBodyLocationPhotoBack(View view) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 

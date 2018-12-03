@@ -1,3 +1,13 @@
+/*
+ * Class Name: ViewPatientList
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
 package com.cmput301f18t25.healthx;
 
 import android.app.Activity;
@@ -23,7 +33,14 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+/**
+ * This is the activity that allows the care provider to navigate their list of patients
+ *
+ * @author Cecilia
+ * @author Aida
+ * @version 1.0
+ *
+ */
 public class ViewPatientList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;

@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: DrawBitmap
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -23,12 +28,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.lang.reflect.Method;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
+
+/**
+ * This is the class to draw bitmap
+ *
+ *
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 
 public class DrawBitmap extends AppCompatActivity {
 

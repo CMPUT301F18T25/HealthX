@@ -1,3 +1,14 @@
+/*
+ * Class Name: ViewProblemList
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.app.Activity;
@@ -34,6 +45,17 @@ import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Delete;
 
+/**
+ * This is the activity that allows the user to navigate their problems.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @author Aida
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 public class ViewProblemList extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private RecyclerView mRecyclerView;

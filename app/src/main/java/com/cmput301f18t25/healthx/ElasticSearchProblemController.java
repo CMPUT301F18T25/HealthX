@@ -1,4 +1,12 @@
-
+/*
+ * Class Name: ElasticSearchProblemController
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.os.AsyncTask;
@@ -24,10 +32,25 @@ import io.searchbox.core.Index;
 import io.searchbox.core.Search;
 import io.searchbox.core.SearchResult;
 
+/**
+ * This is the elasticSearch controller for problem
+ *
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
+
 public class ElasticSearchProblemController {
     private static JestDroidClient client;
 
-    // adds problem to elasticsearch
+    /**
+     *
+     * add a problem to the problem table, and assign a unique problem id to it.
+     *
+     */
     public static class AddProblemTask extends AsyncTask<Problem, Void, Void> {
 
         @Override
@@ -71,6 +94,12 @@ public class ElasticSearchProblemController {
     }
 
 
+    /**
+     *
+     * update an exisiting problem
+     *
+     */
+
     public static class UpdateProblemTask extends AsyncTask<Problem, Void, Void> {
 
         @Override
@@ -95,7 +124,11 @@ public class ElasticSearchProblemController {
 
     }
 
-
+    /**
+     *
+     * get the problem list by user id
+     *
+     */
     public static class GetProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
         @Override
         protected ArrayList<Problem> doInBackground(String... params) {
@@ -132,6 +165,11 @@ public class ElasticSearchProblemController {
 
     }
 
+    /**
+     *
+     * search in the problem table
+     *
+     */
     public static class SearchProblemsTask extends AsyncTask<String, Void, ArrayList<Problem>> {
         @Override
         protected ArrayList<Problem> doInBackground(String... params) {
@@ -169,6 +207,11 @@ public class ElasticSearchProblemController {
 
     }
 
+    /**
+     *
+     * search problem by problem id
+     *
+     */
     public static class SearchProblemsFromRecordsTask extends AsyncTask<ArrayList<Record>, Void, ArrayList<Problem>> {
         @Override
         protected ArrayList<Problem> doInBackground(ArrayList<Record>... params) {
@@ -201,6 +244,11 @@ public class ElasticSearchProblemController {
         }
     }
 
+    /**
+     *
+     * delete a problem from the problem table
+     *
+     */
     public static class DeleteProblemTask extends AsyncTask<Problem, Void, Void> {
 
         @Override

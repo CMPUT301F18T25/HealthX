@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: SlideShowAdapter
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -17,7 +22,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-
+/**
+ * This is the adapter for the slide show.
+ *
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 public class SlideShowAdapter extends PagerAdapter {
 
     private Context mcontext;

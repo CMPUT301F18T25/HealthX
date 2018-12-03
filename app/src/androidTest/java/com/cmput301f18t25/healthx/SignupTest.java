@@ -1,3 +1,12 @@
+/*
+ * Class Name: SignupTest
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 
@@ -16,6 +25,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+
+/**
+ * This is the intent test for sign up
+ *
+ * @author Aida
+ * @version 1.0
+ *
+ */
 
 public class SignupTest extends ActivityTestRule<Login>{
 

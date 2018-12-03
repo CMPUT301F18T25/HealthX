@@ -1,3 +1,14 @@
+/*
+ * Class Name: ActivityEditRecord
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
+
 package com.cmput301f18t25.healthx;
 
 import android.Manifest;
@@ -47,7 +58,15 @@ import java.util.List;
 
 import static com.cmput301f18t25.healthx.PermissionRequest.verifyPermission;
 
-
+/**
+ * This is the activity that allows the user to edit an existing record.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @version 1.0
+ *
+ */
 public class ActivityEditRecord extends AppCompatActivity {
 
     private LocationManager locationManager;
@@ -120,18 +139,28 @@ public class ActivityEditRecord extends AppCompatActivity {
         }
 
     }
-
+    /**
+     * Inflate the menu; this adds items to the action bar if it is present.
+     *
+     * @param menu
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_save, menu);
         return true;
     }
-
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        // if clicked the save button,
+        /** if clicked the save button*/
         if (id == android.R.id.home) {
             if (id == android.R.id.home) {
                 Intent intent = new Intent();
@@ -159,14 +188,11 @@ public class ActivityEditRecord extends AppCompatActivity {
             String recordComment = comment_textView.getText().toString();
             setGeoLocation();
 
-            // Check if app is connected to a network.
+            /** Check if app is connected to a network */
 
             Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
             newRecord.setId(oldRecord.getId());
 
-            //Record newRecord = new Record(recordTitle, recordComment, latitude, longitude, imageURIs,recordDate,problemId);
-
-            //            mProblemList.removeProblemFromList(position);
             ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
             if (null == activeNetwork) {
@@ -220,6 +246,11 @@ public class ActivityEditRecord extends AppCompatActivity {
         }
     }
 
+    /**
+     * Get the user's permission of using camera and add a photo
+     *
+     * @param view
+     */
     public void addPhoto(View view){
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -251,6 +282,10 @@ public class ActivityEditRecord extends AppCompatActivity {
 
     }
 
+    /**
+     * Get the user's permission of location services and set the geo-location
+     *
+     */
     public void setGeoLocation() {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

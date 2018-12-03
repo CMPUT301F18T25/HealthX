@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: ActivitySearch
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -22,6 +27,15 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+/**
+ * This is the activity that allows the user to search by keyword/bodylocation/geolocation.
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @version 1.0
+ *
+ */
 
 public class ActivitySearch extends AppCompatActivity  {
     private RecyclerView sRecyclerView;
@@ -97,6 +111,7 @@ public class ActivitySearch extends AppCompatActivity  {
 
                     switch (searchType.toString()) {
                         case "Geo-location":
+                            /** search by geo location */
                             try {
                                 String latitude = latitudeView.getText().toString();
                                 String longitude = longitudeView.getText().toString();
@@ -135,7 +150,9 @@ public class ActivitySearch extends AppCompatActivity  {
                                 e.printStackTrace();
                             }
                             break;
+
                         case "Body Location":
+                            /** search by geo location */
                             try {
                                 String bodyLocation = bodyLocationView.getText().toString();
 
@@ -156,6 +173,7 @@ public class ActivitySearch extends AppCompatActivity  {
 
                             break;
                         default:
+                            /** search by keywords */
                             try {
                                 problemList = new ElasticSearchProblemController.SearchProblemsTask().execute(keyword).get();
 

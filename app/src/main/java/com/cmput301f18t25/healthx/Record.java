@@ -1,6 +1,11 @@
 /*
- *  * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: Record
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
 
 package com.cmput301f18t25.healthx;
@@ -12,7 +17,17 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
-
+/**
+ * This is the entity class for the record object.
+ *
+ * @author Dhrub
+ * @author Ivan
+ * @author Cecilia
+ * @author Aida
+ * @author Ajay
+ * @version 1.0
+ *
+ */
 public class Record  implements Serializable {
 
     protected String title;
@@ -31,7 +46,7 @@ public class Record  implements Serializable {
     public void setCPComment(boolean CPComment) {
         this.CPComment = CPComment;
     }
-
+    /** @param CPComment boolean indicates whether it is CP comment or not */
     protected boolean CPComment;
 
     public Record(String record_title, String record_comment, Double latitude, Double longitude, ArrayList<String> imageURIs, String date, String problemID){
@@ -44,7 +59,7 @@ public class Record  implements Serializable {
      * @param longitude the longitude from geolocation of user
      * @param image the bitmap of the photo taken by the user for a record
      * @param date the date created the user selected for the record
-     *
+     * @param problemID the problem id to link the problem with the record
      */
 
         this.title = record_title;

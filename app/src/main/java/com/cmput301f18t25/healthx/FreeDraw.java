@@ -1,8 +1,12 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: FreeDraw
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
-
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
@@ -18,6 +22,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+/**
+ * This is the class to free draw and erase
+ *
+ *
+ * @author Sandy
+ * @version 1.0
+ *
+ */
 
 
 public class FreeDraw extends View {
@@ -191,6 +203,7 @@ public class FreeDraw extends View {
         return bmp;
     }
 
+    /** erase */
     public void clear(){
         setDrawingCacheEnabled(false);
         // don't forget that one and the match below,
@@ -206,6 +219,10 @@ public class FreeDraw extends View {
 
     public Bitmap saveDrawing()
     {
+        /** NOTE that's an incredibly useful trick for cropping/resizing squares
+         * while handling all memory problems etc
+         * http://stackoverflow.com/a/17733530/294884
+         * you can now save the bitmap to a file, or display it in an ImageView: */
         Bitmap userBitmap = getDrawingCache();
         // don't forget to clear it (see above) or you just get duplicates
 
@@ -214,11 +231,7 @@ public class FreeDraw extends View {
                 ThumbnailUtils.extractThumbnail(userBitmap, 500, 500);
 
         return  userBitmap;
-        // NOTE that's an incredibly useful trick for cropping/resizing squares
-        // while handling all memory problems etc
-        // http://stackoverflow.com/a/17733530/294884
 
-        // you can now save the bitmap to a file, or display it in an ImageView:
 
 //        ImageView testArea = findViewById(R.id.testview);
 //

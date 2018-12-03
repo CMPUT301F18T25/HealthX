@@ -1,7 +1,13 @@
 /*
- *  * Copyright (c) Team X, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ * Class Name: ActivityAddRecord
  *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
+
 
 package com.cmput301f18t25.healthx;
 
@@ -25,7 +31,13 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/**
+ * This is the activity that allows the user to add body locations for a problem.
+ *
+ * @author Ivan
+ * @version 1.0
+ *
+ */
 public class ActivityBodyLocation extends AppCompatActivity {
 
     String frontBodyLocation;
@@ -39,6 +51,10 @@ public class ActivityBodyLocation extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
+
+    /**
+     * Calculate the coordinates and get the corresponding body location.
+     */
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -115,6 +131,11 @@ public class ActivityBodyLocation extends AppCompatActivity {
         });
     }
 
+    /**
+     * save the clicked body location
+     * @param view
+     */
+
     public void saveBodyLocations(View view){
 
         Intent intent = new Intent();
@@ -124,11 +145,17 @@ public class ActivityBodyLocation extends AppCompatActivity {
         finish();
 
     }
+
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
 
         int id = item.getItemId();
 

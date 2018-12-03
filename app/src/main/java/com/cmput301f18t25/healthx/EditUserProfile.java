@@ -1,3 +1,12 @@
+/*
+ * Class Name: EditUserProfile
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
@@ -16,6 +25,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * This is the activity that allows the user to edit his profile.
+ *
+ *
+ * @author Cecilia
+ * @author Ivan
+ * @author Aida
+ * @version 1.0
+ *
+ */
 public class EditUserProfile extends AppCompatActivity {
 
     @Override
@@ -76,6 +95,8 @@ public class EditUserProfile extends AppCompatActivity {
 
         return true;
     }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -93,6 +114,7 @@ public class EditUserProfile extends AppCompatActivity {
 //            startActivity(intent);
         }
         if (id == R.id.save_button) {
+            /** if finish editing, we update the user info*/
             Bundle bundle = null;
             bundle = this.getIntent().getExtras();
             String Bid = bundle.getString("id");

@@ -1,3 +1,12 @@
+/*
+ * Class Name: Login
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.app.AlarmManager;
@@ -21,7 +30,17 @@ import java.util.concurrent.ExecutionException;
 
 import io.searchbox.core.Get;
 
-
+/**
+ * This is the activity that handles login with userId, along with the option to login by a short code.
+ *
+ *
+ * @author Ivan
+ * @author Dhruba
+ * @author Cecilia
+ * @author Aida
+ * @version 1.0
+ *
+ */
 
 public class Login extends AppCompatActivity {
 //
@@ -69,16 +88,25 @@ public class Login extends AppCompatActivity {
 
     }
 
+    /** switch to login by code
+     * @param view
+     * */
     public void toCodeLogin(View view) {
         Intent intent = new Intent(this, CodeLogin.class);
         startActivity(intent);
     }
 
+    /** switch to sign up
+     * @param view
+     * */
     public void toSignUp(View view) {
         Intent intent = new Intent(this, Signup.class);
         startActivity(intent);
     }
 
+    /** validates the credentials, if valid, goes to the problem list / patient list.
+     * @param view
+     * */
     public void toViewProblem(View view) {
         String userId = userIdTextView.getText().toString();
         ConnectivityManager cm = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -119,6 +147,11 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    /** check the status of the user to determine the next intent
+     * either directs to the care provider's patient list
+     * or the patient's problem list
+     * @param user
+     * */
 
     public void CheckUser(User user) {
         if (user.getStatus().equals("Patient")){

@@ -1,9 +1,26 @@
+/*
+ * Class Name: PermissionRequest
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
+
+/**
+ * This is the class that requests user's permission for storage.
+ *
+ * @author Ivan
+ * @version 1.0
+ *
+ */
 
 public class PermissionRequest {
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
@@ -12,6 +29,9 @@ public class PermissionRequest {
             Manifest.permission.READ_EXTERNAL_STORAGE
     };
 
+    /**
+     * verify the user's permission
+     * */
     public static void verifyPermission(Activity activity) {
         int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
 

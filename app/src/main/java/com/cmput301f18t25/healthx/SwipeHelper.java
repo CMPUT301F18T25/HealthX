@@ -1,7 +1,11 @@
-package com.cmput301f18t25.healthx;
-
 /*
-   Original code Copyright (c) 2017 Wenxi Zeng[1]
+ * Class Name: ActivitySeeRecordPhotos
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Original code Copyright (c) 2017 Wenxi Zeng[1]
    Modified code Copyright (c) 2018 HealthX
    Licensed under the CC-BY-SA 3.0[2]
    Original code posted to this question[3] and answer[4] from
@@ -12,12 +16,11 @@ package com.cmput301f18t25.healthx;
    [2]: https://creativecommons.org/licenses/by-sa/3.0/
    [3]: https://stackoverflow.com/q/44965278
    [4]: https://stackoverflow.com/a/45062745
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
  */
+package com.cmput301f18t25.healthx;
 
-/*
-   Modified: line 43 custom button size
- */
-// control swipe option
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -38,6 +41,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+/**
+ * This is the swipe helper that helps the swipeable recycler view.
+ *
+ * @author Wenxi Zeng
+ * @version 1.0
+ *
+ */
 public abstract class SwipeHelper extends ItemTouchHelper.SimpleCallback {
 
     public static final int BUTTON_WIDTH = 300;

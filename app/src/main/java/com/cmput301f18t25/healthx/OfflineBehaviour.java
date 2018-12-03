@@ -1,3 +1,12 @@
+/*
+ * Class Name: OfflineBehaviour
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 
@@ -12,8 +21,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * USE CASE: As a patient, I want to add or edit problems and records while off the network,
- * and have these changes synchronized once I regain connectivity.
+ * This is the activity that handles offline behaviour.
+ *
+ * @author Dhruba
+ * @version 1.0
+ *
  */
 
 public class OfflineBehaviour {
@@ -40,6 +52,7 @@ public class OfflineBehaviour {
     public Queue<Object> getObjectQueue() {
         return objectQueue;
     }
+
 
 
     public void addItem(Object o, String s) {

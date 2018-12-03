@@ -1,3 +1,12 @@
+/*
+ * Class Name: ActivityGenerateCode
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.content.Intent;
@@ -14,7 +23,13 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.util.concurrent.ExecutionException;
-
+/**
+ * This is the activity that allows the user to generate a short code.
+ *
+ * @author Aida
+ * @version 1.0
+ *
+ */
 public class ActivityGenerateCode extends AppCompatActivity {
 
     Button generate_btn;
@@ -62,6 +77,12 @@ public class ActivityGenerateCode extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * When click on the button, use the library to generate a short code
+     * and set it to the text view
+     *
+     * @param view generate code button
+     */
     public void generateCode(View view) {
 
         code_output = (TextView) findViewById(R.id.code_output);

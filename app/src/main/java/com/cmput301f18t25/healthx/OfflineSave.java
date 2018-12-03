@@ -1,3 +1,12 @@
+/*
+ * Class Name: OfflineSave
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
 package com.cmput301f18t25.healthx;
 
 import android.content.Context;
@@ -19,7 +28,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-
+/**
+ * This is the activity that handles offline save.
+ *
+ * @author Dhruba
+ * @version 1.0
+ *
+ */
 
 public class OfflineSave {
 
@@ -73,6 +88,9 @@ public class OfflineSave {
         }
 
     }
+    /**
+     * add user to offline storage
+     * */
 
     public void saveUserToFile(User user) {
         loadUsersFile();
@@ -92,7 +110,9 @@ public class OfflineSave {
         }
 //        loadUserFromFile();
     }
-
+    /**
+     * load the user's problem list from local
+     * */
     public void loadTheProblemList() {
         try {
             FileInputStream fis = mContext.openFileInput(PROBLEMLISTFILENAME);

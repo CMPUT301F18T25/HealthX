@@ -1,3 +1,13 @@
+/*
+ * Class Name: ActivityAddPatient
+ *
+ * Version: Version 1.0
+ *
+ * Date : December 3, 2018
+ *
+ * Copyright (c) Team 25, CMPUT301, University of Alberta - All Rights Reserved. You may use, distribute, or modify this code under terms and conditions of the Code of Students Behavior at University of Alberta
+ */
+
 package com.cmput301f18t25.healthx;
 
 import android.app.Activity;
@@ -15,16 +25,19 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * This is the activity that allows the care provider to add a patient by patient's id, along with the option to
+ * add by a short code provided by the patient
+ *
+ *
+ * @author Cecilia
+ * @author Aida
+ * @version 1.0
+ *
+ */
+
 public class ActivityAddPatient extends AppCompatActivity {
-
-
-    // will do oncreatebundle soon
-
-
-
-    // once we have built the xml file, we first specify two private variables
-    // User -id which is a string and this is read from the user input via the edit text
-    //
 
 
     private String userID;
@@ -44,11 +57,15 @@ public class ActivityAddPatient extends AppCompatActivity {
 
     }
 
+    /**
+     * Handle action bar item clicks here. The action bar will
+     * automatically handle clicks on the Home/Up button, so long
+     * as you specify a parent activity in AndroidManifest.xml.
+     *
+     * @param item text view to switch to add patient by code
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
         int id = item.getItemId();
 
@@ -61,6 +78,14 @@ public class ActivityAddPatient extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+    /**
+     * switch to add patient by code
+     *
+     * @param view text view to switch to add patient by code
+     */
+
     public void toCodeAdd(View view) {
         Intent intent = new Intent(this, ActivityAddPatientByCode.class);
         Bundle inBundle = new Bundle();
@@ -69,6 +94,11 @@ public class ActivityAddPatient extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * switch to add patient by code
+     *
+     * @param view button to add patient
+     */
     public void addPatient(View view) {
         mUserText = (EditText) findViewById(R.id.userIdText); // R.id.userid specifies textview
 
