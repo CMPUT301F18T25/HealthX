@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +30,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
@@ -166,13 +169,11 @@ public class ActivityEditProblem extends AppCompatActivity {
                 //Problem newProblem = new Problem(problemTitle, problemDescription, problemDate, userId, "","", "","");
                 ElasticSearchProblemController.DeleteProblemTask deleteProblemTask = new ElasticSearchProblemController.DeleteProblemTask();
                 deleteProblemTask.execute(oldProblem);
-                String frontPhoto = oldProblem.getFrontPhoto();
-                String backPhoto = oldProblem.getBackPhoto();
                 String frontBodyLocation = oldProblem.getFrontBodyLocation();
                 String backBodyLocation = oldProblem.getBackBodyLocation();
                 mProblemList.removeProblemFromList(problemPosition);
 
-                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontPhoto,backPhoto,frontBodyLocation,backBodyLocation);
+                newProblem = new Problem(problemTitle, problemDescription, problemDate, userId,frontBodyPhoto,backBodyPhoto,frontBodyLocation,backBodyLocation);
                 newProblem.setId(pID);
 
                 ElasticSearchProblemController.UpdateProblemTask updateProblemTask = new ElasticSearchProblemController.UpdateProblemTask();
@@ -239,7 +240,6 @@ public class ActivityEditProblem extends AppCompatActivity {
         if (!folderF.exists()) {
             folderF.mkdir();
         }
-
         try {
             Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
             m.invoke(null);
@@ -268,26 +268,56 @@ public class ActivityEditProblem extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 2) {
+        if (requestCode == 2) {
             frontBodyLocation = data.getStringExtra("front");
             backBodyLocation = data.getStringExtra("back");
             frontTextview.setText(frontBodyLocation);
             backTextview.setText(backBodyLocation);
 
-        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT){
+        } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_FRONT) {
             frontBodyPhoto = imageFileUri.getPath();
             frontView.setImageDrawable(Drawable.createFromPath(frontBodyPhoto));
-        } else if(requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK){
+        } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE_BACK) {
             backBodyPhoto = imageFileUri.getPath();
             backView.setImageDrawable(Drawable.createFromPath(backBodyPhoto));
-        }
+        } else if (requestCode == 3){
 
-//    public void Editphoto(View view) {
-////        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
-//        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
-////        intent.putExtra("bitmap",bitmap);
-//        intent.putExtra("path",frontBodyPhoto);
-//        startActivityForResult(intent,3);
+            // Idk how to save it as a uri tho sandyyy ur on ur own
+            byte[] byteArray = data.getByteArrayExtra("result");
+            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+            Bitmap bitmapScaled = Bitmap.createScaledBitmap(bitmap, 3500, 3000, false);
+            Drawable drawable = new BitmapDrawable(bitmapScaled);
+            frontView.setImageDrawable(drawable);
+
+//            String folder = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download";
+//            File folderF = new File(folder);
+//            if (!folderF.exists()) {
+//                folderF.mkdir();/
+//            }
+//
+//            try {
+//                Method m = StrictMode.class.getMethod("disableDeathOnFileUriExposure");
+//                m.invoke(null);
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//            verifyPermission(this);
+//
+//            String imageFilePath = String.valueOf(System.currentTimeMillis()) + ".jpg";
+//            File imageFile = new File(folder,imageFilePath);
+//            imageFileUri = Uri.fromFile(imageFile);
+
+        }
+        
+    }
+    public void Editphoto(View view) {
+//        Bitmap bitmap = BitmapFactory.decodeFile(frontBodyPhoto);
+        Intent intent = new Intent(getApplicationContext(),DrawBitmap.class);
+//        intent.putExtra("bitmap",bitmap);
+        intent.putExtra("path",frontBodyPhoto);
+        startActivityForResult(intent,3);
 
     }
 }
